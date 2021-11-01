@@ -1,2 +1,2 @@
-# advanced-product
+# Advanced Product
 Advanced Product - Wordpress Plugin
