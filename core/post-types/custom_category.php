@@ -1,0 +1,275 @@
+<?php
+
+namespace Advanced_Product\Post_Type;
+
+defined('ADVANCED_PRODUCT') or exit();
+
+use Advanced_Product\Post_Type;
+
+if(!class_exists('Advanced_Product\Post_Type\Custom_Category')){
+    class Custom_Category extends Post_Type {
+
+        public function __construct($core = null, $post_type = null)
+        {
+            parent::__construct($core, $post_type);
+
+        }
+
+        public function hooks()
+        {
+            parent::hooks();
+            add_action( 'init', array( $this, 'register_fields' ) );
+
+            add_action( 'wp_insert_post_data', array( $this, 'insert_post_data' ) );
+
+        }
+
+        public function register(){
+            /**
+             * Post types
+             */
+            $singular  = __( 'Custom Category', $this -> text_domain );
+            $plural    = __( 'Custom Categories', $this -> text_domain );
+
+            $args = array(
+                'description'         => __( 'This is where you can create and manage products.', $this -> text_domain ),
+                'labels' => array(
+                    'name' 					=> $plural,
+                    'singular_name' 		=> $singular,
+                    'menu_name'             => $plural,
+//                    'all_items'             => sprintf( __( 'All %s', $this -> text_domain ), $plural ),
+                    'all_items'             => $plural,
+                    'add_new' 				=> __( 'Add New', $this -> text_domain ),
+                    'add_new_item' 			=> sprintf( __( 'Add %s', $this -> text_domain ), $singular ),
+                    'edit' 					=> __( 'Edit', $this -> text_domain ),
+                    'edit_item' 			=> sprintf( __( 'Edit %s', $this -> text_domain ), $singular ),
+                    'new_item' 				=> sprintf( __( 'New %s', $this -> text_domain ), $singular ),
+                    'view' 					=> sprintf( __( 'View %s', $this -> text_domain ), $singular ),
+                    'view_item' 			=> sprintf( __( 'View %s', $this -> text_domain ), $singular ),
+                    'search_items' 			=> sprintf( __( 'Search %s', $this -> text_domain ), $plural ),
+                    'not_found' 			=> sprintf( __( 'No %s found', $this -> text_domain ), $plural ),
+                    'not_found_in_trash' 	=> sprintf( __( 'No %s found in trash', $this -> text_domain ), $plural ),
+                    'parent' 				=> sprintf( __( 'Parent %s', $this -> text_domain ), $singular )
+                ),
+                'supports'            => array( 'title'),
+//                'supports'            => false,
+                'hierarchical'        => false,
+                'public'              => false,
+                'show_ui'             => true,
+                'show_in_menu'        => 'edit.php?post_type='.$this -> prefix.'product',
+//                'show_in_menu'        => 'edit.php?post_type='.$this -> prefix.'product&page=acf-options-settings',
+                'show_in_nav_menus'   => true,
+                'show_in_admin_bar'   => true,
+                'menu_position'       => 20,
+                'menu_icon'           => 'dashicons-store',
+                'can_export'          => true,
+                'has_archive'         => false,
+                'exclude_from_search' => false,
+                'publicly_queryable'  => true,
+                'capability_type'     => 'post',
+
+                'query_var'                 => false,
+//                'rewrite'			  => array( 'slug' => 'subcategory' )
+            );
+            return $args;
+        }
+
+        public function insert_post_data($post){
+            if(isset($post['post_type']) && $post['post_type'] == $this -> get_post_type()){
+                $fields = isset($_POST['fields'])?$_POST['fields']:array();
+
+                if(empty($post['post_title']) && isset($fields['field_618a325158397']) && !empty($fields['field_618a325158397'])){
+                    $post['post_title']  = $fields['field_618a325158397'];
+                }
+            }
+            return $post;
+        }
+
+        public function manage_edit_columns($columns){
+            $new_columns            = array();
+            $new_columns['cb']      = $columns['cb'];
+            $new_columns['title']   = $columns['title'];
+
+            $new_columns['associate_to']   = __('Associate To', $this->text_domain);
+
+            return array_merge($new_columns, $columns);
+        }
+
+        public function manage_custom_column($column, $post_id ){
+            if($column == 'associate_to'){
+                $associate_to = get_field( 'associate_to', $post_id );
+                $taxonomy     = get_taxonomy($associate_to);
+
+                echo '<a href="edit-tags.php?taxonomy='.$associate_to.'&post_type=ap_product">'.$taxonomy -> label.'</a>';
+            }
+
+            return $column;
+        }
+
+
+        /**
+         * Removes the default taxonomy metaboxes from the edit screen.
+         * We use the advanced custom fields instead and sync the data.
+         */
+        public function remove_taxonomy_metaboxes(){
+//            remove_meta_box( 'tagsdiv-make', 'vehicle', 'normal' );
+//            remove_meta_box( 'tagsdiv-model', 'vehicle', 'normal' );
+            remove_meta_box( 'tagsdiv-'.$this -> get_post_type(), $this-> get_post_type(), 'normal' );
+        }
+
+        public function register_fields() {
+            if(function_exists("register_field_group"))
+            {
+                register_field_group(array (
+                    'id' => 'acf_subcategory_general',
+                    'title' => __( 'General', $this -> text_domain ),
+                    'fields' => array(
+//                        array (
+//                            'key' => 'field_'.uniqid(),
+//                            'label' => __( 'General', $this -> text_domain ),
+//                            'name' => '',
+//                            'type' => 'tab',
+//                        ),
+                        array (
+                            'key' => 'field_618a30dd427f8',
+                            'label' => __( 'Plural name', $this -> text_domain ),
+                            'name' => 'plural_name',
+                            'type' => 'text',
+                            'column_width' => 35,
+                            'default_value' => '',
+//                            'placeholder' => __( 'E.g. "Horsepower"', $this -> text_domain ),
+                            'prepend' => '',
+                            'append' => '',
+                            'formatting' => 'none',
+                            'maxlength' => '',
+                            'required' => true,
+                        ),
+                        array (
+                            'key' => 'field_618a325158397',
+                            'label' => __( 'Singular name', $this -> text_domain ),
+                            'name' => 'singular_name',
+                            'type' => 'text',
+                            'column_width' => 35,
+                            'default_value' => '',
+//                            'placeholder' => __( 'E.g. "Horsepower"', $this -> text_domain ),
+                            'prepend' => '',
+                            'append' => '',
+                            'formatting' => 'none',
+                            'maxlength' => '',
+                            'required' => true,
+                        ),
+                        array (
+                            'key' => 'field_618a328c52627',
+                            'label' => __( 'Slug', $this -> text_domain ),
+                            'name' => 'slug',
+                            'type' => 'text',
+                            'column_width' => 35,
+                            'default_value' => '',
+//                            'placeholder' => __( 'E.g. "Horsepower"', $this -> text_domain ),
+                            'prepend' => '',
+                            'append' => '',
+                            'formatting' => 'none',
+                            'maxlength' => '',
+                            'required' => true,
+                        ),
+                        array (
+                            'key' => 'field_618a33aa67454',
+                            'label' => __('Associate To', $this->text_domain),
+                            'name' => 'associate_to',
+                            'type' => 'select',
+//                            'type' => 'taxonomy',
+//                            'taxonomy' => 'ap_branch',
+                            'field_type' => 'select',
+//                            'field_type' => 'multi_select',
+                            'allow_null' => false,
+                            'load_save_terms' => 0,
+                            'choices' => $this -> _categories_associate(),
+//                            'return_format' => 'array',
+//                            'multiple' => 1,
+//                            'instructions' => __('Press and hold the CTRL key and click items in the list to select multiple items. ', $this->text_domain),
+//                            'default_value' => ''
+                        ),
+//                        array (
+//                            'key' => 'field_'.uniqid(),
+//                            'label' => __( 'Labels', $this -> text_domain ),
+//                            'name' => '',
+//                            'type' => 'tab',
+//                        ),
+//                        array (
+//                            'key' => 'field_618a33326b07c',
+//                            'label' => __( 'Not found', $this -> text_domain ),
+//                            'name' => 'not_found',
+//                            'type' => 'text',
+//                            'column_width' => 35,
+//                            'default_value' => '',
+////                            'placeholder' => __( 'E.g. "Horsepower"', $this -> text_domain ),
+//                            'prepend' => '',
+//                            'append' => '',
+//                            'formatting' => 'none',
+//                            'maxlength' => '',
+//                        ),
+                    ),
+                    'location' => array (
+                        array (
+                            array (
+                                'param' => 'post_type',
+                                'operator' => '==',
+                                'value' => $this -> get_post_type(),
+                                'order_no' => 0,
+                                'group_no' => 0,
+                            ),
+                        ),
+                    ),
+                    'options' => array (
+                        'position' => 'normal',
+                        'style' => 'default',
+//                        'layout' => 'no_box',
+                        'layout' => 'default',
+                        'hide_on_screen' => array (
+                            'title','the_content', 'custom_fields'
+                        ),
+//                        'hide_on_screen' => array(),
+                    ),
+                    'menu_order' => 0,
+                ));
+
+            }
+        }
+
+        protected function _categories_associate(){
+            global $pagenow;
+            $categories = array(
+                'ap_branch'     => __('Branch', $this -> text_domain),
+                'ap_category'   => __('Category', $this -> text_domain),
+            );
+            $args   = array(
+                'order' => 'ASC',
+                'orderby'   => 'ID',
+                'post_type' => $this -> get_post_type(),
+            );
+            if($pagenow == 'post.php' && isset($_GET['post']) && !empty($_GET['post'])){
+                $args['post__not_in']   =  array($_GET['post']);
+            }
+            $custom_categories  = get_posts($args);
+            if(count($custom_categories)){
+                foreach ($custom_categories as $cp){
+                    $slug       = get_post_meta( $cp -> ID, 'slug', true);
+                    $singular   = get_post_meta( $cp -> ID, 'singular_name', true);
+                    $categories[$slug]  = $singular;
+                }
+            }
+            return $categories;
+        }
+
+        public function admin_enqueue_scripts(){
+            // wp_enqueue_script('advanced-product_admin_scripts');
+            wp_enqueue_script('advanced-product_admin_sanitize-title-script', array('advanced-product_admin_scripts'));
+
+            if ( $this -> get_post_type() == get_post_type() ) {
+                wp_dequeue_script('autosave');
+                wp_deregister_script('autosave');
+            }
+        }
+
+    }
+}

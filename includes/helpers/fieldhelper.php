@@ -1,0 +1,444 @@
+<?php
+
+namespace Advanced_Product\Helper;
+
+use Advanced_Product\AP_Functions;
+
+defined('ADVANCED_PRODUCT') or exit();
+
+class FieldHelper extends BaseHelper {
+//    protected static $cache    = array();
+
+    protected static $fields    = array();
+
+    /*
+     * Get fields filter by location rules
+     * Apply to acf v4
+    */
+    public static function get_fields_by_location_rules($filter = array()){
+
+        $store_id   = static::_get_store_id(__METHOD__, $filter);
+
+        if(static::$cache[$store_id]){
+            return static::$cache[$store_id];
+        }
+
+//        $filter = array(
+//            'post_type' => get_post_type()
+//        );
+        $fields     = array();
+        $group_ids  = array();
+        $group_ids  = apply_filters( 'acf/location/match_field_groups', $group_ids, $filter );
+        $acfs       = apply_filters('acf/get_field_groups', array());
+
+        if( $acfs )
+        {
+            foreach( $acfs as $acf )
+            {
+                // load options
+                $acf['options'] = apply_filters('acf/field_group/get_options', array(), $acf['id']);
+                if(!isset($acf['options']['layout'])){
+                    $acf['options']['layout']   = '';
+                }
+
+                // vars
+                $show = in_array( $acf['id'], $group_ids ) ? true : false;
+
+                if( !$show )
+                {
+                    continue;
+                }
+
+                $_fields    = apply_filters('acf/field_group/get_fields', array(), $acf['id']);
+                $fields     = array_merge($fields, $_fields);
+            }
+        }
+        return $fields;
+    }
+
+    /* Get fields of a group */
+    public static function get_fields_by_group($group, $filter = array()){
+        $fields = static::get_fields_by_location_rules($filter);
+        $filtered = array();
+        $sorted = array();
+
+//        var_dump($fields);
+//        foreach ($fields as $key => $field ) {
+//            var_dump($group_id);
+//            var_dump($field);
+//            die(__METHOD__);
+//            $fields[$key]['label'] = __( $field['label'], AP_Functions::get_my_text_domain() );
+//        }
+
+        if ( ! empty( $group ) ) {
+            foreach ($fields as $field ) {
+                if(!isset($field['group'])){
+                    continue;
+                }
+                if ( $group == $field['group'] ) {
+                    $filtered[] = $field;
+                }
+            }
+        } else {
+            $filtered = $fields;
+        }
+
+        foreach ( $filtered as $key => $value ) {
+            $sorted[$key]  = $value['sort'];
+        }
+
+        array_multisort( $sorted, SORT_ASC, SORT_NUMERIC, $filtered );
+
+        return apply_filters( 'advanced-product/fields', $filtered );
+    }
+
+//    /* Get fields of a group */
+//    public static function get_fields_by_group($group_id, $groups = array()){
+//
+//        $store_id   = static::_get_store_id(__METHOD__, func_get_args());
+//
+//        if(isset(static::$cache[$store_id])){
+//            return static::$cache[$store_id];
+//        }
+//
+//        if(empty($groups) || !count($groups) || !isset($groups['id']) || !isset($groups['fields'])
+//            || ($groups['id'] != $group_id)){
+//            return array();
+//        }
+//
+//        static::$cache[$store_id]   = $groups['fields'];
+//
+//        return $groups['fields'];
+//
+//    }
+
+
+//    /* Get a field of a group */
+//    public static function get_field_of_group_by_name($field_name, $group_id, $groups = array()){
+//
+//        $store_id   = static::_get_store_id(__METHOD__, func_get_args());
+//
+//        if(isset(static::$cache[$store_id])){
+//            return static::$cache[$store_id];
+//        }
+//
+//        if(empty($field_name) || empty($group_id) || empty($groups) || !count($groups)){
+//            return false;
+//        }
+//
+//
+//
+//        static::$cache[$store_id]   = $groups['fields'];
+//
+//        return $groups['fields'];
+//
+//    }
+
+    public static function get_core_fields(){
+        $store_id   = static::_get_store_id(__METHOD__);
+
+        if(isset(static::$cache[$store_id])){
+            return static::$cache[$store_id];
+        }
+
+        $text_domain    = AP_Functions::get_my_text_domain();
+        $color_choices = array_unique( array_merge( array (
+            __( 'Silver', $text_domain ),
+            __( 'Black', $text_domain ),
+            __( 'White', $text_domain ),
+            __( 'Red', $text_domain ),
+            __( 'Blue', $text_domain ),
+            __( 'Brown/Beige', $text_domain ),
+            __( 'Yellow', $text_domain ),
+            __( 'Green', $text_domain ),
+        ), static::get_meta_values( 'color', 'ap_product' ) ));
+        $color_choices = array_combine( $color_choices, $color_choices);
+
+        $int_color_choices = array_unique( array_merge( array (
+            'black' => __( 'Black', $text_domain ),
+            'white' => __( 'White', $text_domain ),
+            'brown' => __( 'Brown (Leather)', $text_domain )
+        ), static::get_meta_values( 'interior', 'ap_product' ) ));
+        $int_color_choices = array_combine( $int_color_choices, $int_color_choices);
+
+        $core_fields = array(
+            'ap_branch' => array (
+                'label' => __( 'Branch', $text_domain ),
+                'name' => 'ap_branch',
+                'type' => 'taxonomy',
+                'taxonomy' => 'ap_branch',
+                'sort' => 0,
+                'group' => 'overview',
+                'allow_null' => 0
+            ),
+            'ap_category' => array (
+                'label' => __( 'Category', $text_domain ),
+                'name' => 'ap_category',
+                'instructions' => __( 'If you do not see Make or can not choose it please edit and save again in make manager', $text_domain ),
+                'type' => 'taxonomy',
+                'taxonomy' => 'ap_category',
+                'sort' => 1,
+                'group' => 'overview',
+                'field_type' => 'select',
+                'allow_null' => 0
+            ),
+            'pricetext' => array (
+                'label' => __( 'Text Price', $text_domain ),
+                'name' => 'pricetext',
+                'type' => 'text',
+                'instructions' => __( 'Contact get price', $text_domain ),
+                'default_value' => '',
+                'placeholder' => __( 'Price Contact', $text_domain ),
+                'sort' => 18,
+                'group'=>'pricing',
+            ),
+            'pricelink' => array (
+                'label' => __( 'Url Price', $text_domain ),
+                'name' => 'pricelink',
+                'type' => 'text',
+                'instructions' => __( 'URL get price', $text_domain ),
+                'default_value' => '',
+                'placeholder' => __( 'Url Price', $text_domain ),
+                'sort' => 19,
+                'group'=>'pricing',
+            ),
+            'ap_product_status' => array(
+//                'key'   => 'field_6192374baaf91',
+                'label' => __( 'Product sale/rent', $text_domain ),
+                'name' => 'ap_product_status',
+                'instructions' => '',
+                'type' => 'radio',
+                'choices' => array(
+                    'sale' => __( 'For Sale', $text_domain ),
+                    'rent' => __( 'For Rent', $text_domain ),
+                ),
+                'default_value' => 'sale',
+                'other_choice' => 0,
+                'sort' => 9,
+                'group' => 'pricing',
+            ),
+            'price' => array(
+                'label' => __( 'Price', $text_domain ),
+                'name' => 'price',
+                'instructions' => __( "The price that the customer will have to pay.", $text_domain ),
+                'type' => 'number',
+                'default_value' => '',
+                'placeholder' => '',
+                'prepend' => static::get_price_symbol_for_position('prepend'),
+                'append' => static::get_price_symbol_for_position('append'),
+                'min' => 0,
+                'max' => '8000000000',
+                'step' => '',
+                'group' => 'pricing',
+                'sort' => 15,
+            ),
+            'msrp' => array(
+                'label' => __( 'MSRP', $text_domain ),
+                'name' => 'msrp',
+                'instructions' => __( "Use integers to set the listing price.", $text_domain ),
+                'type' => 'number',
+                'default_value' => '',
+                'placeholder' => '',
+                'prepend' => static::get_price_symbol_for_position('prepend'),
+                'append' => static::get_price_symbol_for_position('append'),
+                'min' => 0,
+                'max' => '8000000000',
+                'step' => '',
+                'group' => 'pricing',
+                'sort' => 10,
+            ),
+            'pricerental' => array(
+                'label' => __( 'Price Rental', $text_domain ),
+                'name' => 'pricerental',
+                'instructions' => __( "Prices for rent a day or a week", $text_domain ),
+                'type' => 'number',
+                'default_value' => '',
+                'placeholder' => '',
+                'prepend' => static::get_price_symbol_for_position('prepend'),
+                'append' => static::get_price_symbol_for_position('append'),
+                'min' => 0,
+                'max' => '8000000000',
+                'step' => '',
+                'group' => 'pricing',
+                'sort' => 16,
+//                'conditional_logic' => array(
+//                    array(
+//                        array (
+////                            'field' => 'ap_product_status',
+//                            'field' => 'field_6192374baaf91',
+//                            'operator' => '==',
+//                            'value' => 'rent',
+//                        ),
+//                    ),
+//                ),
+            ),
+            'time_rental' => array (
+                'label' => __( 'Time unit for Rent', $text_domain ),
+                'name' => 'time_rental',
+                'type' => 'text',
+                'default_value' => 'day',
+                'placeholder' => __( 'day', $text_domain ),
+                'group' => 'pricing',
+                'sort' => 17,
+            ),
+            'registration' => array (
+                'label' => __( 'Registration date', $text_domain ),
+                'name' => 'registration',
+                'type' => 'number',
+                'instructions' => __( 'The year of first registration', $text_domain ),
+                'placeholder' => __( 'e.g. 2009', $text_domain ),
+                'min' => 1950,
+                'max' => date( 'Y' ) + 1,
+                'default_value' => date( 'Y' ),
+                'sort' => 15,
+            ),
+            'milage' => array(
+                'label' => __( 'Mileage', $text_domain ),
+                'name' => 'milage',
+                'type' => 'number',
+                'instructions' => __( 'The number of miles travelled or covered', $text_domain ),
+                'default_value' => '',
+                'placeholder' => __( 'e.g. 70000', $text_domain ),
+                'prepend' => '',
+                'append' => get_option( 'options_ap_milage_unit', 'mi' ),
+                'sort' => 20
+            ),
+            'condition' => array(
+                'label' => __( 'Condition', $text_domain ),
+                'name' => 'condition',
+                'instructions' => '',
+                'type' => 'radio',
+                'choices' => array(
+                    'new' => __( 'New', $text_domain ),
+                    'used' => __( 'Used', $text_domain ),
+                    'preowned' => __( 'Certified Pre-Owned', $text_domain )
+                ),
+                'default_value' => 'new',
+                'other_choice' => 0,
+                'sort' => 30
+            ),
+            'color' => array(
+                'label' => __( 'Exterior Color', $text_domain ),
+                'name' => 'color',
+                'type' => 'radio',
+                'choices' => $color_choices,
+                'other_choice' => 1,
+                'save_other_choice' => 1,
+                'default_value' => 'silver',
+                'layout' => 'vertical',
+                'sort' => 40,
+            ),
+            'interior' => array(
+                'label' => __( 'Interior Color', $text_domain ),
+                'name' => 'interior',
+                'type' => 'radio',
+                'choices' => $int_color_choices,
+                'other_choice' => 1,
+                'save_other_choice' => 1,
+                'default_value' => 'black',
+                'layout' => 'vertical',
+                'sort' => 50,
+            ),
+            'transmission' => array(
+                'label' => __( 'Transmission', $text_domain ),
+                'name' => 'transmission',
+                'type' => 'radio',
+                'choices' => array (
+                    'auto' => __( 'Automatic', $text_domain ),
+                    'manual' => __( 'Manual', $text_domain ),
+                ),
+                'default_value' => '',
+                'layout' => 'horizontal',
+                'sort' => 60,
+            ),
+            'engine' => array (
+                'label' => __( 'Engine', $text_domain ),
+                'name' => 'engine',
+                'instructions' => __( 'The displacement the engine gives in Litres', $text_domain ),
+                'append' => 'L',
+                'placeholder' => '4,1',
+                'sort' => 70,
+
+                'min' => 0,
+                'max' => 10
+            ),
+            'drivetrain' => array(
+                'label' => __( 'Drivetrain', $text_domain ),
+                'name' => 'drivetrain',
+                'type' => 'radio',
+                'choices' => array (
+                    'fwd' => __( 'FWD', $text_domain ),
+                    'rwd' => __( 'RWD', $text_domain ),
+                    '4wd' => __( '4WD', $text_domain ),
+                ),
+                'default_value' => '',
+                'layout' => 'horizontal',
+                'sort' => 90,
+            ),
+        );
+
+        $core_fields    = apply_filters('advanced-product/fields/register_core_field', $core_fields);
+
+        return static::$cache[$store_id]    = $core_fields;
+    }
+
+    /**
+     * Returns all values of given meta key
+     * @param  string $key    [description]
+     * @param  string $type   [description]
+     * @param  string $status [description]
+     * @return [type]         [description]
+     */
+    public static function get_meta_values( $key = '', $type = 'post', $status = 'publish' ) {
+
+//        $store_id   = __METHOD__;
+//        $store_id  .= ":$key";
+//        $store_id  .= ":$type";
+//        $store_id  .= ":$status";
+//        $store_id   = md5($store_id);
+        $store_id   = static::_get_store_id(__METHOD__);
+
+        if(isset(static::$cache[$store_id])){
+            return static::$cache[$store_id];
+        }
+
+        global $wpdb;
+
+        if( empty( $key ) )
+            return;
+
+        $r = $wpdb->get_col( $wpdb->prepare( "
+	        SELECT pm.meta_value FROM {$wpdb->postmeta} pm
+	        LEFT JOIN {$wpdb->posts} p ON p.ID = pm.post_id
+	        WHERE pm.meta_key = '%s'
+	        AND p.post_status = '%s'
+	        AND p.post_type = '%s'
+	    ", $key, $status, $type ) );
+
+        if($r && count($r)){
+            static::$cache[$store_id]   = $r;
+            return $r;
+        }
+
+        return array();
+    }
+    public static function get_price_symbol_for_position( $position = 'prepend' ) {
+
+        $symbol 		= get_option( 'options_ap_currency_symbol', '$' );
+        $option 		= get_option( 'options_ap_symbol_placement', 'prepend' );
+
+        if ( ('prepend' == $option && 'prepend' == $position) ||
+            ( 'append' == $option && 'append' == $position ) ) {
+            return $symbol;
+        }
+        else {
+            return '';
+        }
+    }
+
+//    protected static function _get_store_id($args = array()){
+//        $store_id   = serialize(func_get_args());
+//
+//        return md5($store_id);
+//    }
+}
