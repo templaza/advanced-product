@@ -97,6 +97,7 @@ class Advanced_Product{
 
     public function hooks(){
 //        register_activation_hook( ADVANCED_PRODUCT . '/' . ADVANCED_PRODUCT, array( $this, 'register_post_types' ) );
+        register_activation_hook( ADVANCED_PRODUCT_PATH.'/advanced-product.php', array( $this, 'import_custom_fields' ) );
 
         add_filter('templaza-framework/shortcode/content_area/theme_html', array($this, 'theme_html'), 11);
 
@@ -105,6 +106,7 @@ class Advanced_Product{
 //        add_filter('template_include', array($this, 'template_include'));
 
         add_action( 'plugins_loaded', array( $this, 'load_plugin_textdomain' ) );
+//        add_action( 'plugins_loaded', array( $this, 'import_custom_fields' ) );
 
         add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 
@@ -112,45 +114,64 @@ class Advanced_Product{
         // Change taxonomy id to slug
         add_filter( 'acf/fields/taxonomy/wp_list_categories', array( $this, 'acf_wp_list_categories' ), 10, 2 );
 
-//        // Get slug value of taxonomy field type
-//        add_filter('acf/load_value/type=taxonomy', function( $value, $post_id, $field){
-//            if(is_numeric($value)){
-//
-//            }
-//        }, 10,3);
-
-//        add_filter( 'acf/load_field_defaults', function($field){
-//            // Global object containing current admin page
-//            global $pagenow;
-//
-//            // If current page is post.php and post isset than query for its post type
-//            // if the post type is 'event' do something
-//            if ( 'post.php' === $pagenow && isset($_GET['post']) && 'ap_custom_field' === get_post_type( $_GET['post'] ) ){
-//                // Do something
-////                var_dump(get_);
-////                var_dump($field);
-//                var_dump($field);
-//                var_dump($field['_name']);
-//                if($field['type'] == 'taxonomy'/* && isset($field['choices'])*/){
-////                    var_dump($field);
-////                    die(__FILE__);
-//                }
-//            }
-//            return $field;
-//        }, 20, 2 );
-
 //        add_action('plugin_loaded', array($this, 'register_pages')  );
 //        add_action('plugins_loaded', array($this, 'register_post_types')  );
 //        add_action('plugins_loaded', array($this, 'register_taxonomies')  );
 //        add_action('plugins_loaded', array($this, 'register_custom_taxonomies'), 11  );
 
         add_action('init', array($this, 'register_scripts'));
+    }
 
+    public function import_custom_fields(){
 
+        $imported_key   = '_advanced_product_custom_field_protected_imported';
 
-//        add_filter('archive_template', array($this, 'get_movies_archive_template'));
+        // Check imported
+        $imported   = get_option($imported_key, 0);
 
+//        var_dump(get_post_type()); die(__METHOD__);
+        if($imported){
+            return true;
+        }
 
+        $class_wp_importer = ADVANCED_PRODUCT_LIBRARY_PATH.'/importer/class-advanced-product-importer.php';
+        require_once $class_wp_importer;
+
+        if ( ! class_exists( 'Advanced_Product_Importer' ) ) {
+            if ( file_exists( $class_wp_importer ) )
+                require_once $class_wp_importer;
+        }
+
+        if(!class_exists('Advanced_Product_Importer')){
+//            $this -> info -> set_message(esc_html__('The class TemplazaFramework_WXR_Importer not found.', $this -> text_domain), true);
+//            echo $this -> info -> output(true);
+//            die();
+            return false;
+        }
+//        $_file   = $this -> get_substeps($folder_path, $filename, $file_filter);
+        $_file  = ADVANCED_PRODUCT_PATH.'/data/custom_fields.xml';
+
+//        // Replace demo url to client url
+//        add_action('import_post_meta', function($post_id, $key, $value){
+//            $config = $this -> get_theme_demo_datas();
+//            if(isset($config['source_url']) && preg_match('#'.$config['source_url'].'#is', $value)){
+//                $value  = preg_replace('#'.$config['source_url'].'#is', get_home_url(), $value);
+//                update_post_meta($post_id, $key, $value);
+//            }
+//        },10,3);
+
+        $importer   = new \Advanced_Product_Importer();
+
+        ob_start();
+        $importer->import($_file);
+        $result = ob_get_contents();
+        ob_end_clean();
+
+        if($result){
+            update_option($imported_key, 1);
+        }
+//        flush_rewrite_rules();
+        return true;
     }
 //    public function get_movies_archive_template($archive_template)
 //    {
