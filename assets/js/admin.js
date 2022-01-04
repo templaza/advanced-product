@@ -35,6 +35,9 @@
         }
 
         var ap_custom_field_init = function(){
+            if(typeof acf === "undefined"){
+                return;
+            }
             if(typeof acf !== "undefined" && typeof acf.helpers.create_field === "undefined"){
                 /*
                 *  Create Field
