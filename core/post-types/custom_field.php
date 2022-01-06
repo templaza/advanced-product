@@ -262,14 +262,14 @@ if(!class_exists('Advanced_Product\Post_Type\Custom_Field')){
 //        }
 
 
-        public function admin_enqueue_scripts(){
-//            wp_enqueue_script(array(
-//                'acf-field-group',
-//            ));
-//            wp_enqueue_script($this -> get_post_type().'-acf-field-group', AP_Functions::get_my_url().'/includes/library/acf/js/field-group.js');
-//            wp_enqueue_script($this -> get_post_type().'-acf-field-group',
-//                AP_Functions::get_my_url().'/includes/library/acf/js/input.js',array('advanced-product_admin_scripts'));
-        }
+//        public function admin_enqueue_scripts(){
+////            wp_enqueue_script(array(
+////                'acf-field-group',
+////            ));
+////            wp_enqueue_script($this -> get_post_type().'-acf-field-group', AP_Functions::get_my_url().'/includes/library/acf/js/field-group.js');
+////            wp_enqueue_script($this -> get_post_type().'-acf-field-group',
+////                AP_Functions::get_my_url().'/includes/library/acf/js/input.js',array('advanced-product_admin_scripts'));
+//        }
 
 
     }

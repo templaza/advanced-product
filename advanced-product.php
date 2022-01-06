@@ -40,43 +40,32 @@ class Advanced_Product{
         register_activation_hook(  ADVANCED_PRODUCT . '/' . ADVANCED_PRODUCT, 'flush_rewrite_rules', 15 );
 
         $this -> register_post_types();
-        $this -> register_taxonomies();
-        $this -> register_custom_taxonomies();
-        $this -> register_pages();
+        $this->register_taxonomies();
+        $this->register_custom_taxonomies();
+        $this->register_pages();
 
-        $this -> register_field_layouts();
-        $this -> register_meta_boxes();
-        $this -> register_shortcodes();
+        $this->register_field_layouts();
+        $this->register_meta_boxes();
+        $this->register_shortcodes();
 
-        if ( ! class_exists( 'Acf' ) && ! defined ( 'ACF_LITE' ) ) {
-            define( 'ACF_LITE' , true );
+        if (!class_exists('Acf') && !defined('ACF_LITE')) {
+            define('ACF_LITE', true);
 
             // Include Advanced Custom Fields
-            include_once( ADVANCED_PRODUCT_LIBRARY_PATH . '/acf/acf.php' );
+            include_once(ADVANCED_PRODUCT_LIBRARY_PATH . '/acf/acf.php');
         }
 
-        if ( ! class_exists( 'acf_options_page_plugin' ) ) {
-            include( 'includes/library/acf-options-page/acf-options-page.php' );
+        if (!class_exists('acf_options_page_plugin')) {
+            include('includes/library/acf-options-page/acf-options-page.php');
         }
-        if ( ! function_exists( 'acf_register_flexible_content_field' ) ) {
-            include( 'includes/library/acf-flexible-content/acf-flexible-content.php' );
+        if (!function_exists('acf_register_flexible_content_field')) {
+            include('includes/library/acf-flexible-content/acf-flexible-content.php');
         }
-        if ( ! function_exists( 'acf_register_fields' ) ) {
-            include( 'includes/library/acf-gallery/acf-gallery.php' );
+        if (!function_exists('acf_register_fields')) {
+            include('includes/library/acf-gallery/acf-gallery.php');
         }
 
         require_once ADVANCED_PRODUCT_PATH . '/includes/classes/class-acf_taxonomy_walker.php';
-
-//        $this -> register_shortcodes();
-
-//        $this -> register_post_types();
-//        $this -> register_taxonomies();
-//        $this -> register_custom_taxonomies();
-//        $this -> register_pages();
-//
-//        $this -> register_field_layouts();
-//        $this -> register_meta_boxes();
-//        $this -> register_shortcodes();
 
         // include 3rd party
         do_action('advanced-product/after_init');
@@ -96,30 +85,21 @@ class Advanced_Product{
     }
 
     public function hooks(){
-//        register_activation_hook( ADVANCED_PRODUCT . '/' . ADVANCED_PRODUCT, array( $this, 'register_post_types' ) );
         register_activation_hook( ADVANCED_PRODUCT_PATH.'/advanced-product.php', array( $this, 'import_custom_fields' ) );
 
         add_filter('templaza-framework/shortcode/content_area/theme_html', array($this, 'theme_html'), 11);
 
         add_action( 'switch_theme', 'flush_rewrite_rules', 15 );
-
-//        add_filter('template_include', array($this, 'template_include'));
-
         add_action( 'plugins_loaded', array( $this, 'load_plugin_textdomain' ) );
-//        add_action( 'plugins_loaded', array( $this, 'import_custom_fields' ) );
 
-        add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
+        if($this -> validate_page()) {
+            add_action('init', array($this, 'register_scripts'));
+            add_action('admin_enqueue_scripts', array($this, 'admin_enqueue_scripts'));
 
-        // Use a custom walker for the ACF dropdowns
-        // Change taxonomy id to slug
-        add_filter( 'acf/fields/taxonomy/wp_list_categories', array( $this, 'acf_wp_list_categories' ), 10, 2 );
-
-//        add_action('plugin_loaded', array($this, 'register_pages')  );
-//        add_action('plugins_loaded', array($this, 'register_post_types')  );
-//        add_action('plugins_loaded', array($this, 'register_taxonomies')  );
-//        add_action('plugins_loaded', array($this, 'register_custom_taxonomies'), 11  );
-
-        add_action('init', array($this, 'register_scripts'));
+            // Use a custom walker for the ACF dropdowns
+            // Change taxonomy id to slug
+            add_filter('acf/fields/taxonomy/wp_list_categories', array($this, 'acf_wp_list_categories'), 10, 2);
+        }
     }
 
     public function import_custom_fields(){
@@ -129,7 +109,6 @@ class Advanced_Product{
         // Check imported
         $imported   = get_option($imported_key, 0);
 
-//        var_dump(get_post_type()); die(__METHOD__);
         if($imported){
             return true;
         }
@@ -143,22 +122,9 @@ class Advanced_Product{
         }
 
         if(!class_exists('Advanced_Product_Importer')){
-//            $this -> info -> set_message(esc_html__('The class TemplazaFramework_WXR_Importer not found.', $this -> text_domain), true);
-//            echo $this -> info -> output(true);
-//            die();
             return false;
         }
-//        $_file   = $this -> get_substeps($folder_path, $filename, $file_filter);
         $_file  = ADVANCED_PRODUCT_PATH.'/data/custom_fields.xml';
-
-//        // Replace demo url to client url
-//        add_action('import_post_meta', function($post_id, $key, $value){
-//            $config = $this -> get_theme_demo_datas();
-//            if(isset($config['source_url']) && preg_match('#'.$config['source_url'].'#is', $value)){
-//                $value  = preg_replace('#'.$config['source_url'].'#is', get_home_url(), $value);
-//                update_post_meta($post_id, $key, $value);
-//            }
-//        },10,3);
 
         $importer   = new \Advanced_Product_Importer();
 
@@ -170,7 +136,7 @@ class Advanced_Product{
         if($result){
             update_option($imported_key, 1);
         }
-//        flush_rewrite_rules();
+
         return true;
     }
 //    public function get_movies_archive_template($archive_template)
@@ -541,6 +507,31 @@ class Advanced_Product{
         return $html;
     }
 
+
+    public function validate_page()
+    {
+        // global
+        global $pagenow, $typenow, $post_type;
+
+        $post_type  = !empty($post_type)?$post_type:(isset($_REQUEST['post_type'])?sanitize_title($_REQUEST['post_type']):'');
+        $post_type  = preg_replace('/^ap_/', '', $post_type);
+
+        $my_post_types  = array_keys($this -> post_types);
+
+        $return = false;
+
+        // Validate post type
+        if( in_array( $pagenow, array('edit.php', 'edit-tags.php', 'post.php', 'post-new.php') ) )
+        {
+            if(in_array($post_type, $my_post_types)){
+                $return = true;
+            }
+        }
+
+        // return
+        return $return;
+    }
+
     public function register_scripts(){
         if(is_admin()) {
             wp_register_script('advanced-product', '');
@@ -556,10 +547,13 @@ class Advanced_Product{
         }
     }
 
-    public function admin_enqueue_scripts(){
-        wp_enqueue_script('advanced-product');
-        wp_add_inline_script('advanced-product', 'var advanced_product = {};', '');
-        wp_enqueue_script('advanced-product_admin_scripts');
+    public function admin_enqueue_scripts($hook ){
+//        var_dump($post_type); die(__METHOD__);
+//        if(in_array($post_type, array('ap_product', 'ap_custom_field', 'ap_custom_category'))) {
+            wp_enqueue_script('advanced-product');
+            wp_add_inline_script('advanced-product', 'var advanced_product = {};', '');
+            wp_enqueue_script('advanced-product_admin_scripts');
+//        }
     }
 }
 

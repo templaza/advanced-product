@@ -28,13 +28,7 @@ if(!class_exists('Advanced_Product\Post_Type\Product')){
         {
             parent::hooks();
 
-//            add_filter( 'init', array( $this, 'options_custom_fields' ));
-//            add_action( 'init', array( $this, 'register_fields' ) );
-
-//            add_action( 'advanced-product/after_init', array( $this, 'options_custom_fields' ) );
             add_action( 'advanced-product/after_init', array( $this, 'register_fields' ) );
-
-//            add_action( 'admin_menu', array( $this, 'remove_taxonomy_metaboxes' ) );
         }
 
         public function register(){
@@ -82,25 +76,6 @@ if(!class_exists('Advanced_Product\Post_Type\Product')){
                 'rewrite'			  => array( 'slug' => 'ap-product' )
             );
             return $args;
-//            register_post_type( 'vehicle', $args );
-        }
-
-        /**
-         * Registers the specification fields that come preinstalled with Car Dealer
-         * Use the 'advanced-product/ap_product/built_in_fields' filter to remove fields from it
-         */
-        public function register_built_in_fields() {
-
-            $built_in_fields = apply_filters( 'advanced-product/'
-                .$this ->get_post_type().'/built_in_fields', $this->built_in);
-
-
-            if ( ! empty( $built_in_fields )) {
-                foreach ( $built_in_fields as $field ) {
-                    $this->register_field( $field );
-                }
-            }
-
         }
 
         /**
@@ -184,11 +159,7 @@ if(!class_exists('Advanced_Product\Post_Type\Product')){
         }
 
         public function register_fields() {
-//            Custom_FieldHelper::get_fields_grouped_taxonomy();
             $acf_fields = AP_Custom_Field_Helper::get_custom_fields();
-
-
-//            $this->register_built_in_fields();
 
             $fields = array();
 
@@ -220,7 +191,7 @@ if(!class_exists('Advanced_Product\Post_Type\Product')){
                     'options' => array (
                         'position' => 'normal',
                         'style' => 'default',
-//                        'layout' => 'no_box',
+                        'layout' => '',
 //                        'hide_on_screen' => array (
 //                            /*'the_content',*/ 'custom_fields'
 //                        ),
@@ -230,110 +201,6 @@ if(!class_exists('Advanced_Product\Post_Type\Product')){
                 ));
 
             }
-        }
-
-        /**
-         * returns the sorted registered fields
-         * @return [type] [description]
-         */
-        public function get_registered_fields( $group = '' ) {
-
-            $fields = $this->fields;
-            $filtered = array();
-            $sorted = array();
-
-            foreach ($fields as $key => $field ) {
-                $fields[$key]['label'] = __( $field['label'], $this -> text_domain );
-            }
-
-            if ( ! empty( $group ) ) {
-                foreach ($fields as $field ) {
-                    if ( $group == $field['group'] ) {
-                        $filtered[] = $field;
-                        // Register custom category
-                        if($field['name'] == 'category'){
-//                            $filtered[] =
-                        }
-                    }
-                }
-            } else {
-                $filtered = $fields;
-            }
-
-            foreach ( $filtered as $key => $value ) {
-                $sorted[$key]  = $value['sort'];
-            }
-
-            array_multisort( $sorted, SORT_ASC, SORT_NUMERIC, $filtered );
-
-            return apply_filters( 'advanced-product/'.$this -> get_post_type().'/fields', $filtered );
-        }
-
-        public function get_settings_page() {
-            return 'edit.php?post_type='.$this -> get_post_type().'&page=acf-options-settings';
-        }
-
-        public function options_custom_fields() {
-
-            $custom_fields = get_field( 'ap_custom_fields', 'options' );
-
-            if ( ! empty( $custom_fields )) {
-                foreach ( $custom_fields as $i => $field ) {
-                    if($field['acf_fc_layout'] =='ap_text') {
-
-                        $args = array(
-                            'label' => sanitize_text_field($field['ap_name']),
-                            'name' => sanitize_key(sanitize_title($field['ap_name'], 'field_' . mt_rand(100, 100000))),
-                            'type' =>'text',
-                            'sort' => 100 + $i
-                        );
-                        if (!empty($field['ap_textvalue'])) {
-                            $args['default_value'] = esc_html($field['ap_textvalue']);
-                        }
-                    }else{
-                        $args = array(
-                            'label' => sanitize_text_field($field['ap_name']),
-                            'name' => sanitize_key(sanitize_title($field['ap_name'], 'field_' . mt_rand(100, 100000))),
-                            'instructions' => '',
-                            'sort' => 100 + (is_numeric($i)?$i:0)
-                        );
-
-
-                        if (!empty($field['ap_choices'])) {
-                            $choices = array_filter(explode(',', $field['ap_choices']));
-
-                            if ('ap_number_field' == $field['acf_fc_layout']) {
-                                $meta_values = array_unique($this->get_meta_values($args['name'], $this -> get_post_type()));
-                                $choices = array_unique(array_merge($choices, $meta_values));
-                            }
-
-                            if (!empty($choices)) {
-                                foreach ($choices as $key => $choice) {
-                                    unset($choices[$key]);
-                                    $args['choices'][sanitize_title($choice)] = $choice;
-                                }
-                            }
-                        }
-                        if (!empty($field['acf_fc_layout'])) {
-                            $type   = preg_replace('/^ap_/','', $field['acf_fc_layout']);
-                            $args['type'] = $field['acf_fc_layout'] == 'ap_option' ? 'radio' : $type;
-                        }
-                        if (!empty($field['ap_min'])) {
-                            $args['min'] = intval($field['ap_min']);
-                            $args['default_value'] = intval(@$field['ap_min']);
-                        }
-                        if (!empty($field['ap_max'])) {
-                            $args['max'] = intval($field['ap_max']);
-                        }
-                        if (!empty($field['ap_append'])) {
-                            $args['append'] = esc_html($field['ap_append']);
-                        }
-                    }
-//                    $car_dealer->fields->register_field( $args );
-                    $this->register_field( $args );
-                }
-            }
-
         }
 
         /**
@@ -361,17 +228,17 @@ if(!class_exists('Advanced_Product\Post_Type\Product')){
             return $r;
         }
 
-        public function admin_enqueue_scripts(){
-//            wp_enqueue_script(array(
-//                'acf-input',
-//            ));
-//            wp_enqueue_script(array(
-//                'acf-field-group',
-//            ));
-//            wp_enqueue_script($this -> get_post_type().'-acf-field-group', AP_Functions::get_my_url().'/includes/library/acf/js/field-group.js');
-//            wp_enqueue_script($this -> get_post_type().'-acf-field-group',
-//                AP_Functions::get_my_url().'/includes/library/acf/js/input.js',array('advanced-product_admin_scripts'));
-        }
+//        public function admin_enqueue_scripts(){
+////            wp_enqueue_script(array(
+////                'acf-input',
+////            ));
+////            wp_enqueue_script(array(
+////                'acf-field-group',
+////            ));
+////            wp_enqueue_script($this -> get_post_type().'-acf-field-group', AP_Functions::get_my_url().'/includes/library/acf/js/field-group.js');
+////            wp_enqueue_script($this -> get_post_type().'-acf-field-group',
+////                AP_Functions::get_my_url().'/includes/library/acf/js/input.js',array('advanced-product_admin_scripts'));
+//        }
 
 
     }
