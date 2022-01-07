@@ -165,7 +165,7 @@ class AP_Custom_Field_Helper extends BaseHelper {
         }
         $f_ob = get_field_objects($post_id);
 
-        if(!$f_ob && !isset($f_ob[$field_name])){
+        if(!$f_ob || !isset($f_ob[$field_name])){
             return 0;
         }
         return $f_ob[$field_name]['field_group'];

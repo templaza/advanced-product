@@ -262,7 +262,7 @@ if(!class_exists('Advanced_Product\Post_Type\Custom_Category')){
         }
 
         public function admin_enqueue_scripts(){
-            if ( $this -> get_post_type() == get_post_type() ) {
+            if ( $this -> get_post_type() == \get_post_type() ) {
                 wp_enqueue_script('advanced-product_admin_sanitize-title-script', array('advanced-product_admin_scripts'));
                 wp_dequeue_script('autosave');
                 wp_deregister_script('autosave');

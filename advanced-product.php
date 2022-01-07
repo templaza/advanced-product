@@ -365,16 +365,15 @@ class Advanced_Product{
         }
     }
     public function register_field_layouts(){
+        if(!$this -> validate_page()){
+            return;
+        }
         $path   = ADVANCED_PRODUCT_CORE_PATH.'/field-layouts';
         if(!$path || ($path && !is_dir($path))){
             return false;
         }
 
-//        $files  = glob($path.'/*[\.php]*?');
-//        $files  = \glob($path.'/*[\.php]?', GLOB_BRACE);
         $files  = \glob($path.'/*');
-//        $files  = \list_files()
-//        $files  = glob($path.'/*[*.php?]');
 
         if(count($files)){
             foreach ($files as $file){
@@ -392,17 +391,6 @@ class Advanced_Product{
                 if(file_exists($file)){
                     require_once $file;
                 }
-
-//                $class_name = 'Advanced_Product\Field\Layout\\'.ucfirst(str_replace('-', '_', $file_name));
-//
-//                if(file_exists($file) && !class_exists($class_name)){
-//                    require_once $file;
-//                }
-//
-//                if(class_exists($class_name) && !isset($this -> field_layouts[$file_name])){
-//                    $post_type_obj  = new $class_name($this);
-//                    $this -> field_layouts[$file_name] = $post_type_obj;
-//                }
             }
         }
     }
@@ -507,14 +495,14 @@ class Advanced_Product{
         return $html;
     }
 
-
     public function validate_page()
     {
         // global
         global $pagenow, $typenow, $post_type;
 
-        $post_type  = !empty($post_type)?$post_type:(isset($_REQUEST['post_type'])?sanitize_title($_REQUEST['post_type']):'');
-        $post_type  = preg_replace('/^ap_/', '', $post_type);
+        $post_id    = isset($_REQUEST['post'])?$_REQUEST['post']:null;
+        $_post_type = !empty($post_type)?$post_type:(isset($_REQUEST['post_type'])?sanitize_title($_REQUEST['post_type']):\get_post_type($post_id));
+        $_post_type = preg_replace('/^ap_/', '', $_post_type);
 
         $my_post_types  = array_keys($this -> post_types);
 
@@ -523,7 +511,7 @@ class Advanced_Product{
         // Validate post type
         if( in_array( $pagenow, array('edit.php', 'edit-tags.php', 'post.php', 'post-new.php') ) )
         {
-            if(in_array($post_type, $my_post_types)){
+            if(in_array($_post_type, $my_post_types)){
                 $return = true;
             }
         }
