@@ -17,6 +17,8 @@ $fields = $this -> register_fields();
             continue;
         }
 
+        // apply filters
+        $field = apply_filters('acf/load_field_defaults', $field);
 
         // set value
         if( !isset($field['value']) )
@@ -30,7 +32,7 @@ $fields = $this -> register_fields();
         $required_class = "";
         $required_label = "";
 
-        if( $field['required'] )
+        if(!empty($field) && isset( $field['required']) && $field['required'] )
         {
             $required_class = ' required';
             $required_label = ' <span class="required">*</span>';

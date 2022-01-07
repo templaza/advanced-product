@@ -19,7 +19,7 @@ class FieldHelper extends BaseHelper {
 
         $store_id   = static::_get_store_id(__METHOD__, $filter);
 
-        if(static::$cache[$store_id]){
+        if(isset(static::$cache[$store_id])){
             return static::$cache[$store_id];
         }
 

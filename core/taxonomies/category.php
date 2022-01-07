@@ -91,15 +91,17 @@ class Category extends Taxonomy {
 
         if($column == 'ap_branch'){
             $branches = get_field( 'ap_branch', $this -> get_taxonomy_name().'_'.$term_id );
-            foreach($branches as $i => $branch){
-                if(is_numeric($branch)) {
-                    $term   = get_term_by('term_id', $branch, 'ap_branch');
-                }else {
-                    $term = get_term_by('slug', $branch, 'ap_branch');
-                }
-                $content    .= '<a href="'.get_edit_term_link($term -> term_id, $term -> taxonomy).'">'.$term -> name.'</a>';
-                if($i < count($branches) - 1) {
-                    $content .= '<span>, </span>';
+            if(!empty($branches) && count($branches)){
+                foreach($branches as $i => $branch){
+                    if(is_numeric($branch)) {
+                        $term   = get_term_by('term_id', $branch, 'ap_branch');
+                    }else {
+                        $term = get_term_by('slug', $branch, 'ap_branch');
+                    }
+                    $content    .= '<a href="'.get_edit_term_link($term -> term_id, $term -> taxonomy).'">'.$term -> name.'</a>';
+                    if($i < count($branches) - 1) {
+                        $content .= '<span>, </span>';
+                    }
                 }
             }
         }

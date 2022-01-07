@@ -62,9 +62,6 @@ class Search extends Base {
 
     public function change_event_posts_per_page( $query ) {
 
-//        var_dump($query->query['post_type']);
-//        var_dump($query -> query_vars);
-//        die(__METHOD__);
         if (! $query->is_main_query() || !isset($query->query['post_type']) ||
             (! is_post_type_archive('ap_product') &&
             ( isset($query->query['post_type']) && 'ap_product' != $query->query['post_type'] ))) {
@@ -74,17 +71,20 @@ class Search extends Base {
 
         if ( !is_admin() ) {
 
+            $query_var  = \get_query_var('field');
+            if(empty($query_var)){
+                return;
+            }
+
 //            $query->set('post_type', array($query->query['post_type']));
             $query->set('post_type', array('ap_product'));
 
             $meta_query = array();
 
-//        $fields = AP_Product_Helper::getFields();
             $fields = AP_Custom_Field_Helper::get_fields_by_display_flag('show_in_search');
             if ($fields) {
 //                $vars = array_keys($query->query_vars);
 
-                $query_var  = get_query_var('field');
                 foreach ($fields as $field) {
                     $acf_attr = AP_Custom_Field_Helper::get_custom_field_option_by_id($field->ID);
 

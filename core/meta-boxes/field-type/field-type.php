@@ -186,12 +186,14 @@ class Field_Type extends Meta_box {
 
         // delete all other field
         $keys = get_post_custom_keys($post_id);
-        foreach( $keys as $key )
-        {
-            if( strpos($key, 'field_') !== false && !in_array($key, $dont_delete) )
+        if(!empty($keys) && count($keys)){
+            foreach( $keys as $key )
             {
-                // this is a field, and it wasn't found in the dont_delete array
-                do_action('acf/delete_field', $post_id, $key);
+                if( strpos($key, 'field_') !== false && !in_array($key, $dont_delete) )
+                {
+                    // this is a field, and it wasn't found in the dont_delete array
+                    do_action('acf/delete_field', $post_id, $key);
+                }
             }
         }
     }
