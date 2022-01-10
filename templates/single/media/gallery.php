@@ -23,7 +23,7 @@ if(!empty($ap_gallery)){
         <ul class="uk-slideshow-items uk-margin-small-bottom" data-uk-lightbox="animation: slide">
             <?php foreach ($ap_gallery as $image) {
                 ?>
-                <li data-src="<?php echo esc_url($image['url']); ?>">
+                <li data-src="<?php echo esc_url($image['url']); ?>" class="uk-position-relative">
                     <a href="<?php echo esc_url($image['url']); ?>"><img src="<?php echo esc_url($image['url']); ?>"
                             alt="<?php echo esc_attr($image['title']); ?>"/></a>
                 </li>

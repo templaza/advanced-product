@@ -83,10 +83,30 @@ $autoshowroom_detail_model = isset($options['autoshowroom_Detail_show_model'])?(
             foreach($fields as $field){
                 // get field
                 if($acf_f = AP_Custom_Field_Helper::get_custom_field_option_by_id($field -> ID)) {
+//                    var_dump($acf_f);
                 ?>
                 <div class="uk-grid-small" data-uk-grid>
                     <div class="uk-width-expand" data-uk-leader><?php echo esc_html($acf_f['label']); ?></div>
-                    <div><?php echo the_field($acf_f['name'], get_the_ID()); ?></div>
+                    <div>
+                    <?php
+                    if($acf_f['type'] == 'file'){
+                        $file_url   = '';
+                        $f_value    = get_field($acf_f['name'], get_the_ID());
+                        if(is_array($f_value)){
+                            $file_url   = $f_value['url'];
+                        }elseif(is_numeric($f_value)){
+                            $file_url   = wp_get_attachment_url($f_value);
+                        }else{
+                            $file_url   = $f_value;
+                        }
+                        ?>
+                        <a href="<?php echo esc_attr($file_url); ?>" download><?php
+                            echo esc_html__('Download', AP_Functions::get_my_text_domain())?></a>
+                        <?php
+                    }else{
+                    ?><?php echo the_field($acf_f['name'], get_the_ID()); ?>
+                        <?php } ?>
+                    </div>
                 </div>
         <?php } } ?>
         <?php
