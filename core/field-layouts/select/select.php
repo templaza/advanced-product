@@ -14,16 +14,6 @@ if(!class_exists('Advanced_Product\Field\Layout\Select')){
         protected $field    = array();
         protected $group    = array();
 
-        public function __construct($field = array(), $group = array())
-        {
-            parent::__construct($field, $group);
-
-            if(is_admin()) {
-                wp_register_script('advanced-product__fields-layout-select', AP_Functions::get_my_url()
-                    . '/core/field-layouts/select/select.js');
-            }
-        }
-
         public function hooks(){
             parent::hooks();
 
@@ -33,7 +23,9 @@ if(!class_exists('Advanced_Product\Field\Layout\Select')){
         public function admin_select_enqueue_script(){
             global $post_type;
 
-            if($post_type == 'ap_custom_field') {
+            if(is_admin() && $post_type == 'ap_custom_field') {
+                wp_register_script('advanced-product__fields-layout-select', AP_Functions::get_my_url()
+                    . '/core/field-layouts/select/select.js');
                 wp_enqueue_script('advanced-product__fields-layout-select', array('advanced-product'));
             }
         }
