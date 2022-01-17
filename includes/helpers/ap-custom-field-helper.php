@@ -25,12 +25,17 @@ class AP_Custom_Field_Helper extends BaseHelper {
         $args = array(
 //            'order'       => 'ASC',
 //            'orderby'     => 'ID',
-            'orderby' => 'taxonomy, ID', // Just enter 2 parameters here, seprated by comma
-            'order'=>'ASC',
+//            'orderby' => 'taxonomy, ID', // Just enter 2 parameters here, seprated by comma
+//            'orderby' => 'taxonomy, name', // Just enter 2 parameters here, seprated by comma
+//            'order'=>'ASC',
 //            'orderby'  => array( 'taxonomy' => 'DESC', 'ID' => 'ASC' ),
+            'orderby'  => array( 'taxonomy' => 'DESC', 'ID' => 'ASC' ),
             'post_status' => 'publish',
             'post_type'   => 'ap_custom_field',
             'numberposts' => -1,
+            'tax_query'   => array(
+                'taxonomy' => 'ap_group_field',
+            ),
 
 //            'meta_key'    => 'slug',
 //            'meta_value'  =>  $this -> get_taxonomy_name(),

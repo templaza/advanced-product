@@ -191,7 +191,7 @@ if(!class_exists('Advanced_Product\Post_Type\Product')){
                     'options' => array (
                         'position' => 'normal',
                         'style' => 'default',
-                        'layout' => '',
+                        'layout' => 'default',
 //                        'hide_on_screen' => array (
 //                            /*'the_content',*/ 'custom_fields'
 //                        ),

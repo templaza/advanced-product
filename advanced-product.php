@@ -500,7 +500,7 @@ class Advanced_Product{
         // global
         global $pagenow, $typenow, $post_type;
 
-        $post_id    = isset($_REQUEST['post'])?$_REQUEST['post']:null;
+        $post_id    = isset($_REQUEST['post'])?$_REQUEST['post']:(isset($_REQUEST['post_id'])?$_REQUEST['post_id']:null);
         $_post_type = !empty($post_type)?$post_type:(isset($_REQUEST['post_type'])?sanitize_title($_REQUEST['post_type']):\get_post_type($post_id));
         $_post_type = preg_replace('/^ap_/', '', $_post_type);
 
@@ -509,7 +509,7 @@ class Advanced_Product{
         $return = false;
 
         // Validate post type
-        if( in_array( $pagenow, array('edit.php', 'edit-tags.php', 'post.php', 'post-new.php') ) )
+        if( in_array( $pagenow, array('edit.php', 'edit-tags.php', 'post.php', 'post-new.php', 'admin-ajax.php') ) )
         {
             if(in_array($_post_type, $my_post_types)){
                 $return = true;
