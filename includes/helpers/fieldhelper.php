@@ -62,14 +62,6 @@ class FieldHelper extends BaseHelper {
         $filtered = array();
         $sorted = array();
 
-//        var_dump($fields);
-//        foreach ($fields as $key => $field ) {
-//            var_dump($group_id);
-//            var_dump($field);
-//            die(__METHOD__);
-//            $fields[$key]['label'] = __( $field['label'], AP_Functions::get_my_text_domain() );
-//        }
-
         if ( ! empty( $group ) ) {
             foreach ($fields as $field ) {
                 if(!isset($field['group'])){
@@ -83,11 +75,18 @@ class FieldHelper extends BaseHelper {
             $filtered = $fields;
         }
 
-        foreach ( $filtered as $key => $value ) {
-            $sorted[$key]  = $value['sort'];
-        }
+        if(!empty($sorted) && count($filtered)) {
+            foreach ($filtered as $key => $value) {
+                if(!isset($value['sort'])){
+                    continue;
+                }
+                $sorted[$key] = $value['sort'];
+            }
 
-        array_multisort( $sorted, SORT_ASC, SORT_NUMERIC, $filtered );
+            if(!empty($sorted) && count($sorted)) {
+                array_multisort($sorted, SORT_ASC, SORT_NUMERIC, $filtered);
+            }
+        }
 
         return apply_filters( 'advanced-product/fields', $filtered );
     }

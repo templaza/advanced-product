@@ -78,7 +78,9 @@ class Category extends Taxonomy {
 
         $new_columns            = array();
         $new_columns['cb']      = $columns['cb'];
-        $new_columns['thumb']   = $columns['thumb'];
+        if(isset($columns['thumb'])) {
+            $new_columns['thumb'] = $columns['thumb'];
+        }
         $new_columns['name']    = $columns['name'];
 
         $new_columns['ap_branch']   = __('Branch', $this->text_domain);

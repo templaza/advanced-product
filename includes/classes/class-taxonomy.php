@@ -153,11 +153,12 @@ if(!class_exists('Advanced_Product\Taxonomy')) {
         public function __get_core_fields(){
             $fields = array(
                 array(
-                    'key' => 'field_529239ef5b2def',
+                    'key' => 'field_'.md5($this -> get_taxonomy_name()),
                     'label' => __('Image', $this->text_domain),
                     'name' => 'image',
                     'type' => 'image',
-                    'default_value' => ''
+                    'default_value' => '',
+                    'group' => $this -> __get_core_field_group_id()
                 )
             );
 
@@ -230,7 +231,8 @@ if(!class_exists('Advanced_Product\Taxonomy')) {
 
         public function manage_edit_columns($columns){
 
-            $fields = FieldHelper::get_fields_by_group($this -> __get_core_field_group_id(), $this -> __get_core_field_group());
+            $fields = FieldHelper::get_fields_by_group($this -> __get_core_field_group_id(),
+                array('ef_taxonomy' => $this -> get_taxonomy_name()));
 
             if(!count($fields)){
                 return $columns;
@@ -240,9 +242,6 @@ if(!class_exists('Advanced_Product\Taxonomy')) {
             $new_columns['cb'] = $columns['cb'];
 
             $new_columns['thumb']   = '<span class="dashicons dashicons-format-image"></span>';
-//            foreach($fields as $field){
-//                $new_columns[$field['name']]   = $field['label'];
-//            }
 
             return array_merge($new_columns, $columns);
         }
@@ -258,7 +257,8 @@ if(!class_exists('Advanced_Product\Taxonomy')) {
          */
         public function manage_custom_column($content, $column, $term_id ){
 
-            $fields = FieldHelper::get_fields_by_group($this -> __get_core_field_group_id(), $this -> __get_core_field_group());
+            $fields = FieldHelper::get_fields_by_group($this -> __get_core_field_group_id(),
+                array('ef_taxonomy' => $this -> get_taxonomy_name()));
 
             if(!count($fields)){
                 return $content;

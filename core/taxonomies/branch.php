@@ -40,7 +40,7 @@ class Branch extends Taxonomy {
                 ),
                 'hierarchical'               => true,
                 'show_admin_column'          => true,
-                'exclude_from_search'          => true,
+                'exclude_from_search'        => true,
 //                'query_var'                 => false,
             )
         );
