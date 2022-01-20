@@ -113,12 +113,11 @@ class Advanced_Product{
             return true;
         }
 
-        $class_wp_importer = ADVANCED_PRODUCT_LIBRARY_PATH.'/importer/class-advanced-product-importer.php';
-        require_once $class_wp_importer;
+        $importer_file = ADVANCED_PRODUCT_LIBRARY_PATH.'/importer/class-advanced-product-importer.php';
 
         if ( ! class_exists( 'Advanced_Product_Importer' ) ) {
-            if ( file_exists( $class_wp_importer ) )
-                require_once $class_wp_importer;
+            if ( file_exists( $importer_file ) )
+                require_once $importer_file;
         }
 
         if(!class_exists('Advanced_Product_Importer')){
