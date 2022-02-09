@@ -15,6 +15,9 @@ use Advanced_Product\Helper\AP_Custom_Field_Helper;
             $field  = $acf_f_attr  = AP_Custom_Field_Helper::get_custom_field_option_by_id($acf_field -> ID);
 
             $field['name']  = 'field['.$field['name'].']';
+            if(!isset($field['value'])){
+                $field['value'] = '';
+            }
 
 //            var_dump($acf_f_attr); die(__METHOD__);
 //            var_dump($acf_f_attr); die(__FILE__);
