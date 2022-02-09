@@ -364,7 +364,7 @@ class Advanced_Product{
         }
     }
     public function register_field_layouts(){
-        if(!$this -> validate_page()){
+        if(is_admin() && !$this -> validate_page()){
             return;
         }
         $path   = ADVANCED_PRODUCT_CORE_PATH.'/field-layouts';

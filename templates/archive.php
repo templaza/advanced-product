@@ -11,32 +11,16 @@ use Advanced_Product\Helper\AP_Custom_Field_Helper;
 
 <?php
 if ( have_posts()) {
-    ?>
-<div class="ap-list uk-child-width-1-2" data-uk-grid>
-    <?php
-    while (have_posts()): the_post();
-        $price = get_field('ap_price', get_the_ID());
-        ?>
-        <div class="ap-item">
-            <div class="uk-card uk-card-default">
+    AP_Templates::load_my_layout('archive.content');
 
-                <?php AP_Templates::load_my_layout('archive.media'); ?>
-
-                <div class="uk-card-body">
-                    <h4 class="ap-title uk-card-title">
-                        <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
-                    </h4>
-                    <?php the_excerpt(); ?>
-                    <?php AP_Templates::load_my_layout('archive.custom-fields'); ?>
-                </div>
-                <?php AP_Templates::load_my_layout('archive.price');?>
-            </div>
-        </div>
-        <?php
-        comments_template();
-    endwhile;
+    the_posts_pagination( array(
+        'type' => 'plain',
+        'mid_size' => 2,
+        'prev_text' => ent2ncr('<i class="fa fa-angle-double-left"></i>'),
+        'next_text' => ent2ncr('<i class="fa fa-angle-double-right"></i>'),
+        'screen_reader_text' => '',
+    ) );
     ?>
-</div>
 <?php
 }
 ?>
