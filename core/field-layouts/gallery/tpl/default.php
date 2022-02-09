@@ -16,8 +16,8 @@ if(!empty($value)){
                 </li>
             <?php } ?>
         </ul>
-        <a class="uk-position-center-left uk-hidden-hover" href="#" data-uk-slidenav-previous data-uk-slideshow-item="previous"></a>
-        <a class="uk-position-center-right  uk-hidden-hover" href="#" data-uk-slidenav-next data-uk-slideshow-item="next"></a>
+        <a class="uk-position-center-left uk-position-small uk-hidden-hover uk-overlay uk-overlay-primary" href="#" data-uk-slidenav-previous data-uk-slideshow-item="previous"></a>
+        <a class="uk-position-center-right uk-position-small  uk-hidden-hover uk-overlay uk-overlay-primary" href="#" data-uk-slidenav-next data-uk-slideshow-item="next"></a>
 
     </div>
 
@@ -36,8 +36,8 @@ if(!empty($value)){
                 $d++;
             } ?>
         </ul>
-        <a class="uk-position-center-left uk-hidden-hover" href="#" data-uk-slidenav-previous data-uk-slider-item="previous"></a>
-        <a class="uk-position-center-right  uk-hidden-hover" href="#" data-uk-slidenav-next data-uk-slider-item="next"></a>
+        <a class="uk-position-center-left uk-hidden-hover uk-position-small uk-overlay uk-overlay-primary" href="#" data-uk-slidenav-previous data-uk-slider-item="previous"></a>
+        <a class="uk-position-center-right  uk-hidden-hover uk-position-small uk-overlay uk-overlay-primary" href="#" data-uk-slidenav-next data-uk-slider-item="next"></a>
     </div>
 </div>
 <?php } ?>

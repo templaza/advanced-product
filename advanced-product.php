@@ -364,7 +364,14 @@ class Advanced_Product{
         }
     }
     public function register_field_layouts(){
-        if(is_admin() && !$this -> validate_page()){
+////        var_dump(wp_login_url());
+//        var_dump(stripos($_SERVER['SCRIPT_NAME'], strrchr( wp_login_url(), '/') ));
+//        die(__FILE__);
+//        var_dump($this -> validate_page()); die(__METHOD__);
+//        if(is_admin() && !$this -> validate_page()){
+//            return;
+//        }
+        if(stripos($_SERVER['SCRIPT_NAME'], strrchr( wp_login_url(), '/') ) !== false){
             return;
         }
         $path   = ADVANCED_PRODUCT_CORE_PATH.'/field-layouts';
