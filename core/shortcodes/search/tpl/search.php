@@ -8,11 +8,18 @@ $submit_text    = (isset($submit_text) && !empty($submit_text))?$submit_text:esc
 $submit_icon    = (isset($submit_icon) && !empty($submit_icon))?$submit_icon:'';
 $_svg_bool      = filter_var($submit_icon, FILTER_VALIDATE_URL);
 
+$submit_html    = $submit_text;
 $sicon_html = '';
 if(!empty($submit_icon)) {
     $sicon_html = $_svg_bool ? '<img src="'
-        . $submit_icon . '" data-uk-svg> ' : '<span class="' . $submit_icon . '"></span> ';
+        . $submit_icon . '" data-uk-svg>' : '<span class="' . $submit_icon . '"></span>';
 }
+if($submit_icon_position == 'before'){
+    $submit_html    = $sicon_html.' '.$submit_html;
+}elseif($submit_icon_position == 'after'){
+    $submit_html    .= ' '.$sicon_html;
+}
+$submit_html    = trim($submit_html);
 ?>
 <form role="search" method="get" action="<?php echo esc_url($action); ?>" class="uk-form-stacked advanced-product-search-form">
     <?php if(!isset($enable_keyword) || (isset($enable_keyword) && $enable_keyword)){?>
@@ -70,5 +77,5 @@ if(!empty($submit_icon)) {
 
     <?php }  } ?>
     <input type="hidden" name="post_type" value="ap_product">
-    <button class="car-search-submit uk-button uk-margin-top" id="car-search-submit"><?php echo $sicon_html; echo $submit_text; ?></button>
+    <button class="car-search-submit uk-button uk-margin-top" id="car-search-submit"><?php echo $submit_html; ?></button>
 </form>

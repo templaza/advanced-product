@@ -186,6 +186,7 @@ class Search extends Base {
             'form_atts' => '',
             'submit_text' => '',
             'submit_icon' => '',
+            'submit_icon_position' => 'before',
             'enable_keyword' => true
         );
         extract( shortcode_atts( apply_filters( 'advanced-product/search-form/defaults', $defaults ), $shortcode_atts ) );
