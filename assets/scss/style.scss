@@ -1,0 +1,26 @@
+.advanced-product-search-form{
+  .ap-form-control {
+    position: relative;
+  }
+  .acf-input-prepend {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 40px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    color: #999
+  }
+  .acf-is-prepended {
+    padding-left: 40px
+  }
+  .acf-radio-list{
+    padding-left: 0;
+    list-style: none;
+    input[type=radio]{
+      height: auto;
+    }
+  }
+}

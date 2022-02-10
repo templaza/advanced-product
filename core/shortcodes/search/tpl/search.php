@@ -5,14 +5,16 @@ defined('ADVANCED_PRODUCT') or exit();
 use Advanced_Product\Helper\AP_Custom_Field_Helper;
 ?>
 <form role="search" method="get" action="<?php echo esc_url($action); ?>" class="uk-form-stacked advanced-product-search-form">
-    <p class="field field-keyword">
-        <label><b><?php _e( 'Keyword:', 'progression-car-dealer' ) ?></b></label><br>
-        <input type="search" class="search-field" placeholder="<?php _e( 'Search ...', 'progression-car-dealer' ) ?>" value="<?php echo get_query_var('s') ?>" name="s" />
-    </p>
+    <?php if(!isset($enable_keyword) || (isset($enable_keyword) && $enable_keyword)){?>
+    <div class="field field-keyword">
+        <label><?php _e( 'Keyword:', 'progression-car-dealer' ) ?></label><br>
+        <input type="search" class="search-field" placeholder="<?php _e( 'Search ...', 'advanced-product' ) ?>" value="<?php echo get_query_var('s') ?>" name="s" />
+    </div>
+    <?php } ?>
     <?php if(!empty($fields)){
-        foreach ($fields as $acf_field){
+        foreach ($fields as /*$acf_field*/ $field){
 //            $field  = $acf_f_attr  = AP_Custom_Field_Helper::get_custom_field_option_by_id($acf_field -> ID);
-            $field  = $acf_f_attr  = AP_Custom_Field_Helper::get_custom_field_option_by_id($acf_field -> ID);
+//            $field  = $acf_f_attr  = AP_Custom_Field_Helper::get_custom_field_option_by_id($acf_field -> ID);
 
             $field['name']  = 'field['.$field['name'].']';
             if(!isset($field['value'])){
@@ -34,11 +36,18 @@ use Advanced_Product\Helper\AP_Custom_Field_Helper;
 
             if(isset($field['s_type'])){
                 if(isset($field['field_type'])){
-                    $field['field_type'] = $acf_f_attr['s_type'];
+                    $field['field_type'] = $field['s_type'];
                 }else {
-                    $field['type'] = $acf_f_attr['s_type'];
+                    $field['type'] = $field['s_type'];
                 }
             }
+//            if(isset($field['s_type'])){
+//                if(isset($field['field_type'])){
+//                    $field['field_type'] = $acf_f_attr['s_type'];
+//                }else {
+//                    $field['type'] = $acf_f_attr['s_type'];
+//                }
+//            }
 
             $file_path  = ADVANCED_PRODUCT_CORE_PATH.'/field-layouts/'.$s_field_type.'/'.$s_field_type.'.php';
 
@@ -57,7 +66,7 @@ use Advanced_Product\Helper\AP_Custom_Field_Helper;
                 ?>
                 <div class="uk-margin">
                     <label class="uk-form-label" for="form-s-color"><?php echo $field['label']; ?></label>
-                    <div class="uk-form-controls">
+                    <div class="uk-form-controls uk-position-relative">
                        <?php do_action('acf/create_field', $field); ?>
                     </div>
 

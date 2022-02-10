@@ -2,6 +2,7 @@
 namespace Advanced_Product\Shortcode;
 
 use Advanced_Product\Base;
+use Advanced_Product\AP_Functions;
 use Advanced_Product\Helper\AP_Custom_Field_Helper;
 use Advanced_Product\Helper\AP_Product_Helper;
 
@@ -20,32 +21,32 @@ class Search extends Base {
         if(!is_admin()) {
             add_filter('query_vars', array($this, 'add_query_vars_filter'));
             add_action('pre_get_posts', array($this, 'change_event_posts_per_page'));
+
+            add_action('wp_enqueue_scripts', array($this, 'register_my_scripts'));
         }
 
 //        add_action( 'switch_theme', 'flush_rewrite_rules', 15 );
     }
 
+    public function register_my_scripts(){
+        wp_enqueue_style('advanced-product', AP_Functions::get_my_url().'/assets/css/style.css');
+        wp_enqueue_style('advanced-product');
+    }
+
 
     public function add_query_vars_filter( $vars ) {
-
-
-//        var_dump($vars);
-//        var_dump(get_post_type());
-//////        var_dump($post_type);
-////        var_dump(is_search());
-////        var_dump(is_archive());
-//        die(__METHOD__);
-
         $fields = AP_Custom_Field_Helper::get_fields_by_display_flag('show_in_search');
         if ($fields) {
             foreach ($fields as $field) {
                 $acf_attr = AP_Custom_Field_Helper::get_custom_field_option_by_id($field->ID);
                 $vars[] = 'field['.$acf_attr['name'].']';
 //                $vars[] = $acf_attr['name'];
+//                $vars[] = 'field['.$field['name'].']';
             }
         }
 
         $vars[] = 'field';
+
 //        var_dump($vars); die(__METHOD__);
 //        var_dump(uniqid());
 //        $post_type = get_post_type();
@@ -67,7 +68,6 @@ class Search extends Base {
             ( isset($query->query['post_type']) && 'ap_product' != $query->query['post_type'] ))) {
             return;
         }
-
 
         if ( !is_admin() ) {
 
@@ -91,14 +91,7 @@ class Search extends Base {
                     $vars           = array_keys($query_var);
 
                     $query_value    = isset($query_var[$acf_attr['name']])?$query_var[$acf_attr['name']]:'';
-////                    var_dump($_GET['field']);
-////                    var_dump(get_query_var('field[ap_branch]'));
-////                    var_dump(get_query_var('field'));
-//                    var_dump($query_var);
-//                    var_dump($acf_attr['name']);
-//                    var_dump($vars);
-//                    var_dump(in_array($acf_attr['name'], $vars));
-//                    die(__FILE__);
+
                     if (empty($query_value) || !in_array($acf_attr['name'], $vars)) {
                         continue;
                     }
@@ -185,17 +178,35 @@ class Search extends Base {
 
     public function get_search_form( $shortcode_atts ) {
         $defaults = array(
-            'include' 	=> '',
+            'include' 	=> false,
             'exclude'   => '',
             'action' 	=> get_post_type_archive_link( 'ap_product' ), // action url,
             'form'		=> 'true',
             'button' 	=> __( 'Search', $this -> text_domain),
-            'form_atts' => ''
+            'form_atts' => '',
+            'enable_keyword' => true
         );
         extract( shortcode_atts( apply_filters( 'advanced-product/search-form/defaults', $defaults ), $shortcode_atts ) );
 
-        $fields = AP_Custom_Field_Helper::get_fields_by_display_flag('show_in_search');
-        require_once __DIR__.'/tpl/search.php';
+        $enable_keyword = filter_var($enable_keyword, FILTER_VALIDATE_BOOLEAN);
+
+        if(isset($include)){
+            if(!empty($include)) {
+                $include    = explode(',', $include);
+                $fields     = AP_Custom_Field_Helper::get_acf_fields($include);
+            }else{
+                $fields = AP_Custom_Field_Helper::get_acf_fields_by_display_flag('show_in_search');
+            }
+        }
+      else{
+//            $fields = AP_Custom_Field_Helper::get_fields_by_display_flag('show_in_search');
+            $fields = AP_Custom_Field_Helper::get_acf_fields_by_display_flag('show_in_search');
+        }
+
+//        $fields = AP_Custom_Field_Helper::get_fields_by_display_flag('show_in_search');
+        if(!empty($fields)) {
+            require_once __DIR__ . '/tpl/search.php';
+        }
 //        $fields = AP_Custom_Field_Helper::get_fields_by_display_flag('show_in_search');
 //        if($fields){
 //            foreach($fields as $field){

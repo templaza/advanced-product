@@ -65,6 +65,89 @@ class AP_Custom_Field_Helper extends BaseHelper {
         return static::$cache[$store_id] = $fields;
     }
 
+    /**
+     * Get custom fields in post type ap_custom_field
+     * @param array $exclude An optional exclude of custom fields.
+     * @param array $include An optional include of custom fields.
+     * */
+    public static function get_acf_fields($include = array(), $exclude = array()){
+        $args = array(
+//            'order'       => 'ASC',
+//            'orderby'     => 'ID',
+//            'orderby' => 'taxonomy, ID', // Just enter 2 parameters here, seprated by comma
+//            'orderby' => 'taxonomy, name', // Just enter 2 parameters here, seprated by comma
+//            'order'=>'ASC',
+//            'orderby'  => array( 'taxonomy' => 'DESC', 'ID' => 'ASC' ),
+//            'orderby'  => array( 'taxonomy' => 'DESC', 'ID' => 'ASC' ),
+            'post_status' => 'publish',
+            'post_type'   => 'ap_custom_field',
+            'numberposts' => -1,
+//            'tax_query'   => array(
+//                'taxonomy' => 'ap_group_field',
+//            ),
+
+//            'meta_key'    => 'slug',
+//            'meta_value'  =>  $this -> get_taxonomy_name(),
+        );
+
+
+        $include_is_number  = false;
+        if(!empty($include)){
+            $_include   = $include;
+            if(is_array($include)){
+                foreach($include as $in){
+                    if(is_numeric($in)){
+                        $include_is_number  = true;
+                        break;
+                    }
+                }
+                $_include   = implode(',', $include);
+            }else {
+                $include_is_number = is_string($include) ? (bool)preg_match('/\d+,*/', $include) : false;
+            }
+            if($include_is_number) {
+                $args['include'] = $_include;
+            }
+        }
+
+        $store_id   = static::_get_store_id(__METHOD__, $include, $exclude, $args, $include_is_number);
+
+        if(isset(static::$cache[$store_id])){
+            return static::$cache[$store_id];
+        }
+
+        $post_fields = get_posts($args);
+
+        if(!$post_fields){
+            return false;
+        }
+
+        $fields = array();
+        if(!empty($include) && is_string($include) && !$include_is_number){
+            $include    = explode(',', $include);
+        }
+        foreach($post_fields as $i => $field){
+            $acf_f = AP_Custom_Field_Helper::get_custom_field_option_by_id($field -> ID);
+            if($acf_f && !empty($acf_f)){
+                if(!empty($include) && !$include_is_number && is_array($include) && !in_array($acf_f['_name'], $include)){
+                    continue;
+                }
+                if(!empty($exclude) && isset($acf_f['name']) && in_array($acf_f['name'], $exclude)){
+                    continue;
+                }
+
+                $fields[]   = $acf_f;
+            }
+        }
+
+
+        if(!count($fields)){
+            return false;
+        }
+
+        return static::$cache[$store_id] = $fields;
+    }
+
     public static function get_custom_field_option_by_id($post_id){
 
         $store_id   = static::_get_store_id(__METHOD__, $post_id);
@@ -225,6 +308,57 @@ class AP_Custom_Field_Helper extends BaseHelper {
 //                }
 //            }
 //        }
+
+        return static::$cache[$store_id] = $fields;
+    }
+
+    /**
+     * Get custom fields in post type ap_custom_field
+     * @param array $flag_name An optional exclude of custom fields.
+     * */
+    public static function get_acf_fields_by_display_flag($flag_name){
+        $args = array(
+//            'order'       => 'ASC',
+//            'orderby'     => 'ID',
+            'orderby' => 'taxonomy, ID', // Just enter 2 parameters here, seprated by comma
+            'order'=>'ASC',
+//            'orderby'  => array( 'taxonomy' => 'DESC', 'ID' => 'ASC' ),
+            'post_status' => 'publish',
+            'post_type'   => 'ap_custom_field',
+            'numberposts' => -1,
+            'meta_key'    => $flag_name,
+            'meta_value'  => '1',
+        );
+
+        $store_id   = static::_get_store_id(__METHOD__, $flag_name, $args);
+
+        if(isset(static::$cache[$store_id])){
+            return static::$cache[$store_id];
+        }
+
+        $post_fields = get_posts($args);
+
+        if(!$post_fields){
+            return false;
+        }
+
+        $fields = array();
+//        if(!empty($include) && is_string($include) && !$include_is_number){
+//            $include    = explode(',', $include);
+//        }
+        foreach($post_fields as $i => $field){
+            $acf_f = AP_Custom_Field_Helper::get_custom_field_option_by_id($field -> ID);
+            if($acf_f && !empty($acf_f)){
+//                if(!empty($include) && !$include_is_number && is_array($include) && !in_array($acf_f['_name'], $include)){
+//                    continue;
+//                }
+//                if(!empty($exclude) && isset($acf_f['name']) && in_array($acf_f['name'], $exclude)){
+//                    continue;
+//                }
+
+                $fields[]   = $acf_f;
+            }
+        }
 
         return static::$cache[$store_id] = $fields;
     }

@@ -538,6 +538,8 @@ class Advanced_Product{
 
             wp_enqueue_style('advanced-product_admin_styles');
 
+        }else{
+            wp_register_style('advanced-product', AP_Functions::get_my_url().'/assets/css/style.css');
         }
     }
 
