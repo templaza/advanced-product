@@ -184,10 +184,14 @@ class Search extends Base {
             'form'		=> 'true',
             'button' 	=> __( 'Search', $this -> text_domain),
             'form_atts' => '',
+            'submit_text' => '',
+            'submit_icon' => '',
             'enable_keyword' => true
         );
         extract( shortcode_atts( apply_filters( 'advanced-product/search-form/defaults', $defaults ), $shortcode_atts ) );
 
+//        var_dump($submit_text);
+//        var_dump($submit_icon);
         $enable_keyword = filter_var($enable_keyword, FILTER_VALIDATE_BOOLEAN);
 
         if(isset($include)){

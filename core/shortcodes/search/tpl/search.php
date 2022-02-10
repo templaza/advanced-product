@@ -3,12 +3,23 @@
 defined('ADVANCED_PRODUCT') or exit();
 
 use Advanced_Product\Helper\AP_Custom_Field_Helper;
+
+$submit_text    = (isset($submit_text) && !empty($submit_text))?$submit_text:esc_html__('Search', 'advanced-product');
+$submit_icon    = (isset($submit_icon) && !empty($submit_icon))?$submit_icon:'';
+$_svg_bool      = filter_var($submit_icon, FILTER_VALIDATE_URL);
+
+$sicon_html = '';
+if(!empty($submit_icon)) {
+    $sicon_html = $_svg_bool ? '<img src="'
+        . $submit_icon . '" data-uk-svg> ' : '<span class="' . $submit_icon . '"></span> ';
+}
 ?>
 <form role="search" method="get" action="<?php echo esc_url($action); ?>" class="uk-form-stacked advanced-product-search-form">
     <?php if(!isset($enable_keyword) || (isset($enable_keyword) && $enable_keyword)){?>
     <div class="field field-keyword">
-        <label><?php _e( 'Keyword:', 'progression-car-dealer' ) ?></label><br>
-        <input type="search" class="search-field" placeholder="<?php _e( 'Search ...', 'advanced-product' ) ?>" value="<?php echo get_query_var('s') ?>" name="s" />
+        <label><?php _e( 'Keyword:', 'advanced-product' ) ?></label>
+        <input type="search" class="search-field" placeholder="<?php
+        _e( 'Search ...', 'advanced-product' ) ?>" value="<?php echo get_query_var('s') ?>" name="s" />
     </div>
     <?php } ?>
     <?php if(!empty($fields)){
@@ -20,15 +31,6 @@ use Advanced_Product\Helper\AP_Custom_Field_Helper;
             if(!isset($field['value'])){
                 $field['value'] = '';
             }
-
-//            var_dump($acf_f_attr); die(__METHOD__);
-//            var_dump($acf_f_attr); die(__FILE__);
-//            if(isset($field['s_choices'])){
-//                $field['choices']  = $acf_f_attr['s_choices'];
-//            }
-//            if(isset($field['s_default_value'])){
-//                $field['default_value']  = $acf_f_attr['s_default_value'];
-//            }
 
 
             $s_field_type = isset($field['s_type'])?$field['s_type']:'';
@@ -52,15 +54,6 @@ use Advanced_Product\Helper\AP_Custom_Field_Helper;
             $file_path  = ADVANCED_PRODUCT_CORE_PATH.'/field-layouts/'.$s_field_type.'/'.$s_field_type.'.php';
 
             if(file_exists($file_path)){
-//                $f_class_name   = 'Advanced_Product\Field\Layout\\'.ucfirst($s_field_type);
-//                if(!class_exists($f_class_name)){
-//                    require_once $file_path;
-//                }
-//                $f_layout   = new $f_class_name($field);
-//
-//                if($f_layout && method_exists($f_layout, 'render_form')){
-//                    $f_layout -> render_form();
-//                }
                 do_action('advanced-product/field/create_form/type='.$s_field_type, $field);
             }else {
                 ?>
@@ -73,71 +66,9 @@ use Advanced_Product\Helper\AP_Custom_Field_Helper;
                 </div>
                 <?php
             }
-
-//            if($field['type'] == 'select' || (isset($field['field_type']) && $field['field_type'] == 'select')){
-//                if(!$field['multiple']){
-//                    $field['allow_null']    = false;
-//                }
-//                unset($field['multiple']);
-////                            var_dump($field); die();
-//            }
-////                        var_dump($field); die();
-//
-//            // set value
-//            if( !isset($field['value']) )
-//            {
-//                $field['value'] = apply_filters('acf/load_value', false, $group['id'], $field);
-//                $field['value'] = apply_filters('acf/format_value', $field['value'], $group['id'], $field);
-//            }
-//
-//            // required
-//            $required_class = "";
-//            $required_label = "";
-//
-//            if( $field['required'] )
-//            {
-//                $required_class = ' required';
-//                $required_label = ' <span class="required">*</span>';
-//            }
-//
-//            $fake_name = $field['key'];
-//            echo '<div id="acf-' . $field['name'] . '" class="uk-margin field field_type-' . $field['type']
-//                . ' field_key-' . $field['key'] . $required_class . '" data-field_name="' . $field['name']
-//                . '" data-field_key="' . $field['key'] . '" data-field_type="' . $field['type'] . '">';
-//
-//            echo '<label for="' . $field['id'] . '" class="uk-form-label uk-display-inline-block" data-uk-tooltip="'
-//                .$field['instructions'].'">' . $field['label'] . $required_label . '</label>';
-////                        echo $field['instructions'];
-//
-//            $field['name'] = 'fields[' . $field['key'] . ']';
-//
-//            $field_type = isset($field['field_type'])?$field['field_type']:'';
-//            $field_type = (empty($field_type) && isset($field['type']))?$field['type']:$field_type;
-//
-//            $file_path  = ADVANCED_PRODUCT_CORE_PATH.'/field-layouts/'.$field_type.'/'.$field_type.'.php';
-//
-////                        $field['name']  = 'fields['.$field['_name'].']';
-//            $field['name']  = $field['_name'];
-//            if(file_exists($file_path)){
-//                $f_class_name   = 'Advanced_Product\Field\Layout\\'.ucfirst($field_type);
-//                if(!class_exists($f_class_name)){
-//                    require_once $file_path;
-//                }
-//                $f_layout   = new $f_class_name($field, $group);
-//
-//                if($f_layout && method_exists($f_layout, 'render_form')){
-//                    $f_layout -> render_form();
-//                }
-//            }else{
-//                echo '<div class="uk-form-controls">';
-//                do_action('acf/create_field', $field, $group['id']);
-//                echo '</div>';
-//            }
-//
-//            echo '</div>';
         ?>
 
     <?php }  } ?>
     <input type="hidden" name="post_type" value="ap_product">
-    <button class="car-search-submit uk-button uk-margin-top" id="car-search-submit">Search</button>
+    <button class="car-search-submit uk-button uk-margin-top" id="car-search-submit"><?php echo $sicon_html; echo $submit_text; ?></button>
 </form>
