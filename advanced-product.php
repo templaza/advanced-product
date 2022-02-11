@@ -96,10 +96,13 @@ class Advanced_Product{
             add_action('init', array($this, 'register_scripts'));
             add_action('admin_enqueue_scripts', array($this, 'admin_enqueue_scripts'));
 
-            // Use a custom walker for the ACF dropdowns
-            // Change taxonomy id to slug
-            add_filter('acf/fields/taxonomy/wp_list_categories', array($this, 'acf_wp_list_categories'), 10, 2);
+//            // Use a custom walker for the ACF dropdowns
+//            // Change taxonomy id to slug
+//            add_filter('acf/fields/taxonomy/wp_list_categories', array($this, 'acf_wp_list_categories'), 10, 2);
         }
+        // Use a custom walker for the ACF dropdowns
+        // Change taxonomy id to slug
+        add_filter('acf/fields/taxonomy/wp_list_categories', array($this, 'acf_wp_list_categories'), 10, 2);
     }
 
     public function import_custom_fields(){

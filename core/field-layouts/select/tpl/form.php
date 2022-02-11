@@ -69,13 +69,14 @@ $html_field = preg_replace('/<input type="hidden"(\s+[^>]*)?[\/]?>/ius', '', $ht
 
 if(($field['type'] == 'select' || (isset($field['field_type']) && $field['field_type'] == 'select'))
     && preg_match('/(<select(\s+[^>]*)?>)((.|\n)*?)(<\/select(\s+[^>]*)?>)/ius', trim($html_field))) {
-    $html_field = preg_replace('/(<select(\s+[^>]*)?>)((.|\n)*?)(<\/select(\s+[^>]*)?>)/ius', '$1<option value="">All</option>$3$5', $html_field);
+    $html_field = preg_replace('/(<select(\s+[^>]*)?>)((.|\n)*?)(<\/select(\s+[^>]*)?>)/ius', '$1<option value="">'.esc_html__('All',$this -> text_domain).'</option>$3$5', $html_field);
 }
 
-
     ?>
-    <div class="uk-margin">
+    <div class="ap-search-item uk-margin">
+        <?php if(!isset($field['s_show_label']) || (isset($field['s_show_label']) && $field['s_show_label'])){?>
         <label><?php echo $field['label']; ?></label>
+        <?php }?>
         <div class="uk-form-controls">
             <?php echo $html_field;?>
         </div>

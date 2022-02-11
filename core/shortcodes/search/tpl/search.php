@@ -34,6 +34,8 @@ $submit_html    = trim($submit_html);
 //            $field  = $acf_f_attr  = AP_Custom_Field_Helper::get_custom_field_option_by_id($acf_field -> ID);
 //            $field  = $acf_f_attr  = AP_Custom_Field_Helper::get_custom_field_option_by_id($acf_field -> ID);
 
+            $field['s_show_label']  = isset($show_label)?$show_label:true;
+
             $field['name']  = 'field['.$field['name'].']';
             if(!isset($field['value'])){
                 $field['value'] = '';

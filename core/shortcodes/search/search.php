@@ -35,27 +35,22 @@ class Search extends Base {
 
 
     public function add_query_vars_filter( $vars ) {
+
+        $post_type  = isset($_REQUEST['post_type'])?$_REQUEST['post_type']:get_post_type();
+
+        if($post_type != 'ap_product'){
+            return $vars;
+        }
+
         $fields = AP_Custom_Field_Helper::get_fields_by_display_flag('show_in_search');
         if ($fields) {
             foreach ($fields as $field) {
                 $acf_attr = AP_Custom_Field_Helper::get_custom_field_option_by_id($field->ID);
                 $vars[] = 'field['.$acf_attr['name'].']';
-//                $vars[] = $acf_attr['name'];
-//                $vars[] = 'field['.$field['name'].']';
             }
         }
 
         $vars[] = 'field';
-
-//        var_dump($vars); die(__METHOD__);
-//        var_dump(uniqid());
-//        $post_type = get_post_type();
-//
-//        var_dump($post_type);
-//        var_dump($_REQUEST);
-//        die(__METHOD__);
-////        $index  = array_search('ap_branch', $vars);
-////        unset($vars[$index]);
 
         return $vars;
 
@@ -83,7 +78,6 @@ class Search extends Base {
 
             $fields = AP_Custom_Field_Helper::get_fields_by_display_flag('show_in_search');
             if ($fields) {
-//                $vars = array_keys($query->query_vars);
 
                 foreach ($fields as $field) {
                     $acf_attr = AP_Custom_Field_Helper::get_custom_field_option_by_id($field->ID);
@@ -112,7 +106,7 @@ class Search extends Base {
                             $meta_query[] = array(
                                 'key' => $acf_attr['name'],
                                 'value' => $query_value,
-                                'compare' => $acf_attr['s_meta_query_compare']
+                                'compare' => $acf_attr['s_meta_query_compare'],
                             );
                         }else{
                             if (isset($acf_attr['multiple']) && $acf_attr['multiple']) {
@@ -163,15 +157,13 @@ class Search extends Base {
 
 //        var_dump($meta_query);
 //        if(count($meta_query)) {
-//        var_dump($meta_query); die();
+//            var_dump($query_var['ap_branch']);
+//            var_dump(get_term_link($query_var['ap_branch']));
+//        var_dump($meta_query); die(__FILE__);
             $query->set('meta_query', $meta_query);
 //            $query->set('meta_query', array());
+//            var_dump($query); die(__FILE__);
 //        }
-
-//        $wpq = new \WP_Query($query);
-
-//        var_dump($wpq -> parse_query() ); die(__METHOD__);
-//        return $query;
 
         }
     }
@@ -187,12 +179,12 @@ class Search extends Base {
             'submit_text' => '',
             'submit_icon' => '',
             'submit_icon_position' => 'before',
-            'enable_keyword' => true
+            'enable_keyword' => true,
+            'show_label' => true
         );
         extract( shortcode_atts( apply_filters( 'advanced-product/search-form/defaults', $defaults ), $shortcode_atts ) );
 
-//        var_dump($submit_text);
-//        var_dump($submit_icon);
+        $show_label     = filter_var($show_label, FILTER_VALIDATE_BOOLEAN);
         $enable_keyword = filter_var($enable_keyword, FILTER_VALIDATE_BOOLEAN);
 
         if(isset($include)){
@@ -204,20 +196,11 @@ class Search extends Base {
             }
         }
       else{
-//            $fields = AP_Custom_Field_Helper::get_fields_by_display_flag('show_in_search');
             $fields = AP_Custom_Field_Helper::get_acf_fields_by_display_flag('show_in_search');
         }
 
-//        $fields = AP_Custom_Field_Helper::get_fields_by_display_flag('show_in_search');
         if(!empty($fields)) {
-            require_once __DIR__ . '/tpl/search.php';
+            require __DIR__ . '/tpl/search.php';
         }
-//        $fields = AP_Custom_Field_Helper::get_fields_by_display_flag('show_in_search');
-//        if($fields){
-//            foreach($fields as $field){
-//            }
-//        }
-//        var_dump($fields);
-//        die(__METHOD__);
     }
 }
