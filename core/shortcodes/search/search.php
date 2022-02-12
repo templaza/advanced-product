@@ -187,6 +187,7 @@ class Search extends Base {
         $show_label     = filter_var($show_label, FILTER_VALIDATE_BOOLEAN);
         $enable_keyword = filter_var($enable_keyword, FILTER_VALIDATE_BOOLEAN);
 
+//        var_dump($include);
         if(isset($include)){
             if(!empty($include)) {
                 $include    = explode(',', $include);

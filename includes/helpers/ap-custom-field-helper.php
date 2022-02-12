@@ -107,6 +107,7 @@ class AP_Custom_Field_Helper extends BaseHelper {
             }
             if($include_is_number) {
                 $args['include'] = $_include;
+                $args['post_name__in'] = $_include;
             }
         }
 
@@ -136,10 +137,14 @@ class AP_Custom_Field_Helper extends BaseHelper {
                     continue;
                 }
 
-                $fields[]   = $acf_f;
+                $index  = array_search($acf_f['name'], $include);
+                $fields[$index]   = $acf_f;
             }
         }
-
+        ksort($fields);
+////        var_dump(ksort($fields));
+//        var_dump($fields);
+//        die(__FILE__);
 
         if(!count($fields)){
             return false;
