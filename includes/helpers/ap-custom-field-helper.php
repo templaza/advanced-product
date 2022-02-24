@@ -22,32 +22,52 @@ class AP_Custom_Field_Helper extends BaseHelper {
      * @param array $exclude An optional exclude of custom fields.
      * */
     public static function get_custom_fields($exclude = array()){
-        $args = array(
-//            'order'       => 'ASC',
-//            'orderby'     => 'ID',
-//            'orderby' => 'taxonomy, ID', // Just enter 2 parameters here, seprated by comma
-//            'orderby' => 'taxonomy, name', // Just enter 2 parameters here, seprated by comma
-//            'order'=>'ASC',
+//        $args = array(
+////            'order'       => 'ASC',
+////            'orderby'     => 'ID',
+////            'orderby' => 'taxonomy, ID', // Just enter 2 parameters here, seprated by comma
+////            'orderby' => 'taxonomy, name', // Just enter 2 parameters here, seprated by comma
+////            'order'=>'ASC',
+////            'orderby'  => array( 'taxonomy' => 'DESC', 'ID' => 'ASC' ),
 //            'orderby'  => array( 'taxonomy' => 'DESC', 'ID' => 'ASC' ),
-            'orderby'  => array( 'taxonomy' => 'DESC', 'ID' => 'ASC' ),
-            'post_status' => 'publish',
-            'post_type'   => 'ap_custom_field',
-            'numberposts' => -1,
-            'tax_query'   => array(
-                'taxonomy' => 'ap_group_field',
-            ),
+//            'post_status' => 'publish',
+//            'post_type'   => 'ap_custom_field',
+//            'numberposts' => -1,
+//
+////            'meta_key'    => 'slug',
+////            'meta_value'  =>  $this -> get_taxonomy_name(),
+//        );
 
-//            'meta_key'    => 'slug',
-//            'meta_value'  =>  $this -> get_taxonomy_name(),
-        );
-
-        $store_id   = static::_get_store_id(__METHOD__, $exclude, $args);
+//        $store_id   = static::_get_store_id(__METHOD__, $exclude, $args);
+        $store_id   = static::_get_store_id(__METHOD__, $exclude);
 
         if(isset(static::$cache[$store_id])){
             return static::$cache[$store_id];
         }
 
-        $fields = get_posts($args);
+//        $fields = get_posts($args);
+
+        global $wpdb;
+        $sql    = 'SELECT wp.*, wt.name AS term_name, wt.slug AS term_slug FROM '.$wpdb -> posts.' AS wp';
+        $sql   .= ' LEFT JOIN '.$wpdb -> term_relationships.' wtr ON (wp.ID = wtr.object_id OR wtr.object_id IS NULL)';
+        $sql   .= ' LEFT JOIN '.$wpdb -> term_taxonomy.' wtt ON (wtr.term_taxonomy_id = wtt.term_taxonomy_id AND wtt.taxonomy="ap_group_field")';
+        $sql   .= ' LEFT JOIN '.$wpdb -> terms.' wt ON (wt.term_id = wtt.term_id)';
+        $sql   .= ' WHERE post_type="ap_custom_field"';
+        $sql   .= ' AND wp.post_status="publish"';
+//        $sql   .= ' AND wtt.taxonomy="ap_group_field"';
+        $sql   .= ' GROUP BY wp.id';
+        $sql   .= ' ORDER BY wt.term_id ASC, wp.id DESC';
+
+        $fields = $wpdb -> get_results($sql);
+//        \wp_reset_query();
+//        $fields = new \WP_Query($sql);
+//        $fields = new \WP_Query($args);
+
+//        var_dump($fields -> get_posts());
+//        var_dump($fields);
+//        var_dump($wpdb -> get_results($sql));
+//        die(__FILE__);
+//        wp_reset_query();
 
         if(!$fields){
             return false;

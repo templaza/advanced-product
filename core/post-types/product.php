@@ -159,21 +159,18 @@ if(!class_exists('Advanced_Product\Post_Type\Product')){
         }
 
         public function register_fields() {
+            if(!function_exists("register_field_group"))
+            {
+                return;
+            }
             $acf_fields = AP_Custom_Field_Helper::get_custom_fields();
 
             $fields = array();
 
             if($acf_fields){
-                foreach ($acf_fields as $acf_field){
-                    if($acf_f = AP_Custom_Field_Helper::get_custom_field_option_by_id($acf_field -> ID)) {
-                        $fields[] = $acf_f;
-                    }
-                }
-            }
-
-            if(function_exists("register_field_group"))
-            {
-                register_field_group(array (
+                $prev_term_slug = '';
+                $gid            = '6216fc1bd1117';
+                $goptions       = array (
                     'id' => 'acf_product_property',
                     'title' => __( 'Properties', $this -> text_domain ),
                     'fields' => $fields,
@@ -198,9 +195,58 @@ if(!class_exists('Advanced_Product\Post_Type\Product')){
                         'hide_on_screen' => array(),
                     ),
                     'menu_order' => 0,
-                ));
+                );
 
+                foreach ($acf_fields as $i => $acf_field){
+                    if($acf_f = AP_Custom_Field_Helper::get_custom_field_option_by_id($acf_field -> ID)) {
+                        $next_index = $i + 1;
+                        if((isset($acf_fields[$next_index]) && /*isset($acf_field -> term_slug)
+                                &&*/ $acf_fields[$next_index] -> term_slug != $acf_field -> term_slug)
+                            || ($i == count($acf_fields) -1)){
+                            $goptions['id']     = 'acf_product_'.(!empty($acf_field -> term_slug))?$acf_field -> term_slug:$gid;
+                            $goptions['title']  = (!empty($acf_field -> term_name))?$acf_field -> term_name:__( 'Properties', $this -> text_domain );
+                            $goptions['fields'] = $fields;
+
+                            $goptions['menu_order']  = $i;
+
+                            register_field_group($goptions);
+                            $fields = array();
+                        }
+                        $fields[] = $acf_f;
+                    }
+                }
             }
+
+//            if(function_exists("register_field_group"))
+//            {
+//                register_field_group(array (
+//                    'id' => 'acf_product_property',
+//                    'title' => __( 'Properties', $this -> text_domain ),
+//                    'fields' => $fields,
+//                    'location' => array (
+//                        array (
+//                            array (
+//                                'param' => 'post_type',
+//                                'operator' => '==',
+//                                'value' => $this -> get_post_type(),
+//                                'order_no' => 0,
+//                                'group_no' => 0,
+//                            ),
+//                        ),
+//                    ),
+//                    'options' => array (
+//                        'position' => 'normal',
+//                        'style' => 'default',
+//                        'layout' => 'default',
+////                        'hide_on_screen' => array (
+////                            /*'the_content',*/ 'custom_fields'
+////                        ),
+//                        'hide_on_screen' => array(),
+//                    ),
+//                    'menu_order' => 0,
+//                ));
+//
+//            }
         }
 
         /**
