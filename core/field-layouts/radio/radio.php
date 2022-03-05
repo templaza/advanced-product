@@ -27,7 +27,10 @@ class Radio extends Field_Layout{
     */
     public function render_search_settings( $field )
     {
-        $field['s_type']   = isset($field['s_type'])?$field['s_type']:$field['type'];
+        $field['s_type']            = isset($field['s_type'])?$field['s_type']:$field['type'];
+        $field['s_choices']         = isset($field['s_choices'])?$field['s_choices']:'';
+        $field['s_default_value']   = isset($field['s_default_value'])?$field['s_default_value']:'';
+
         $key = $field['name'];
 
         // implode choices so they work in a textarea

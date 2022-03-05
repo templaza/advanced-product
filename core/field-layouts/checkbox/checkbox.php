@@ -29,7 +29,11 @@ if(!class_exists('Advanced_Product\Field\Layout\Checkbox')){
         */
         public function render_search_settings( $field )
         {
-            $field['s_type']   = isset($field['s_type'])?$field['s_type']:$field['type'];
+            $field['s_type']                = isset($field['s_type'])?$field['s_type']:$field['type'];
+            $field['s_choices']             = isset($field['s_choices'])?$field['s_choices']:'';
+            $field['s_default_value']       = isset($field['s_default_value'])?$field['s_default_value']:'';
+            $field['s_meta_query_compare']  = isset($field['s_meta_query_compare'])?$field['s_meta_query_compare']:'';
+
             $key = $field['name'];
 
             // implode choices so they work in a textarea

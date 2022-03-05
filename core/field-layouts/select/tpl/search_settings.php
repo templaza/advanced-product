@@ -175,23 +175,5 @@ $key    = $field['name'];
             ?>
         </td>
     </tr>
-<!--    <tr class="field_option field_option_--><?php //echo $field['type'];
-//    ?><!-- field_search_option field_search_option_--><?php //echo $field['s_type'];?><!--">-->
-<!--        <td class="label">-->
-<!--            <label>--><?php //_e("Search Meta Query Type", $this -> text_domain); ?><!--</label>-->
-<!--            <p class="description">--><?php //_e("Enter each default value on a new line",'acf'); ?><!--</p>-->
-<!--        </td>-->
-<!--        <td>-->
-<!--            --><?php
-//
-//            do_action('acf/create_field', array(
-//                'type'	=>	'textarea',
-//                'name'	=>	'fields['.$key.'][s_default_value]',
-//                'value'	=>	$field['s_default_value'],
-//            ));
-//
-//            ?>
-<!--        </td>-->
-<!--    </tr>-->
 <?php
 //}
