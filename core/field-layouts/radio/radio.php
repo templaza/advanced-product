@@ -33,15 +33,15 @@ class Radio extends Field_Layout{
 
         $key = $field['name'];
 
-        // implode choices so they work in a textarea
-        if( is_array($field['choices']) )
-        {
-            foreach( $field['choices'] as $k => $v )
-            {
-                $field['choices'][ $k ] = $k . ' : ' . $v;
-            }
-            $field['choices'] = implode("\n", $field['choices']);
-        }
+//        // implode choices so they work in a textarea
+//        if( is_array($field['choices']) )
+//        {
+//            foreach( $field['choices'] as $k => $v )
+//            {
+//                $field['choices'][ $k ] = $k . ' : ' . $v;
+//            }
+//            $field['choices'] = implode("\n", $field['choices']);
+//        }
 
         $file   = __DIR__.'/tpl/search_settings.php';
         if(file_exists($file)) {
