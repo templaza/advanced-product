@@ -246,17 +246,30 @@ $fake_name = $field['key'];
                                                             continue;
                                                         }
                                                         $choices[$cfield['key']]   = $cfield['label'];
+
                                                         ob_start();
-                                                        do_action('acf/create_field', array(
-                                                            'type'	    =>	'select',
-                                                            'name'	    =>	'fields['.$field['key'].'][conditional_logic][rules]['
-                                                                . $rule_i . '][value]',
-                                                            'class'	    =>	'select conditional-logic-value conditional-logic-value-'.$cfield['key'],
-                                                            'style'	    =>	'display:none;',
-                                                            'value'	    =>	$rule['field'],
-                                                            'choices'	=>	$cfield['choices'],
-                                                        ));
-                                                        $conditional_logic_values[]   = ob_get_contents();
+                                                        if(isset($cfield['choices'])) {
+                                                            do_action('acf/create_field', array(
+                                                                'type' => 'select',
+                                                                'name' => 'fields[' . $field['key'] . '][conditional_logic][rules]['
+                                                                    . $rule_i . '][value]',
+                                                                'class' => 'select conditional-logic-value conditional-logic-value-' . $cfield['key'],
+                                                                'style' => 'display:none;',
+                                                                'value' => isset($rule['field']['value'])?$rule['field']['value']:'',
+                                                                'choices' => isset($cfield['choices']) ? $cfield['choices'] : '',
+                                                            ));
+                                                        }else{
+                                                            do_action('acf/create_field', array(
+                                                                'type' => 'text',
+                                                                'name' => 'fields[' . $field['key'] . '][conditional_logic][rules]['
+                                                                    . $rule_i . '][value]',
+                                                                'class' => 'conditional-logic-value conditional-logic-value-' . $cfield['key'],
+                                                                'style' => 'display:none;',
+                                                                'value' => isset($rule['field']['value'])?$rule['field']['value']:'',
+                                                            ));
+                                                        }
+//
+                                                        $conditional_logic_values[] = ob_get_contents();
                                                         ob_end_clean();
                                                 ?>
                                                 <?php

@@ -56,6 +56,7 @@ if(!class_exists('Advanced_Product\Field\Layout\Select')){
             $field['s_default_value']       = isset($field['s_default_value'])?$field['s_default_value']:'';
             $field['s_default_value_to']    = isset($field['s_default_value_to'])?$field['s_default_value_to']:'';
             $field['s_default_value_from']  = isset($field['s_default_value_from'])?$field['s_default_value_from']:'';
+            $field['s_meta_query_compare']  = isset($field['s_meta_query_compare'])?$field['s_meta_query_compare']:'';
 
             $key = $field['name'];
 

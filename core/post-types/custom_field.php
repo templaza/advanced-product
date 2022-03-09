@@ -32,6 +32,8 @@ if(!class_exists('Advanced_Product\Post_Type\Custom_Field')){
 
 //            add_filter( 'init', array( $this, 'options_custom_fields' ));
             add_action( 'admin_init', array($this, 'disable_autosave') );
+            add_action( 'save_post_'.$this -> get_post_type(), array($this, 'save_post'), 10,3 );
+//            add_action( 'pre_post_update'.$this -> get_post_type(), array($this, 'save_post'), 10,3 );
 //            add_action('admin_menu',array($this, 'admin_menu'));
 
 //            \add_action( 'init', array( $this, 'register_fields' ) );
@@ -45,6 +47,24 @@ if(!class_exists('Advanced_Product\Post_Type\Custom_Field')){
 
         public function disable_autosave() {
             wp_deregister_script( 'autosave' );
+        }
+
+        public function save_post($post_ID, $post, $update){
+            global $wpdb;
+
+            // Get acf field attribute
+            $acf_fields     = (!empty($_POST) && isset($_POST['fields']))?$_POST['fields']:array();
+            $key            = !empty($acf_fields)?array_key_first($acf_fields):'';
+            $acf_attribs    = !empty($acf_fields) && $key?$acf_fields[$key]:array();
+
+            if(!empty($acf_attribs)) {
+                $my_post = array(
+                    'post_name'     => $key,
+                    'post_content'  => serialize($acf_attribs),
+                    'post_excerpt'  => $acf_attribs['name']
+                );
+                $wpdb -> update($wpdb -> posts, $my_post, array('ID' => $post_ID));
+            }
         }
 
         public function register(){
@@ -262,14 +282,17 @@ if(!class_exists('Advanced_Product\Post_Type\Custom_Field')){
 //        }
 
 
-//        public function admin_enqueue_scripts(){
+        public function admin_enqueue_scripts($hook){
+            if($this -> get_post_type() == $this -> get_current_screen_post_type()) {
+                wp_enqueue_script('advanced-product_admin_sanitize-title-script');
+            }
 ////            wp_enqueue_script(array(
 ////                'acf-field-group',
 ////            ));
 ////            wp_enqueue_script($this -> get_post_type().'-acf-field-group', AP_Functions::get_my_url().'/includes/library/acf/js/field-group.js');
 ////            wp_enqueue_script($this -> get_post_type().'-acf-field-group',
 ////                AP_Functions::get_my_url().'/includes/library/acf/js/input.js',array('advanced-product_admin_scripts'));
-//        }
+        }
 
 
     }

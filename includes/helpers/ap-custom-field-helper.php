@@ -6,6 +6,8 @@ use Advanced_Product\AP_Functions;
 
 defined('ADVANCED_PRODUCT') or exit();
 
+require_once( wp_normalize_path(ABSPATH).'wp-load.php');
+
 class AP_Custom_Field_Helper extends BaseHelper {
 
     public static function get_fields_grouped_taxonomy($taxonomy = 'ap_group_field'){
@@ -241,19 +243,46 @@ class AP_Custom_Field_Helper extends BaseHelper {
         if(!empty($fields)){
             foreach ($fields as $field){
                 $acf_f = AP_Custom_Field_Helper::get_custom_field_option_by_id($field -> ID);
-                if($acf_f['type'] == 'taxonomy') {
-                    $terms = get_terms( array(
-                        'taxonomy' => $acf_f['taxonomy'],
-                        'hide_empty' => false,
-                    ) );
-                    if($terms && !empty($terms)){
-                        foreach($terms as $term) {
-                            $acf_f['choices'][$term -> term_id]  = $term -> name;
+                if($acf_f){
+                    if(isset($acf_f['type']) && $acf_f['type'] == 'taxonomy') {
+                        $terms = get_terms( array(
+                            'taxonomy' => $acf_f['taxonomy'],
+                            'hide_empty' => false,
+                        ) );
+                        if(!isset($acf_f['choices'])){
+                            $acf_f['choices']   = array();
+                        }else {
+                            $acf_f['choices'] = (array)$acf_f['choices'];
+                        }
+                        if($terms && !empty($terms) && !is_wp_error($terms)){
+                            foreach($terms as $term) {
+                                $acf_f['choices'][$term -> slug]  = $term -> name;
+                            }
                         }
                     }
-                }
-                if(isset($acf_f['choices']) || $acf_f['type'] == 'taxonomy'){
                     $custom_fields[]    = $acf_f;
+//                    var_dump($acf_f);
+//                    var_dump($field);
+//                    die(__FILE__);
+//                    if(isset($acf_f['type']) && $acf_f['type'] == 'taxonomy') {
+//                        $terms = get_terms( array(
+//                            'taxonomy' => $acf_f['taxonomy'],
+//                            'hide_empty' => false,
+//                        ) );
+//                        if($terms && !empty($terms)){
+//                            if(!isset($acf_f['choices'])){
+//                                $acf_f['choices']   = array();
+//                            }else {
+//                                $acf_f['choices'] = is_array($acf_f['choices']) ? $acf_f['choices'] : (array)$acf_f['choices'];
+//                            }
+//                            foreach($terms as $term) {
+//                                $acf_f['choices'][$term -> term_id]  = $term -> name;
+//                            }
+//                        }
+//                    }
+//                    if(isset($acf_f['choices']) || (isset($acf_f['type']) && $acf_f['type'] == 'taxonomy')){
+//                        $custom_fields[]    = $acf_f;
+//                    }
                 }
             }
         }
@@ -387,7 +416,7 @@ class AP_Custom_Field_Helper extends BaseHelper {
 
         return static::$cache[$store_id] = $fields;
     }
-    
+
     public static function get_protected_fields_registered(){
         return array(
             'ap_branch','ap_category',
@@ -398,7 +427,7 @@ class AP_Custom_Field_Helper extends BaseHelper {
             'ap_gallery','ap_video','ap_time_rental',
         );
     }
-    
+
     public static function get_meta_query_compares(){
         return array('=' => __('=', AP_Functions::get_my_text_domain()),
             '!=' => __('!=', AP_Functions::get_my_text_domain()),
@@ -419,4 +448,330 @@ class AP_Custom_Field_Helper extends BaseHelper {
             'RLIKE' => __('NOT REGEXP', AP_Functions::get_my_text_domain())
         );
     }
+
+    /**
+     * Get field key for field name.
+     * Will return first matched acf field key for a give field name.
+     *
+     * ACF somehow requires a field key, where a sane developer would prefer a human readable field name.
+     * http://www.advancedcustomfields.com/resources/update_field/#field_key-vs%20field_name
+     *
+     * This function will return the field_key of a certain field.
+     *
+     * @param $field_name String ACF Field name
+     * @param $post_id int The post id to check.
+     * @return
+     */
+    public static function acf_get_field_key( $field_name, $post_id = false ) {
+        global $wpdb;
+        $acf_fields = $wpdb->get_results( $wpdb->prepare( "SELECT ID,post_parent,post_name FROM $wpdb->posts WHERE post_excerpt=%s AND post_type=%s" , $field_name , 'ap_custom_field' ) );
+
+        // get all fields with that name.
+        switch ( count( $acf_fields ) ) {
+            case 0: // no such field
+                return false;
+            case 1: // just one result.
+                return $acf_fields[0]->post_name;
+        }
+        // result is ambiguous
+        // get IDs of all field groups for this post
+        $field_groups_ids = array();
+        $field_groups = acf_get_field_groups( array(
+            'post_id' => $post_id,
+        ) );
+        foreach ( $field_groups as $field_group )
+            $field_groups_ids[] = $field_group['ID'];
+
+        // Check if field is part of one of the field groups
+        // Return the first one.
+        foreach ( $acf_fields as $acf_field ) {
+            if ( in_array($acf_field->post_parent,$field_groups_ids) )
+                return $acf_field->post_name;
+        }
+        return false;
+    }
+
+    /**
+     * Get field for field name.
+     * Will return first matched acf field key for a give field name.
+     *
+     * ACF somehow requires a field key, where a sane developer would prefer a human readable field name.
+     * http://www.advancedcustomfields.com/resources/update_field/#field_key-vs%20field_name
+     *
+     * This function will return the field_key of a certain field.
+     *
+     * @param $field_name String ACF Field name
+     * @param $post_id int The post id to check.
+     * @return
+     */
+    public static function get_custom_field( $field_name) {
+        global $wpdb;
+
+        $store_id   = static::_get_store_id(__METHOD__, $field_name);
+
+        if(isset(static::$cache[$store_id])){
+            return static::$cache[$store_id];
+        }
+
+        $acf_fields = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wpdb->posts WHERE post_excerpt=%s AND post_type=%s" , $field_name , 'ap_custom_field' ) );
+
+
+        // get all fields with that name.
+        switch ( count( $acf_fields ) ) {
+            case 0: // no such field
+                return false;
+            case 1: // just one result.
+                return static::$cache[$store_id] = $acf_fields[0];
+        }
+        return false;
+    }
+
+
+    /**
+     * Get custom fields in post type ap_custom_field
+     * @param string|array $tax_slug Slugs of taxonomy.
+     * @param array $options An optional config of custom fields.
+     * @param array $exclude An optional exclude of custom fields.
+     * */
+    public static function get_fields_by_group_field_slug($tax_slug, $options = array()){
+        $store_id   = static::_get_store_id(__METHOD__, $tax_slug, $options);
+
+        if(empty($tax_slug)){
+            return false;
+        }
+
+        if(isset(static::$cache[$store_id])){
+            return static::$cache[$store_id];
+        }
+
+        $fields = static::get_fields_by_group_fields($tax_slug, 'posts', array(
+            'tax_query' => array(
+                0 => array(
+                    'field' => 'slug'
+                )
+            )
+        ));
+
+//        var_dump($tax_slug);
+//        var_dump($fields);
+//        die(__FILE__);
+
+
+//        global $wpdb;
+//        $sql    = 'SELECT wp.*, wt.name AS term_name, wt.slug AS term_slug FROM '.$wpdb -> posts.' AS wp';
+//        $sql   .= ' LEFT JOIN '.$wpdb -> term_relationships.' wtr ON (wp.ID = wtr.object_id OR wtr.object_id IS NULL)';
+//        $sql   .= ' LEFT JOIN '.$wpdb -> term_taxonomy.' wtt ON (wtr.term_taxonomy_id = wtt.term_taxonomy_id AND wtt.taxonomy="ap_group_field")';
+//        $sql   .= ' LEFT JOIN '.$wpdb -> terms.' wt ON (wt.term_id = wtt.term_id)';
+//        $sql   .= ' WHERE post_type="ap_custom_field"';
+//        $sql   .= ' AND wp.post_status="publish"';
+//
+//        if(is_array($tax_slug)) {
+//            $sql   .= ' AND wt.slug IN("'.implode('","', $tax_slug).'")';
+//        }else{
+//            $sql   .= ' AND wt.slug = "'.$tax_slug.'"';
+//        }
+//
+//        $sql   .= ' GROUP BY wp.id';
+//        $sql   .= ' ORDER BY wt.term_id ASC, wp.id DESC';
+//
+//        $fields = $wpdb -> get_results($sql);
+
+        if(!$fields){
+            return false;
+        }
+
+        return static::$cache[$store_id] = $fields;
+    }
+
+    /**
+     * Get all fields without group field terms
+     * @param  array $options An options of get field query.
+     * @return  fields of ap_custom_field post type
+     * */
+    public static function get_fields_without_group_field($options = array()){
+        $post_type  = 'ap_custom_field';
+        $taxonomy   = 'ap_group_field';
+        $terms      =  \get_terms( ['taxonomy' => $taxonomy, 'fields' => 'ids'  ] );
+
+        if(empty($terms) || \is_wp_error($terms)){
+            return false;
+        }
+
+        $args = [
+            'post_type' => $post_type,
+            'tax_query' => [
+                [
+                    'taxonomy' => $taxonomy,
+                    'terms'    => $terms,
+                    'operator' => 'NOT IN'
+                ]
+            ],
+        ];
+
+        $args   = !empty($options)?array_merge($args, $options):$args;
+
+        $store_id   = static::_get_store_id(__METHOD__, $args, $options);
+
+        if(isset(static::$cache[$store_id])){
+            return static::$cache[$store_id];
+        }
+
+        $query = new \WP_Query( $args );
+
+        if(empty($query) || \is_wp_error($query)){
+            return false;
+        }
+
+        wp_reset_query();
+
+        return static::$cache[$store_id] = $query -> get_posts();
+
+    }
+
+    /**
+     * Get acf fields with empty group field taxonomy
+     * */
+    public static function get_acf_fields_without_group_field($options = array()){
+        $cfields    = static::get_fields_without_group_field($options);
+        $store_id   = static::_get_store_id(__METHOD__, $cfields, $options);
+
+        if(isset(static::$cache[$store_id])){
+            return static::$cache[$store_id];
+        }
+
+        if(!$cfields || empty($cfields)){
+            return false;
+        }
+
+        $fields = array();
+        foreach($cfields as $cfield){
+            if($acf_field = AP_Custom_Field_Helper::get_custom_field_option_by_id($cfield -> ID)){
+                $fields[]   = $acf_field;
+            }
+        }
+
+        if(empty($fields)){
+            return false;
+        }
+
+        return static::$cache[$store_id] = $fields;
+    }
+
+    /**
+     * Get all fields by branch of post
+     * @param int|WP_Post|null $post   Optional. Post ID or post object. `null`, `false`, `0` and other PHP falsey
+     *                                 values return the current global post inside the loop. A numerically valid post
+     *                                 ID that points to a non-existent post returns `null`. Defaults to global $post.
+     * */
+    public static function get_group_fields_by_post($post = null){
+        $store_id   = static::_get_store_id(__METHOD__, $post);
+        if(isset(static::$cache[$store_id])){
+            return static::$cache[$store_id];
+        }
+
+        $post_id    = get_the_ID();
+        if(is_numeric($post)){
+            $post_id    = $post;
+        }elseif(is_object($post)){
+            $post_id    = $post -> ID;
+        }
+
+        if(!$post_id){
+            return false;
+        }
+
+        // Get all branches by post
+        $branches = wp_get_post_terms($post_id, 'ap_branch');
+
+        if(empty($branches) || is_wp_error($branches)){
+            return false;
+        }
+
+        $groups = array();
+        foreach ($branches as $branch) {
+            $_groups    = get_option($branch -> taxonomy.'_'.$branch -> term_id.'_group_field_assigned');
+
+            if(!empty($_groups)) {
+                $terms  = get_terms(array(
+                    'taxonomy' => 'ap_group_field',
+                    'include' => $_groups
+                ));
+                if(!empty($terms) && !is_wp_error($terms)) {
+                    $groups = empty($groups)?$terms:array_replace_recursive($groups, $terms);
+                }
+            }
+        }
+
+        if(empty($groups)){
+            return false;
+        }
+
+        return static::$cache[$store_id]    = $groups;
+    }
+
+    /**
+     * Get all fields of terms
+     * @param int/string/array $terms Taxonomy term(s)
+     * @param string $return An option to function return is WP_Query object or posts array.
+     *                       value is: 'posts' or 'query'
+     * @return WP_Query|array
+     * */
+    public static function get_fields_by_group_fields($groups, $return = 'posts', $options = array()){
+        $store_id   = static::_get_store_id(__METHOD__, $groups, $options);
+
+        if(isset(static::$cache[$store_id])){
+            return static::$cache[$store_id];
+        }
+
+        $tax_query  = array(
+            0 => array(
+                'taxonomy'  => 'ap_group_field',
+            )
+        );
+        if(is_array($groups)){
+            $tax_query[0]['terms'] = $groups;
+        }elseif(is_object($groups)){
+            $tax_query[0]['terms'] = array($groups -> term_id);
+        }else{
+            $tax_query[0]['terms'] = array($groups);
+        }
+        // Get custom fields by terms
+        $post_args  = array(
+            'post_type'     => 'ap_custom_field',
+            'post_status'   => 'publish',
+            'posts_per_page '   => -1,
+            'tax_query'     => $tax_query
+//            'tax_query'     => array(
+//                array(
+//                    'taxonomy'  => 'ap_group_field',
+//                    'field' => 'term_id',
+//                    'terms' => array($terms -> term_id)
+//                )
+//            )
+        );
+
+        if($return == 'query'){
+            $post_args['posts_per_page']    = 10;
+        }
+
+        if(!empty($options)){
+            $post_args  = array_replace_recursive($post_args, $options);
+        }
+
+//        var_dump($post_args);
+
+        $cfields    = new \WP_Query($post_args);
+
+        wp_reset_query();
+        if(empty($cfields) || is_wp_error($cfields)){
+            return false;
+        }
+
+        if($return == 'query'){
+            return static::$cache[$store_id] = $cfields;
+        }else {
+            return static::$cache[$store_id] = $cfields -> get_posts();
+        }
+    }
+
 }

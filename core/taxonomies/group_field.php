@@ -8,7 +8,7 @@ defined('ADVANCED_PRODUCT') or exit();
 
 class Group_Field extends Taxonomy {
 
-    protected $allow_custom_options = false;
+//    protected $allow_custom_options = false;
 
     public function hooks()
     {
@@ -16,6 +16,10 @@ class Group_Field extends Taxonomy {
 
         add_action( 'admin_menu', array( $this, 'admin_menu' ) );
         add_action( 'parent_file', array($this,'menu_highlight' ));
+//        add_action( 'edited_'.$this ->get_taxonomy_name(), array($this,'edited_taxonomy'), 10, 2 );
+        add_action( 'saved_'.$this ->get_taxonomy_name(), array($this,'saved_taxonomy'), 10, 2 );
+//        add_filter( 'acf/update_field/type=taxonomy', array($this,'update_field_value' ),20,2);
+//        add_filter( 'acf/load_value/type=taxonomy', array($this,'load_field_value' ),20,3);
     }
 
     public function register(){
@@ -67,5 +71,167 @@ class Group_Field extends Taxonomy {
         }
 
         return $parent_file;
+    }
+
+    public function __get_core_fields(){
+        $fields = array(
+            array(
+                'key'       => 'field_'.md5($this -> get_taxonomy_name().'__branch'),
+                'label'     => __('Branches Assignment', $this->text_domain),
+                'name'      => 'branch_assigned',
+                'type'      => 'taxonomy',
+                'taxonomy'  => 'ap_branch',
+                'load_save_terms'  => false,
+                'group' => $this -> __get_core_field_group_id()
+            )
+        );
+
+        return apply_filters('advanced-product/'.$this -> get_taxonomy_name().'/fields/create', $fields);
+    }
+
+    public function manage_edit_columns($columns){
+        $pos            = array_search('name', array_keys($columns)) + 1;
+        $new_columns    = array('branch_assigned' => __('Branch Assigned', $this -> text_domain));
+
+        return array_merge(
+            array_slice($columns, 0, $pos),
+            $new_columns,
+            array_slice($columns, $pos)
+        );
+
+    }
+
+    public function manage_custom_column($content, $column, $term_id ){
+        if($column == 'branch_assigned'){
+            $fval   = get_field( $column, $this -> get_taxonomy_name().'_'.$term_id );
+
+            if(!empty($fval) && count($fval)){
+                foreach($fval as $i => $slug){
+                    $term   = get_term_by('slug', $slug, 'ap_branch');
+                    if(!is_wp_error($term) && !empty($term)){
+                        $content    .= '<a href="term.php?taxonomy=ap_branch&post_type=ap_product&tag_ID='
+                            .$term -> term_id.'">'.$term -> name.'</a>';
+                        if($i < count($fval) - 1){
+                            $content    .= ', ';
+                        }
+                    }
+                }
+            }
+        }
+        return $content;
+    }
+
+    public function saved_taxonomy($term_id, $tt_id ){
+        $term = get_term( $term_id );
+        $tax_slug = $term->slug;
+        $branch_assigned    = \get_field('branch_assigned', $this -> get_taxonomy_name().'_'.$term_id);
+
+        $branch_taxs    = \get_terms(array(
+            'taxonomy'      => 'ap_branch',
+            'hide_empty'    => false,
+        ));
+
+
+        if(!is_wp_error($branch_taxs) && !empty($branch_taxs)){
+            $field_key  = 'field_'.md5('ap_branch__group_field');
+            foreach($branch_taxs as $branch){
+                $group_assigned = \get_field('group_field_assigned', 'ap_branch_' . $branch->term_id);
+
+                $group_assigned = $group_assigned?$group_assigned:array();
+                if(is_array($branch_assigned) && in_array($branch -> slug, $branch_assigned)){
+                    if(!$group_assigned || (!empty($group_assigned) && !in_array($tax_slug, $group_assigned))){
+                        $group_assigned[]   = $tax_slug;
+                        if(!empty($group_assigned)){
+                            // Update group_field_assigned (field created from branch taxonomy)
+                            update_field($field_key, $group_assigned, 'ap_branch_' .$branch -> term_id);
+                        }
+                    }
+                }else{
+                    if($group_assigned && !empty($group_assigned)){
+                        if(in_array($tax_slug, $group_assigned)) {
+                            $group_assigned = array_diff($group_assigned, array($tax_slug));
+                        }else{
+                            $group_assigned[]   = $tax_slug;
+                        }
+                        // Update group_field_assigned (field created from branch taxonomy)
+                        update_field($field_key, $group_assigned, 'ap_branch_' .$branch -> term_id);
+                    }
+                }
+            }
+        }
+    }
+
+    public function edited_taxonomy($term_id, $tt_id ){
+        $term = get_term( $term_id );
+        $tax_slug = $term->slug;
+        $branch_assigned    = \get_field('branch_assigned', $this -> get_taxonomy_name().'_'.$term_id);
+
+        $branch_taxs    = \get_terms(array(
+            'taxonomy'      => 'ap_branch',
+            'hide_empty'    => false,
+        ));
+
+        if(!is_wp_error($branch_taxs) && !empty($branch_taxs)){
+            $field_key  = 'field_'.md5('ap_branch__group_field');
+            foreach($branch_taxs as $branch){
+                $group_assigned = \get_field('group_field_assigned', 'ap_branch_' . $branch->term_id);
+                $group_assigned = $group_assigned?$group_assigned:array();
+                if(in_array($branch -> slug, $branch_assigned)){
+                    if(!$group_assigned || (!empty($group_assigned) && !in_array($tax_slug, $group_assigned))){
+                        $group_assigned[]   = $tax_slug;
+                        if(!empty($group_assigned)){
+                            // Update group_field_assigned (field created from branch taxonomy)
+                            update_field($field_key, $group_assigned, 'ap_branch_' .$branch -> term_id);
+                        }
+                    }
+                }else{
+                    if($group_assigned && !empty($group_assigned) && in_array($tax_slug, $group_assigned)){
+                        $group_assigned = array_diff($group_assigned, array($tax_slug));
+                        // Update group_field_assigned (field created from branch taxonomy)
+                        update_field($field_key, $group_assigned, 'ap_branch_' .$branch -> term_id);
+                    }
+                }
+            }
+        }
+    }
+
+
+    public function load_field_value($value, $post_id, $field ){
+//        $url            =   'https://api.envato.com/token';
+//        $data = array(
+//            'headers' => array(
+//                'Content-Type' => 'application/x-www-form-urlencoded'
+//            ),
+//            'grant_type'    => 'authorization_code',
+//            'code'          => '637fda89-68f6-4bdd-9b60-0e5f81410005',
+//            'client_id'     => 'templaza-products-14xevtva',
+//            'client_secret' => 'RXBkJVpF2xKqM1IuRe4CDAVyVxblyUdV'
+//        );
+
+
+//        $str_post = "grant_type=authorization_code"
+//            /*. "&code=4c42523d-f42f-4b58-87e7-c7edf153a76a"*/
+//            . "&code=7ad3cbf1-935e-40b4-8bfd-2332edaaf938"
+//            . "&client_id=templaza-products-14xevtva"
+//            . "&client_secret=RXBkJVpF2xKqM1IuRe4CDAVyVxblyUdV"
+//            /*. "&client_secret=RXBkJVpF2xKqM1IuRe4CDAVyVxblyUdV"*/; //Leave this one be
+//        $data = array(
+//            'headers' => array(
+//                'Content-Type' => 'application/x-www-form-urlencoded'
+//            ),
+//            'body' => $str_post
+//        );
+//
+////        var_dump($str_post); die(__FILE__);
+//        var_dump(wp_remote_post($url, $data)); die(__FILE__);
+//        var_dump($value);
+//        var_dump($post_id);
+//        var_dump($field);
+//        var_dump(__FILE__);
+//        die(__FILE__);
+
+        $value  = array('beetle');
+
+        return $value;
     }
 }

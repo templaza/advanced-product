@@ -144,17 +144,16 @@ if(!class_exists('Advanced_Product\ACF_Taxonomy_Walker')) {
                 // Get custom categories (custom post) by slug
                 global $wpdb;
                 $post_id_of = $wpdb->get_var( 'select post_id from '.$wpdb->postmeta.' where'
-                    .' meta_key="slug" AND meta_value = "'.$field['_name'].'"' );
+                    .' meta_key="slug" AND meta_value = "'.$field['taxonomy'].'"' );
 
-                $associate_from = get_field('associate_to', $post_id_of);
+                $associate_from = \get_field('associate_to', $post_id_of);
 
             }
 
 
             if(!empty($associate_from)){
 //                $f_associate    = get_field($associate_to, $field['_name'].'_'.$term -> term_id.'_'.$associate_to);
-                $associate  = get_field($associate_from, $field['_name'].'_'.$term -> term_id);
-//                $associate  = get_option( $field['_name'].'_'.$term -> term_id.'_'.$associate_to);
+                $associate  = \get_field($associate_from, $field['taxonomy'].'_'.$term -> term_id);
                 if(is_array($associate) && count($associate)){
                     $associate  = implode(' ', $associate);
                 }
@@ -172,11 +171,16 @@ if(!class_exists('Advanced_Product\ACF_Taxonomy_Walker')) {
 
             if( $this->field['field_type'] == 'checkbox' )
             {
-                $output .= '<li><label class="selectit"><input type="checkbox" name="' . $this->field['name'] . '" value="' . $term->term_id . '" ' . ($selected ? 'checked="checked"' : '') . ' /> ' . $term->name . '</label>';
+                $output .= '<li><label class="selectit"><input type="checkbox" name="' . $this->field['name']
+                    . '" value="' . $term->slug . '" ' . ($selected ? 'checked="checked"' : '')
+                    .(is_admin()?implode(' ', $attribs):'') . ' /> ' . $term->name . '</label>';
             }
             elseif( $this->field['field_type'] == 'radio' )
             {
-                $output .= '<li><label class="selectit"><input type="radio" name="' . $this->field['name'] . '" value="' . $term->term_id . '" ' . ($selected ? 'checked="checkbox"' : '') . ' /> ' . $term->name . '</label>';
+                $output .= '<li><label class="selectit"><input type="radio" name="' . $this->field['name']
+                    . '" value="' . $term->slug . '" ' . ($selected ? 'checked="checkbox"' : '')
+                    .(is_admin()?implode(' ', $attribs):'') . ' /> '
+                    . $term->name . '</label>';
             }
             elseif( $this->field['field_type'] == 'select' )
             {

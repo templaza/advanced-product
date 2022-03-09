@@ -100,9 +100,11 @@ class Category extends Taxonomy {
                     }else {
                         $term = get_term_by('slug', $branch, 'ap_branch');
                     }
-                    $content    .= '<a href="'.get_edit_term_link($term -> term_id, $term -> taxonomy).'">'.$term -> name.'</a>';
-                    if($i < count($branches) - 1) {
-                        $content .= '<span>, </span>';
+                    if(!empty($term) && !is_wp_error($term)){
+                        $content    .= '<a href="'.get_edit_term_link($term -> term_id, $term -> taxonomy).'">'.$term -> name.'</a>';
+                        if($i < count($branches) - 1) {
+                            $content .= '<span>, </span>';
+                        }
                     }
                 }
             }

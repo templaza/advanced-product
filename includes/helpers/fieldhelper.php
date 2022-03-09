@@ -91,48 +91,6 @@ class FieldHelper extends BaseHelper {
         return apply_filters( 'advanced-product/fields', $filtered );
     }
 
-//    /* Get fields of a group */
-//    public static function get_fields_by_group($group_id, $groups = array()){
-//
-//        $store_id   = static::_get_store_id(__METHOD__, func_get_args());
-//
-//        if(isset(static::$cache[$store_id])){
-//            return static::$cache[$store_id];
-//        }
-//
-//        if(empty($groups) || !count($groups) || !isset($groups['id']) || !isset($groups['fields'])
-//            || ($groups['id'] != $group_id)){
-//            return array();
-//        }
-//
-//        static::$cache[$store_id]   = $groups['fields'];
-//
-//        return $groups['fields'];
-//
-//    }
-
-
-//    /* Get a field of a group */
-//    public static function get_field_of_group_by_name($field_name, $group_id, $groups = array()){
-//
-//        $store_id   = static::_get_store_id(__METHOD__, func_get_args());
-//
-//        if(isset(static::$cache[$store_id])){
-//            return static::$cache[$store_id];
-//        }
-//
-//        if(empty($field_name) || empty($group_id) || empty($groups) || !count($groups)){
-//            return false;
-//        }
-//
-//
-//
-//        static::$cache[$store_id]   = $groups['fields'];
-//
-//        return $groups['fields'];
-//
-//    }
-
     public static function get_core_fields(){
         $store_id   = static::_get_store_id(__METHOD__);
 
@@ -434,6 +392,83 @@ class FieldHelper extends BaseHelper {
             return '';
         }
     }
+
+//    /**
+//     * Get all fields without group field terms
+//     * @param  array $options An options of get field query.
+//     * @return  fields of ap_custom_field post type
+//     * */
+//    public static function get_fields_without_terms($options = array()){
+//        $post_type  = 'ap_custom_field';
+//        $taxonomy   = 'ap_group_field';
+//        $terms      =  \get_terms( ['taxonomy' => $taxonomy, 'fields' => 'ids'  ] );
+//
+//        if(empty($terms) || \is_wp_error($terms)){
+//            return false;
+//        }
+//
+//        $args = [
+//            'post_type' => $post_type,
+//            'tax_query' => [
+//                [
+//                    'taxonomy' => $taxonomy,
+//                    'terms'    => $terms,
+//                    'operator' => 'NOT IN'
+//                ]
+//            ],
+//            'orderby'   => array(
+//                '__protected' => 'DESC'
+//            )
+//        ];
+//
+//        $args   = !empty($options)?array_merge($args, $options):$args;
+//
+//        $store_id   = static::_get_store_id(__METHOD__, $args, $options);
+//
+//        if(isset(static::$cache[$store_id])){
+//            return static::$cache[$store_id];
+//        }
+//
+//        $query = new \WP_Query( $args );
+//
+//        if(empty($query) || \is_wp_error($query)){
+//            return false;
+//        }
+//
+//        wp_reset_query();
+//
+//        return static::$cache[$store_id] = $query -> get_posts();
+//
+//    }
+//
+//    /**
+//     * Get acf fields with empty group field taxonomy
+//     * */
+//    public static function get_acf_fields_without_terms($options = array()){
+//        $cfields    = static::get_fields_without_terms($options);
+//        $store_id   = static::_get_store_id(__METHOD__, $cfields, $options);
+//
+//        if(isset(static::$cache[$store_id])){
+//            return static::$cache[$store_id];
+//        }
+//
+//        if(!$cfields || empty($cfields)){
+//            return false;
+//        }
+//
+//        $fields = array();
+//        foreach($cfields as $cfield){
+//            if($acf_field = AP_Custom_Field_Helper::get_custom_field_option_by_id($cfield -> ID)){
+//                $fields[]   = $acf_field;
+//            }
+//        }
+//
+//        if(empty($fields)){
+//            return false;
+//        }
+//
+//        return static::$cache[$store_id] = $fields;
+//    }
 
 //    protected static function _get_store_id($args = array()){
 //        $store_id   = serialize(func_get_args());
