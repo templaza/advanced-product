@@ -22,69 +22,44 @@ class AP_Custom_Field_Helper extends BaseHelper {
     /**
      * Get custom fields in post type ap_custom_field
      * @param array $exclude An optional exclude of custom fields.
+     * @param string $return An option to function return is WP_Query object or posts array.
+     *                       value is: 'posts' or 'query'
      * */
-    public static function get_custom_fields($exclude = array()){
-//        $args = array(
-////            'order'       => 'ASC',
-////            'orderby'     => 'ID',
-////            'orderby' => 'taxonomy, ID', // Just enter 2 parameters here, seprated by comma
-////            'orderby' => 'taxonomy, name', // Just enter 2 parameters here, seprated by comma
-////            'order'=>'ASC',
-////            'orderby'  => array( 'taxonomy' => 'DESC', 'ID' => 'ASC' ),
-//            'orderby'  => array( 'taxonomy' => 'DESC', 'ID' => 'ASC' ),
-//            'post_status' => 'publish',
-//            'post_type'   => 'ap_custom_field',
-//            'numberposts' => -1,
-//
-////            'meta_key'    => 'slug',
-////            'meta_value'  =>  $this -> get_taxonomy_name(),
-//        );
+    public static function get_custom_fields($args = array(), $return = 'posts'){
 
-//        $store_id   = static::_get_store_id(__METHOD__, $exclude, $args);
-        $store_id   = static::_get_store_id(__METHOD__, $exclude);
+        // Get custom fields by terms
+        $post_args  = array(
+            'post_type'     => 'ap_custom_field',
+            'post_status'   => 'publish',
+            'posts_per_page'   => -1,
+        );
+
+        if($return == 'query'){
+            $post_args['posts_per_page']    = 10;
+        }
+
+        if(!empty($args)){
+            $post_args  = array_replace_recursive($post_args, $args);
+        }
+
+        $store_id   = static::_get_store_id(__METHOD__, $post_args);
 
         if(isset(static::$cache[$store_id])){
             return static::$cache[$store_id];
         }
 
-//        $fields = get_posts($args);
+        $cfields = new \WP_Query($post_args);
 
-        global $wpdb;
-        $sql    = 'SELECT wp.*, wt.name AS term_name, wt.slug AS term_slug FROM '.$wpdb -> posts.' AS wp';
-        $sql   .= ' LEFT JOIN '.$wpdb -> term_relationships.' wtr ON (wp.ID = wtr.object_id OR wtr.object_id IS NULL)';
-        $sql   .= ' LEFT JOIN '.$wpdb -> term_taxonomy.' wtt ON (wtr.term_taxonomy_id = wtt.term_taxonomy_id AND wtt.taxonomy="ap_group_field")';
-        $sql   .= ' LEFT JOIN '.$wpdb -> terms.' wt ON (wt.term_id = wtt.term_id)';
-        $sql   .= ' WHERE post_type="ap_custom_field"';
-        $sql   .= ' AND wp.post_status="publish"';
-//        $sql   .= ' AND wtt.taxonomy="ap_group_field"';
-        $sql   .= ' GROUP BY wp.id';
-        $sql   .= ' ORDER BY wt.term_id ASC, wp.id DESC';
-
-        $fields = $wpdb -> get_results($sql);
-//        \wp_reset_query();
-//        $fields = new \WP_Query($sql);
-//        $fields = new \WP_Query($args);
-
-//        var_dump($fields -> get_posts());
-//        var_dump($fields);
-//        var_dump($wpdb -> get_results($sql));
-//        die(__FILE__);
-//        wp_reset_query();
-
-        if(!$fields){
+        wp_reset_query();
+        if(empty($cfields) || is_wp_error($cfields)){
             return false;
         }
 
-        if(!empty($exclude)){
-            foreach($fields as $i => $field){
-                $acf_f = AP_Custom_Field_Helper::get_custom_field_option_by_id($field -> ID);
-                if(isset($acf_f['name']) && in_array($acf_f['name'], $exclude)){
-                    unset($fields[$i]);
-                }
-            }
+        if($return == 'query'){
+            return static::$cache[$store_id] = $cfields;
         }
 
-        return static::$cache[$store_id] = $fields;
+        return static::$cache[$store_id] = $cfields -> get_posts();
     }
 
     /**
@@ -190,7 +165,14 @@ class AP_Custom_Field_Helper extends BaseHelper {
             return array();
         }
 
-        return static::$cache[$store_id]    = $fields[0];
+        $field          = $fields[0];
+        $exclude_fields = static::get_exclude_fields_registered();
+
+        if(!empty($exclude_fields) && in_array($field['name'], $exclude_fields)){
+            return array();
+        }
+
+        return static::$cache[$store_id]    = $field;
     }
 
     public static function get_custom_fields_without_protected_field(){
@@ -327,104 +309,136 @@ class AP_Custom_Field_Helper extends BaseHelper {
     /**
      * Get custom fields in post type ap_custom_field
      * @param array $flag_name An optional exclude of custom fields.
+     * @param int|WP_Post|null $product   Optional. Post ID or post object. `null`, `false`, `0` and other PHP falsey
+     *                                 values return the current global post inside the loop. A numerically valid post
+     *                                 ID that points to a non-existent post returns `null`. Defaults to global $post.
+     * @param array $args An optional of custom fields's query options.
      * */
-    public static function get_fields_by_display_flag($flag_name){
-        $args = array(
-//            'order'       => 'ASC',
-//            'orderby'     => 'ID',
-            'orderby' => 'taxonomy, ID', // Just enter 2 parameters here, seprated by comma
-            'order'=>'ASC',
-//            'orderby'  => array( 'taxonomy' => 'DESC', 'ID' => 'ASC' ),
-            'post_status' => 'publish',
-            'post_type'   => 'ap_custom_field',
-            'numberposts' => -1,
+    public static function get_fields_by_display_flag($flag_name, $product = null, $args = array()){
+
+        $product_id    = \get_the_ID();
+        if(is_numeric($product)){
+            $product_id    = $product;
+        }elseif(is_object($product)){
+            $product_id    = $product -> ID;
+        }
+
+        $field_args  = array(
             'meta_key'    => $flag_name,
             'meta_value'  => '1',
         );
 
-        $store_id   = static::_get_store_id(__METHOD__, $flag_name, $args);
+        $store_id   = static::_get_store_id(__METHOD__, $flag_name, $field_args, $product_id);
 
         if(isset(static::$cache[$store_id])){
             return static::$cache[$store_id];
         }
 
-        $fields = get_posts($args);
+
+        if($product_id){
+
+            // Get all terms
+            $taxonomy   = 'ap_group_field';
+            $terms      =  \get_terms( ['taxonomy' => $taxonomy, 'fields' => 'ids'  ] );
+
+            // Get all group fields by product id
+            $groups = static::get_group_fields_by_product($product_id, array(
+                'fields'    => 'ids',
+            ));
+
+            // Filter by group fields
+            $field_args['tax_query']    = array(
+                'relation'  => 'OR',
+                array(
+                    'taxonomy'  => 'ap_group_field',
+                    'terms'     => $terms,
+                    'operator' => 'NOT IN'
+//                    'terms'     => \wp_list_pluck($groups, 'term_id')
+                ),
+                array(
+                    'taxonomy'  => 'ap_group_field',
+                    'terms'     => $groups
+                )
+            );
+        }
+
+        $fields = static::get_custom_fields($field_args);
 
         if(!$fields){
             return false;
         }
-
-//        if(!empty($exclude)){
-//            foreach($fields as $i => $field){
-//                $acf_f = AP_Custom_Field_Helper::get_custom_field_option_by_id($field -> ID);
-//                if(isset($acf_f['name']) && in_array($acf_f['name'], $exclude)){
-//                    unset($fields[$i]);
-//                }
-//            }
-//        }
 
         return static::$cache[$store_id] = $fields;
     }
 
     /**
      * Get custom fields in post type ap_custom_field
-     * @param array $flag_name An optional exclude of custom fields.
+     * @param array $flag_name An optional flag of custom fields.
+     * @param array $exclude An optional exclude of custom fields.
      * */
-    public static function get_acf_fields_by_display_flag($flag_name){
-        $args = array(
-//            'order'       => 'ASC',
-//            'orderby'     => 'ID',
-            'orderby' => 'taxonomy, ID', // Just enter 2 parameters here, seprated by comma
-            'order'=>'ASC',
-//            'orderby'  => array( 'taxonomy' => 'DESC', 'ID' => 'ASC' ),
-            'post_status' => 'publish',
-            'post_type'   => 'ap_custom_field',
-            'numberposts' => -1,
-            'meta_key'    => $flag_name,
-            'meta_value'  => '1',
-        );
+    public static function get_acf_fields_by_display_flag($flag_name, $exclude = array()){
+//        $args = array(
+////            'orderby' => 'taxonomy, ID', // Just enter 2 parameters here, seprated by comma
+////            'order'=>'ASC',
+//            'post_status' => 'publish',
+//            'post_type'   => 'ap_custom_field',
+//            'numberposts' => -1,
+//            'meta_key'    => $flag_name,
+//            'meta_value'  => '1',
+//        );
 
-        $store_id   = static::_get_store_id(__METHOD__, $flag_name, $args);
+        $store_id   = static::_get_store_id(__METHOD__, $flag_name, $exclude);
 
         if(isset(static::$cache[$store_id])){
             return static::$cache[$store_id];
         }
 
-        $post_fields = get_posts($args);
+//        $post_fields = get_posts($args);
+        $post_fields = static::get_fields_by_display_flag($flag_name);
 
         if(!$post_fields){
             return false;
         }
 
         $fields = array();
-//        if(!empty($include) && is_string($include) && !$include_is_number){
-//            $include    = explode(',', $include);
-//        }
         foreach($post_fields as $i => $field){
             $acf_f = AP_Custom_Field_Helper::get_custom_field_option_by_id($field -> ID);
             if($acf_f && !empty($acf_f)){
-//                if(!empty($include) && !$include_is_number && is_array($include) && !in_array($acf_f['_name'], $include)){
-//                    continue;
-//                }
-//                if(!empty($exclude) && isset($acf_f['name']) && in_array($acf_f['name'], $exclude)){
-//                    continue;
-//                }
+                if(!empty($exclude) && isset($acf_f['name']) && in_array($acf_f['name'], $exclude)){
+                    continue;
+                }
 
                 $fields[]   = $acf_f;
             }
+        }
+
+        if(empty($fields)){
+            return false;
         }
 
         return static::$cache[$store_id] = $fields;
     }
 
     public static function get_protected_fields_registered(){
-        return array(
+        $protected_fields   = array(
             'ap_branch','ap_category',
             'ap_price',
             /*'ap_price_msrp',
             'ap_price_rental',*/
             'ap_product_status',
-            'ap_gallery','ap_video','ap_time_rental',
+            'ap_time_rental',
+        );
+
+        return array_merge($protected_fields, static::get_protected_fields_media_registered());
+    }
+    public static function get_protected_fields_media_registered(){
+        return array(
+            'ap_gallery','ap_video'
+        );
+    }
+    public static function get_exclude_fields_registered(){
+        return array(
+            'ap_price', 'ap_price_msrp', 'ap_gallery','ap_video'
         );
     }
 
@@ -659,43 +673,54 @@ class AP_Custom_Field_Helper extends BaseHelper {
 
     /**
      * Get all fields by branch of post
-     * @param int|WP_Post|null $post   Optional. Post ID or post object. `null`, `false`, `0` and other PHP falsey
+     * @param int|WP_Post|null $product   Optional. Post ID or post object. `null`, `false`, `0` and other PHP falsey
      *                                 values return the current global post inside the loop. A numerically valid post
      *                                 ID that points to a non-existent post returns `null`. Defaults to global $post.
+     * @param array $args An optional of group fields's query options.
      * */
-    public static function get_group_fields_by_post($post = null){
-        $store_id   = static::_get_store_id(__METHOD__, $post);
+    public static function get_group_fields_by_product($product = null, $args = array()){
+        $store_id   = static::_get_store_id(__METHOD__, $product);
         if(isset(static::$cache[$store_id])){
             return static::$cache[$store_id];
         }
 
-        $post_id    = get_the_ID();
-        if(is_numeric($post)){
-            $post_id    = $post;
-        }elseif(is_object($post)){
-            $post_id    = $post -> ID;
+        $product_id    = get_the_ID();
+        if(is_numeric($product)){
+            $product_id    = $product;
+        }elseif(is_object($product)){
+            $product_id    = $product -> ID;
         }
 
-        if(!$post_id){
+        if(!$product_id){
             return false;
         }
 
         // Get all branches by post
-        $branches = wp_get_post_terms($post_id, 'ap_branch');
+        $branches = wp_get_post_terms($product_id, 'ap_branch');
 
         if(empty($branches) || is_wp_error($branches)){
             return false;
         }
 
         $groups = array();
+
+//        // Get all terms
+//        $taxonomy   = 'ap_group_field';
+//        $terms      =  \get_terms( ['taxonomy' => $taxonomy, 'fields' => 'ids'  ] );
+
         foreach ($branches as $branch) {
             $_groups    = get_option($branch -> taxonomy.'_'.$branch -> term_id.'_group_field_assigned');
 
             if(!empty($_groups)) {
-                $terms  = get_terms(array(
+                $group_args = array(
                     'taxonomy' => 'ap_group_field',
                     'include' => $_groups
-                ));
+                );
+                if(!empty($args)) {
+                    $group_args = array_replace_recursive($group_args, $args);
+                }
+
+                $terms  = get_terms($group_args);
                 if(!empty($terms) && !is_wp_error($terms)) {
                     $groups = empty($groups)?$terms:array_replace_recursive($groups, $terms);
                 }
@@ -757,8 +782,6 @@ class AP_Custom_Field_Helper extends BaseHelper {
         if(!empty($options)){
             $post_args  = array_replace_recursive($post_args, $options);
         }
-
-//        var_dump($post_args);
 
         $cfields    = new \WP_Query($post_args);
 

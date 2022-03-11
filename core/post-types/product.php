@@ -207,7 +207,7 @@ if(!class_exists('Advanced_Product\Post_Type\Product')){
                             ),
                         ),
                         'options' => array (
-                            'position' => 'side',
+                            'position' => 'normal',
                             'style' => 'default',
                             'layout' => 'default',
 //                        'hide_on_screen' => array (
@@ -433,7 +433,7 @@ if(!class_exists('Advanced_Product\Post_Type\Product')){
                             $fields = array();
                             if($cfields){
                                 foreach($cfields as $cfield){
-                                    $fields[]   = AP_Custom_Field_Helper::get_custom_field_option_by_id($cfield->ID);
+                                    $fields[]   = FieldHelper::get_custom_field_option_by_id($cfield->ID);
                                 }
                             }
 

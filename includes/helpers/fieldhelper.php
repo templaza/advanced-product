@@ -393,6 +393,29 @@ class FieldHelper extends BaseHelper {
         }
     }
 
+    /**
+     * Get acf fields by custom field
+     * @param int $post_id Id of custom field.
+     * @return array acf field
+     * */
+    public static function get_custom_field_option_by_id($post_id){
+
+        $store_id   = static::_get_store_id(__METHOD__, $post_id);
+
+        if(isset(static::$cache[$store_id])){
+            return static::$cache[$store_id];
+        }
+
+        // get acf fields
+        $fields = apply_filters('acf/field_group/get_fields', array(), $post_id);
+
+        if(!$fields){
+            return array();
+        }
+
+        return static::$cache[$store_id]    = $fields[0];
+    }
+
 //    /**
 //     * Get all fields without group field terms
 //     * @param  array $options An options of get field query.
