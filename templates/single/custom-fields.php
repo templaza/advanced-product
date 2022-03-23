@@ -47,7 +47,6 @@ $gfields_assigned   = AP_Custom_Field_Helper::get_group_fields_by_product();
 if($gfields_assigned && count($gfields_assigned)){
     foreach ($gfields_assigned as $group) {
 
-
         $fields = AP_Custom_Field_Helper::get_fields_by_group_fields($group);
         if($fields && count($fields)) {
             ob_start();

@@ -740,7 +740,11 @@
                             // Handle the order of the postboxes.
                             __postbox.find(".handle-order-higher, .handle-order-lower").on('click.postboxes', window.postboxes.handleOrder);
 
-                            $(_main_id).prepend(__postbox);
+                            if($(_main_id + "> .postbox.acf_postbox:not(.ap-acf_postbox-ajax)").length){
+                                $(_main_id + "> .postbox.acf_postbox:not(.ap-acf_postbox-ajax):last").after(__postbox);
+                            }else {
+                                $(_main_id).prepend(__postbox);
+                            }
 
                             // $.each($(_html).find(".postbox"), function () {
                             //     var _group = $(this).attr("id");

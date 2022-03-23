@@ -612,6 +612,7 @@ class AP_Custom_Field_Helper extends BaseHelper {
         }
 
         $args = [
+            'posts_per_page'=> -1,
             'post_type' => $post_type,
             'tax_query' => [
                 [
@@ -632,18 +633,22 @@ class AP_Custom_Field_Helper extends BaseHelper {
 
         $query = new \WP_Query( $args );
 
+//        var_dump(empty($terms) || \is_wp_error($terms));
+
         if(empty($query) || \is_wp_error($query)){
             return false;
         }
 
+        $fields = $query -> get_posts();
         wp_reset_query();
 
-        return static::$cache[$store_id] = $query -> get_posts();
+        return static::$cache[$store_id] = $fields;
 
     }
 
     /**
      * Get acf fields with empty group field taxonomy
+     * @return array
      * */
     public static function get_acf_fields_without_group_field($options = array()){
         $cfields    = static::get_fields_without_group_field($options);
@@ -659,7 +664,7 @@ class AP_Custom_Field_Helper extends BaseHelper {
 
         $fields = array();
         foreach($cfields as $cfield){
-            if($acf_field = AP_Custom_Field_Helper::get_custom_field_option_by_id($cfield -> ID)){
+            if($acf_field = static::get_custom_field_option_by_id($cfield -> ID)){
                 $fields[]   = $acf_field;
             }
         }
@@ -742,7 +747,7 @@ class AP_Custom_Field_Helper extends BaseHelper {
      * @return WP_Query|array
      * */
     public static function get_fields_by_group_fields($groups, $return = 'posts', $options = array()){
-        $store_id   = static::_get_store_id(__METHOD__, $groups, $options);
+        $store_id   = static::_get_store_id(__METHOD__, $groups, $return, $options);
 
         if(isset(static::$cache[$store_id])){
             return static::$cache[$store_id];

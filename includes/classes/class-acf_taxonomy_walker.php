@@ -166,8 +166,22 @@ if(!class_exists('Advanced_Product\ACF_Taxonomy_Walker')) {
 
 
             // vars
-//            $selected = in_array( $term->term_id, $this->field['value'] );
-            $selected = in_array( $term->slug, $this->field['value'] );
+            $is_numeric = false;
+            if(is_array($field['value']) && count($field['value'])){
+                $is_numeric = is_numeric($field['value'][0]);
+                if($is_numeric) {
+                    $selected = in_array($term->term_id, $field['value'] );
+                }else {
+                    $selected = in_array($term->slug, $field['value']);
+                }
+            }else{
+                $is_numeric = is_numeric($field['value']);
+                if($is_numeric) {
+                    $selected = $term->term_id == $field['value'];
+                }else {
+                    $selected = $term->slug == $field['value'];
+                }
+            }
 
             if( $this->field['field_type'] == 'checkbox' )
             {

@@ -185,7 +185,7 @@ if(!class_exists('Advanced_Product\Post_Type\Product')){
 //                }
 
 
-                $acf_fields  = AP_Custom_Field_Helper::get_acf_fields_without_group_field(array(
+                $acf_fields  = FieldHelper::get_acf_fields_without_group_field(array(
                     'orderby'   => array(
                         '__protected' => 'DESC'
                     )

@@ -416,86 +416,80 @@ class FieldHelper extends BaseHelper {
         return static::$cache[$store_id]    = $fields[0];
     }
 
-//    /**
-//     * Get all fields without group field terms
-//     * @param  array $options An options of get field query.
-//     * @return  fields of ap_custom_field post type
-//     * */
-//    public static function get_fields_without_terms($options = array()){
-//        $post_type  = 'ap_custom_field';
-//        $taxonomy   = 'ap_group_field';
-//        $terms      =  \get_terms( ['taxonomy' => $taxonomy, 'fields' => 'ids'  ] );
-//
-//        if(empty($terms) || \is_wp_error($terms)){
-//            return false;
-//        }
-//
-//        $args = [
-//            'post_type' => $post_type,
-//            'tax_query' => [
-//                [
-//                    'taxonomy' => $taxonomy,
-//                    'terms'    => $terms,
-//                    'operator' => 'NOT IN'
-//                ]
-//            ],
-//            'orderby'   => array(
-//                '__protected' => 'DESC'
-//            )
-//        ];
-//
-//        $args   = !empty($options)?array_merge($args, $options):$args;
-//
-//        $store_id   = static::_get_store_id(__METHOD__, $args, $options);
-//
-//        if(isset(static::$cache[$store_id])){
-//            return static::$cache[$store_id];
-//        }
-//
-//        $query = new \WP_Query( $args );
-//
-//        if(empty($query) || \is_wp_error($query)){
-//            return false;
-//        }
-//
-//        wp_reset_query();
-//
-//        return static::$cache[$store_id] = $query -> get_posts();
-//
-//    }
-//
-//    /**
-//     * Get acf fields with empty group field taxonomy
-//     * */
-//    public static function get_acf_fields_without_terms($options = array()){
-//        $cfields    = static::get_fields_without_terms($options);
-//        $store_id   = static::_get_store_id(__METHOD__, $cfields, $options);
-//
-//        if(isset(static::$cache[$store_id])){
-//            return static::$cache[$store_id];
-//        }
-//
-//        if(!$cfields || empty($cfields)){
-//            return false;
-//        }
-//
-//        $fields = array();
-//        foreach($cfields as $cfield){
-//            if($acf_field = AP_Custom_Field_Helper::get_custom_field_option_by_id($cfield -> ID)){
-//                $fields[]   = $acf_field;
-//            }
-//        }
-//
-//        if(empty($fields)){
-//            return false;
-//        }
-//
-//        return static::$cache[$store_id] = $fields;
-//    }
+    /**
+     * Get all fields without group field terms
+     * @param  array $options An options of get field query.
+     * @return  array fields of ap_custom_field post type
+     * */
+    public static function get_fields_without_group_field($options = array()){
+        $post_type  = 'ap_custom_field';
+        $taxonomy   = 'ap_group_field';
+        $terms      =  \get_terms( ['taxonomy' => $taxonomy, 'fields' => 'ids'  ] );
 
-//    protected static function _get_store_id($args = array()){
-//        $store_id   = serialize(func_get_args());
-//
-//        return md5($store_id);
-//    }
+        if(empty($terms) || \is_wp_error($terms)){
+            return false;
+        }
+
+        $args = [
+            'posts_per_page'=> -1,
+            'post_type' => $post_type,
+            'tax_query' => [
+                [
+                    'taxonomy' => $taxonomy,
+                    'terms'    => $terms,
+                    'operator' => 'NOT IN'
+                ]
+            ],
+        ];
+
+        $args   = !empty($options)?array_merge($args, $options):$args;
+
+        $store_id   = static::_get_store_id(__METHOD__, $args, $options);
+
+        if(isset(static::$cache[$store_id])){
+            return static::$cache[$store_id];
+        }
+
+        $query = new \WP_Query( $args );
+
+        if(empty($query) || \is_wp_error($query)){
+            return false;
+        }
+
+        $fields = $query -> get_posts();
+        wp_reset_query();
+
+        return static::$cache[$store_id] = $fields;
+
+    }
+
+    /**
+     * Get acf fields with empty group field taxonomy
+     * @return array
+     * */
+    public static function get_acf_fields_without_group_field($options = array()){
+        $cfields    = static::get_fields_without_group_field($options);
+        $store_id   = static::_get_store_id(__METHOD__, $cfields, $options);
+
+        if(isset(static::$cache[$store_id])){
+            return static::$cache[$store_id];
+        }
+
+        if(!$cfields || empty($cfields)){
+            return false;
+        }
+
+        $fields = array();
+        foreach($cfields as $cfield){
+            if($acf_field = static::get_custom_field_option_by_id($cfield -> ID)){
+                $fields[]   = $acf_field;
+            }
+        }
+
+        if(empty($fields)){
+            return false;
+        }
+
+        return static::$cache[$store_id] = $fields;
+    }
 }
