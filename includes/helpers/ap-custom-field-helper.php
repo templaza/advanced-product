@@ -719,7 +719,8 @@ class AP_Custom_Field_Helper extends BaseHelper {
             if(!empty($_groups)) {
                 $group_args = array(
                     'taxonomy' => 'ap_group_field',
-                    'include' => $_groups
+                    'include' => $_groups,
+                    'order' => 'DESC'
                 );
                 if(!empty($args)) {
                     $group_args = array_replace_recursive($group_args, $args);
@@ -769,15 +770,14 @@ class AP_Custom_Field_Helper extends BaseHelper {
         $post_args  = array(
             'post_type'     => 'ap_custom_field',
             'post_status'   => 'publish',
-            'posts_per_page '   => -1,
+            'numberposts '   => -1,
             'tax_query'     => $tax_query
-//            'tax_query'     => array(
-//                array(
-//                    'taxonomy'  => 'ap_group_field',
-//                    'field' => 'term_id',
-//                    'terms' => array($terms -> term_id)
-//                )
-//            )
+
+        );
+        $args = array(
+            'numberposts' => -1,
+            'post_type'   => 'ap_custom_field',
+            'tax_query'     => $tax_query
         );
 
         if($return == 'query'){
@@ -787,10 +787,7 @@ class AP_Custom_Field_Helper extends BaseHelper {
         if(!empty($options)){
             $post_args  = array_replace_recursive($post_args, $options);
         }
-
-        $cfields    = new \WP_Query($post_args);
-
-        wp_reset_query();
+        $cfields    = get_posts($args);
         if(empty($cfields) || is_wp_error($cfields)){
             return false;
         }
@@ -798,8 +795,9 @@ class AP_Custom_Field_Helper extends BaseHelper {
         if($return == 'query'){
             return static::$cache[$store_id] = $cfields;
         }else {
-            return static::$cache[$store_id] = $cfields -> get_posts();
+            return static::$cache[$store_id] = $cfields;
         }
+
     }
 
 }
