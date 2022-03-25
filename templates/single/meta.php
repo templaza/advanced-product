@@ -49,10 +49,10 @@ $show_comment_count = filter_var($show_comment_count, FILTER_VALIDATE_BOOLEAN);
             <i class="far fa-eye"></i>
             <?php
             $count_key = 'post_views_count';
-            $count = get_post_meta($args['postID'], $count_key, true);
+            $count = get_post_meta(get_the_ID(), $count_key, true);
             if ($count == '' || empty($count)) { // If such views are not
-                delete_post_meta($args['postID'], $count_key);
-                add_post_meta($args['postID'], $count_key, '0');
+                delete_post_meta(get_the_ID(), $count_key);
+                add_post_meta(get_the_ID(), $count_key, '0');
                 echo esc_html__('View: 0', AP_Functions::get_my_text_domain()); // return value of 0
             }else{
                 echo esc_html__('Views:', AP_Functions::get_my_text_domain()).' '.$count;

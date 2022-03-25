@@ -633,8 +633,6 @@ class AP_Custom_Field_Helper extends BaseHelper {
 
         $query = new \WP_Query( $args );
 
-//        var_dump(empty($terms) || \is_wp_error($terms));
-
         if(empty($query) || \is_wp_error($query)){
             return false;
         }
@@ -719,8 +717,7 @@ class AP_Custom_Field_Helper extends BaseHelper {
             if(!empty($_groups)) {
                 $group_args = array(
                     'taxonomy' => 'ap_group_field',
-                    'include' => $_groups,
-                    'order' => 'DESC'
+                    'include' => $_groups
                 );
                 if(!empty($args)) {
                     $group_args = array_replace_recursive($group_args, $args);
@@ -770,34 +767,29 @@ class AP_Custom_Field_Helper extends BaseHelper {
         $post_args  = array(
             'post_type'     => 'ap_custom_field',
             'post_status'   => 'publish',
-            'numberposts '   => -1,
-            'tax_query'     => $tax_query
-
-        );
-        $args = array(
-            'numberposts' => -1,
-            'post_type'   => 'ap_custom_field',
+            'posts_per_page'   => -1,
             'tax_query'     => $tax_query
         );
-
-        if($return == 'query'){
-            $post_args['posts_per_page']    = 10;
-        }
 
         if(!empty($options)){
             $post_args  = array_replace_recursive($post_args, $options);
         }
-        $cfields    = get_posts($args);
+
+        $cfields    = new \WP_Query($post_args);
+
         if(empty($cfields) || is_wp_error($cfields)){
             return false;
         }
 
         if($return == 'query'){
-            return static::$cache[$store_id] = $cfields;
+            static::$cache[$store_id] = $cfields;
+            wp_reset_query();
+            return $cfields;
         }else {
-            return static::$cache[$store_id] = $cfields;
+            static::$cache[$store_id] = $cfields -> get_posts();
+            wp_reset_query();
+            return static::$cache[$store_id];
         }
-
     }
 
 }
