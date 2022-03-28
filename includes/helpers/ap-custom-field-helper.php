@@ -66,25 +66,13 @@ class AP_Custom_Field_Helper extends BaseHelper {
      * Get custom fields in post type ap_custom_field
      * @param array $exclude An optional exclude of custom fields.
      * @param array $include An optional include of custom fields.
+     * @param array $options An optional config of custom fields.
      * */
-    public static function get_acf_fields($include = array(), $exclude = array()){
+    public static function get_acf_fields($include = array(), $exclude = array(), $options = array()){
         $args = array(
-//            'order'       => 'ASC',
-//            'orderby'     => 'ID',
-//            'orderby' => 'taxonomy, ID', // Just enter 2 parameters here, seprated by comma
-//            'orderby' => 'taxonomy, name', // Just enter 2 parameters here, seprated by comma
-//            'order'=>'ASC',
-//            'orderby'  => array( 'taxonomy' => 'DESC', 'ID' => 'ASC' ),
-//            'orderby'  => array( 'taxonomy' => 'DESC', 'ID' => 'ASC' ),
             'post_status' => 'publish',
             'post_type'   => 'ap_custom_field',
             'numberposts' => -1,
-//            'tax_query'   => array(
-//                'taxonomy' => 'ap_group_field',
-//            ),
-
-//            'meta_key'    => 'slug',
-//            'meta_value'  =>  $this -> get_taxonomy_name(),
         );
 
 
@@ -108,7 +96,7 @@ class AP_Custom_Field_Helper extends BaseHelper {
             }
         }
 
-        $store_id   = static::_get_store_id(__METHOD__, $include, $exclude, $args, $include_is_number);
+        $store_id   = static::_get_store_id(__METHOD__, $include, $exclude, $args, $include_is_number, $options);
 
         if(isset(static::$cache[$store_id])){
             return static::$cache[$store_id];
@@ -124,8 +112,12 @@ class AP_Custom_Field_Helper extends BaseHelper {
         if(!empty($include) && is_string($include) && !$include_is_number){
             $include    = explode(',', $include);
         }
+
+        $exclude_core_field = isset($options['exclude_core_field'])?$options['exclude_core_field']:false;
         foreach($post_fields as $i => $field){
-            $acf_f = AP_Custom_Field_Helper::get_custom_field_option_by_id($field -> ID);
+            $acf_f = AP_Custom_Field_Helper::get_custom_field_option_by_id($field -> ID, array(
+                'exclude_core_field'    => $exclude_core_field
+            ));
             if($acf_f && !empty($acf_f)){
                 if(!empty($include) && !$include_is_number && is_array($include) && !in_array($acf_f['_name'], $include)){
                     continue;
@@ -138,21 +130,19 @@ class AP_Custom_Field_Helper extends BaseHelper {
                 $fields[$index]   = $acf_f;
             }
         }
-        ksort($fields);
-////        var_dump(ksort($fields));
-//        var_dump($fields);
-//        die(__FILE__);
 
         if(!count($fields)){
             return false;
         }
 
+        ksort($fields);
+
         return static::$cache[$store_id] = $fields;
     }
 
-    public static function get_custom_field_option_by_id($post_id){
+    public static function get_custom_field_option_by_id($post_id, $options = array()){
 
-        $store_id   = static::_get_store_id(__METHOD__, $post_id);
+        $store_id   = static::_get_store_id(__METHOD__, $post_id, $options);
 
         if(isset(static::$cache[$store_id])){
             return static::$cache[$store_id];
@@ -161,15 +151,21 @@ class AP_Custom_Field_Helper extends BaseHelper {
         // get acf fields
         $fields = apply_filters('acf/field_group/get_fields', array(), $post_id);
 
+
         if(!$fields){
             return array();
         }
 
         $field          = $fields[0];
-        $exclude_fields = static::get_exclude_fields_registered();
 
-        if(!empty($exclude_fields) && in_array($field['name'], $exclude_fields)){
-            return array();
+        $exclude_core_field = isset($options['exclude_core_field'])?$options['exclude_core_field']:true;
+
+        if($exclude_core_field){
+            $exclude_fields = static::get_exclude_fields_registered();
+
+            if(!empty($exclude_fields) && in_array($field['name'], $exclude_fields)){
+                return array();
+            }
         }
 
         return static::$cache[$store_id]    = $field;

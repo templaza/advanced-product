@@ -94,13 +94,6 @@ class Search extends Base {
                         $query_value  = array_filter($query_value);
                     }
 
-//                    if($acf_attr['name'] == 'ap_branch') {
-//                        var_dump($query_var);
-//                        var_dump($acf_attr['name']);
-//                        var_dump($query_var[$acf_attr['name']]);
-//                        die(__FILE__);
-//                    }
-
                     if(!empty($query_value)){
                         if(isset($acf_attr['s_meta_query_compare'])){
                             $meta_query[] = array(
@@ -148,23 +141,7 @@ class Search extends Base {
                 }
             }
 
-
-//        // manually handle sorting by price
-//        if ( isset( $query->query['orderby'] ) && 'price' == $query->query['orderby'] ) {
-//            $query->set('orderby', 'meta_value_num');
-//            $query->set('meta_key', 'price');
-//        }
-
-//        var_dump($meta_query);
-//        if(count($meta_query)) {
-//            var_dump($query_var['ap_branch']);
-//            var_dump(get_term_link($query_var['ap_branch']));
-//        var_dump($meta_query); die(__FILE__);
             $query->set('meta_query', $meta_query);
-//            $query->set('meta_query', array());
-//            var_dump($query); die(__FILE__);
-//        }
-
         }
     }
 
@@ -187,7 +164,6 @@ class Search extends Base {
         $show_label     = filter_var($show_label, FILTER_VALIDATE_BOOLEAN);
         $enable_keyword = filter_var($enable_keyword, FILTER_VALIDATE_BOOLEAN);
 
-//        var_dump($include);
         if(isset($include)){
             if(!empty($include)) {
                 $include    = explode(',', $include);
