@@ -24,9 +24,9 @@ if($field) {
     preg_match('/(<input)((\s+[^>]*)?[\/]?>)/ius', $html_field, $match);
 //    var_dump($match); die(__FILE__);
     ?>
-    <div class="uk-margin">
+    <div class="uk-margin ap-search-item">
         <?php if(!isset($field['s_show_label']) || (isset($field['s_show_label']) && $field['s_show_label'])){?>
-        <label><?php echo $field['label']; ?></label>
+        <label class="search-label"><?php echo $field['label']; ?></label>
         <?php } ?>
         <div class="uk-form-controls">
             <?php echo $html_field;?>

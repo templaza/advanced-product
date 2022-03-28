@@ -79,5 +79,5 @@ $submit_html    = trim($submit_html);
 
     <?php }  } ?>
     <input type="hidden" name="post_type" value="ap_product">
-    <button class="car-search-submit uk-button uk-margin-top" id="car-search-submit"><?php echo $submit_html; ?></button>
+    <button class="car-search-submit templaza-btn uk-button uk-margin-top" id="car-search-submit"><?php echo $submit_html; ?></button>
 </form>

@@ -32,6 +32,8 @@ class AP_Custom_Field_Helper extends BaseHelper {
             'post_type'     => 'ap_custom_field',
             'post_status'   => 'publish',
             'posts_per_page'   => -1,
+            'order'       => 'ASC',
+            'orderby'     => 'date',
         );
 
         if($return == 'query'){
@@ -713,7 +715,8 @@ class AP_Custom_Field_Helper extends BaseHelper {
             if(!empty($_groups)) {
                 $group_args = array(
                     'taxonomy' => 'ap_group_field',
-                    'include' => $_groups
+                    'include' => $_groups,
+                    'order' => 'DESC'
                 );
                 if(!empty($args)) {
                     $group_args = array_replace_recursive($group_args, $args);
