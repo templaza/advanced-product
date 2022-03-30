@@ -21,11 +21,12 @@ class AP_Custom_Field_Helper extends BaseHelper {
 
     /**
      * Get custom fields in post type ap_custom_field
-     * @param array $exclude An optional exclude of custom fields.
+     * @param array $args An optional exclude of custom fields.
+     * @param bool|int $product_id An optional of product.
      * @param string $return An option to function return is WP_Query object or posts array.
      *                       value is: 'posts' or 'query'
      * */
-    public static function get_custom_fields($args = array(), $return = 'posts'){
+    public static function get_custom_fields($args = array(), $product_id = false, $return = 'posts'){
 
         // Get custom fields by terms
         $post_args  = array(
@@ -44,11 +45,15 @@ class AP_Custom_Field_Helper extends BaseHelper {
             $post_args  = array_replace_recursive($post_args, $args);
         }
 
-        $store_id   = static::_get_store_id(__METHOD__, $post_args);
+        $store_id   = static::_get_store_id(__METHOD__, $post_args, $product_id);
 
         if(isset(static::$cache[$store_id])){
             return static::$cache[$store_id];
         }
+
+//        if(is_archive()){
+//            var_dump($post_args);
+//        }
 
         $cfields = new \WP_Query($post_args);
 
@@ -117,7 +122,7 @@ class AP_Custom_Field_Helper extends BaseHelper {
 
         $exclude_core_field = isset($options['exclude_core_field'])?$options['exclude_core_field']:false;
         foreach($post_fields as $i => $field){
-            $acf_f = AP_Custom_Field_Helper::get_custom_field_option_by_id($field -> ID, array(
+            $acf_f = static::get_custom_field_option_by_id($field -> ID, array(
                 'exclude_core_field'    => $exclude_core_field
             ));
             if($acf_f && !empty($acf_f)){
@@ -142,17 +147,235 @@ class AP_Custom_Field_Helper extends BaseHelper {
         return static::$cache[$store_id] = $fields;
     }
 
-    public static function get_custom_field_option_by_id($post_id, $options = array()){
+//    /**
+//     * Get custom fields in post type ap_custom_field
+//     * @param array $options An optional config of custom fields.
+//     * */
+//    public static function get_custom_fields_by_product_id($product_id, $options = array()){
+//
+//        if(!$product_id){
+//            return false;
+//        }
+//
+//        $args = array(
+//            'post_status' => 'publish',
+//            'post_type'   => 'ap_custom_field',
+//            'numberposts' => -1,
+//        );
+//
+//        // Get group assigned branch of product
+//        $group_fields = static::get_group_fields_by_product($product_id, array(
+//            'fields'    => 'ids',
+//        ));
+//        if(!empty($group_fields)){
+//            $args['tax_query']  = array(
+//                'taxonomy'  => 'ap_group_field',
+//                'terms'     => $group_fields
+//            );
+//        }
+//
+//        $store_id   = static::_get_store_id(__METHOD__, $args, $options);
+//
+//        if(isset(static::$cache[$store_id])){
+//            return static::$cache[$store_id];
+//        }
+//
+//        $post_fields = get_posts($args);
+//
+//        if(!$post_fields){
+//            return false;
+//        }
+//
+////        if(is_archive()){
+////            var_dump($product_id);
+////            var_dump($group_fields);
+//////            var_dump($post_fields);
+////            die(__FILE__);
+////        }
+//
+//        $fields = array();
+//
+//        $exclude_core_field = isset($options['exclude_core_field'])?$options['exclude_core_field']:true;
+//        foreach($post_fields as $i => $field){
+//            $acf_f = static::get_custom_field_option_by_id($field -> ID, array(
+//                'exclude_core_field'    => $exclude_core_field
+//            ));
+//            if(empty($acf_f)){
+//                continue;
+//            }
+//
+////            if(is_archive()){
+////                var_dump($acf_f);
+////                var_dump(__FILE__);
+////            }
+//            if($acf_f && !empty($acf_f)){
+//                $fields[]   = $field;
+////                $fields[]   = $acf_f;
+//            }
+//        }
+//
+//        if(!count($fields)){
+//            return false;
+//        }
+//
+//        ksort($fields);
+//
+//        return static::$cache[$store_id] = $fields;
+//    }
 
-        $store_id   = static::_get_store_id(__METHOD__, $post_id, $options);
+    /**
+     * Get custom fields in post type ap_custom_field
+     * @param array $options An optional config of custom fields.
+     * */
+    public static function get_custom_fields_display_flag_by_product_id($flag_name, $product_id, $options = array()){
+
+        if(!$flag_name || !$product_id){
+            return false;
+        }
+
+        $args = array(
+            'post_status' => 'publish',
+            'post_type'   => 'ap_custom_field',
+            'numberposts' => -1,
+            'meta_query'  => array(
+                array(
+                    'key'   => $flag_name,
+                    'value' => 1
+                )
+            )
+        );
+
+        // Get group assigned branch of product
+        $group_fields = static::get_group_fields_by_product($product_id, array(
+            'fields'    => 'ids',
+        ));
+        if(!empty($group_fields)){
+            $args['tax_query']  = array(
+                array(
+                    'taxonomy'  => 'ap_group_field',
+                    'terms'     => $group_fields
+                )
+            );
+        }
+
+        $store_id   = static::_get_store_id(__METHOD__, $args, $options);
+
+        if(isset(static::$cache[$store_id])){
+            return static::$cache[$store_id];
+        }
+
+        $post_fields = get_posts($args);
+
+        if(!$post_fields){
+            return false;
+        }
+
+        $fields = array();
+
+        $exclude_core_field = isset($options['exclude_core_field'])?$options['exclude_core_field']:true;
+        foreach($post_fields as $i => $field){
+            $acf_f = static::get_custom_field_option_by_id($field -> ID, array(
+                'exclude_core_field'    => $exclude_core_field
+            ));
+            if(empty($acf_f)){
+                continue;
+            }
+
+            if($acf_f && !empty($acf_f)){
+                $fields[]   = $field;
+            }
+        }
+
+        if(!count($fields)){
+            return false;
+        }
+
+        ksort($fields);
+
+        return static::$cache[$store_id] = $fields;
+    }
+
+    /**
+     * Get acf fields in post type ap_custom_field
+     * @param array $options An optional config of custom fields.
+     * */
+    public static function get_acf_fields_by_product_id($product_id, $options = array()){
+
+        if(!$product_id){
+            return false;
+        }
+
+        $args = array(
+            'post_status' => 'publish',
+            'post_type'   => 'ap_custom_field',
+            'numberposts' => -1,
+        );
+
+        // Get group assigned branch of product
+        $group_fields = static::get_group_fields_by_product($product_id, array(
+            'fields'    => 'ids',
+        ));
+        if(!empty($group_fields)){
+            $args['tax_query']  = array(
+                'taxonomy'  => 'ap_group_field',
+                'terms'     => $group_fields
+            );
+        }
+
+        $store_id   = static::_get_store_id(__METHOD__, $args, $options);
+
+        if(isset(static::$cache[$store_id])){
+            return static::$cache[$store_id];
+        }
+
+        $post_fields = get_posts($args);
+
+//        if(is_archive()){
+//            var_dump($post_fields);
+////            var_dump($args);
+//            var_dump(__FILE__);
+//        }
+
+        if(!$post_fields){
+            return false;
+        }
+
+        $fields = array();
+
+        $exclude_core_field = isset($options['exclude_core_field'])?$options['exclude_core_field']:false;
+        foreach($post_fields as $i => $field){
+            $acf_f = static::get_custom_field_option_by_id($field -> ID, array(
+                'exclude_core_field'    => $exclude_core_field
+            ));
+            if($acf_f && !empty($acf_f)){
+                $fields[]   = $acf_f;
+            }
+        }
+
+        if(!count($fields)){
+            return false;
+        }
+
+        ksort($fields);
+
+        return static::$cache[$store_id] = $fields;
+    }
+
+    /**
+     * Get acf field attribute by id
+     * @param int $field_id An optional of custom field
+     * @return array
+     * */
+    public static function get_custom_field_option_by_id($field_id, $options = array()){
+
+        $store_id   = static::_get_store_id(__METHOD__, $field_id, $options);
 
         if(isset(static::$cache[$store_id])){
             return static::$cache[$store_id];
         }
 
         // get acf fields
-        $fields = apply_filters('acf/field_group/get_fields', array(), $post_id);
-
+        $fields = apply_filters('acf/field_group/get_fields', array(), $field_id);
 
         if(!$fields){
             return array();
@@ -169,6 +392,58 @@ class AP_Custom_Field_Helper extends BaseHelper {
                 return array();
             }
         }
+
+        return static::$cache[$store_id]    = $field;
+    }
+
+    /**
+     * Get acf field attribute by field name
+     * @param string $field_name An optional of field name
+     * @return array|bool Acf field attributes created in custom field
+     * */
+    public static function get_custom_field_option_by_field_name($field_name, $options = array()){
+
+        if(!$field_name){
+            return false;
+        }
+
+        $store_id   = static::_get_store_id(__METHOD__, $field_name, $options);
+
+        if(isset(static::$cache[$store_id])){
+            return static::$cache[$store_id];
+        }
+
+        $field_id   = null;
+        if($cfield   = static::get_custom_field($field_name)){
+            $field_id   = (int) $cfield -> ID;
+        }
+
+        if(!$field_id){
+            return false;
+        }
+        $exclude_core_field = isset($options['exclude_core_field'])?$options['exclude_core_field']:false;
+
+        $field  = static::get_custom_field_option_by_id($field_id, array('exclude_core_field' => $exclude_core_field));
+
+//        // get acf fields
+//        $fields = apply_filters('acf/field_group/get_fields', array(), $post_id);
+//
+//
+//        if(!$fields){
+//            return array();
+//        }
+//
+//        $field          = $fields[0];
+//
+//        $exclude_core_field = isset($options['exclude_core_field'])?$options['exclude_core_field']:true;
+//
+//        if($exclude_core_field){
+//            $exclude_fields = static::get_exclude_fields_registered();
+//
+//            if(!empty($exclude_fields) && in_array($field['name'], $exclude_fields)){
+//                return array();
+//            }
+//        }
 
         return static::$cache[$store_id]    = $field;
     }
@@ -222,7 +497,7 @@ class AP_Custom_Field_Helper extends BaseHelper {
 
         if(!empty($fields)){
             foreach ($fields as $field){
-                $acf_f = AP_Custom_Field_Helper::get_custom_field_option_by_id($field -> ID);
+                $acf_f = static::get_custom_field_option_by_id($field -> ID);
                 if($acf_f){
                     if(isset($acf_f['type']) && $acf_f['type'] == 'taxonomy') {
                         $terms = get_terms( array(
@@ -241,28 +516,6 @@ class AP_Custom_Field_Helper extends BaseHelper {
                         }
                     }
                     $custom_fields[]    = $acf_f;
-//                    var_dump($acf_f);
-//                    var_dump($field);
-//                    die(__FILE__);
-//                    if(isset($acf_f['type']) && $acf_f['type'] == 'taxonomy') {
-//                        $terms = get_terms( array(
-//                            'taxonomy' => $acf_f['taxonomy'],
-//                            'hide_empty' => false,
-//                        ) );
-//                        if($terms && !empty($terms)){
-//                            if(!isset($acf_f['choices'])){
-//                                $acf_f['choices']   = array();
-//                            }else {
-//                                $acf_f['choices'] = is_array($acf_f['choices']) ? $acf_f['choices'] : (array)$acf_f['choices'];
-//                            }
-//                            foreach($terms as $term) {
-//                                $acf_f['choices'][$term -> term_id]  = $term -> name;
-//                            }
-//                        }
-//                    }
-//                    if(isset($acf_f['choices']) || (isset($acf_f['type']) && $acf_f['type'] == 'taxonomy')){
-//                        $custom_fields[]    = $acf_f;
-//                    }
                 }
             }
         }
@@ -278,7 +531,6 @@ class AP_Custom_Field_Helper extends BaseHelper {
         $protected  = filter_var($protected,  FILTER_VALIDATE_BOOLEAN);
 
         return $protected;
-//        if(empty($))
     }
 
     public static function get_id_by_post_id($field_name, $post_id){
@@ -296,6 +548,43 @@ class AP_Custom_Field_Helper extends BaseHelper {
     public static function get_field_display_flag($flag_name, $field_id){
 
         if(!$flag_name || !$field_id){
+            return false;
+        }
+
+        $result = get_post_meta($field_id, $flag_name, true);
+
+        return filter_var($result, FILTER_VALIDATE_BOOLEAN);
+    }
+
+    /**
+     * Get field display flag by field name of product
+     * @param string $field_name An optional of acf field attribute
+     * @param string $flag_name  An optional of product
+     * @return bool Show or hide bool
+     * */
+    public static function get_field_display_flag_by_field_name($flag_name, $field_name){
+
+        if(!$flag_name || !$field_name){
+            return false;
+        }
+
+        $store_id   = static::_get_store_id(__METHOD__, $flag_name, $field_name);
+
+        if(isset(static::$cache[$store_id])){
+            return static::$cache[$store_id];
+        }
+//        global $wpdb;
+//
+//        $acf_fields = $wpdb->get_results( $wpdb->prepare( "SELECT p.* FROM $wpdb->posts AS p WHERE p.post_excerpt=%s AND p.post_type=%s"
+//            ." LEFT JOIN $wpdb -> postmeta AS pm ON pm.post_id=p.id"
+//            , $field_name , 'ap_custom_field' ) );
+
+        $field_id   = 0;
+        if($cfield = static::get_custom_field($field_name)){
+            $field_id   = $cfield -> ID;
+        }
+
+        if(!$field_id){
             return false;
         }
 
@@ -400,7 +689,7 @@ class AP_Custom_Field_Helper extends BaseHelper {
 
         $fields = array();
         foreach($post_fields as $i => $field){
-            $acf_f = AP_Custom_Field_Helper::get_custom_field_option_by_id($field -> ID);
+            $acf_f = static::get_custom_field_option_by_id($field -> ID);
             if($acf_f && !empty($acf_f)){
                 if(!empty($exclude) && isset($acf_f['name']) && in_array($acf_f['name'], $exclude)){
                     continue;
@@ -714,10 +1003,23 @@ class AP_Custom_Field_Helper extends BaseHelper {
 
             if(!empty($_groups)) {
                 $group_args = array(
-                    'taxonomy' => 'ap_group_field',
-                    'include' => $_groups,
-                    'order' => 'DESC'
+                    'taxonomy'  => 'ap_group_field',
+                    'order'     => 'DESC'
                 );
+
+                $is_number  = true;
+                foreach ($_groups as $_group){
+                    if(!is_numeric($_group)){
+                        $is_number  = false;
+                        break;
+                    }
+                }
+                if($is_number){
+                    $group_args['include']  = $_groups;
+                }else{
+                    $group_args['slug']  = $_groups;
+                }
+
                 if(!empty($args)) {
                     $group_args = array_replace_recursive($group_args, $args);
                 }
