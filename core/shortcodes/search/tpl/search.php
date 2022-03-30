@@ -24,7 +24,7 @@ $submit_html    = trim($submit_html);
 <form role="search" method="get" action="<?php echo esc_url($action); ?>" class="uk-form-stacked advanced-product-search-form">
     <?php if(!isset($enable_keyword) || (isset($enable_keyword) && $enable_keyword)){?>
     <div class="field field-keyword">
-        <label><?php _e( 'Keyword:', 'advanced-product' ) ?></label>
+        <label class="search-label"><?php _e( 'Keyword:', 'advanced-product' ) ?></label>
         <input type="search" class="search-field" placeholder="<?php
         _e( 'Search ...', 'advanced-product' ) ?>" value="<?php echo get_query_var('s') ?>" name="s" />
     </div>
@@ -66,8 +66,8 @@ $submit_html    = trim($submit_html);
                 do_action('advanced-product/field/create_form/type='.$s_field_type, $field);
             }else {
                 ?>
-                <div class="uk-margin">
-                    <label class="uk-form-label" for="form-s-color"><?php echo $field['label']; ?></label>
+                <div class="uk-margin ap-search-item">
+                    <label class="uk-form-label search-label" for="form-s-color"><?php echo $field['label']; ?></label>
                     <div class="uk-form-controls uk-position-relative">
                        <?php do_action('acf/create_field', $field); ?>
                     </div>
