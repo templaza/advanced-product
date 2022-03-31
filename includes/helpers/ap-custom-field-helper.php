@@ -236,6 +236,8 @@ class AP_Custom_Field_Helper extends BaseHelper {
         $args = array(
             'post_status' => 'publish',
             'post_type'   => 'ap_custom_field',
+            'orderby'     => 'date',
+            'order'       => 'ASC',
             'numberposts' => -1,
             'meta_query'  => array(
                 array(
