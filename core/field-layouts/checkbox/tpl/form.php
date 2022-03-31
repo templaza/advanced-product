@@ -11,6 +11,10 @@ if($field) {
     }else {
         $field_search['type'] = isset($field['s_type']) ? $field['s_type'] : $field['type'];
     }
+    // Replace id
+    if(isset($field_search['id'])) {
+        $field_search['id'] = '';
+    }
 
     // Override html from acf field rendered
     ob_start();
