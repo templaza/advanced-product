@@ -15,6 +15,11 @@ if(isset($field['s_from_to']) && $field['s_from_to'] == 1){
     $field_from['value']   = apply_filters('acf/load_value/type='.$field_from['type'] , $field_from['default_value'], $field_from['field_group'], $field_from );
     $field_from   = apply_filters('acf/update_field/type='.$field_from['type'] , $field_from, $field['field_group'] );
 
+    // Replace id
+    if(isset($field_from['id'])) {
+        $field_from['id'] .= '-' . uniqid();
+    }
+
     // Override html from acf field rendered
     ob_start();
     do_action('acf/create_field', $field_from);
@@ -32,6 +37,11 @@ if(isset($field['s_from_to']) && $field['s_from_to'] == 1){
     $field_to   = apply_filters('acf/update_field/type='.$field_to['type'] , $field_to, $field_to['field_group'] );
 
     $field_to['class']  = 'uk-margin-small-top';
+
+    // Replace id
+    if(isset($field_to['id'])) {
+        $field_to['id'] .= '-' . uniqid();
+    }
 
     // Override html from acf field rendered
     ob_start();
@@ -54,7 +64,10 @@ if(isset($field['s_from_to']) && $field['s_from_to'] == 1){
     $field_search['value']   = apply_filters('acf/load_value/type='.$field_search['type'] , $field_search['default_value'], $field['field_group'], $field_search );
     $field_search   = apply_filters('acf/update_field/type='.$field_search['type'] , $field_search, $field['field_group'] );
 
-
+    // Replace id
+    if(isset($field_search['id'])) {
+        $field_search['id'] .= '-' . uniqid();
+    }
 
     // Override html from acf field rendered
     ob_start();
