@@ -67,7 +67,7 @@ $submit_html    = trim($submit_html);
             }else {
                 ?>
                 <div class="uk-margin ap-search-item">
-                    <label class="uk-form-label search-label" for="form-s-color"><?php echo $field['label']; ?></label>
+                    <label class="uk-form-label search-label" for="acf-field-ap_price"><?php echo $field['label']; ?></label>
                     <div class="uk-form-controls uk-position-relative">
                        <?php do_action('acf/create_field', $field); ?>
                     </div>
@@ -79,5 +79,5 @@ $submit_html    = trim($submit_html);
 
     <?php }  } ?>
     <input type="hidden" name="post_type" value="ap_product">
-    <button class="car-search-submit templaza-btn uk-button uk-margin-top" id="car-search-submit"><?php echo $submit_html; ?></button>
+    <button class="car-search-submit templaza-btn uk-button uk-margin-top"><?php echo $submit_html; ?></button>
 </form>
