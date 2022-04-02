@@ -11,12 +11,6 @@ class Radio extends Field_Layout{
     public function render(){
 
     }
-    public function render_form($field){
-        $file   = __DIR__.'/tpl/form.php';
-        if(file_exists($file)) {
-            require __DIR__ . '/tpl/form.php';
-        }
-    }
 
     /*
     *

@@ -13,6 +13,7 @@ if(isset($field['s_from_to']) && $field['s_from_to'] == 1){
     $field_from['default_value']    = isset($field['s_default_value_from'])?$field['s_default_value_from']:$field['default_value'];
 
     $field_from['value']   = apply_filters('acf/load_value/type='.$field_from['type'] , $field_from['default_value'], $field_from['field_group'], $field_from );
+    $field_from['value']  = (isset($field['value']) && !empty($field['value']))?$field['value']:$field_from['value'];
     $field_from   = apply_filters('acf/update_field/type='.$field_from['type'] , $field_from, $field['field_group'] );
 
     // Replace id
@@ -33,7 +34,7 @@ if(isset($field['s_from_to']) && $field['s_from_to'] == 1){
     $field_to['default_value']  = isset($field['s_default_value_to'])?$field['s_default_value_to']:$field['default_value'];
 
     $field_to['value']   = apply_filters('acf/load_value/type='.$field_to['type'] , $field_to['default_value'], $field_to['field_group'], $field_to );
-
+    $field_to['value']  = (isset($field['value']) && !empty($field['value']))?$field['value']:$field_to['value'];
     $field_to   = apply_filters('acf/update_field/type='.$field_to['type'] , $field_to, $field_to['field_group'] );
 
     $field_to['class']  = 'uk-margin-small-top';
@@ -57,11 +58,18 @@ if(isset($field['s_from_to']) && $field['s_from_to'] == 1){
         $field_search['type'] = isset($field['s_type']) ? $field['s_type'] : $field['type'];
     }
 
+    if((isset($field['s_choices']) && !empty($field['s_choices']))){
+        $field_search['choices']    = $field['s_choices'];
+    }elseif(isset($field['choices']) && !empty($field['choices'])){
+        $field_search['choices']    = $field['choices'];
+    }elseif(!isset($field_search['choices'])){
+        $field_search['choices']    = array();
+    }
 
-    $field_search['choices']        = isset($field['s_choices'])?$field['s_choices']:array();
     $field_search['default_value']  = isset($field['s_default_value'])?$field['s_default_value']:$field['default_value'];
 
-    $field_search['value']   = apply_filters('acf/load_value/type='.$field_search['type'] , $field_search['default_value'], $field['field_group'], $field_search );
+    $field_search['value']  = apply_filters('acf/load_value/type='.$field_search['type'] , $field_search['default_value'], $field['field_group'], $field_search );
+    $field_search['value']  = (isset($field['value']) && !empty($field['value']))?$field['value']:$field_search['value'];
     $field_search   = apply_filters('acf/update_field/type='.$field_search['type'] , $field_search, $field['field_group'] );
 
     // Replace id

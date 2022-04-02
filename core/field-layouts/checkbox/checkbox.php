@@ -13,12 +13,12 @@ if(!class_exists('Advanced_Product\Field\Layout\Checkbox')){
 
         }
 
-        public function render_form($field){
-            $file   = __DIR__.'/tpl/form.php';
-            if(file_exists($file)) {
-                require __DIR__ . '/tpl/form.php';
-            }
-        }
+//        public function render_form($field){
+//            $file   = __DIR__.'/tpl/form.php';
+//            if(file_exists($file)) {
+//                require __DIR__ . '/tpl/form.php';
+//            }
+//        }
 
         /*
         *

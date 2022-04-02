@@ -27,7 +27,11 @@ abstract class Base{
 
     public function get_name(){
         $class_name = get_called_class();
-        $meta_name  = preg_replace('#^(.*?[\\\\])+#i', '', $class_name);
+//        $meta_name  = preg_replace('#^(.*?[\\\\])+#i', '', $class_name);
+
+        $reflector  = new \ReflectionClass($class_name);
+        $meta_name  = $reflector -> getShortName();
+
         return strtolower($meta_name);
     }
 

@@ -45,8 +45,10 @@ class Search extends Base {
         $fields = AP_Custom_Field_Helper::get_fields_by_display_flag('show_in_search');
         if ($fields) {
             foreach ($fields as $field) {
-                $acf_attr = AP_Custom_Field_Helper::get_custom_field_option_by_id($field->ID);
-                $vars[] = 'field['.$acf_attr['name'].']';
+                $acf_attr = AP_Custom_Field_Helper::get_custom_field_option_by_id($field->ID, array(
+                    'exclude_core_field'    => false
+                ));
+                $vars[] = 'field['.(isset($acf_attr['name'])?$acf_attr['name']:'').']';
             }
         }
 
@@ -84,7 +86,10 @@ class Search extends Base {
 
                     $vars           = array_keys($query_var);
 
-                    $query_value    = isset($query_var[$acf_attr['name']])?$query_var[$acf_attr['name']]:'';
+                    $query_value    = '';
+                    if(isset($acf_attr['name'])){
+                        $query_value    = isset($query_var[$acf_attr['name']])?$query_var[$acf_attr['name']]:'';
+                    }
 
                     if (empty($query_value) || !in_array($acf_attr['name'], $vars)) {
                         continue;
