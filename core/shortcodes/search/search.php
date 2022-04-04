@@ -42,16 +42,6 @@ class Search extends Base {
             return $vars;
         }
 
-        $fields = AP_Custom_Field_Helper::get_fields_by_display_flag('show_in_search');
-        if ($fields) {
-            foreach ($fields as $field) {
-                $acf_attr = AP_Custom_Field_Helper::get_custom_field_option_by_id($field->ID, array(
-                    'exclude_core_field'    => false
-                ));
-                $vars[] = 'field['.(isset($acf_attr['name'])?$acf_attr['name']:'').']';
-            }
-        }
-
         $vars[] = 'field';
 
         return $vars;
@@ -66,82 +56,45 @@ class Search extends Base {
             return;
         }
 
-        if ( !is_admin() ) {
+        if ( !is_admin() && $query->is_main_query()) {
 
             $query_var  = \get_query_var('field');
             if(empty($query_var)){
                 return;
             }
 
-//            $query->set('post_type', array($query->query['post_type']));
             $query->set('post_type', array('ap_product'));
 
-            $meta_query = array();
+            $meta_query = $query->get('meta_query');
+            $meta_query = !empty($meta_query)?$meta_query:array();
 
-            $fields = AP_Custom_Field_Helper::get_fields_by_display_flag('show_in_search');
-            if ($fields) {
-
-                foreach ($fields as $field) {
-                    $acf_attr = AP_Custom_Field_Helper::get_custom_field_option_by_id($field->ID);
-
-                    $vars           = array_keys($query_var);
-
-                    $query_value    = '';
-                    if(isset($acf_attr['name'])){
-                        $query_value    = isset($query_var[$acf_attr['name']])?$query_var[$acf_attr['name']]:'';
-                    }
-
-                    if (empty($query_value) || !in_array($acf_attr['name'], $vars)) {
-                        continue;
-                    }
-
-                    if (is_array($query_value)) {
-                        $query_value  = array_filter($query_value);
-                    }
-
-                    if(!empty($query_value)){
-                        if(isset($acf_attr['s_meta_query_compare'])){
-                            $meta_query[] = array(
+            global $wpdb;
+            foreach ($query_var as $fname => $query_value){
+                if (empty($query_value)) {
+                    continue;
+                }
+                $field  = AP_Custom_Field_Helper::get_custom_field($fname);
+                if(!empty($field)){
+                    $acf_attr   = AP_Custom_Field_Helper::get_custom_field_option_by_id($field->ID);
+                    if(is_array($query_value)){
+                        $submeta_query  = array();
+                        $submeta_query['relation']    = 'OR';
+                        foreach ($query_value as $qval) {
+                            $qval = serialize($qval);
+                            $qval = preg_replace('/(^[a-z]+:[0-9]+:\{)|(\}$)/', '', $qval);
+                            $submeta_query[] = array(
                                 'key' => $acf_attr['name'],
-                                'value' => $query_value,
-                                'compare' => $acf_attr['s_meta_query_compare'],
+                                'value' => $qval,
+                                'compare' => 'LIKE',
                             );
-                        }else{
-                            if (isset($acf_attr['multiple']) && $acf_attr['multiple']) {
-                                $meta_query[] = array(
-                                    'key' => $acf_attr['name'],
-                                    'value' => $query_value,
-                                    'compare' => 'IN'
-                                );
-                            } elseif (is_numeric($query_value)) {
-                                $meta_query[] = array(
-                                    'key' => $acf_attr['name'],
-                                    'value' => $query_value,
-                                    'type' => 'numeric',
-                                    'compare' => '='
-                                );
-                            } elseif (is_array($query_value)) {
-                                if(isset($query_value['min']) && isset($query_value['max'])){
-                                    $meta_query[] = array(
-                                        'key' => $acf_attr['name'],
-                                        'value' => array_values($query_value),
-                                        'compare' => 'BETWEEN'
-                                    );
-                                }else {
-                                    $meta_query[] = array(
-                                        'key' => $acf_attr['name'],
-                                        'value' => $query_value,
-                                        'compare' => 'IN'
-                                    );
-                                }
-                            } else {
-                                $meta_query[] = array(
-                                    'key' => $acf_attr['name'],
-                                    'value' => $query_value,
-                                    'compare' => 'LIKE'
-                                );
-                            }
                         }
+                        $meta_query[]   = $submeta_query;
+                    }else{
+                        $meta_query[] = array(
+                            'key' => $acf_attr['name'],
+                            'value' => $query_value,
+                            'compare' => '=',
+                        );
                     }
                 }
             }

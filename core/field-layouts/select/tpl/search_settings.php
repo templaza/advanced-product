@@ -137,43 +137,5 @@ $key    = $field['name'];
             ?>
         </td>
     </tr>
-    <tr class="field_option field_option_<?php echo $field['type'];
-    ?> field_search_option field_search_option_<?php echo $field['s_type'];?>">
-        <td class="label">
-            <label><?php _e("Search Meta Query Compare", $this -> text_domain); ?></label>
-<!--            <p class="description">--><?php //_e("Enter each default value on a new line",'acf'); ?><!--</p>-->
-        </td>
-        <td>
-            <?php
-
-            do_action('acf/create_field', array(
-                'type'	=>	'select',
-                'name'	=>	'fields['.$key.'][s_meta_query_compare]',
-                'value'	=>	$field['s_meta_query_compare'],
-                'choices' => array(
-                        '=' => __('=', $this -> text_domain),
-                        '!=' => __('!=', $this -> text_domain),
-                        '>' => __('>', $this -> text_domain),
-                        '>=' => __('>=', $this -> text_domain),
-                        '<' => __('<', $this -> text_domain),
-                        '<=' => __('<=', $this -> text_domain),
-                        'LIKE' => __('LIKE', $this -> text_domain),
-                        'NOT LIKE' => __('NOT LIKE', $this -> text_domain),
-                        'IN' => __('IN', $this -> text_domain),
-                        'NOT IN' => __('NOT IN', $this -> text_domain),
-                        'BETWEEN' => __('BETWEEN', $this -> text_domain),
-                        'NOT BETWEEN' => __('NOT BETWEEN', $this -> text_domain),
-                        'EXISTS' => __('EXISTS', $this -> text_domain),
-                        'NOT EXISTS' => __('NOT EXISTS', $this -> text_domain),
-                        'REGEXP' => __('REGEXP', $this -> text_domain),
-                        'NOT REGEXP' => __('NOT REGEXP', $this -> text_domain),
-                        'RLIKE' => __('NOT REGEXP', $this -> text_domain),
-                ),
-                'default_value' => '=',
-            ));
-
-            ?>
-        </td>
-    </tr>
 <?php
 //}
