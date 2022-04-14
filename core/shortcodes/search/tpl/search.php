@@ -23,7 +23,7 @@ $submit_html    = trim($submit_html);
 ?>
 <form role="search" method="get" action="<?php echo esc_url($action); ?>" class="uk-form-stacked advanced-product-search-form">
     <?php if(!isset($enable_keyword) || (isset($enable_keyword) && $enable_keyword)){?>
-    <div class="field field-keyword">
+    <div class="field ap-search-item field-keyword">
         <label class="search-label"><?php _e( 'Keyword:', 'advanced-product' ) ?></label>
         <input type="search" class="search-field" placeholder="<?php
         _e( 'Search ...', 'advanced-product' ) ?>" value="<?php echo get_query_var('s') ?>" name="s" />
