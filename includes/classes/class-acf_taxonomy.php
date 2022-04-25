@@ -45,30 +45,9 @@ if(!class_exists('Advanced_Product\ACF_Taxonomy')) {
             // Render custom fields with edit term taxonomy (acf v4 not supported)
             add_action( "{$this -> taxonomy_name}_edit_form", array( $this, 'render_fields' ), 10, 1 );
 
-            add_action( 'edit_term', array( $this, 'save_term' ), 11, 3 );
+//            add_action( 'edit_term', array( $this, 'save_term' ), 11, 3 );
+            add_action( 'saved_'.$this -> taxonomy_name, array( $this, 'saved_taxonomy' ), 10, 3 );
 
-            add_filter('acf/load_value', array($this, 'load_value'), 11, 3);
-        }
-
-        public function load_value($value, $_post_id, $field){
-            global $pagenow;
-
-            if($pagenow == 'term.php' && isset($_GET['taxonomy'])) {
-//                $queried_object = get_queried_object();
-//                $term_id = $queried_object->term_id;
-                $tax     = $_GET['taxonomy'];
-
-                $term_id = $_GET['tag_ID'];
-
-                // Get field value
-                $value = get_option($tax.'_'.$term_id.'_'.$field['name']);
-
-                if($field['name'] == 'image'){
-                    $value  = (int) $value;
-                }
-            }
-
-            return $value;
         }
 
         protected function _get_field_group_id_registered(){
@@ -119,6 +98,27 @@ if(!class_exists('Advanced_Product\ACF_Taxonomy')) {
                     $fields = apply_filters('acf/field_group/get_fields', array(), $acf['id']);
 
                     if($fields && count($fields)) {
+                        foreach( $fields as $i => &$field ){
+
+                            // if they didn't select a type, skip this field
+                            if( !$field || !$field['type'] || $field['type'] == 'null' )
+                            {
+                                continue;
+                            }
+
+                            // set value
+                            if( !isset($field['value']) )
+                            {
+                                $field['value'] = apply_filters('acf/load_value', false, 'term_'.$taxonomy-> term_id, $field);
+                                $field['value'] = apply_filters('acf/format_value', $field['value'], 'term_'.$taxonomy-> term_id, $field);
+                            }
+
+
+//                            // create field
+//                            $field['name'] = 'fields[' . $field['key'] . ']';
+
+                        }
+
                         do_action('acf/create_fields', $fields, $acf['id']);
 
                         $input_controller = $this->acf_input_controller;
@@ -129,12 +129,12 @@ if(!class_exists('Advanced_Product\ACF_Taxonomy')) {
             }
         }
 
-        public function save_term( $term_id, $tt_id, $taxonomy ) {
+        public function saved_taxonomy( $term_id, $tt_id, $update ) {
 
             $fields = isset($_POST['fields'])?$_POST['fields']:array();
 
             // loop through and save
-            if( $fields )
+            if( $fields && !empty($fields) )
             {
                 // loop through and save $_POST data
                 foreach( $_POST['fields'] as $k => $v )
@@ -143,10 +143,13 @@ if(!class_exists('Advanced_Product\ACF_Taxonomy')) {
                     $f = apply_filters('acf/load_field', false, $k );
 
 
+//                    require_once ADVANCED_PRODUCT_CLASSES_PATH.'/class-acf_field_functions.php';
                     $acf    = new \acf_field_functions();
 
+//                    $acf    = new ACF_Field_Functions();
+
                     // update field
-                    do_action('acf/update_value', $v, $taxonomy.'_'.$term_id, $f );
+                    do_action('acf/update_value', $v, 'term_'.$term_id, $f, $this ->taxonomy_name );
 
                 }
             }

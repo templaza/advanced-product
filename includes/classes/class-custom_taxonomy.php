@@ -51,8 +51,8 @@ if(!class_exists('Advanced_Product\Custom_Taxonomy')) {
 
             if(!empty($category)) {
 
-                $slug   = get_post_meta($category -> ID, 'slug', true);
-                $singular = get_field('singular_name', $category->ID);
+                $slug       = get_post_meta($category -> ID, 'slug', true);
+                $singular   = get_field('singular_name', $category->ID);
 
                 $first_fields[$slug] = wp_parse_args( array(
                     'label' => $singular,
@@ -197,7 +197,8 @@ if(!class_exists('Advanced_Product\Custom_Taxonomy')) {
             $associate_to   = get_post_meta($this -> taxonomy -> ID, 'associate_to', true);
 
             if($column == $associate_to){
-                $ass_taxs = get_field( $associate_to, $this -> get_taxonomy_name().'_'.$term_id );
+//                $ass_taxs = get_field( $associate_to, $this -> get_taxonomy_name().'_'.$term_id );
+                $ass_taxs = get_field( $associate_to, 'term_'.$term_id );
                 foreach($ass_taxs as $i => $tax){
                     if(is_numeric($tax)) {
                         $term = get_term_by('term_id', $tax, $associate_to);

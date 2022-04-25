@@ -168,7 +168,8 @@ if(!class_exists('Advanced_Product\ACF_Taxonomy_Walker')) {
             // vars
             $is_numeric = false;
             if(is_array($field['value']) && count($field['value'])){
-                $is_numeric = is_numeric($field['value'][0]);
+                $index  = array_key_first($field['value']);
+                $is_numeric = is_numeric($field['value'][$index]);
                 if($is_numeric) {
                     $selected = in_array($term->term_id, $field['value'] );
                 }else {

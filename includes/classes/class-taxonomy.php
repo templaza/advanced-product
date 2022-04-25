@@ -56,7 +56,8 @@ if(!class_exists('Advanced_Product\Taxonomy')) {
 
         public function register_acf(){
             // Register acf input controller to add fields with edit term taxonomy
-            $acf    = acf();
+//            $acf    = acf();
+            $acf    = advanced_product_acf();
             if(/*$pagenow == 'term.php' &&*/ $acf && version_compare($acf -> settings['version'], '5.0', '<') &&
                 $this ->get_current_screen_taxonomy() == $this ->get_taxonomy_name()) {
                 new ACF_Taxonomy($this -> core, $this -> post_type, array(
@@ -240,7 +241,10 @@ if(!class_exists('Advanced_Product\Taxonomy')) {
             }
 
             $new_columns            = array();
-            $new_columns['cb'] = $columns['cb'];
+
+            if(isset($columns['cb'])) {
+                $new_columns['cb'] = $columns['cb'];
+            }
 
             $new_columns['thumb']   = '<span class="dashicons dashicons-format-image"></span>';
 
@@ -266,7 +270,7 @@ if(!class_exists('Advanced_Product\Taxonomy')) {
             }
 
             if($column == 'thumb'){
-                $imgField = get_field( 'image', $this -> get_taxonomy_name().'_'.$term_id );
+                $imgField = get_field( 'image', 'term_'.$term_id );
                 $url    = (!empty($imgField) && isset($imgField['sizes']) && isset($imgField['sizes']['thumbnail']))?$imgField['sizes']['thumbnail']:'';
 
                 if(!empty($url)) {

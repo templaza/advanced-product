@@ -8,11 +8,13 @@ Author: Elliot Condon
 Author URI: http://www.elliotcondon.com/
 License: GPL
 Copyright: Elliot Condon
+Overrode by Templaza
+Overrode "acf" class name to "Advanced_Product_ACF_Custom" and define "LIT"
 */
 
-if( !class_exists('acf') ):
+if( !class_exists('Advanced_Product_ACF_Custom') ):
 
-class acf
+class Advanced_Product_ACF_Custom
 {
 	// vars
 	var $settings;
@@ -345,10 +347,14 @@ class acf
 	function include_before_theme()
 	{
 		// incudes
-		include_once('core/api.php');
+        if(!function_exists('get_field')) {
+            include_once('core/api.php');
+        }
 		
 		include_once('core/controllers/input.php');
-		include_once('core/controllers/location.php');
+        if(!class_exists('acf_location')) {
+            include_once('core/controllers/location.php');
+        }
 		include_once('core/controllers/field_group.php');
 		
 		
@@ -356,7 +362,9 @@ class acf
 		if( is_admin() )
 		{
 			include_once('core/controllers/post.php');
-			include_once('core/controllers/revisions.php');
+			if(!class_exists('acf_revisions')) {
+                include_once('core/controllers/revisions.php');
+            }
 			include_once('core/controllers/everything_fields.php');	
 			include_once('core/controllers/field_groups.php');
 		}
@@ -364,7 +372,9 @@ class acf
 		
 		// register fields
 		include_once('core/fields/_functions.php');
-		include_once('core/fields/_base.php');
+		if(!class_exists('acf_field')) {
+            include_once('core/fields/_base.php');
+        }
 		
 		include_once('core/fields/text.php');
 		include_once('core/fields/textarea.php');
@@ -445,7 +455,7 @@ class acf
 	function include_after_theme() {
 		
 		// bail early if user has defined LITE_MODE as true
-		if( defined('ACF_LITE') && ACF_LITE )
+		if( defined('ADVANCED_PRODUCT_ACF_LITE') && ADVANCED_PRODUCT_ACF_LITE )
 		{
 			return;
 		}
@@ -550,7 +560,7 @@ class acf
 		
 		
 		// bail early if user has defined LITE_MODE as true
-		if( defined('ACF_LITE') && ACF_LITE )
+		if( defined('ADVANCED_PRODUCT_ACF_LITE') && ADVANCED_PRODUCT_ACF_LITE )
 		{
 			return;
 		}
@@ -916,21 +926,21 @@ class acf
 *  @return	(object)
 */
 
-function acf()
+function advanced_product_acf()
 {
-	global $acf;
+	global $advanced_product_acf;
 	
-	if( !isset($acf) )
+	if( !isset($advanced_product_acf) )
 	{
-		$acf = new acf();
+        $advanced_product_acf = new Advanced_Product_ACF_Custom();
 	}
 	
-	return $acf;
+	return $advanced_product_acf;
 }
 
 
 // initialize
-acf();
+advanced_product_acf();
 
 
 endif; // class_exists check

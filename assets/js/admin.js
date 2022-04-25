@@ -2,14 +2,6 @@
     "use strict";
     $(function () {
 
-        /* Custom Category post type */
-        $("#acf_acf_subcategory_general").on("change keyup", "#acf-field-singular_name", function(){
-            var __main  = $(this).closest("#acf_acf_subcategory_general");
-            if(__main.find("#acf-field-slug").length) {
-                __main.find("#acf-field-slug").val(wpFeSanitizeTitle($(this).val()));
-            }
-        });
-
         var ap_custom_field_init = function(){
             if(typeof acf === "undefined"){
                 return;
@@ -813,6 +805,41 @@
                 _ap_product_ajax($("#acf-field-ap_branch"));
             };
             ap_product_init();
+        }
+
+        if(window.pagenow == "ap_custom_category" && (window.adminpage == "post-php" || window.adminpage == "post-new-php")){
+            /* Custom Category post type */
+            $("#acf_acf_subcategory_general").on("change keyup", "#acf-field-singular_name", function(){
+                var __main  = $(this).closest("#acf_acf_subcategory_general");
+                if(__main.find("#acf-field-slug").length) {
+                    __main.find("#acf-field-slug").val(wpFeSanitizeTitle($(this).val()));
+                }
+                // var __main = $(this).closest("#poststuff");
+                if(!__main.closest("#poststuff").find("input[name=post_title]").val().length) {
+                    __main.closest("#poststuff").find("input[name=post_title]")
+                        .prev("#title-prompt-text").prop("class", "screen-reader-text")
+                        .end().val($(this).val());
+                }
+            });
+
+            $(document).on('blur', 'body.post-type-ap_custom_category input[name=post_title]', function(e){
+                var __main  = $(this).closest("#poststuff");
+
+                if(!__main.find("input#acf-field-singular_name").val().trim().length) {
+                    __main.find("input#acf-field-singular_name").val($(this).val());
+                }
+                if(__main.find("#acf-field-slug").length) {
+                    __main.find("#acf-field-slug").val(wpFeSanitizeTitle($(this).val()));
+                }
+                // if(!__main.find("#ap_meta_box_field_type tr.field_name input").val().trim().length) {
+                //     __main.find("#ap_meta_box_field_type tr.field_name input").val(wpFeSanitizeTitle($(this).val()));
+                // }
+            });
+        //     $(document).on("keyup", "input#acf-field-singular_name", function(){
+        //         var __main = $(this).closest("#poststuff");
+        //         __main.find("input[name=post_title]").prev("#title-prompt-text").prop("class", "screen-reader-text")
+        //             .end().val($(this).val());
+        //     });
         }
 
     });

@@ -323,7 +323,7 @@ include_once('advanced-custom-fields/acf.php');
 <p><?php _e("To remove all visual interfaces from the ACF plugin, you can use a constant to enable lite mode. Add the following code to your functions.php file <b>before</b> the include_once code:",'acf'); ?></p>
 
 <pre>
-define( 'ACF_LITE', true );
+define( 'ADVANCED_PRODUCT_ACF_LITE', true );
 </pre>
  
 <p><br /></p>

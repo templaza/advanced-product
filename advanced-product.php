@@ -17,6 +17,7 @@ Google+: https://plus.google.com/+Templaza
 namespace Advanced_Product;
 
 use Advanced_Product\Helper\AP_Product_Helper;
+use Advanced_Product\Helper\AP_Custom_Taxonomy_Helper;
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
@@ -48,11 +49,18 @@ class Advanced_Product{
         $this->register_meta_boxes();
         $this->register_shortcodes();
 
-        if (!class_exists('Acf') && !defined('ACF_LITE')) {
-            define('ACF_LITE', true);
+//        if (!class_exists('Acf') && !defined('ACF_LITE')) {
+//            define('ACF_LITE', true);
+//
+//            // Include Advanced Custom Fields
+//            include_once(ADVANCED_PRODUCT_LIBRARY_PATH . '/acf/acf.php');
+//        }
+
+        if (!class_exists('Advanced_Product_ACF_Custom') && !defined('ADVANCED_PRODUCT_ACF_LITE')) {
+            define('ADVANCED_PRODUCT_ACF_LITE', true);
 
             // Include Advanced Custom Fields
-            include_once(ADVANCED_PRODUCT_LIBRARY_PATH . '/acf/acf.php');
+            include_once(ADVANCED_PRODUCT_LIBRARY_PATH . '/acf_custom/acf_custom.php');
         }
 
         if (!class_exists('acf_options_page_plugin')) {
@@ -103,6 +111,15 @@ class Advanced_Product{
         // Use a custom walker for the ACF dropdowns
         // Change taxonomy id to slug
         add_filter('acf/fields/taxonomy/wp_list_categories', array($this, 'acf_wp_list_categories'), 10, 2);
+
+        if(is_admin()){
+            // Import my info when import data from templaza framework
+            require_once ADVANCED_PRODUCT_CLASSES_PATH.'/class-import_sync_templaza_framework.php';
+            if(class_exists('Advanced_Product\Import_Sync_Templaza_Framework')) {
+                $import_sync = new Import_Sync_Templaza_Framework();
+            }
+        }
+
     }
 
     public function import_custom_fields(){

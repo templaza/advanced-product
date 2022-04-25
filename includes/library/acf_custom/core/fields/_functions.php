@@ -63,8 +63,7 @@ class acf_field_functions
 		
 		// set default value
 		$value = false;
-		
-		
+
 		// if $post_id is a string, then it is used in the everything fields and can be found in the options table
 		if( is_numeric($post_id) )
 		{
@@ -90,6 +89,19 @@ class acf_field_functions
 		 	}
 		 	
 		}
+		elseif( strpos($post_id, 'term_') !== false )
+		{
+			$post_id = str_replace('term_', '', $post_id);
+
+			$v = get_term_meta( $post_id, $field['name'], false );
+
+			// value is an array
+			if( isset($v[0]) )
+			{
+			 	$value = $v[0];
+		 	}
+
+		}
 		else
 		{
 			$v = get_option( $post_id . '_' . $field['name'], false );
@@ -109,7 +121,6 @@ class acf_field_functions
 				$value = $field['default_value'];
 			}
 		}
-		
 		
 		// if value was duplicated, it may now be a serialized string!
 		$value = maybe_unserialize($value);
@@ -213,7 +224,13 @@ class acf_field_functions
 			$user_id = str_replace('user_', '', $post_id);
 			update_metadata('user', $user_id, $field['name'], $value);
 			update_metadata('user', $user_id, '_' . $field['name'], $field['key']);
-		}
+		}elseif(strpos($post_id, 'term_') !== false){
+
+            $term_id = str_replace('term_', '', $post_id);
+
+            update_metadata('term', $term_id, $field['name'], $value );
+            update_metadata('term', $term_id, '_' . $field['name'], $field['key']);
+        }
 		else
 		{
 			// for some reason, update_option does not use stripslashes_deep.
@@ -290,6 +307,12 @@ class acf_field_functions
 			$post_id = str_replace('user_', '', $post_id);
 			delete_user_meta( $post_id, $key );
 			delete_user_meta( $post_id, '_' . $key );
+		}
+		elseif( strpos($post_id, 'term_') !== false )
+		{
+			$post_id = str_replace('term_', '', $post_id);
+			delete_term_meta( $post_id, $key );
+            delete_term_meta( $post_id, '_' . $key );
 		}
 		else
 		{

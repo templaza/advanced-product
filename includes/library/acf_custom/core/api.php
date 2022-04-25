@@ -42,6 +42,11 @@ function get_field_reference( $field_name, $post_id ) {
 		$temp_post_id = str_replace('user_', '', $post_id);
 		$return = get_user_meta($temp_post_id, '_' . $field_name, true); 
 	}
+	elseif( strpos($post_id, 'term_') !== false )
+	{
+		$temp_post_id = str_replace('term_', '', $post_id);
+		$return = get_term_meta($temp_post_id, '_' . $field_name, true);
+	}
 	else
 	{
 		$return = get_option('_' . $post_id . '_' . $field_name); 
@@ -212,7 +217,7 @@ function get_field( $field_key, $post_id = false, $format_value = true ) {
 
 	
 	$field = get_field_object( $field_key, $post_id, $options);
-	
+
 	
 	if( is_array($field) )
 	{
@@ -246,7 +251,7 @@ function get_field( $field_key, $post_id = false, $format_value = true ) {
 function get_field_object( $field_key, $post_id = false, $options = array() ) {
 	
 	// make sure add-ons are included
-	acf()->include_3rd_party();
+	advanced_product_acf()->include_3rd_party();
 		
 		
 	// filter post_id
@@ -290,12 +295,11 @@ function get_field_object( $field_key, $post_id = false, $options = array() ) {
 		$field = apply_filters('acf/load_field', $field, $field['key'] );
 	}
 
-
 	// load value
 	if( $options['load_value'] )
 	{
 		$field['value'] = apply_filters('acf/load_value', false, $post_id, $field);
-		
+
 		
 		// format value
 		if( $options['format_value'] )

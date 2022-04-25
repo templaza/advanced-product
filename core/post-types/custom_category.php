@@ -20,7 +20,9 @@ if(!class_exists('Advanced_Product\Post_Type\Custom_Category')){
             parent::hooks();
             add_action( 'init', array( $this, 'register_fields' ) );
 
-            add_action( 'wp_insert_post_data', array( $this, 'insert_post_data' ) );
+//            add_action( 'wp_insert_post_data', array( $this, 'insert_post_data' ), 10, 2 );
+
+            add_action( 'save_post_'.$this -> get_post_type(), array($this, 'save_post'), 10,3 );
 
         }
 
@@ -74,15 +76,34 @@ if(!class_exists('Advanced_Product\Post_Type\Custom_Category')){
             return $args;
         }
 
-        public function insert_post_data($post){
-            if(isset($post['post_type']) && $post['post_type'] == $this -> get_post_type()){
-                $fields = isset($_POST['fields'])?$_POST['fields']:array();
+//        public function insert_post_data($post, $postarr){
+//            if(isset($post['post_type']) && $post['post_type'] == $this -> get_post_type()){
+//                $fields = isset($_POST['fields'])?$_POST['fields']:array();
+//
+//                if(empty($post['post_title']) && isset($fields['field_618a325158397']) && !empty($fields['field_618a325158397'])){
+//                    $post['post_title']  = $fields['field_618a325158397'];
+//                }
+//            }
+//            return $post;
+//        }
 
-                if(empty($post['post_title']) && isset($fields['field_618a325158397']) && !empty($fields['field_618a325158397'])){
-                    $post['post_title']  = $fields['field_618a325158397'];
-                }
+        public function save_post($post_ID, $post, $update){
+            global $wpdb;
+            $term_slug  = \get_field('slug', $post_ID);
+
+            $my_post    = array();
+
+            if(!empty($term_slug)){
+                $my_post['post_name']  = $term_slug;
             }
-            return $post;
+
+            if(!isset($post -> post_title) || empty($post -> post_title)){
+                $singular_name  = \get_field('singular_name', $post_ID);
+                $my_post['post_title']  = $singular_name;
+            }
+            if(!empty($my_post)){
+                $wpdb -> update($wpdb -> posts, $my_post, array('ID' => $post_ID));
+            }
         }
 
         public function manage_edit_columns($columns){

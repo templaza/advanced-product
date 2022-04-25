@@ -103,7 +103,8 @@ class Group_Field extends Taxonomy {
 
     public function manage_custom_column($content, $column, $term_id ){
         if($column == 'branch_assigned'){
-            $fval   = get_field( $column, $this -> get_taxonomy_name().'_'.$term_id );
+//            $fval   = get_field( $column, $this -> get_taxonomy_name().'_'.$term_id );
+            $fval   = get_field( $column, 'term_'.$term_id );
 
             if(!empty($fval) && count($fval)){
                 foreach($fval as $i => $slug){
@@ -124,7 +125,11 @@ class Group_Field extends Taxonomy {
     public function saved_taxonomy($term_id, $tt_id ){
         $term = get_term( $term_id );
         $tax_slug = $term->slug;
-        $branch_assigned    = \get_field('branch_assigned', $this -> get_taxonomy_name().'_'.$term_id);
+
+        clean_taxonomy_cache($this -> get_taxonomy_name());
+
+//        $branch_assigned    = \get_field('branch_assigned', $this -> get_taxonomy_name().'_'.$term_id);
+        $branch_assigned    = \get_field('branch_assigned', 'term_'.$term_id);
 
         $branch_taxs    = \get_terms(array(
             'taxonomy'      => 'ap_branch',
@@ -135,7 +140,8 @@ class Group_Field extends Taxonomy {
         if(!is_wp_error($branch_taxs) && !empty($branch_taxs)){
             $field_key  = 'field_'.md5('ap_branch__group_field');
             foreach($branch_taxs as $branch){
-                $group_assigned = \get_field('group_field_assigned', 'ap_branch_' . $branch->term_id);
+//                $group_assigned = \get_field('group_field_assigned', 'ap_branch_' . $branch->term_id);
+                $group_assigned = \get_field('group_field_assigned', 'term_' . $branch->term_id);
 
                 $group_assigned = $group_assigned?$group_assigned:array();
                 if(is_array($branch_assigned) && in_array($branch -> slug, $branch_assigned)){
@@ -143,7 +149,7 @@ class Group_Field extends Taxonomy {
                         $group_assigned[]   = $tax_slug;
                         if(!empty($group_assigned)){
                             // Update group_field_assigned (field created from branch taxonomy)
-                            update_field($field_key, $group_assigned, 'ap_branch_' .$branch -> term_id);
+                            update_field($field_key, $group_assigned, 'term_' .$branch -> term_id);
                         }
                     }
                 }else{
@@ -154,41 +160,7 @@ class Group_Field extends Taxonomy {
                             $group_assigned[]   = $tax_slug;
                         }
                         // Update group_field_assigned (field created from branch taxonomy)
-                        update_field($field_key, $group_assigned, 'ap_branch_' .$branch -> term_id);
-                    }
-                }
-            }
-        }
-    }
-
-    public function edited_taxonomy($term_id, $tt_id ){
-        $term = get_term( $term_id );
-        $tax_slug = $term->slug;
-        $branch_assigned    = \get_field('branch_assigned', $this -> get_taxonomy_name().'_'.$term_id);
-
-        $branch_taxs    = \get_terms(array(
-            'taxonomy'      => 'ap_branch',
-            'hide_empty'    => false,
-        ));
-
-        if(!is_wp_error($branch_taxs) && !empty($branch_taxs)){
-            $field_key  = 'field_'.md5('ap_branch__group_field');
-            foreach($branch_taxs as $branch){
-                $group_assigned = \get_field('group_field_assigned', 'ap_branch_' . $branch->term_id);
-                $group_assigned = $group_assigned?$group_assigned:array();
-                if(in_array($branch -> slug, $branch_assigned)){
-                    if(!$group_assigned || (!empty($group_assigned) && !in_array($tax_slug, $group_assigned))){
-                        $group_assigned[]   = $tax_slug;
-                        if(!empty($group_assigned)){
-                            // Update group_field_assigned (field created from branch taxonomy)
-                            update_field($field_key, $group_assigned, 'ap_branch_' .$branch -> term_id);
-                        }
-                    }
-                }else{
-                    if($group_assigned && !empty($group_assigned) && in_array($tax_slug, $group_assigned)){
-                        $group_assigned = array_diff($group_assigned, array($tax_slug));
-                        // Update group_field_assigned (field created from branch taxonomy)
-                        update_field($field_key, $group_assigned, 'ap_branch_' .$branch -> term_id);
+                        update_field($field_key, $group_assigned, 'term_' .$branch -> term_id);
                     }
                 }
             }

@@ -26,6 +26,9 @@ if(!defined('ADVANCED_PRODUCT_PLUGIN_DIR_PATH')){
 if(!defined('ADVANCED_PRODUCT_LIBRARY_PATH')){
     define('ADVANCED_PRODUCT_LIBRARY_PATH', __DIR__.'/library');
 }
+if(!defined('ADVANCED_PRODUCT_CLASSES_PATH')){
+    define('ADVANCED_PRODUCT_CLASSES_PATH', __DIR__.'/classes');
+}
 if(!defined('ADVANCED_PRODUCT_TEMPLATE_PATH')){
     define('ADVANCED_PRODUCT_TEMPLATE_PATH', ADVANCED_PRODUCT_PATH.'/templates');
 }
