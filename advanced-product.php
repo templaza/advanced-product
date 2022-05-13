@@ -4,7 +4,7 @@ Plugin Name: Advanced Product
 Plugin URI: https://github.com/templaza/advanced-product
 Description: This plugin help you manage advanced products.
 Author: Templaza
-Version: 1.0.0
+Version: 1.0.1
 Text Domain: advanced-product
 Author URI: http://templaza.com
 Forum: https://www.templaza.com/Forums.html
@@ -100,14 +100,14 @@ class Advanced_Product{
         add_action( 'switch_theme', 'flush_rewrite_rules', 15 );
         add_action( 'plugins_loaded', array( $this, 'load_plugin_textdomain' ) );
 
-        if($this -> validate_page()) {
+        //if($this -> validate_page()) {
             add_action('init', array($this, 'register_scripts'));
             add_action('admin_enqueue_scripts', array($this, 'admin_enqueue_scripts'));
 
 //            // Use a custom walker for the ACF dropdowns
 //            // Change taxonomy id to slug
 //            add_filter('acf/fields/taxonomy/wp_list_categories', array($this, 'acf_wp_list_categories'), 10, 2);
-        }
+        //}
         // Use a custom walker for the ACF dropdowns
         // Change taxonomy id to slug
         add_filter('acf/fields/taxonomy/wp_list_categories', array($this, 'acf_wp_list_categories'), 10, 2);
