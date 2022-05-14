@@ -28,7 +28,7 @@ if(!class_exists('Advanced_Product\ACF_Taxonomy')) {
             }
 
             // Register acf input controller to add fields with edit term taxonomy
-            if($pagenow == 'term.php') {
+            if($pagenow == 'term.php' || (isset($_SERVER['PHP_SELF']) && $_SERVER['PHP_SELF'] == '/wp-admin/term.php')) {
                 $this->acf_input_controller = new \acf_controller_input();
             }
 
