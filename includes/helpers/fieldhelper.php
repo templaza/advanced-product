@@ -348,11 +348,6 @@ class FieldHelper extends BaseHelper {
      */
     public static function get_meta_values( $key = '', $type = 'post', $status = 'publish' ) {
 
-//        $store_id   = __METHOD__;
-//        $store_id  .= ":$key";
-//        $store_id  .= ":$type";
-//        $store_id  .= ":$status";
-//        $store_id   = md5($store_id);
         $store_id   = static::_get_store_id(__METHOD__);
 
         if(isset(static::$cache[$store_id])){
@@ -424,7 +419,7 @@ class FieldHelper extends BaseHelper {
     public static function get_fields_without_group_field($options = array()){
         $post_type  = 'ap_custom_field';
         $taxonomy   = 'ap_group_field';
-        $terms      =  \get_terms( ['taxonomy' => $taxonomy, 'fields' => 'ids'  ] );
+        $terms      =  \get_terms( ['taxonomy' => $taxonomy, 'fields' => 'ids', 'hide_empty' => false   ] );
 
         if(empty($terms) || \is_wp_error($terms)){
             return false;
