@@ -391,7 +391,8 @@ if(!class_exists('Advanced_Product\Post_Type\Product')){
 
             // Get all group fields assigned to branch
             foreach ($branches as $branch) {
-                $gfields_assigned = \get_field('group_field_assigned', 'ap_branch_' . $branch->term_id);
+//                $gfields_assigned = \get_field('group_field_assigned', 'ap_branch_' . $branch->term_id);
+                $gfields_assigned = \get_field('group_field_assigned', 'term_' . $branch->term_id);
 
                 if(!empty($gfields_assigned)) {
 

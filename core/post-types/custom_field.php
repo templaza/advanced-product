@@ -26,24 +26,14 @@ if(!class_exists('Advanced_Product\Post_Type\Custom_Field')){
         public function hooks()
         {
             parent::hooks();
-//
-//            add_action('init', array($this, 'register_taxonomy'));
 
-
-//            add_filter( 'init', array( $this, 'options_custom_fields' ));
             add_action( 'admin_init', array($this, 'disable_autosave') );
             add_action( 'save_post_'.$this -> get_post_type(), array($this, 'save_post'), 10,3 );
-//            add_action( 'pre_post_update'.$this -> get_post_type(), array($this, 'save_post'), 10,3 );
-//            add_action('admin_menu',array($this, 'admin_menu'));
 
-//            \add_action( 'init', array( $this, 'register_fields' ) );
-//            add_action('admin_head', array($this, 'add_meta_boxes'));
-//            add_action( 'admin_menu', array( $this, 'remove_taxonomy_metaboxes' ) );
+            add_filter('pre_trash_post', array($this, 'pre_trash_post'), 10, 2);
+            add_filter('pre_delete_post', array($this, 'pre_delete_post'), 10, 3);
+            add_filter('post_row_actions', array($this, 'post_row_actions'), 10, 2);
         }
-
-//        public function admin_menu(){
-//            add_submenu_page('edit.php?post_type=ap_product', 'Group Fields', 'Group Fields', 'manage_options','edit-tags.php?taxonomy=ap_group_fields&post_type=ap_product'/*,'bsp_students_add'*/);
-//        }
 
         public function disable_autosave() {
             wp_deregister_script( 'autosave' );
@@ -158,14 +148,60 @@ if(!class_exists('Advanced_Product\Post_Type\Custom_Field')){
             if($this -> get_post_type() == $this -> get_current_screen_post_type()) {
                 wp_enqueue_script('advanced-product_admin_sanitize-title-script');
             }
-////            wp_enqueue_script(array(
-////                'acf-field-group',
-////            ));
-////            wp_enqueue_script($this -> get_post_type().'-acf-field-group', AP_Functions::get_my_url().'/includes/library/acf/js/field-group.js');
-////            wp_enqueue_script($this -> get_post_type().'-acf-field-group',
-////                AP_Functions::get_my_url().'/includes/library/acf/js/input.js',array('advanced-product_admin_scripts'));
         }
 
+        /**
+         * Deny trash post is protected
+         * @param bool|null $trash Whether to go forward with trashing.
+         * @param WP_Post   $post  Post object.
+         * @return bool|null
+         * */
+        public function pre_trash_post($trash, $post){
+            if(!empty($post) && $post -> post_type == $this -> get_post_type()){
+                $is_protected    = (bool) get_post_meta($post -> ID, '__protected', true);
+                if($is_protected){
+                    $trash  = false;
+                }
+            }
+
+            return $trash;
+        }
+
+        /**
+         * Deny delete post is protected
+         * @param bool|null $trash Whether to go forward with trashing.
+         * @param WP_Post   $post  Post object.
+         * @return bool|null
+         * */
+        public function pre_delete_post($delete, $post){
+            if(!empty($post) && $post -> post_type == $this -> get_post_type()){
+                $is_protected    = (bool) get_post_meta($post -> ID, '__protected', true);
+                if($is_protected){
+                    $delete  = false;
+                }
+            }
+
+            return $delete;
+        }
+
+        /**
+         * Deny trash action with field is protected
+         * @param string[] $actions An array of row action links. Defaults are
+         *                          'Edit', 'Quick Edit', 'Restore', 'Trash',
+         *                          'Delete Permanently', 'Preview', and 'View'.
+         * @param WP_Post  $post    The post object.
+         * @return bool|null
+         * */
+        public function post_row_actions($actions, $post){
+            if (!empty($post) && $post->post_type == $this -> get_post_type() && isset($actions['trash']) ) {
+                $is_protected    = (bool) get_post_meta($post -> ID, '__protected', true);
+                if($is_protected){
+                    unset($actions['trash']);
+                }
+            }
+
+            return $actions;
+        }
 
     }
 }
