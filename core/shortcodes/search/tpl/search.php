@@ -24,15 +24,15 @@ $submit_html    = trim($submit_html);
 <form role="search" method="get" action="<?php echo esc_url($action); ?>" class="uk-form-stacked advanced-product-search-form">
     <?php if(!isset($enable_keyword) || (isset($enable_keyword) && $enable_keyword)){?>
     <div class="field ap-search-item field-keyword">
+        <?php if($show_label){?>
         <label class="search-label"><?php _e( 'Keyword:', 'advanced-product' ) ?></label>
+        <?php } ?>
         <input type="search" class="search-field" placeholder="<?php
         _e( 'Search ...', 'advanced-product' ) ?>" value="<?php echo get_query_var('s') ?>" name="s" />
     </div>
     <?php } ?>
     <?php if(!empty($fields)){
-        foreach ($fields as /*$acf_field*/ $field){
-//            $field  = $acf_f_attr  = AP_Custom_Field_Helper::get_custom_field_option_by_id($acf_field -> ID);
-//            $field  = $acf_f_attr  = AP_Custom_Field_Helper::get_custom_field_option_by_id($acf_field -> ID);
+        foreach ($fields as $field){
 
             $field['s_show_label']  = isset($show_label)?$show_label:true;
 
@@ -52,13 +52,6 @@ $submit_html    = trim($submit_html);
                     $field['type'] = $field['s_type'];
                 }
             }
-//            if(isset($field['s_type'])){
-//                if(isset($field['field_type'])){
-//                    $field['field_type'] = $acf_f_attr['s_type'];
-//                }else {
-//                    $field['type'] = $acf_f_attr['s_type'];
-//                }
-//            }
 
             $file_path  = ADVANCED_PRODUCT_CORE_PATH.'/field-layouts/'.$s_field_type.'/'.$s_field_type.'.php';
 
@@ -67,7 +60,9 @@ $submit_html    = trim($submit_html);
             }else {
                 ?>
                 <div class="uk-margin ap-search-item">
+                <?php if(!isset($field['s_show_label']) || (isset($field['s_show_label']) && $field['s_show_label'])){?>
                     <label class="uk-form-label search-label" for="acf-field-ap_price"><?php echo $field['label']; ?></label>
+                <?php } ?>
                     <div class="uk-form-controls uk-position-relative">
                        <?php do_action('acf/create_field', $field); ?>
                     </div>
@@ -78,6 +73,9 @@ $submit_html    = trim($submit_html);
         ?>
 
     <?php }  } ?>
+    <div class="uk-margin ap-search-item">
+        <button class="car-search-submit templaza-btn uk-button uk-margin-top"><?php echo $submit_html; ?></button>
+    </div>
     <input type="hidden" name="post_type" value="ap_product">
-    <button class="car-search-submit templaza-btn uk-button uk-margin-top"><?php echo $submit_html; ?></button>
+
 </form>
