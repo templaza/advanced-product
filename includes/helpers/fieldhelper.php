@@ -414,7 +414,7 @@ class FieldHelper extends BaseHelper {
     /**
      * Get all fields without group field terms
      * @param  array $options An options of get field query.
-     * @return  array fields of ap_custom_field post type
+     * @return  array|bool fields of ap_custom_field post type
      * */
     public static function get_fields_without_group_field($options = array()){
         $post_type  = 'ap_custom_field';
@@ -460,7 +460,7 @@ class FieldHelper extends BaseHelper {
 
     /**
      * Get acf fields with empty group field taxonomy
-     * @return array
+     * @return array|bool
      * */
     public static function get_acf_fields_without_group_field($options = array()){
         $cfields    = static::get_fields_without_group_field($options);

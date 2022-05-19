@@ -104,7 +104,7 @@ class Group_Field extends Taxonomy {
     public function manage_custom_column($content, $column, $term_id ){
         if($column == 'branch_assigned'){
 //            $fval   = get_field( $column, $this -> get_taxonomy_name().'_'.$term_id );
-            $fval   = get_field( $column, 'term_'.$term_id );
+            $fval   = \get_field( $column, 'term_'.$term_id );
 
             if(!empty($fval) && count($fval)){
                 foreach($fval as $i => $slug){
@@ -136,7 +136,6 @@ class Group_Field extends Taxonomy {
             'hide_empty'    => false,
         ));
 
-
         if(!is_wp_error($branch_taxs) && !empty($branch_taxs)){
             $field_key  = 'field_'.md5('ap_branch__group_field');
             foreach($branch_taxs as $branch){
@@ -156,54 +155,12 @@ class Group_Field extends Taxonomy {
                     if($group_assigned && !empty($group_assigned)){
                         if(in_array($tax_slug, $group_assigned)) {
                             $group_assigned = array_diff($group_assigned, array($tax_slug));
-                        }else{
-                            $group_assigned[]   = $tax_slug;
+                            // Update group_field_assigned (field created from branch taxonomy)
+                            update_field($field_key, $group_assigned, 'term_' .$branch -> term_id);
                         }
-                        // Update group_field_assigned (field created from branch taxonomy)
-                        update_field($field_key, $group_assigned, 'term_' .$branch -> term_id);
                     }
                 }
             }
         }
-    }
-
-
-    public function load_field_value($value, $post_id, $field ){
-//        $url            =   'https://api.envato.com/token';
-//        $data = array(
-//            'headers' => array(
-//                'Content-Type' => 'application/x-www-form-urlencoded'
-//            ),
-//            'grant_type'    => 'authorization_code',
-//            'code'          => '637fda89-68f6-4bdd-9b60-0e5f81410005',
-//            'client_id'     => 'templaza-products-14xevtva',
-//            'client_secret' => 'RXBkJVpF2xKqM1IuRe4CDAVyVxblyUdV'
-//        );
-
-
-//        $str_post = "grant_type=authorization_code"
-//            /*. "&code=4c42523d-f42f-4b58-87e7-c7edf153a76a"*/
-//            . "&code=7ad3cbf1-935e-40b4-8bfd-2332edaaf938"
-//            . "&client_id=templaza-products-14xevtva"
-//            . "&client_secret=RXBkJVpF2xKqM1IuRe4CDAVyVxblyUdV"
-//            /*. "&client_secret=RXBkJVpF2xKqM1IuRe4CDAVyVxblyUdV"*/; //Leave this one be
-//        $data = array(
-//            'headers' => array(
-//                'Content-Type' => 'application/x-www-form-urlencoded'
-//            ),
-//            'body' => $str_post
-//        );
-//
-////        var_dump($str_post); die(__FILE__);
-//        var_dump(wp_remote_post($url, $data)); die(__FILE__);
-//        var_dump($value);
-//        var_dump($post_id);
-//        var_dump($field);
-//        var_dump(__FILE__);
-//        die(__FILE__);
-
-        $value  = array('beetle');
-
-        return $value;
     }
 }

@@ -32,9 +32,9 @@ class AP_Custom_Field_Helper extends BaseHelper {
         $post_args  = array(
             'post_type'     => 'ap_custom_field',
             'post_status'   => 'publish',
-            'posts_per_page'   => -1,
-            'order'       => 'ASC',
-            'orderby'     => 'date',
+            'posts_per_page'    => -1,
+            'order'         => 'ASC',
+            'orderby'       => 'date',
         );
 
         if($return == 'query'){
@@ -50,10 +50,6 @@ class AP_Custom_Field_Helper extends BaseHelper {
         if(isset(static::$cache[$store_id])){
             return static::$cache[$store_id];
         }
-
-//        if(is_archive()){
-//            var_dump($post_args);
-//        }
 
         $cfields = new \WP_Query($post_args);
 
@@ -889,7 +885,7 @@ class AP_Custom_Field_Helper extends BaseHelper {
     /**
      * Get all fields without group field terms
      * @param  array $options An options of get field query.
-     * @return  fields of ap_custom_field post type
+     * @return  array|bool of ap_custom_field post type
      * */
     public static function get_fields_without_group_field($options = array()){
         $post_type  = 'ap_custom_field';
@@ -996,12 +992,9 @@ class AP_Custom_Field_Helper extends BaseHelper {
 
         $groups = array();
 
-//        // Get all terms
-//        $taxonomy   = 'ap_group_field';
-//        $terms      =  \get_terms( ['taxonomy' => $taxonomy, 'fields' => 'ids'  ] );
-
+        // Get all terms
         foreach ($branches as $branch) {
-            $_groups    = get_option($branch -> taxonomy.'_'.$branch -> term_id.'_group_field_assigned');
+            $_groups    = \get_field('group_field_assigned', 'term_'.$branch -> term_id);
 
             if(!empty($_groups)) {
                 $group_args = array(

@@ -42,11 +42,11 @@ function get_field_reference( $field_name, $post_id ) {
 		$temp_post_id = str_replace('user_', '', $post_id);
 		$return = get_user_meta($temp_post_id, '_' . $field_name, true); 
 	}
-	elseif( strpos($post_id, 'term_') !== false )
-	{
-		$temp_post_id = str_replace('term_', '', $post_id);
-		$return = get_term_meta($temp_post_id, '_' . $field_name, true);
-	}
+//	elseif( strpos($post_id, 'term_') !== false )
+//	{
+//		$temp_post_id = str_replace('term_', '', $post_id);
+//		$return = get_term_meta($temp_post_id, '_' . $field_name, true);
+//	}
 	else
 	{
 		$return = get_option('_' . $post_id . '_' . $field_name); 
@@ -267,8 +267,7 @@ function get_field_object( $field_key, $post_id = false, $options = array() ) {
 	);
 	
 	$options = array_merge($defaults, $options);
-	
-	
+
 	// is $field_name a name? pre 3.4.0
 	if( substr($field_key, 0, 6) !== 'field_' )
 	{
@@ -281,7 +280,7 @@ function get_field_object( $field_key, $post_id = false, $options = array() ) {
 	{
 		$field = apply_filters('acf/load_field', false, $field_key );
 	}
-	
+
 	
 	// validate field
 	if( !$field )
@@ -300,14 +299,13 @@ function get_field_object( $field_key, $post_id = false, $options = array() ) {
 	{
 		$field['value'] = apply_filters('acf/load_value', false, $post_id, $field);
 
-		
+
 		// format value
 		if( $options['format_value'] )
 		{
 			$field['value'] = apply_filters('acf/format_value_for_api', $field['value'], $post_id, $field);
 		}
 	}
-
 
 	return $field;
 
