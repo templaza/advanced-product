@@ -17,9 +17,13 @@ class AP_Templates{
             if ( ! $template_name ) {
                 continue;
             }
+            $framework_name = $template_name;
             $template_name  = $base.'/'.$template_name;
             if(!preg_match('/\.php$/i', $template_name)){
                 $template_name  .= '.php';
+            }
+            if(!preg_match('/\.php$/i', $framework_name)){
+                $framework_name  .= '.php';
             }
             if ( file_exists( get_stylesheet_directory() . '/' . $template_name ) ) {
                 $located = get_stylesheet_directory() . '/' . $template_name;
@@ -27,8 +31,8 @@ class AP_Templates{
             } elseif ( file_exists( get_template_directory() . '/' . $template_name ) ) {
                 $located = get_template_directory() . '/' . $template_name;
                 break;
-            } elseif ( file_exists( $framework_path.'/'.$template_name ) ) {
-                $located   = $framework_path.'/'.$template_name;
+            } elseif ( file_exists( $framework_path.'/'.$framework_name ) ) {
+                $located   = $framework_path.'/'.$framework_name;
                 break;
             } elseif ( file_exists( ADVANCED_PRODUCT_PLUGIN_DIR_PATH.'/'.$template_name ) ) {
                 $located   = ADVANCED_PRODUCT_PLUGIN_DIR_PATH.'/'.$template_name;
