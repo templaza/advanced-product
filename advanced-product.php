@@ -49,13 +49,6 @@ class Advanced_Product{
         $this->register_meta_boxes();
         $this->register_shortcodes();
 
-//        if (!class_exists('Acf') && !defined('ACF_LITE')) {
-//            define('ACF_LITE', true);
-//
-//            // Include Advanced Custom Fields
-//            include_once(ADVANCED_PRODUCT_LIBRARY_PATH . '/acf/acf.php');
-//        }
-
         if (!class_exists('Advanced_Product_ACF_Custom') && !defined('ADVANCED_PRODUCT_ACF_LITE')) {
             define('ADVANCED_PRODUCT_ACF_LITE', true);
 
@@ -104,9 +97,6 @@ class Advanced_Product{
             add_action('init', array($this, 'register_scripts'));
             add_action('admin_enqueue_scripts', array($this, 'admin_enqueue_scripts'));
 
-//            // Use a custom walker for the ACF dropdowns
-//            // Change taxonomy id to slug
-//            add_filter('acf/fields/taxonomy/wp_list_categories', array($this, 'acf_wp_list_categories'), 10, 2);
         }
         // Use a custom walker for the ACF dropdowns
         // Change taxonomy id to slug
@@ -158,17 +148,6 @@ class Advanced_Product{
 
         return true;
     }
-//    public function get_movies_archive_template($archive_template)
-//    {
-//        var_dump($archive_template);
-//        var_dump(get_post_type());
-//        var_dump(is_post_type_archive('ap_product'));
-//        die(__METHOD__);
-//        if (is_post_type_archive('ap_branch')) {
-//            $archive_template = dirname(__FILE__) . '/templates/movies-archive-template.php';
-//        }
-//        return $archive_template;
-//    }
 
     /**
      * Use a custom walker for the ACF dropdowns
@@ -190,7 +169,6 @@ class Advanced_Product{
     public function load_plugin_textdomain() {
         load_plugin_textdomain( $this -> text_domain, false, ADVANCED_PRODUCT_PATH . '/languages/' );
         load_plugin_textdomain( 'acf', false, ADVANCED_PRODUCT_PATH . '/languages/acf/' );
-//        load_plugin_textdomain( 'acf', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
     }
 
     public function register_pages(){
@@ -260,9 +238,6 @@ class Advanced_Product{
             return false;
         }
 
-//        require_once ( ABSPATH . '/wp-admin/includes/file.php' );
-
-//        $files  = list_files($path, 1);
         $files  = glob($path.'/*.php');
         if(count($files)){
             foreach ($files as $file){
@@ -315,11 +290,6 @@ class Advanced_Product{
             return false;
         }
 
-//        require_once ( ABSPATH . '/wp-admin/includes/file.php' );
-
-//        $files  = list_files($path, 1);
-//        $files  = glob($path.'/*.php');
-//        $files  = glob($path.'/*[\.php?]');
         $files  = glob($path.'/*[*.php]');
 
         if(count($files)){
@@ -327,9 +297,6 @@ class Advanced_Product{
                 $info = pathinfo($file);
                 $file_name  = $info['filename'];
 
-                /*if(is_dir($file)){
-                    $file   .= '/'.$file_name.'/'.$file_name.'.php';
-                }else*/
                 if(!is_file($file)){
                     $file   .= '/'.$file_name.'.php';
                 }
@@ -384,13 +351,7 @@ class Advanced_Product{
         }
     }
     public function register_field_layouts(){
-////        var_dump(wp_login_url());
-//        var_dump(stripos($_SERVER['SCRIPT_NAME'], strrchr( wp_login_url(), '/') ));
-//        die(__FILE__);
-//        var_dump($this -> validate_page()); die(__METHOD__);
-//        if(is_admin() && !$this -> validate_page()){
-//            return;
-//        }
+
         if(stripos($_SERVER['SCRIPT_NAME'], strrchr( wp_login_url(), '/') ) !== false){
             return;
         }
@@ -435,13 +396,23 @@ class Advanced_Product{
 
         $plugin_path    = ADVANCED_PRODUCT_TEMPLATE_PATH;
         $theme_path     = ADVANCED_PRODUCT_THEME_TEMPLATE_PATH;
+        $framework_path = ADVANCED_PRODUCT_TEMPLAZA_FRAMEWORK_TEMPLATE_PATH;
 
         // Is single file
         if(is_single() && is_singular($post_type) ){
+            // File path from theme
             $file   = $theme_path.'/'.basename($template);
+
+            // File path from templaza-framework
+            if(!file_exists($file)){
+                $file   = $framework_path.'/'.basename($template);
+            }
+
+            // File path from my plugin
             if(!file_exists($file)){
                 $file   = $plugin_path.'/'.basename($template);
             }
+
             if(file_exists($file)){
                 $template   = $file;
             }
@@ -451,52 +422,18 @@ class Advanced_Product{
     }
 
     public function the_content($content){
-
-////        var_dump(is_embed());
-////        if ( is_embed() ) {
-////            return $content;
-////        }
-////
-//        $post_type  = get_post_type();
-//
-//        if($post_type != 'ap_product'){
-//            return $content;
-//        }
-//
-//        $file           = '';
-//        $plugin_path    = ADVANCED_PRODUCT_TEMPLATE_PATH;
-//        $theme_path     = ADVANCED_PRODUCT_THEME_TEMPLATE_PATH;
-//
-//        var_dump($post_type);
-//        var_dump(is_archive());
-//        var_dump(is_post_type_archive($post_type));
-//        // Is single file
-//        if(is_single() && is_singular($post_type) ){
-//            $file   = 'single.php';
-//            var_dump($theme_path);
-////            $file   = $theme_path.'/'.basename($template);
-////            if(!file_exists($file)){
-////                $file   = $plugin_path.'/'.basename($template);
-////            }
-////            if(file_exists($file)){
-////                $template   = $file;
-////            }
-//        }elseif(is_archive()){
-//
-//        }
-
         return $content;
     }
 
     public function theme_html($html){
         $post_type = get_post_type();
-//        var_dump($post_type);
-//        die(__METHOD__);
+
         if($post_type != 'ap_product'){
             return $html;
         }
         $plugin_path    = ADVANCED_PRODUCT_TEMPLATE_PATH;
         $theme_path     = ADVANCED_PRODUCT_THEME_TEMPLATE_PATH;
+        $framework_path = ADVANCED_PRODUCT_TEMPLAZA_FRAMEWORK_TEMPLATE_PATH;
 
         $file_name  = '';
         // Is single file
@@ -506,7 +443,15 @@ class Advanced_Product{
             $file_name  = 'archive';
         }
 
+        // File path from theme
         $file   = $theme_path.'/'.$file_name.'.php';
+
+        // File path from templaza-framework
+        if(!file_exists($file)){
+            $file   = $framework_path.'/'.$file_name.'.php';
+        }
+
+        // File path from my plugin
         if(!file_exists($file)){
             $file   = $plugin_path.'/'.$file_name.'.php';
         }
@@ -564,12 +509,9 @@ class Advanced_Product{
     }
 
     public function admin_enqueue_scripts($hook ){
-//        var_dump($post_type); die(__METHOD__);
-//        if(in_array($post_type, array('ap_product', 'ap_custom_field', 'ap_custom_category'))) {
-            wp_enqueue_script('advanced-product');
-            wp_add_inline_script('advanced-product', 'var advanced_product = {};', '');
-            wp_enqueue_script('advanced-product_admin_scripts');
-//        }
+        wp_enqueue_script('advanced-product');
+        wp_add_inline_script('advanced-product', 'var advanced_product = {};', '');
+        wp_enqueue_script('advanced-product_admin_scripts');
     }
 }
 

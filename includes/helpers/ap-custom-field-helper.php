@@ -423,26 +423,6 @@ class AP_Custom_Field_Helper extends BaseHelper {
 
         $field  = static::get_custom_field_option_by_id($field_id, array('exclude_core_field' => $exclude_core_field));
 
-//        // get acf fields
-//        $fields = apply_filters('acf/field_group/get_fields', array(), $post_id);
-//
-//
-//        if(!$fields){
-//            return array();
-//        }
-//
-//        $field          = $fields[0];
-//
-//        $exclude_core_field = isset($options['exclude_core_field'])?$options['exclude_core_field']:true;
-//
-//        if($exclude_core_field){
-//            $exclude_fields = static::get_exclude_fields_registered();
-//
-//            if(!empty($exclude_fields) && in_array($field['name'], $exclude_fields)){
-//                return array();
-//            }
-//        }
-
         return static::$cache[$store_id]    = $field;
     }
 
