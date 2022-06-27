@@ -273,6 +273,12 @@ if(!class_exists('Advanced_Product\Taxonomy')) {
                 $imgField = get_field( 'image', 'term_'.$term_id );
                 $url    = (!empty($imgField) && isset($imgField['sizes']) && isset($imgField['sizes']['thumbnail']))?$imgField['sizes']['thumbnail']:'';
 
+                if(!isset($imgField['sizes']) && !isset($imgField['sizes']['thumbnail'])){
+                    if($img = \wp_get_attachment_image_src($imgField)) {
+                        $url = $img[0];
+                    }
+                }
+
                 if(!empty($url)) {
                     $content = '<img src="' . $url . '" alt="" class="wp-post-image" style="max-width: 40px; max-height: 40px;"/>';
                 }
