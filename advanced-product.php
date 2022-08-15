@@ -156,7 +156,15 @@ class Advanced_Product{
      * @return array 			Default dropdown args + custom walker
      */
     public function acf_wp_list_categories( $args, $field ) {
-        $args['walker'] = new ACF_Taxonomy_Walker($field );
+        $ap_taxonomies  = array('ap_branch', 'ap_category');
+
+        if(($ap_custom_taxonomies = AP_Custom_Taxonomy_Helper::get_taxonomies()) && is_array($ap_custom_taxonomies)) {
+            $ap_taxonomies = array_merge($ap_taxonomies,$ap_custom_taxonomies);
+        }
+
+        if(in_array($args['taxonomy'], $ap_taxonomies)) {
+            $args['walker'] = new ACF_Taxonomy_Walker($field);
+        }
         return $args;
     }
 

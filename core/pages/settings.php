@@ -26,7 +26,8 @@ class Settings extends Base {
         parent::hooks();
 
 //        add_action( 'plugins_loaded', array( $this, 'register_admin_fields' ) );
-        add_action( 'advanced-product/after_init', array( $this, 'register_admin_fields' ) );
+//        add_action( 'advanced-product/after_init', array( $this, 'register_admin_fields' ) );
+        add_action( 'plugins_loaded', array( $this, 'register_admin_fields' ) );
 //        add_action( 'init', array( $this, 'register_field_groups' ) );
     }
 
@@ -67,136 +68,133 @@ class Settings extends Base {
                 $register_field_group   = 'acf_add_local_field_group';
             }
 
-            call_user_func($register_field_group, array (
-                'id' => 'advanced_product_settings_page',
-                'title' => __( 'Settings', $this -> text_domain ),
-                'fields' => array (
-                    array (
-                        'key' => 'field_52910fcad4ef944',
-                        'label' => __( 'General', $this -> text_domain ),
-                        'name' => '',
-                        'type' => 'tab',
+            $fields = array (
+                array (
+                    'key' => 'field_52910fcad4ef944',
+                    'label' => __( 'General', $this -> text_domain ),
+                    'name' => '',
+                    'type' => 'tab',
+                ),
+                array (
+                    'key' => 'field_5281609138d88',
+                    'label' => __( 'Mileage unit', $this -> text_domain ),
+                    'name' => 'ap_milage_unit',
+                    'type' => 'radio',
+                    'choices' => array (
+                        'mi' => __( 'Miles (mi)', $this -> text_domain ),
+                        'km' => __( 'Kilometer (km)', $this -> text_domain ),
                     ),
-                    array (
-                        'key' => 'field_5281609138d88',
-                        'label' => __( 'Mileage unit', $this -> text_domain ),
-                        'name' => 'ap_milage_unit',
-                        'type' => 'radio',
-                        'choices' => array (
-                            'mi' => __( 'Miles (mi)', $this -> text_domain ),
-                            'km' => __( 'Kilometer (km)', $this -> text_domain ),
-                        ),
-                        'other_choice' => 0,
-                        'save_other_choice' => 0,
-                        'default_value' => 'mi',
-                        'layout' => 'horizontal',
+                    'other_choice' => 0,
+                    'save_other_choice' => 0,
+                    'default_value' => 'mi',
+                    'layout' => 'horizontal',
+                ),
+                array (
+                    'key' => 'field_5281610b906e3',
+                    'label' => __( 'Currency symbol', $this -> text_domain ),
+                    'name' => 'ap_currency_symbol',
+                    'type' => 'radio',
+                    'choices' => array (
+                        '$' => '$',
+                        '€' => '€',
+                        '£' => '£',
+                        '¥' => '¥',
                     ),
-                    array (
-                        'key' => 'field_5281610b906e3',
-                        'label' => __( 'Currency symbol', $this -> text_domain ),
-                        'name' => 'ap_currency_symbol',
-                        'type' => 'radio',
-                        'choices' => array (
-                            '$' => '$',
-                            '€' => '€',
-                            '£' => '£',
-                            '¥' => '¥',
-                        ),
-                        'other_choice' => 1,
-                        'save_other_choice' => 1,
-                        'default_value' => '$',
-                        'layout' => 'vertical',
+                    'other_choice' => 1,
+                    'save_other_choice' => 1,
+                    'default_value' => '$',
+                    'layout' => 'vertical',
+                ),
+                array (
+                    'key' => 'field_5281618b906e4',
+                    'label' => __( 'Symbol placement', $this -> text_domain ),
+                    'name' => 'ap_symbol_placement',
+                    'type' => 'radio',
+                    'choices' => array (
+                        'prepend' => __( 'Before numbers', $this -> text_domain ),
+                        'append' => __( 'After numbers', $this -> text_domain ),
                     ),
-                    array (
-                        'key' => 'field_5281618b906e4',
-                        'label' => __( 'Symbol placement', $this -> text_domain ),
-                        'name' => 'ap_symbol_placement',
-                        'type' => 'radio',
-                        'choices' => array (
-                            'prepend' => __( 'Before numbers', $this -> text_domain ),
-                            'append' => __( 'After numbers', $this -> text_domain ),
-                        ),
-                        'other_choice' => 0,
-                        'save_other_choice' => 0,
-                        'default_value' => 'prepend',
-                        'layout' => 'vertical',
-                    ),
-                    array (
-                        'key'           => 'field_52816229906e5',
-                        'label'         => __( 'Thousands separator', $this -> text_domain ),
-                        'name'          => 'ap_price_thousands_sep',
-                        'type'          => 'text',
-                        'default_value' => '.',
-                    ),
-                    array (
-                        'key' => 'field_618e30cd79924',
-                        'label' => __( 'Decimal separator', $this -> text_domain ),
-                        'name' => 'ap_price_decimal_sep',
-                        'type' => 'text',
-                        'default_value' => ',',
-                    ),
-                    array (
-                        'key' => 'field_618e37d0481ac',
-                        'label' => __( 'Number of decimals', $this -> text_domain ),
-                        'name' => 'ap_price_num_decimals',
-                        'type' => 'number',
-                        'default_value' => '0',
-                    ),
-                    array (
+                    'other_choice' => 0,
+                    'save_other_choice' => 0,
+                    'default_value' => 'prepend',
+                    'layout' => 'vertical',
+                ),
+                array (
+                    'key'           => 'field_52816229906e5',
+                    'label'         => __( 'Thousands separator', $this -> text_domain ),
+                    'name'          => 'ap_price_thousands_sep',
+                    'type'          => 'text',
+                    'default_value' => '.',
+                ),
+                array (
+                    'key' => 'field_618e30cd79924',
+                    'label' => __( 'Decimal separator', $this -> text_domain ),
+                    'name' => 'ap_price_decimal_sep',
+                    'type' => 'text',
+                    'default_value' => ',',
+                ),
+                array (
+                    'key' => 'field_618e37d0481ac',
+                    'label' => __( 'Number of decimals', $this -> text_domain ),
+                    'name' => 'ap_price_num_decimals',
+                    'type' => 'number',
+                    'default_value' => '0',
+                ),
+                array (
 //                        'key' => 'field_'.uniqid(),
-                        'key' => 'field_61b705ba820c5',
-                        'label' => __( 'Single Product', $this -> text_domain ),
-                        'name' => '',
-                        'type' => 'tab',
+                    'key' => 'field_61b705ba820c5',
+                    'label' => __( 'Single Product', $this -> text_domain ),
+                    'name' => '',
+                    'type' => 'tab',
+                ),
+                array(
+                    'key'       => 'field_61b70531f3f97',
+                    'label'     => __('Show Date', $this -> text_domain),
+                    'name'      => 'ap_show_date',
+                    'type'      => 'radio',
+                    'choices'   => array(
+                        1   => __('Yes', $this -> text_domain),
+                        0   => __('No', $this -> text_domain),
                     ),
-                    array(
-                        'key'       => 'field_61b70531f3f97',
-                        'label'     => __('Show Date', $this -> text_domain),
-                        'name'      => 'ap_show_date',
-                        'type'      => 'radio',
-                        'choices'   => array(
-                            1   => __('Yes', $this -> text_domain),
-                            0   => __('No', $this -> text_domain),
-                        ),
-                        'default_value' => 0,
-                        'layout'    => 'horizontal',
+                    'default_value' => 0,
+                    'layout'    => 'horizontal',
+                ),
+                array(
+                    'key'       => 'field_61b7054b01a44',
+                    'label'     => __('Show Author', $this -> text_domain),
+                    'name'      => 'ap_show_author',
+                    'type'      => 'radio',
+                    'choices'   => array(
+                        1   => __('Yes', $this -> text_domain),
+                        0   => __('No', $this -> text_domain),
                     ),
-                    array(
-                        'key'       => 'field_61b7054b01a44',
-                        'label'     => __('Show Author', $this -> text_domain),
-                        'name'      => 'ap_show_author',
-                        'type'      => 'radio',
-                        'choices'   => array(
-                            1   => __('Yes', $this -> text_domain),
-                            0   => __('No', $this -> text_domain),
-                        ),
-                        'default_value' => 0,
-                        'layout'    => 'horizontal',
+                    'default_value' => 0,
+                    'layout'    => 'horizontal',
+                ),
+                array(
+                    'key'       => 'field_61b7055a3c27c',
+                    'label'     => __('Show Post View', $this -> text_domain),
+                    'name'      => 'ap_show_post_view',
+                    'type'      => 'radio',
+                    'choices'   => array(
+                        1   => __('Yes', $this -> text_domain),
+                        0   => __('No', $this -> text_domain),
                     ),
-                    array(
-                        'key'       => 'field_61b7055a3c27c',
-                        'label'     => __('Show Post View', $this -> text_domain),
-                        'name'      => 'ap_show_post_view',
-                        'type'      => 'radio',
-                        'choices'   => array(
-                            1   => __('Yes', $this -> text_domain),
-                            0   => __('No', $this -> text_domain),
-                        ),
-                        'default_value' => 0,
-                        'layout'    => 'horizontal',
+                    'default_value' => 0,
+                    'layout'    => 'horizontal',
+                ),
+                array(
+                    'key'       => 'field_61b705670c3ab',
+                    'label'     => __('Show Comment Count', $this -> text_domain),
+                    'name'      => 'ap_show_comment_count',
+                    'type'      => 'radio',
+                    'choices'   => array(
+                        1   => __('Yes', $this -> text_domain),
+                        0   => __('No', $this -> text_domain),
                     ),
-                    array(
-                        'key'       => 'field_61b705670c3ab',
-                        'label'     => __('Show Comment Count', $this -> text_domain),
-                        'name'      => 'ap_show_comment_count',
-                        'type'      => 'radio',
-                        'choices'   => array(
-                            1   => __('Yes', $this -> text_domain),
-                            0   => __('No', $this -> text_domain),
-                        ),
-                        'default_value' => 0,
-                        'layout'    => 'horizontal',
-                    ),
+                    'default_value' => 0,
+                    'layout'    => 'horizontal',
+                ),
 //                    array (
 //                        'key' => 'field_529db63c010e5',
 //                        'label' => __( 'Fields', $this -> text_domain ),
@@ -494,7 +492,14 @@ class Settings extends Base {
 //                        'type' => 'message',
 //                        'message' => __( '3. Paste your shortcode to a text widget or post or page', $this -> text_domain ),
 //                    )
-                ),
+            );
+
+            $fields = \apply_filters('advanced-product/settings/fields', $fields);
+
+            call_user_func($register_field_group, array (
+                'id' => 'advanced_product_settings_page',
+                'title' => __( 'Settings', $this -> text_domain ),
+                'fields' => $fields,
 
                 'location' => array (
                     array (
