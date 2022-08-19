@@ -1,6 +1,7 @@
 <?php
 namespace Advanced_Product;
 
+use Advanced_Product\Helper\AP_Custom_Taxonomy_Helper;
 use Advanced_Product\Helper\FieldHelper;
 use Advanced_Product\Helper\TaxonomyHelper;
 
@@ -14,19 +15,12 @@ if(!class_exists('Advanced_Product\Taxonomy')) {
         protected $field_registered     = array();
         protected $acf_input_controller = array();
 
+        protected $old_slug_before_save = '';
+
         public function __construct($core = null, $post_type = null)
         {
             global $pagenow;
             register_activation_hook( ADVANCED_PRODUCT . '/' . ADVANCED_PRODUCT.'.php', array( $this, 'register_taxonomy' ) );
-
-//            // Register acf input controller to add fields with edit term taxonomy
-//            $acf    = acf();
-//            if(/*$pagenow == 'term.php' &&*/ $acf && version_compare($acf -> settings['version'], '5.0', '<') &&
-//                $this ->get_current_screen_taxonomy() == $this ->get_taxonomy_name()) {
-//                new ACF_Taxonomy($core, $post_type, array(
-//                    'taxonomy_name' => $this -> get_taxonomy_name()
-//                ));
-//            }
 
             parent::__construct($core, $post_type);
 
@@ -35,23 +29,20 @@ if(!class_exists('Advanced_Product\Taxonomy')) {
         public function hooks(){
             parent::hooks();
 
-//            // Register core fields
-//            add_action('plugins_loaded', array($this, 'register_core_fields'));
-//
-//            // Register Fields
-//            if(method_exists($this, 'register_fields')) {
-//                add_action('plugins_loaded', array($this, 'register_fields'));
-//            }
-
             // Register taxonomy hook
             add_action('init', array($this, 'register_taxonomy'),11);
 
             add_action('advanced-product/after_init', array($this, 'register_acf'),11);
+            add_action('saved_term', array($this, 'saved_term'), 11, 4);
+
+            // Filter to get old slug before update term
+            add_filter('wp_update_term_data', array($this, 'wp_update_term_data'), 10, 3);
 
             // Manage taxonomy header column list hook
             add_filter('manage_edit-'.$this ->get_taxonomy_name().'_columns', array($this, 'manage_edit_columns'), 12);
             // Manage taxonomy content column list hook
             add_filter( 'manage_' . $this ->get_taxonomy_name() . '_custom_column', array($this, 'manage_custom_column'), 12, 3 );
+
         }
 
         public function register_acf(){
@@ -143,6 +134,57 @@ if(!class_exists('Advanced_Product\Taxonomy')) {
 
                 if(method_exists($this, 'register_fields')){
                     call_user_func(array($this, 'register_fields'));
+                }
+            }
+        }
+
+        public function wp_update_term_data($data, $taxonomy, $args){
+            $old_term = get_term($taxonomy, $this -> get_taxonomy_name());
+            if(!empty($old_term) && !is_wp_error($old_term)) {
+                $this -> old_slug_before_save = $old_term->slug;
+            }
+            return $data;
+        }
+
+        public function saved_term($term_id, $tt_id, $taxonomy, $update){
+
+            $taxonomies = array(
+                $this -> get_taxonomy_name()
+            );
+
+            // Update taxonomy-slug associated to category when taxonomy changed
+            $custom_categories  = AP_Custom_Taxonomy_Helper::get_taxonomies();
+
+            if(!empty($custom_categories) && !is_wp_error($custom_categories)){
+                foreach ($custom_categories as $custom_cat){
+                    $f_cat_slug = \get_field('slug', $custom_cat -> ID);
+
+                    if(empty($f_cat_slug)){
+                        continue;
+                    }
+
+                    $taxonomies[]   = $f_cat_slug;
+                }
+            }
+
+            // Check this taxonomy is our terms
+            $term       = get_term( $term_id );
+            if(empty($term) || is_wp_error($term) || !in_array($taxonomy, $taxonomies)){
+                return;
+            }
+
+            if(!empty($taxonomies) && !empty($this -> old_slug_before_save) && $this -> old_slug_before_save != $term -> slug) {
+                global $wpdb;
+
+                foreach ($taxonomies as $f_cat_slug){
+                    $q  = 'UPDATE '.$wpdb -> termmeta.' AS tm';
+                    $q .= ' INNER JOIN '.$wpdb ->term_taxonomy.' AS tt ON tt.term_id = tm.term_id AND tt.taxonomy="'.$f_cat_slug.'"';
+                    $q .= ' INNER JOIN '.$wpdb ->terms.' AS t ON t.term_id = tm.term_id';
+                    $q .= ' SET tm.meta_value=REPLACE(tm.meta_value, "'.$this -> old_slug_before_save.'", "'.$term->slug.'")';
+                    $q .= ' WHERE tm.meta_key = "'.$this -> get_taxonomy_name().'"';
+                    $q .= ' AND tm.meta_value LIKE \'%"'.$this -> old_slug_before_save.'"%\'';
+                    $wpdb -> query($wpdb -> prepare($q));
+                    wp_reset_query();
                 }
             }
         }

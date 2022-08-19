@@ -2,11 +2,14 @@
 
 namespace Advanced_Product\Taxonomy;
 
+use Advanced_Product\Helper\AP_Custom_Taxonomy_Helper;
 use Advanced_Product\Taxonomy;
 
 defined('ADVANCED_PRODUCT') or exit();
 
 class Branch extends Taxonomy {
+
+    protected $old_slug = '';
 
     public function hooks()
     {
@@ -52,13 +55,13 @@ class Branch extends Taxonomy {
         $fields = parent::__get_core_fields();
 
         $fields[]   = array(
-                'key'       => 'field_'.md5($this -> get_taxonomy_name().'__group_field'),
-                'label'     => __('Group Fields Assignment', $this->text_domain),
-                'name'      => 'group_field_assigned',
-                'type'      => 'taxonomy',
-                'taxonomy'  => 'ap_group_field',
-                'load_save_terms'  => false,
-                'group'     => $this -> __get_core_field_group_id()
+            'key'       => 'field_'.md5($this -> get_taxonomy_name().'__group_field'),
+            'label'     => __('Group Fields Assignment', $this->text_domain),
+            'name'      => 'group_field_assigned',
+            'type'      => 'taxonomy',
+            'taxonomy'  => 'ap_group_field',
+            'load_save_terms'  => false,
+            'group'     => $this -> __get_core_field_group_id()
         );
 
         return apply_filters('advanced-product/'.$this -> get_taxonomy_name().'/fields/create', $fields);
@@ -107,6 +110,21 @@ class Branch extends Taxonomy {
                 }
             }
         }
+
+        // Update branch-slug associated to category
+        if(!empty($this -> old_slug_before_save) && $this -> old_slug_before_save != $term -> slug) {
+            global $wpdb;
+
+            $q  = 'UPDATE '.$wpdb -> termmeta.' AS tm';
+            $q .= ' INNER JOIN '.$wpdb ->term_taxonomy.' AS tt ON tt.term_id = tm.term_id AND tt.taxonomy="ap_category"';
+            $q .= ' INNER JOIN '.$wpdb ->terms.' AS t ON t.term_id = tm.term_id';
+            $q .= ' SET tm.meta_value=REPLACE(tm.meta_value, "'.$this -> old_slug_before_save.'", "'.$tax_slug.'")';
+            $q .= ' WHERE tm.meta_key = "'.$this -> get_taxonomy_name().'"';
+            $q .= ' AND tm.meta_value LIKE \'%"'.$this -> old_slug_before_save.'"%\'';
+            $wpdb -> query($wpdb -> prepare($q));
+            wp_reset_query();
+            $this -> old_slug_before_save   = '';
+        }
     }
 
     public function manage_edit_columns($columns){
@@ -130,8 +148,10 @@ class Branch extends Taxonomy {
 
             if(!empty($fval) && count($fval)){
                 foreach($fval as $i => $slug){
+//                    $term_by    = is_numeric($slug)?'id':'slug';
                     $term_by    = 'slug';
                     $term       = get_term_by($term_by, $slug, 'ap_group_field');
+
                     if(!is_wp_error($term) && !empty($term)){
                         $content    .= '<a href="term.php?taxonomy=ap_group_field&post_type=ap_product&tag_ID='
                             .$term -> term_id.'">'.$term -> name.'</a>';
