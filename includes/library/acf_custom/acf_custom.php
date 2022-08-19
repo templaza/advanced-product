@@ -811,8 +811,8 @@ class Advanced_Product_ACF_Custom
 			echo '<div id="acf-' . $field['name'] . '" class="field field_type-' . $field['type'] . ' field_key-' . $field['key'] . $required_class . '" data-field_name="' . $field['name'] . '" data-field_key="' . $field['key'] . '" data-field_type="' . $field['type'] . '">';
 
 				echo '<p class="label">';
-					echo '<label for="' . $field['id'] . '">' . $field['label'] . $required_label . '</label>';
-					echo $field['instructions'];
+					echo '<label for="' . (isset($field['id'])?$field['id']:'acf-field-'.$field['name']) . '">' . $field['label'] . $required_label . '</label>';
+					echo isset($field['instructions'])?$field['instructions']:'';
 				echo '</p>';
 				
 				$field['name'] = 'fields[' . $field['key'] . ']';

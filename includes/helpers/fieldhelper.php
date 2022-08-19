@@ -487,4 +487,144 @@ class FieldHelper extends BaseHelper {
 
         return static::$cache[$store_id] = $fields;
     }
+
+    /**
+     * Get group fields by branch slug
+     * */
+    public static function get_group_fields_by_branch_slug($branch_slug){
+
+        $store_id   = static::_get_store_id(__METHOD__, $branch_slug);
+
+        if(isset(static::$cache[$store_id])){
+            return static::$cache[$store_id];
+        }
+
+        // Get branch by branch_slug
+        $branches = get_terms ([
+            'slug'     => $branch_slug,
+            'taxonomy' => 'ap_branch',
+            'hide_empty' => false,
+        ] );
+
+        if(!$branches || is_wp_error($branches)){
+            return false;
+        }
+
+        $data   = array();
+        // Get all group fields assigned to branch
+        foreach ($branches as $branch) {
+            $gfields_assigned = \get_field('group_field_assigned', 'term_' . $branch->term_id);
+
+            if(!empty($gfields_assigned)) {
+                foreach ($gfields_assigned as $i => $group_slug){
+                    // Get group field info
+                    $group  = get_term_by('slug', $group_slug, 'ap_group_field');
+
+                    if(!empty($group) && !is_wp_error($group)){
+                        $data[] = $group;
+                    }
+                }
+            }
+        }
+
+        if(!empty($data)){
+            return static::$cache[$store_id]    = $data;
+        }
+
+        return false;
+    }
+
+    /**
+     * Get fields by branch slug
+     * */
+    public static function get_fields_by_branch_slug($branch_slug){
+
+        $store_id   = static::_get_store_id(__METHOD__, $branch_slug);
+
+        if(isset(static::$cache[$store_id])){
+            return static::$cache[$store_id];
+        }
+
+        // Get branch by branch_slug
+        $branches = get_terms ([
+            'slug'     => $branch_slug,
+            'taxonomy' => 'ap_branch',
+            'hide_empty' => false,
+        ] );
+
+        if(!$branches || is_wp_error($branches)){
+            return false;
+        }
+
+        $data   = array();
+
+        // Get all group fields assigned to branch
+        foreach ($branches as $branch) {
+//                $gfields_assigned = \get_field('group_field_assigned', 'ap_branch_' . $branch->term_id);
+            $gfields_assigned = \get_field('group_field_assigned', 'term_' . $branch->term_id);
+
+            if(!empty($gfields_assigned)) {
+
+                $gid = md5('property');
+                $goptions = array(
+//                    'id' => 'acf_' . md5('product_property'),
+//                    'title' => __('Properties', $this->text_domain),
+                    'fields' => array(),
+                    'location' => array(
+                        array(
+                            array(
+                                'param' => 'post_type',
+                                'operator' => '==',
+                                'value' => 'ap_product',
+                                'order_no' => 0,
+                                'group_no' => 0,
+                            ),
+                        ),
+                    ),
+                    'options' => array(
+                        'position' => 'normal',
+                        'style' => 'default',
+                        'layout' => 'default',
+                        //                        'hide_on_screen' => array (
+                        //                            /*'the_content',*/ 'custom_fields'
+                        //                        ),
+                        'hide_on_screen' => array(),
+                    ),
+                    'menu_order' => 0,
+                );
+
+                foreach ($gfields_assigned as $i => $group_slug){
+                    // Get group field info
+                    $group  = get_term_by('slug', $group_slug, 'ap_group_field');
+
+                    if(!empty($group) && !is_wp_error($group)){
+                        $cfields = AP_Custom_Field_Helper::get_fields_by_group_field_slug($group_slug);
+
+                        $fields = array();
+                        if($cfields){
+                            foreach($cfields as $cfield){
+                                $fields[]   = FieldHelper::get_custom_field_option_by_id($cfield->ID);
+                            }
+                        }
+
+                        if(!empty($fields)){
+                            // Register fields for acf
+                            $goptions['id'] = (!empty($group->slug) ? $group->slug : $gid);
+                            $goptions['title'] = (!empty($group->name)) ? $group->name : '';
+                            $goptions['menu_order'] = $i;
+                            $goptions['fields'] = $fields;
+
+                            $data[] = $goptions;
+                        }
+                    }
+                }
+            }
+        }
+
+        if(!empty($data)){
+            return static::$cache[$store_id]    = $data;
+        }
+
+        return false;
+    }
 }

@@ -8,6 +8,8 @@ use Advanced_Product\AP_Templates;
 <div class="ap-item">
     <div class="uk-card uk-card-default">
 
+        <?php do_action('advanced-product/archive/before_content');?>
+
         <?php AP_Templates::load_my_layout('archive.media'); ?>
 
         <div class="uk-card-body">
@@ -18,5 +20,7 @@ use Advanced_Product\AP_Templates;
             <?php AP_Templates::load_my_layout('archive.custom-fields'); ?>
         </div>
         <?php AP_Templates::load_my_layout('archive.price');?>
+
+        <?php do_action('advanced-product/archive/after_content');?>
     </div>
 </div>

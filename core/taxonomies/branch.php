@@ -130,7 +130,8 @@ class Branch extends Taxonomy {
 
             if(!empty($fval) && count($fval)){
                 foreach($fval as $i => $slug){
-                    $term   = get_term_by('slug', $slug, 'ap_group_field');
+                    $term_by    = 'slug';
+                    $term       = get_term_by($term_by, $slug, 'ap_group_field');
                     if(!is_wp_error($term) && !empty($term)){
                         $content    .= '<a href="term.php?taxonomy=ap_group_field&post_type=ap_product&tag_ID='
                             .$term -> term_id.'">'.$term -> name.'</a>';
