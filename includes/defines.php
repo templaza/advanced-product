@@ -47,6 +47,14 @@ if(!defined('ADVANCED_PRODUCT_TEMPLAZA_FRAMEWORK_TEMPLATE_PATH')){
         .'templaza-framework/templates/'.ADVANCED_PRODUCT);
 }
 
+if(!defined('ADVANCED_PRODUCT_THEME_TEMPLATE_SHORTCODE_PATH')){
+    define('ADVANCED_PRODUCT_THEME_TEMPLATE_SHORTCODE_PATH', ADVANCED_PRODUCT_THEME_PATH.'/templates/shortcodes');
+}
+if(!defined('ADVANCED_PRODUCT_TEMPLAZA_FRAMEWORK_TEMPLATE_SHORTCODE_PATH')){
+    define('ADVANCED_PRODUCT_TEMPLAZA_FRAMEWORK_TEMPLATE_SHORTCODE_PATH', plugin_dir_path(ADVANCED_PRODUCT_PATH)
+        .'templaza-framework/templates/'.ADVANCED_PRODUCT.'/shortcodes');
+}
+
 //if(!defined('ADVANCED_PRODUCT_PLUGIN_URL')){
 //    define( 'ADVANCED_PRODUCT_PLUGIN_URL', untrailingslashit( plugins_url( ADVANCED_PRODUCT, ADVANCED_PRODUCT.'.php'  ) ) );
 //}

@@ -298,7 +298,7 @@ class Advanced_Product{
             return false;
         }
 
-        $files  = glob($path.'/*[*.php]');
+        $files  = glob($path.'/*', GLOB_ONLYDIR);
 
         if(count($files)){
             foreach ($files as $file){
@@ -313,6 +313,10 @@ class Advanced_Product{
 
                 if(file_exists($file) && !class_exists($class_name)){
                     require_once $file;
+                }
+
+                if(!class_exists($class_name)){
+                    $class_name .= 'SCAP';
                 }
 
                 if(class_exists($class_name) && !isset($this -> shortcodes[$file_name])){
@@ -512,6 +516,8 @@ class Advanced_Product{
             wp_enqueue_style('advanced-product_admin_styles');
 
         }else{
+            wp_register_script('advanced-product', AP_Functions::get_my_url().'/assets/js/advanced-product.js',
+                array(), AP_Functions::get_my_version(), true);
             wp_register_style('advanced-product', AP_Functions::get_my_url().'/assets/css/style.css');
         }
     }

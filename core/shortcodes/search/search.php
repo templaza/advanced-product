@@ -1,6 +1,8 @@
 <?php
 namespace Advanced_Product\Shortcode;
 
+defined('ADVANCED_PRODUCT') or exit();
+
 use Advanced_Product\Base;
 use Advanced_Product\AP_Functions;
 use Advanced_Product\Helper\AP_Custom_Field_Helper;

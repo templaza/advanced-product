@@ -8,7 +8,8 @@ class AP_Templates{
 
     protected static $cache = array();
 
-    public static function locate_my_template($template_names, $load = false, $require_once = true, $args = array()){
+    public static function locate_my_template($template_names, $load = false, $require_once = true,
+                                              $args = array(), $file_type = '.php'){
         $located        = '';
         $base           = ADVANCED_PRODUCT.'/templates';
         $framework_path = ADVANCED_PRODUCT_TEMPLAZA_FRAMEWORK_TEMPLATE_PATH;
@@ -19,11 +20,14 @@ class AP_Templates{
             }
             $framework_name = $template_name;
             $template_name  = $base.'/'.$template_name;
-            if(!preg_match('/\.php$/i', $template_name)){
-                $template_name  .= '.php';
+
+            $file_type_reg  = addcslashes($file_type, '.');
+
+            if(!preg_match('/'.$file_type_reg.'$/i', $template_name)){
+                $template_name  .= $file_type;
             }
-            if(!preg_match('/\.php$/i', $framework_name)){
-                $framework_name  .= '.php';
+            if(!preg_match('/'.$file_type_reg.'$/i', $framework_name)){
+                $framework_name  .= $file_type;
             }
             if ( file_exists( get_stylesheet_directory() . '/' . $template_name ) ) {
                 $located = get_stylesheet_directory() . '/' . $template_name;
@@ -47,9 +51,9 @@ class AP_Templates{
         return $located;
     }
 
-    public static function load_my_layout($partial, $load = true, $require_once = false, $args = array()){
+    public static function load_my_layout($partial, $load = true, $require_once = false, $args = array(), $file_type = '.php'){
         $partial    = str_replace('.', '/', $partial);
-        $located    = self::locate_my_template((array) $partial, $load, $require_once, $args);
+        $located    = self::locate_my_template((array) $partial, $load, $require_once, $args, $file_type);
 
         return $located;
     }

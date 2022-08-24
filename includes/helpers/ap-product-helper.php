@@ -18,4 +18,50 @@ class AP_Product_Helper extends BaseHelper {
         return static::$fields;
     }
 
+    public static function get_products($args = array()){
+
+        $store_id   = __METHOD__;
+        $store_id  .= '::'.serialize($args);
+        $store_id   = md5($store_id);
+
+        if(isset(static::$cache[$store_id])){
+            return static::$cache[$store_id];
+        }
+
+        $user   = wp_get_current_user();
+
+        // First lets set some arguments for the query:
+        // Optionally, those could of course go directly into the query,
+        // especially, if you have no others but post type.
+        $default_args   = array(
+            'post_type' => 'ap_product',
+            'author'        =>  $user->ID,
+            'posts_per_page' => 5,
+            // Several more arguments could go here. Last one without a comma.
+        );
+        $args = array_merge($default_args, $args);
+
+        // Query the posts:
+        $query = new \WP_Query($args);
+
+        if(!empty($query) && !is_wp_error($query)){
+            return static::$cache[$store_id]    = $query;
+        }
+
+        return false;
+
+    }
+
+    public static function get_compare_product_ids_list(){
+
+        $cookie_key     = 'advanced-product__compare-list';
+        $compare_list   = isset($_COOKIE[$cookie_key])?$_COOKIE[$cookie_key]:false;
+
+        if(!$compare_list){
+            return array();
+        }
+
+        return explode('|', $compare_list);
+    }
+
 }

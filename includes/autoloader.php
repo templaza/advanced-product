@@ -60,6 +60,7 @@ require_once __DIR__ . '/classes/class-post_type.php';
 require_once __DIR__ . '/classes/class-taxonomy.php';
 require_once __DIR__ . '/classes/class-meta_box.php';
 require_once __DIR__ . '/classes/class-custom_taxonomy.php';
+require_once __DIR__ . '/classes/class-shortcodeAP.php';
 //require_once __DIR__.'/classes/class-meta_box.php';
 
 
