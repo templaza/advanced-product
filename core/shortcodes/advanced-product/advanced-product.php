@@ -18,18 +18,29 @@ class Advanced_ProductSCAP extends ShortCodeAP {
         add_action( 'wp_enqueue_scripts', array($this, 'wp_enqueue_scripts' ));
 
         add_action('wp_footer', array($this, 'display_footer'));
-        add_action('advanced-product/shortcodes/advanced-product/compare/before_content', array($this, 'before_content'));
+        add_action('advanced-product/compare/before_content', array($this, 'before_content'));
 
         add_action('wp_ajax_advanced-product/shortcode/advanced-product/compare-list', array($this, 'render_compare_list'));
         add_action('wp_ajax_nopriv_advanced-product/shortcode/advanced-product/compare-list', array($this, 'render_compare_list'));
     }
 
     public function before_content(){
-        add_action('advanced-product/archive/after_content', array($this, 'render_compare_action'));
+        add_action('advanced-product/archive/compare/action', array($this, 'render_compare_action'), 10, 2);
+//        add_action('advanced-product/archive/after_content', array($this, 'render_compare_action'));
     }
 
-    public function render_compare_action(){
-        AP_Templates::load_my_layout('shortcodes.'. $this -> get_shortcode_name().'.compare-action');
+    public function render_compare_action($pid, $args){
+        $compare_actions = array();
+        $compare_action = apply_filters('advanced-product/compare/action', '', $this);
+        $compare_action = !empty($compare_action)?trim($compare_action):'';
+
+        if(!empty($compare_action)){
+            array_push($compare_actions, $compare_action);
+        }
+        $compare_actions = apply_filters('advanced-product/compare/actions', $compare_actions, $this);
+
+        AP_Templates::load_my_layout('shortcodes.'. $this -> get_shortcode_name().'.compare-action', true, false,
+            array('actions' => $compare_actions, 'show_compare_button' => false, 'pid' => $pid));
     }
 
     public function display_footer(){
@@ -49,7 +60,7 @@ class Advanced_ProductSCAP extends ShortCodeAP {
 
         ob_start();
             AP_Templates::load_my_layout('shortcodes.'. $this -> get_shortcode_name().'.compare-list', true, false,
-                array('products' => $products));
+                array('products' => $products, 'show_archive_compare_button' => false));
             $content    = ob_get_contents();
         ob_end_clean();
 
@@ -101,8 +112,10 @@ class Advanced_ProductSCAP extends ShortCodeAP {
             'ajaxurl'   => admin_url('admin-ajax.php'),
             'l10n' => array(
                 'compare' => array(
-                    'active_text'   => __('In compare list', $this -> text_domain),
-                    'add_product_successfully'   => __('Add product to compare list successfully', $this -> text_domain),
+                    'text'                      => __('Add to compare', $this -> text_domain),
+                    'active_text'               => __('In compare list', $this -> text_domain),
+                    'delete_question'           => __('Do you want to remove this product?', $this -> text_domain),
+                    'add_product_successfully'  => __('Add product to compare list successfully', $this -> text_domain),
                 )
             )
         ));

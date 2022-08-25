@@ -42,11 +42,16 @@ function get_field_reference( $field_name, $post_id ) {
 		$temp_post_id = str_replace('user_', '', $post_id);
 		$return = get_user_meta($temp_post_id, '_' . $field_name, true); 
 	}
-//	elseif( strpos($post_id, 'term_') !== false )
-//	{
-//		$temp_post_id = str_replace('term_', '', $post_id);
-//		$return = get_term_meta($temp_post_id, '_' . $field_name, true);
-//	}
+	elseif( strpos($post_id, 'options_') !== false || strpos($post_id, 'options') !== false ||
+        strpos($post_id, 'option_') !== false || strpos($post_id, 'option') !== false )
+	{
+		$return = get_option('_options_'.$field_name);
+	}
+	elseif( strpos($post_id, 'term_') !== false )
+	{
+		$temp_post_id = str_replace('term_', '', $post_id);
+		$return = get_term_meta($temp_post_id, '_' . $field_name, true);
+	}
 	else
 	{
 		$return = get_option('_' . $post_id . '_' . $field_name); 

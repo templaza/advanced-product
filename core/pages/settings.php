@@ -142,6 +142,25 @@ class Settings extends Base {
                 ),
                 array (
 //                        'key' => 'field_'.uniqid(),
+                    'key' => 'field_6306f42b88ed8',
+                    'label' => __( 'Archive Product', $this -> text_domain ),
+                    'name' => '',
+                    'type' => 'tab',
+                ),
+                array (
+                    'key'           => 'field_6306f48249024',
+                    'type'          => 'radio',
+                    'layout'        => 'horizontal',
+                    'name'          => 'ap_show_archive_compare_button',
+                    'label'         => __( 'Show Compare Button', $this -> text_domain ),
+                    'default_value' => 1,
+                    'choices'       => array(
+                        1   => __('Yes', $this -> text_domain),
+                        0   => __('No', $this -> text_domain),
+                    ),
+                ),
+                array (
+//                        'key' => 'field_'.uniqid(),
                     'key' => 'field_61b705ba820c5',
                     'label' => __( 'Single Product', $this -> text_domain ),
                     'name' => '',
@@ -194,6 +213,18 @@ class Settings extends Base {
                     ),
                     'default_value' => 0,
                     'layout'    => 'horizontal',
+                ),
+                array (
+                    'key'           => 'field_529db63c010e5',
+                    'type'          => 'radio',
+                    'layout'        => 'horizontal',
+                    'name'          => 'ap_show_compare_button',
+                    'label'         => __( 'Show Compare Button', $this -> text_domain ),
+                    'default_value' => 1,
+                    'choices'       => array(
+                        1   => __('Yes', $this -> text_domain),
+                        0   => __('No', $this -> text_domain),
+                    ),
                 ),
 //                    array (
 //                        'key' => 'field_529db63c010e5',

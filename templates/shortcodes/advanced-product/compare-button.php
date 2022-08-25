@@ -12,8 +12,8 @@ $pid            = isset($atts['id'])?$atts['id']:0;
 $has_compare    = (!empty($compare_list) && in_array($pid, $compare_list))?true:false;
 
 ?>
-<a href="javascript:" class="uk-button uk-button-default uk-width-1-1<?php echo $has_compare?' active':''; ?>" data-ap-compare-button="<?php
-echo $pid?$pid:'';?>" data-ap-compare-active-icon="fas fa-clipboard-list">
+<a href="javascript:" class="uk-button uk-button-default uk-width-1-1<?php echo $has_compare?' ap-in-compare-list':'';
+?>" data-ap-compare-button="id: <?php echo $pid?$pid:'';?>; active_icon: fas fa-clipboard-list">
     <?php if($has_compare){?>
     <i class="fas fa-clipboard-list js-ap-icon"></i>
     <span class=" js-ap-text"><?php

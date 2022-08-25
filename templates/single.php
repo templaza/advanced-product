@@ -31,8 +31,12 @@ $showmsrp = isset($options['autoshowroom_Detail_show_msrp'])?(bool) $options['au
         <div class="uk-width-1-3@m ap-sidebar">
             <aside class="widget-area">
                 <?php
-                AP_Templates::load_my_layout('shortcodes.advanced-product.compare-button', true, false,
-                    array('atts' => array('id' => get_the_ID())));
+                $show_compare_button    = get_field('ap_show_compare_button', 'option');
+                $show_compare_button= $show_compare_button!==false?(bool)$show_compare_button:true;
+                if($show_compare_button) {
+                    AP_Templates::load_my_layout('shortcodes.advanced-product.compare-button', true, false,
+                        array('atts' => array('id' => get_the_ID())));
+                }
                 ?>
                 <?php
                 AP_Templates::load_my_layout('single.price');
