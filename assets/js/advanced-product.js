@@ -188,6 +188,10 @@
                 if($("#wpadminbar").length){
                     $compare_modal_html.addClass("uk-margin-top");
                 }
+
+                if($("#ap-product-modal").length) {
+                    $("#ap-product-modal").remove();
+                }
                 UIkit.modal($compare_modal_html).show();
             });
         }
