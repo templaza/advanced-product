@@ -42,7 +42,7 @@ class Settings extends Base {
             ));
 
 //            if(!function_exists('acf_add_local_field_group')){
-                $this -> register_field_groups();
+            $this -> register_field_groups();
 //            }
         }
     }
@@ -153,6 +153,18 @@ class Settings extends Base {
                     'layout'        => 'horizontal',
                     'name'          => 'ap_show_archive_compare_button',
                     'label'         => __( 'Show Compare Button', $this -> text_domain ),
+                    'default_value' => 1,
+                    'choices'       => array(
+                        1   => __('Yes', $this -> text_domain),
+                        0   => __('No', $this -> text_domain),
+                    ),
+                ),
+                array (
+                    'key'           => 'field_630ccbd5a0a19',
+                    'type'          => 'radio',
+                    'layout'        => 'horizontal',
+                    'name'          => 'ap_show_archive_quickview_button',
+                    'label'         => __( 'Show Quick View Button', $this -> text_domain ),
                     'default_value' => 1,
                     'choices'       => array(
                         1   => __('Yes', $this -> text_domain),

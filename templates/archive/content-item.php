@@ -10,6 +10,10 @@ $actions            = isset($args['actions'])?$args['actions']:false;
 $show_compare_button= get_field('ap_show_archive_compare_button', 'option');
 $show_compare_button= $show_compare_button!==false?(bool)$show_compare_button:true;
 $show_compare_button= isset($args['show_archive_compare_button'])?(bool)$args['show_archive_compare_button']:$show_compare_button;
+
+$show_quickview_button= get_field('ap_show_archive_quickview_button', 'option');
+$show_quickview_button= $show_quickview_button!==false?(bool)$show_quickview_button:true;
+$show_quickview_button= isset($args['show_archive_quickview_button'])?(bool)$args['show_archive_quickview_button']:$show_quickview_button;
 ?>
 <div class="ap-item">
     <div class="uk-card uk-card-default uk-transition-toggle">
@@ -36,7 +40,7 @@ $show_compare_button= isset($args['show_archive_compare_button'])?(bool)$args['s
 
         $action_html    = !empty($action_html)?trim($action_html):'';
 
-        if($show_compare_button || (isset($actions) && !empty($actions)) || !empty($action_html)){ ?>
+        if($show_compare_button || $show_quickview_button || (isset($actions) && !empty($actions)) || !empty($action_html)){ ?>
         <div class="uk-list uk-transition-slide-right uk-position-right uk-margin-remove-top uk-margin-small-right">
             <?php if($show_compare_button){
                 ?>
@@ -60,8 +64,10 @@ $show_compare_button= isset($args['show_archive_compare_button'])?(bool)$args['s
             </div>
             <?php } ?>
             <?php
-            AP_Templates::load_my_layout('shortcodes.advanced-product.quickview-button', true, false
-                , array('atts' => array('id' => get_the_ID())));
+            if($show_quickview_button) {
+                AP_Templates::load_my_layout('shortcodes.advanced-product.quickview-button', true, false
+                    , array('atts' => array('id' => get_the_ID())));
+            }
             ?>
             <?php
             if(isset($actions) && !empty($actions)){
