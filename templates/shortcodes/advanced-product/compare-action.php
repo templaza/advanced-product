@@ -12,9 +12,9 @@ $pid            = isset($pid)?$pid:get_the_ID();
 $has_compare    = (!empty($compare_list) && in_array($pid, $compare_list))?true:false;
 
 ?>
-<li><a href="" class="uk-icon-button" data-uk-icon="icon: trash; ratio: 0.85" data-uk-tooltip="<?php
+<div><a href="" class="uk-icon-button" data-uk-icon="icon: trash; ratio: 0.85" data-uk-tooltip="<?php
 _e('Remove this product', AP_Functions::get_my_text_domain());?>" data-ap-compare-delete-button="<?php
-    echo $pid;?>"></a></li>
+    echo $pid;?>"></a></div>
 <?php
 if(isset($actions) && !empty($actions)){
     foreach($actions as $_action){
