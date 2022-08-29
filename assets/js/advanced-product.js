@@ -197,30 +197,30 @@
         }
     };
 
-    advanced_product.prepare_data_compare = function(data_compare){
-        var _compare_options = {};
-        // var data_compare    = $(this).data("ap-compare-button");
-        if(data_compare !== undefined){
-            if(typeof data_compare === "string"){
-                data_compare  = data_compare.split(";");
-                if(data_compare.length) {
-                    $.each(data_compare, function (optkey, optval) {
+    advanced_product.prepare_attribute = function(data_attribute){
+        var _attributes = {};
+        // var data_attribute    = $(this).data("ap-compare-button");
+        if(data_attribute !== undefined){
+            if(typeof data_attribute === "string"){
+                data_attribute  = data_attribute.split(";");
+                if(data_attribute.length) {
+                    $.each(data_attribute, function (optkey, optval) {
                         var _optsplit   = optval.split(":");
 
                         if(_optsplit.length) {
                             if(_optsplit.length > 1) {
-                                _compare_options[_optsplit[0].trim().toLowerCase()]  = _optsplit[1].trim();
+                                _attributes[_optsplit[0].trim().toLowerCase()]  = _optsplit[1].trim();
                             }else{
-                                _compare_options["id"]  = _optsplit[0];
+                                _attributes["id"]  = _optsplit[0];
                             }
                         }
                     });
                 }
             }else{
-                _compare_options["id"]  = data_compare;
+                _attributes["id"]  = data_attribute;
             }
         }
-        return _compare_options;
+        return _attributes;
     };
 
     /* Compare button add */
@@ -232,7 +232,7 @@
 
         // Get compare button data options
         var _c_options    = $(this).data("ap-compare-button");
-        var _compare_options = advanced_product.prepare_data_compare(_c_options);
+        var _compare_options = advanced_product.prepare_attribute(_c_options);
 
         var _pid    = _compare_options["id"];
         // var _pid    = $(this).data("ap-compare-button");
@@ -285,7 +285,7 @@
             "stack": true
         }).then(function() {
             var _c_options    = __btn.data("ap-compare-delete-button");
-            var _compare_options = advanced_product.prepare_data_compare(_c_options);
+            var _compare_options = advanced_product.prepare_attribute(_c_options);
 
             var _pid    = _compare_options["id"];
 
@@ -295,7 +295,7 @@
 
             // advanced_product.eraseCookieValue("advanced-product__compare-list", _pid);
             var _sc_item    = $("[data-ap-compare-button*=\"id: "+_pid+"\"]"),
-                _sc_option  = advanced_product.prepare_data_compare(_sc_item.data("ap-compare-button"));
+                _sc_option  = advanced_product.prepare_attribute(_sc_item.data("ap-compare-button"));
 
             if(_sc_item.length){
                 _sc_item.removeClass("ap-in-compare-list");
@@ -311,5 +311,64 @@
             __btn.closest(".ap-product-compare-item").remove();
         },function(){});
 
-    })
+    });
+
+    // Quick view button
+    $(document).on("click", "[data-ap-quickview-button]", function(event){
+        var _compare_options = advanced_product.prepare_attribute($(this).data('ap-quickview-button'));
+
+        var _pid    = _compare_options["id"];
+
+        if(_pid === undefined || !_pid){
+            return false;
+        }
+
+
+        var __preloader = $("#tmpl-ap-templates__compare-preloader").length?wp.template("ap-templates__compare-preloader"):false;
+        var __preloader_html    = __preloader?$(__preloader({})):"";
+
+        if(__preloader_html) {
+            if (!$("body").hasClass("uk-position-relative")) {
+                $("body").addClass("uk-position-relative");
+            }
+            $("body").prepend(__preloader_html);
+        }
+
+        $.ajax({
+            url: advanced_product.ajaxurl,
+            method: 'POST',
+            data: {
+                action: "advanced-product/shortcode/advanced-product/quick-view",
+                pid: _pid
+            }
+        }).done(function(response){
+
+            if($("#tmpl-ap-templates-modal__quickview").length){
+
+                var __html  = response.data||"";
+
+                if(__preloader_html) {
+                    $("body").find(__preloader_html).remove();
+                }
+
+                if(!__html.length){
+                    UIkit.notification("No matching results", {"status":"danger", "pos": "bottom-right"});
+                    return;
+                }
+
+                var $compare_modal = wp.template("ap-templates-modal__quickview");
+
+                var $compare_modal_html = $($compare_modal({"content": __html}));
+                if($("#wpadminbar").length){
+                    $compare_modal_html.addClass("uk-margin-top");
+                }
+
+                if($("#ap-product-modal__quickview").length) {
+                    $("#ap-product-modal__quickview").remove();
+                }
+                UIkit.modal($compare_modal_html).show();
+            }
+        });
+    });
+
 })(jQuery);

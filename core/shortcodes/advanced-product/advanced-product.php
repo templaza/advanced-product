@@ -22,6 +22,9 @@ class Advanced_ProductSCAP extends ShortCodeAP {
 
         add_action('wp_ajax_advanced-product/shortcode/advanced-product/compare-list', array($this, 'render_compare_list'));
         add_action('wp_ajax_nopriv_advanced-product/shortcode/advanced-product/compare-list', array($this, 'render_compare_list'));
+
+        add_action('wp_ajax_advanced-product/shortcode/advanced-product/quick-view', array($this, 'render_quickview'));
+        add_action('wp_ajax_nopriv_advanced-product/shortcode/advanced-product/quick-view', array($this, 'render_quickview'));
     }
 
     public function before_content(){
@@ -45,6 +48,7 @@ class Advanced_ProductSCAP extends ShortCodeAP {
 
     public function display_footer(){
         AP_Templates::load_my_layout('shortcodes.'. $this -> get_shortcode_name().'.compare-modal', true, false, array(), '.tpl.php');
+        AP_Templates::load_my_layout('shortcodes.'. $this -> get_shortcode_name().'.quickview-modal', true, false, array(), '.tpl.php');
         AP_Templates::load_my_layout('shortcodes.'. $this -> get_shortcode_name().'.compare-preloader', true, false, array(), '.tpl.php');
     }
 
@@ -63,6 +67,50 @@ class Advanced_ProductSCAP extends ShortCodeAP {
                 array('products' => $products, 'show_archive_compare_button' => false));
             $content    = ob_get_contents();
         ob_end_clean();
+
+        wp_reset_query();
+
+
+        echo wp_send_json_success($content);
+        wp_die();
+    }
+
+    public function render_quickview(){
+        $pid   = isset($_POST['pid'])?(array) $_POST['pid']:false;
+
+        if(!$pid){
+            return '';
+        }
+
+//        $product    = get_post($pid);
+        $product   = AP_Product_Helper::get_products(array(
+            'p' => $pid));
+
+        if(is_wp_error($product) || empty($product)){
+            echo wp_send_json_error(__('Can not found product', $this -> text_domain));
+            wp_die();
+        }
+
+        if($product -> have_posts()) {
+            while($product -> have_posts()) {
+                $product -> the_post();
+                ob_start();
+                    AP_Templates::load_my_layout('shortcodes.' . $this->get_shortcode_name() . '.quickview', true, false,
+                        array('product' => $product, 'show_archive_quickview_button' => false));
+                    $content = ob_get_contents();
+                ob_end_clean();
+                break;
+            }
+        }
+
+//        $products   = AP_Product_Helper::get_products(array(
+//            'post__in' => $pids));
+
+//        ob_start();
+//            AP_Templates::load_my_layout('shortcodes.'. $this -> get_shortcode_name().'.compare-list', true, false,
+//                array('products' => $products, 'show_archive_compare_button' => false));
+//            $content    = ob_get_contents();
+//        ob_end_clean();
 
         wp_reset_query();
 

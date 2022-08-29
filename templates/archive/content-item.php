@@ -29,6 +29,7 @@ $show_compare_button= isset($args['show_archive_compare_button'])?(bool)$args['s
 
         <?php
         ob_start();
+        do_action('advanced-product/archive/action', get_the_ID(), $args);
         do_action('advanced-product/archive/compare/action', get_the_ID(), $args);
         $action_html    = ob_get_contents();
         ob_end_clean();
@@ -36,9 +37,10 @@ $show_compare_button= isset($args['show_archive_compare_button'])?(bool)$args['s
         $action_html    = !empty($action_html)?trim($action_html):'';
 
         if($show_compare_button || (isset($actions) && !empty($actions)) || !empty($action_html)){ ?>
-        <ul class="uk-list uk-transition-slide-right uk-position-right uk-margin-remove-top uk-margin-small-right">
-            <?php if($show_compare_button){ ?>
-            <li>
+        <div class="uk-list uk-transition-slide-right uk-position-right uk-margin-remove-top uk-margin-small-right">
+            <?php if($show_compare_button){
+                ?>
+            <div>
                 <?php
                 $compare_list   = AP_Product_Helper::get_compare_product_ids_list();
                 $pid            = get_the_ID();
@@ -54,8 +56,13 @@ $show_compare_button= isset($args['show_archive_compare_button'])?(bool)$args['s
                     <?php }else{?>
                         <i class="fas fa-balance-scale js-ap-icon"></i>
                     <?php }?>
-            </a></li>
+            </a>
+            </div>
             <?php } ?>
+            <?php
+            AP_Templates::load_my_layout('shortcodes.advanced-product.quickview-button', true, false
+                , array('atts' => array('id' => get_the_ID())));
+            ?>
             <?php
             if(isset($actions) && !empty($actions)){
                 foreach($actions as $_action){
@@ -64,7 +71,7 @@ $show_compare_button= isset($args['show_archive_compare_button'])?(bool)$args['s
             }
             echo $action_html;
             ?>
-        </ul>
+        </div>
         <?php } ?>
 
         <?php do_action('advanced-product/archive/after_content');?>
