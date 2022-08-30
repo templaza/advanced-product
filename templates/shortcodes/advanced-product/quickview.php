@@ -22,6 +22,9 @@ if(isset($product) && !empty($product)){
             <div class="uk-padding">
                 <h1 class="ap-quickview-product_title entry-title"><?php the_title();?></h1>
                 <div class="uk-margin-medium-top"><?php the_content(); ?></div>
+                <?php
+                AP_Templates::load_my_layout('shortcodes.advanced-product.quickview-custom-fields');
+                ?>
             </div>
         </div>
     </div>

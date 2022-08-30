@@ -76,13 +76,14 @@ class Advanced_ProductSCAP extends ShortCodeAP {
     }
 
     public function render_quickview(){
-        $pid   = isset($_POST['pid'])?(array) $_POST['pid']:false;
+        $pid   = isset($_POST['pid'])?$_POST['pid']:false;
 
         if(!$pid){
             return '';
         }
 
 //        $product    = get_post($pid);
+        wp_reset_query();
         $product   = AP_Product_Helper::get_products(array(
             'p' => $pid));
 
@@ -92,26 +93,18 @@ class Advanced_ProductSCAP extends ShortCodeAP {
         }
 
         if($product -> have_posts()) {
+            \ob_start();
             while($product -> have_posts()) {
                 $product -> the_post();
-                ob_start();
                     AP_Templates::load_my_layout('shortcodes.' . $this->get_shortcode_name() . '.quickview', true, false,
                         array('product' => $product, 'show_archive_quickview_button' => false));
-                    $content = ob_get_contents();
-                ob_end_clean();
                 break;
             }
+            $content = ob_get_contents();
+            ob_end_clean();
         }
 
-//        $products   = AP_Product_Helper::get_products(array(
-//            'post__in' => $pids));
-
-//        ob_start();
-//            AP_Templates::load_my_layout('shortcodes.'. $this -> get_shortcode_name().'.compare-list', true, false,
-//                array('products' => $products, 'show_archive_compare_button' => false));
-//            $content    = ob_get_contents();
-//        ob_end_clean();
-
+//        wp_reset_postdata();
         wp_reset_query();
 
 
