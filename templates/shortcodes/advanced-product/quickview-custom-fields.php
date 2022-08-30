@@ -30,14 +30,11 @@ if($fields_wgs = AP_Custom_Field_Helper::get_fields_without_group_field()){
 
     if(!empty($html)){
         ?>
-<div class="widget <?php echo esc_attr($widget_heading_style);?> ap-box ap-group ap-group-empty">
-    <div class="widget-content">
-        <h3 class="widget-title">
-            <span><?php esc_html_e('Custom Fields', AP_Functions::get_my_text_domain()); ?></span>
-        </h3>
-        <div class="ap-group-content"><?php echo $html; ?></div>
-    </div>
-</div>
+<!--    <div class="widget --><?php //echo esc_attr($widget_heading_style);?><!-- ap-box ap-group ap-group-empty">-->
+<!--        <div class="widget-content">-->
+<!--            <div class="ap-group-content">--><?php //echo $html; ?><!--</div>-->
+<!--        </div>-->
+<!--    </div>-->
         <?php
     }
 }
@@ -46,32 +43,33 @@ $gfields_assigned   = AP_Custom_Field_Helper::get_group_fields_by_product();
 
 if($gfields_assigned && count($gfields_assigned)){
     foreach ($gfields_assigned as $group) {
-
+        if($group->slug != 'pricing'){
         $fields = AP_Custom_Field_Helper::get_fields_by_group_fields($group);
-        if($fields && count($fields)) {
-            ob_start();
-            foreach ($fields as $field) {
-                AP_Templates::load_my_layout('shortcodes.advanced-product.quickview-custom-fields-item', true, false, array(
-                    'field'         => $field,
-                    'product_id'    => $product_id
-                ));
-            }
-            $html = ob_get_contents();
-            ob_end_clean();
+            if($fields && count($fields)) {
+                ob_start();
+                foreach ($fields as $field) {
+                    AP_Templates::load_my_layout('shortcodes.advanced-product.quickview-custom-fields-item', true, false, array(
+                        'field'         => $field,
+                        'product_id'    => $product_id
+                    ));
+                }
+                $html = ob_get_contents();
+                ob_end_clean();
 
-            $html = trim($html);
-        }
-        if(!empty($html)){
-        ?>
-<div class="widget <?php echo esc_attr($widget_heading_style);?> ap-box ap-group ap-group-<?php echo $group -> slug; ?>">
-    <div class="widget-content">
-        <h3 class="widget-title">
-            <span><?php esc_html_e($group -> name, AP_Functions::get_my_text_domain()); ?></span>
-        </h3>
-        <div class="ap-group-content"><?php echo $html;?></div>
-    </div>
-</div>
-        <?php
+                $html = trim($html);
+            }
+            if(!empty($html)){
+            ?>
+            <div class="widget <?php echo esc_attr($widget_heading_style);?> ap-box ap-group ap-group-<?php echo $group -> slug; ?>">
+                <div class="widget-content">
+                    <h3 class="widget-title">
+                        <span><?php esc_html_e($group -> name, AP_Functions::get_my_text_domain()); ?></span>
+                    </h3>
+                    <div class="ap-group-content"><?php echo $html;?></div>
+                </div>
+            </div>
+            <?php
+            }
         }
     }
 }

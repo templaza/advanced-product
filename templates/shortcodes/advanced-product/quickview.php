@@ -16,12 +16,17 @@ if(isset($product) && !empty($product)){
             $autoshowroom_gallery = get_post_meta(get_the_ID(), 'images');
             ?>
         <div class="ap-quickview-media uk-cover-container">
+            <a href="<?php the_permalink(); ?>">
             <?php the_post_thumbnail('full', array('data-uk-cover' => '')); ?>
+            </a>
+            <a href="<?php the_permalink(); ?>" class="product-more-infor uk-position-bottom">
+                <span class="product-more-infor__text"><?php esc_attr_e('More Product Info','advanced-product');?></span><i class="fas fa-info-circle"></i>
+            </a>
         </div>
         <div class="ap-quickview-content">
             <div class="uk-padding">
-                <h1 class="ap-quickview-product_title entry-title"><?php the_title();?></h1>
-                <div class="uk-margin-medium-top"><?php the_content(); ?></div>
+                <h2 class="ap-quickview-product_title entry-title"><a href="<?php the_permalink(); ?>"><?php the_title();?></a></h2>
+                <div class="uk-margin-top ap-quickview-excerpt"><?php the_excerpt(); ?></div>
                 <?php
                 AP_Templates::load_my_layout('shortcodes.advanced-product.quickview-custom-fields');
                 ?>
