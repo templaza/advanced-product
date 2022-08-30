@@ -2,7 +2,9 @@
 
 defined('ADVANCED_PRODUCT') or exit();
 
+use Advanced_Product\AP_Functions;
 use Advanced_Product\AP_Templates;
+use Advanced_Product\Helper\AP_Helper;
 
 extract($args);
 
@@ -26,6 +28,23 @@ if(isset($product) && !empty($product)){
         <div class="ap-quickview-content">
             <div class="uk-padding">
                 <h2 class="ap-quickview-product_title entry-title"><a href="<?php the_permalink(); ?>"><?php the_title();?></a></h2>
+                <?php
+                $msrp   = get_field('ap_price_msrp', get_the_ID());
+                $price  = get_field('ap_price', get_the_ID());
+
+                if (!empty($price)) {
+
+                    $html = '<p class="uk-background-primary uk-padding-small uk-light ap-pricing">';
+                    $html .= sprintf('<span class="ap-price uk-h3"><b> %s</b> %s </span>',
+                        esc_html__(' ', AP_Functions::get_my_text_domain()), AP_Helper::format_price($price));
+                    if (!empty($msrp)) {
+                        $html .= sprintf('<span class="ap-price-msrp"> %s  %s </span>',
+                            esc_html__('MSRP:', AP_Functions::get_my_text_domain()), AP_Helper::format_price($msrp));
+                    }
+                    $html .= '</p>';
+
+                    echo balanceTags($html);
+                }  ?>
                 <div class="uk-margin-top ap-quickview-excerpt"><?php the_excerpt(); ?></div>
                 <?php
                 AP_Templates::load_my_layout('shortcodes.advanced-product.quickview-custom-fields');
