@@ -64,4 +64,24 @@ class AP_Product_Helper extends BaseHelper {
         return explode('|', $compare_list);
     }
 
+    public static function get_compare_products(){
+        $pids   = static::get_compare_product_ids_list();
+
+        if(!count($pids)){
+            return false;
+        }
+
+        return $products   = static::get_products(array(
+            'post__in' => $pids));
+    }
+
+    public static function get_compare_product_count(){
+        $products   = static::get_compare_products();
+
+        if(!$products){
+            return 0;
+        }
+
+        return $products -> found_posts;
+    }
 }

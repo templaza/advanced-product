@@ -277,7 +277,7 @@
 
     /* Compare list button */
     $(document).on("click", "[data-ap-compare-list-button]", function(){
-        if(!$(this).hasClass("ap-has-product")){
+        if(!$(this).hasClass("ap-compare-has-product")){
             return false;
         }
         advanced_product.list_compare();
