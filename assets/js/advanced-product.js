@@ -266,12 +266,20 @@
             }
             $(this).addClass("ap-in-compare-list");
 
+            if($("[data-ap-compare-list-button]").length){
+                $("[data-ap-compare-count]").text(pids.length);
+                $("[data-ap-compare-list-button]").removeClass("uk-hidden").addClass("ap-compare-has-product");
+            }
+
             UIkit.notification(l10n.compare.add_product_successfully, {"status":"success", "pos": "bottom-right"});
         }
     });
 
     /* Compare list button */
     $(document).on("click", "[data-ap-compare-list-button]", function(){
+        if(!$(this).hasClass("ap-has-product")){
+            return false;
+        }
         advanced_product.list_compare();
     });
 
@@ -309,6 +317,13 @@
             }
 
             __btn.closest(".ap-product-compare-item").remove();
+
+            if($("[data-ap-compare-list-button]").length){
+                var _pids   = advanced_product.__getCookie("advanced-product__compare-list");
+                var pids    = _pids.length?_pids.split("|"):[];
+                $("[data-ap-compare-count]").text(pids.length);
+                $("[data-ap-compare-list-button]").removeClass("ap-compare-has-product").addClass("uk-hidden");
+            }
         },function(){});
 
     });
