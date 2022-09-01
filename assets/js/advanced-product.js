@@ -128,16 +128,19 @@
     };
 
     advanced_product.eraseCookieValue  = function(cname, cvalue) {
-        var _cookie = advanced_product.__getCookie(cname).split("|").map(function (number) {
+        var _cookie = advanced_product.__getCookie(cname).split("|")
+            /*.map(function (number) {
             return parseInt(number, 10);
-        });
+        })*/;
 
         if(!cname || !cvalue){
             return false;
         }
 
-        if(_cookie.indexOf(cvalue) !== -1){
-            var _index    = _cookie.indexOf(cvalue);
+        // advanced_product.eraseCookie("advanced-product__compare-list");
+
+        if(_cookie.indexOf(cvalue.toString()) !== -1){
+            var _index    = _cookie.indexOf(cvalue.toString());
             _cookie.splice(_index, 1);
         }
         if(_cookie.length) {
@@ -244,7 +247,6 @@
         var _pids   = advanced_product.__getCookie("advanced-product__compare-list");
         var pids    = _pids.length?_pids.split("|"):[];
 
-        // if($.inArray(_pid.toString(), pids) === -1){
         if(pids.indexOf(_pid.toString()) === -1){
             pids.push(_pid);
         }
@@ -301,7 +303,7 @@
                 return false;
             }
 
-            // advanced_product.eraseCookieValue("advanced-product__compare-list", _pid);
+            advanced_product.eraseCookieValue("advanced-product__compare-list", _pid);
             var _sc_item    = $("[data-ap-compare-button*=\"id: "+_pid+"\"]"),
                 _sc_option  = advanced_product.prepare_attribute(_sc_item.data("ap-compare-button"));
 
