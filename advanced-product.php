@@ -108,8 +108,32 @@ class Advanced_Product{
             if(class_exists('Advanced_Product\Import_Sync_Templaza_Framework')) {
                 $import_sync = new Import_Sync_Templaza_Framework();
             }
+
+            // Add options to wordpress settings
+            add_action( 'admin_init', array($this, 'wordpress_settings'));
+            // Save options from wordpress settings
+            add_action( 'admin_init', array($this, 'save_wordpress_settings'));
         }
 
+//        add_action('init', function() {
+            add_action('pre_get_posts', array($this, 'custom_query_vars'));
+//        });
+
+        // Replace slug
+        add_filter( 'register_post_type_args', array($this, 'change_post_types_slug'), 10, 2 );
+    }
+
+    public function change_post_types_slug( $args, $post_type ) {
+
+        /*item post type slug*/
+        if ( 'ap_product' === $post_type ) {
+            $custom_slug    = get_option('ap_archive_permalink');
+            if($custom_slug) {
+                $args['rewrite']['slug'] = $custom_slug;
+            }
+        }
+
+        return $args;
     }
 
     public function import_custom_fields(){
@@ -527,6 +551,97 @@ class Advanced_Product{
             wp_enqueue_script('advanced-product');
             wp_add_inline_script('advanced-product', 'var advanced_product = {};', '');
             wp_enqueue_script('advanced-product_admin_scripts');
+        }
+    }
+
+    /**
+     * Add options to wordpress settings
+     * */
+    public function wordpress_settings() {
+        add_settings_field('ap_archive_permalink', __('Advanced Product archive slug', $this -> text_domain),
+            array($this, 'archive_permalink_option'), 'permalink', 'optional');
+    }
+
+    /**
+     * Generate html option for wordpress settings
+     * */
+    public function archive_permalink_option(){
+        ?>
+        <input name="ap_archive_permalink" type="text" class="regular-text code" value="<?php
+        echo esc_attr(get_option('ap_archive_permalink', 'ap-product')); ?>" placeholder="<?php echo 'ap-product'; ?>" />
+    <?php
+    }
+
+    /**
+     * Save options from wordpress settings
+     * */
+    public function save_wordpress_settings() {
+        global $pagenow;
+        if ($pagenow == 'options-permalink.php' && isset($_POST['ap_archive_permalink'])) {
+            update_option('ap_archive_permalink', trim($_POST['ap_archive_permalink']));
+        }
+    }
+
+    /**
+     * Custom query on frontend
+     * */
+    public function custom_query_vars($query){
+        if ( is_admin() || ! $query->is_main_query() )
+            return;
+
+        if (is_archive('ap_product')) {
+            $order_opt  = get_field('ap_archive_product_order_by', 'option');
+            $order_opt  = $order_opt?$order_opt:'rdate';
+
+            switch ($order_opt){
+                default:
+                case 'rdate':
+                    $order      = 'DESC';
+                    $order_by   = 'date';
+                    break;
+                case 'date':
+                    $order      = 'ASC';
+                    $order_by   = 'date';
+                    break;
+                case 'alpha':
+                    $order      = 'ASC';
+                    $order_by   = 'title';
+                    break;
+                case 'ralpha':
+                    $order      = 'DESC';
+                    $order_by   = 'title';
+                    break;
+                case 'author':
+                    $order      = 'ASC';
+                    $order_by   = 'author';
+                    break;
+                case 'rauthor':
+                    $order      = 'DESC';
+                    $order_by   = 'author';
+                    break;
+                case 'hits':
+                    $order      = 'ASC';
+                    $order_by   = 'meta_value_num';
+                    $query -> query_vars['meta_key'] = 'post_views_count';
+                    break;
+                case 'rhits':
+                    $order      = 'DESC';
+                    $order_by   = 'meta_value_num';
+                    $query -> query_vars['meta_key'] = 'post_views_count';
+                    break;
+                case 'price':
+                    $order      = 'ASC';
+                    $order_by   = 'meta_value_num';
+                    $query -> query_vars['meta_key'] = 'ap_price';
+                    break;
+                case 'rprice':
+                    $order      = 'DESC';
+                    $order_by   = 'meta_value_num';
+                    $query -> query_vars['meta_key'] = 'ap_price';
+                    break;
+            }
+            $query -> query_vars['order'] = $order;
+            $query -> query_vars['orderby'] = $order_by;
         }
     }
 }
