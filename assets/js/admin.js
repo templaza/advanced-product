@@ -738,27 +738,11 @@
                                 $(_main_id).prepend(__postbox);
                             }
 
-                            // $.each($(_html).find(".postbox"), function () {
-                            //     var _group = $(this).attr("id");
-                            //     if ($(_main_id + " #" + _group).length) {
-                            //         $(_main_id + " #" + _group).removeClass("acf-hidden");
-                            //     } else {
-                            //         var $handles = $(this).find(".hndle,.handlediv"),
-                            //             $orderButtons = $(this).find(".handle-order-higher, .handle-order-lower");
-                            //
-                            //         $handles.on('click.postboxes', window.postboxes.handle_click);
-                            //
-                            //         // Handle the order of the postboxes.
-                            //         $orderButtons.on('click.postboxes', window.postboxes.handleOrder);
-                            //
-                            //         if ($(_main_id + " > .acf_postbox").length) {
-                            //             $(_main_id + "> .acf_postbox").eq($(_main_id + "> .acf_postbox").length - 1).after(this);
-                            //         } else {
-                            //             $(_main_id).prepend(this);
-                            //         }
-                            //     }
-                            //
-                            // });
+                            $(_main_id).find('.acf-date_picker').each(function(){
+
+                                acf.fields.date_picker.set({ $el : $(this) }).init();
+
+                            });
 
                             $(_main_id).sortable("refresh");
 

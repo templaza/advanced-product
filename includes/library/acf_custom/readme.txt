@@ -11,6 +11,20 @@ Fully customise WordPress edit screens with powerful fields. Boasting a professi
 
 == Description ==
 
+Overrode List:
+* acf.php file to acf_custom.php:
+  - class "acf" to "Advanced_Product_ACF_Custom"
+  - "acf" function to "advanced_product_acf" function
+  - global variable $acf to $advanced_product_acf
+* includes/library/acf_custom/core/api.php file:
+  - overrode code in function "get_field_reference":
+        + added code from line 45 to 49
+* includes/library/acf_custom/core/fields/_functions.php:
+    - Overrode function "load_value":
+        + added code from line 93 to 105
+        + added code from line 226 to 232
+        + added code from line 309 to 314
+
 Advanced Custom Fields is the perfect solution for any wordpress website which needs more flexible data like other Content Management Systems. 
 
 * Visually create your Fields
