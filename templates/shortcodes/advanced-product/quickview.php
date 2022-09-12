@@ -34,18 +34,18 @@ if(isset($product) && !empty($product)){
 
                 if (!empty($price)) {
 
-                    $html = '<p class="uk-background-primary uk-padding-small uk-light ap-pricing">';
-                    $html .= sprintf('<span class="ap-price uk-h3"><b> %s</b> %s </span>',
+                    $html = '<div class="ap-pricing">';
+                    $html .= sprintf('<span class="ap-price"><b> %s</b> %s </span>',
                         esc_html__(' ', AP_Functions::get_my_text_domain()), AP_Helper::format_price($price));
                     if (!empty($msrp)) {
                         $html .= sprintf('<span class="ap-price-msrp"> %s  %s </span>',
                             esc_html__('MSRP:', AP_Functions::get_my_text_domain()), AP_Helper::format_price($msrp));
                     }
-                    $html .= '</p>';
+                    $html .= '</div>';
 
                     echo balanceTags($html);
                 }  ?>
-                <div class="uk-margin-top ap-quickview-excerpt"><?php the_excerpt(); ?></div>
+                <div class="ap-quickview-excerpt"><?php the_excerpt(); ?></div>
                 <?php
                 AP_Templates::load_my_layout('shortcodes.advanced-product.quickview-custom-fields');
                 ?>
