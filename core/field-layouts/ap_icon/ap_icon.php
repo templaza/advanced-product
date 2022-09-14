@@ -20,8 +20,8 @@ if(!class_exists('Advanced_Product\Field\Layout\AP_Icon')) {
         {
 
             $this->name = $this -> get_name();
-            $this->label = __('AP Icon', $this -> text_domain);
-            $this->category = __('Content',$this -> text_domain);
+            $this->label = __('AP Icon', 'advanced-product');
+            $this->category = __('Content','advanced-product');
             $this->defaults = array(
                 'preview_size'	=>	'thumbnail',
                 'library'		=>	'all'
@@ -142,7 +142,7 @@ if(!class_exists('Advanced_Product\Field\Layout\AP_Icon')) {
 
             $initial_tabs   = array(
                 'ap_all'   => array(
-                    'label' => __('All Icons', $this -> text_domain),
+                    'label' => __('All Icons', 'advanced-product'),
                     'labelIcon'=> 'apicon-filter',
                     'name' =>  'ap_all',
                     'native' => true
@@ -153,7 +153,7 @@ if(!class_exists('Advanced_Product\Field\Layout\AP_Icon')) {
 //                        'fetchJson'=> 'http://wp2021.templaza.net/duongtv/wordpress_plugin/wp-content/plugins/elementor/assets/lib/font-awesome/js/regular.js',
 //                        'fetchJson'=> $fetchfawRegular,
                     'icons'     => $uiKitIcons,
-                    'label'     => __('UIKit', $this -> text_domain),
+                    'label'     => __('UIKit', 'advanced-product'),
                     'labelIcon' => 'fab fa-uikit',
                     'name'      => 'uikit-icon',
                     'native'    => true,
@@ -167,7 +167,7 @@ if(!class_exists('Advanced_Product\Field\Layout\AP_Icon')) {
 //                        'fetchJson'=> 'http://wp2021.templaza.net/duongtv/wordpress_plugin/wp-content/plugins/elementor/assets/lib/font-awesome/js/regular.js',
 //                        'fetchJson'=> $fetchfawRegular,
                     'icons'=> $this -> _prepare_icons_source($fawRegularIcons),
-                    'label'=> __('Font Awesome - Regular', $this -> text_domain),
+                    'label'=> __('Font Awesome - Regular', 'advanced-product'),
                     'labelIcon'=> 'fab fa-font-awesome-alt',
                     'name'=> 'fa-regular',
                     'native'=> true,
@@ -181,7 +181,7 @@ if(!class_exists('Advanced_Product\Field\Layout\AP_Icon')) {
 //                        'fetchJson'=> 'http://wp2021.templaza.net/duongtv/wordpress_plugin/wp-content/plugins/elementor/assets/lib/font-awesome/js/regular.js',
 //                        'fetchJson'=> $fetchfawRegular,
                     'icons'=> $this -> _prepare_icons_source($fawSolidIcons),
-                    'label'=> __('Font Awesome - Solid', $this -> text_domain),
+                    'label'=> __('Font Awesome - Solid', 'advanced-product'),
                     'labelIcon'=> 'fab fa-font-awesome',
                     'name'=> 'fa-solid',
                     'native'=> true,
@@ -195,7 +195,7 @@ if(!class_exists('Advanced_Product\Field\Layout\AP_Icon')) {
 //                        'fetchJson'=> 'http://wp2021.templaza.net/duongtv/wordpress_plugin/wp-content/plugins/elementor/assets/lib/font-awesome/js/regular.js',
 //                        'fetchJson'=> $fetchfawRegular,
                     'icons'=> $this -> _prepare_icons_source($fawBrandsIcons),
-                    'label'=> __('Font Awesome - Brands', $this -> text_domain),
+                    'label'=> __('Font Awesome - Brands', 'advanced-product'),
                     'labelIcon'=> 'fab fa-font-awesome-flag',
                     'name'=> 'fa-brands',
                     'native'=> true,

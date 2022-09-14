@@ -31,7 +31,7 @@ class Field_Type extends Meta_box {
 
     public function register(){
         return array(
-            'title'         => __('Field Type', $this -> text_domain),
+            'title'         => __('Field Type', 'advanced-product'),
             'name'          => 'fields',/* */
             'context'       => 'normal', // normal, advanced, side
             'priority'      => 'high', // high, core, default, low - Priorities of placement
@@ -71,7 +71,7 @@ class Field_Type extends Meta_box {
             ?>
             <tr class="field_search_type field_option field_option_<?php echo $field['type']; ?>">
                 <td class="label">
-                    <label><?php _e("Search Field Type", $this -> text_domain); ?></label>
+                    <label><?php _e("Search Field Type", 'advanced-product'); ?></label>
                 </td>
                 <td>
 
@@ -104,10 +104,10 @@ class Field_Type extends Meta_box {
             $new_columns['protected'] = $columns['protected'];
         }
 
-        $new_columns['field_name']   = __('Field Name', $this->text_domain);
-        $new_columns['field_type']   = __('Field type', $this->text_domain);
+        $new_columns['field_name']   = __('Field Name', 'advanced-product');
+        $new_columns['field_type']   = __('Field type', 'advanced-product');
         $new_columns['taxonomy-ap_group_field']      = $columns['taxonomy-ap_group_field'];
-        $new_columns['field_instructions']   = __('Instruction', $this->text_domain);
+        $new_columns['field_instructions']   = __('Instruction', 'advanced-product');
 
         return array_merge($new_columns, $columns);
     }

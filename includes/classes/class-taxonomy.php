@@ -197,7 +197,7 @@ if(!class_exists('Advanced_Product\Taxonomy')) {
             $fields = array(
                 array(
                     'key' => 'field_'.md5($this -> get_taxonomy_name()),
-                    'label' => __('Image', $this->text_domain),
+                    'label' => __('Image', 'advanced-product'),
                     'name' => 'image',
                     'type' => 'image',
                     'default_value' => '',
@@ -218,7 +218,7 @@ if(!class_exists('Advanced_Product\Taxonomy')) {
 
             $fields_group = array(
                 'id' => $this -> __get_core_field_group_id(),
-                'title' => __('Property', $this->text_domain),
+                'title' => __('Property', 'advanced-product'),
                 'fields' => $this -> __get_core_fields(),
                 'location' => array(
                     array(

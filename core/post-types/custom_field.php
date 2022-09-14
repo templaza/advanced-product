@@ -61,27 +61,27 @@ if(!class_exists('Advanced_Product\Post_Type\Custom_Field')){
             /**
              * Post types
              */
-            $singular  = __( 'Custom Field', $this -> text_domain );
-            $plural    = __( 'Custom Fields', $this -> text_domain );
+            $singular  = __( 'Custom Field', 'advanced-product' );
+            $plural    = __( 'Custom Fields', 'advanced-product' );
 
             $args = array(
-                'description'         => __( 'This is where you can create and manage custom fields.', $this -> text_domain ),
+                'description'         => __( 'This is where you can create and manage custom fields.', 'advanced-product' ),
                 'labels' => array(
                     'name' 					=> $plural,
                     'singular_name' 		=> $singular,
                     'menu_name'             => $plural,
                     'all_items'             => $plural,
-                    'add_new' 				=> __( 'Add New', $this -> text_domain ),
-                    'add_new_item' 			=> sprintf( __( 'Add %s', $this -> text_domain ), $singular ),
-                    'edit' 					=> __( 'Edit', $this -> text_domain ),
-                    'edit_item' 			=> sprintf( __( 'Edit %s', $this -> text_domain ), $singular ),
-                    'new_item' 				=> sprintf( __( 'New %s', $this -> text_domain ), $singular ),
-                    'view' 					=> sprintf( __( 'View %s', $this -> text_domain ), $singular ),
-                    'view_item' 			=> sprintf( __( 'View %s', $this -> text_domain ), $singular ),
-                    'search_items' 			=> sprintf( __( 'Search %s', $this -> text_domain ), $plural ),
-                    'not_found' 			=> sprintf( __( 'No %s found', $this -> text_domain ), $plural ),
-                    'not_found_in_trash' 	=> sprintf( __( 'No %s found in trash', $this -> text_domain ), $plural ),
-                    'parent' 				=> sprintf( __( 'Parent %s', $this -> text_domain ), $singular )
+                    'add_new' 				=> __( 'Add New', 'advanced-product' ),
+                    'add_new_item' 			=> sprintf( __( 'Add %s', 'advanced-product' ), $singular ),
+                    'edit' 					=> __( 'Edit', 'advanced-product' ),
+                    'edit_item' 			=> sprintf( __( 'Edit %s', 'advanced-product' ), $singular ),
+                    'new_item' 				=> sprintf( __( 'New %s', 'advanced-product' ), $singular ),
+                    'view' 					=> sprintf( __( 'View %s', 'advanced-product' ), $singular ),
+                    'view_item' 			=> sprintf( __( 'View %s', 'advanced-product' ), $singular ),
+                    'search_items' 			=> sprintf( __( 'Search %s', 'advanced-product' ), $plural ),
+                    'not_found' 			=> sprintf( __( 'No %s found', 'advanced-product' ), $plural ),
+                    'not_found_in_trash' 	=> sprintf( __( 'No %s found in trash', 'advanced-product' ), $plural ),
+                    'parent' 				=> sprintf( __( 'Parent %s', 'advanced-product' ), $singular )
                 ),
                 'supports'            => array( 'title', ),
                 'hierarchical'        => false,
@@ -110,10 +110,10 @@ if(!class_exists('Advanced_Product\Post_Type\Custom_Field')){
         public function manage_edit_columns($columns){
             $new_columns                = array();
             $new_columns['cb']          = $columns['cb'];
-            $new_columns['protected']   = __('Protected', $this -> text_domain);
-//            $new_columns['display_flag']   = __('Display Flag', $this -> text_domain);
-            $new_columns['in_listing']  = __('In Listing', $this -> text_domain);
-            $new_columns['in_search']   = __('In Search', $this -> text_domain);
+            $new_columns['protected']   = __('Protected', 'advanced-product');
+//            $new_columns['display_flag']   = __('Display Flag', 'advanced-product');
+            $new_columns['in_listing']  = __('In Listing', 'advanced-product');
+            $new_columns['in_search']   = __('In Search', 'advanced-product');
 
             return array_merge($new_columns, $columns);
 

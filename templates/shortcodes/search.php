@@ -61,7 +61,7 @@ $submit_html    = trim($submit_html);
                 ?>
                 <div class="uk-margin ap-search-item">
                 <?php if(!isset($field['s_show_label']) || (isset($field['s_show_label']) && $field['s_show_label'])){?>
-                    <label class="uk-form-label search-label" for="acf-field-ap_price"><?php echo $field['label']; ?></label>
+                    <label class="uk-form-label search-label" for="acf-field-ap_price"><?php echo __($field['label'],'advanced-product'); ?></label>
                 <?php } ?>
                     <div class="uk-form-controls uk-position-relative">
                        <?php do_action('acf/create_field', $field); ?>

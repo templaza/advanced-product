@@ -12,7 +12,7 @@ class Field_Display extends Meta_box {
 
     public function register(){
         return array(
-            'title'         => __('Field Display', $this -> text_domain),
+            'title'         => __('Field Display', 'advanced-product'),
             'name'          => 'fields',/* */
             'context'       => 'side', // normal, advanced, side
             'priority'      => 'default', // high, core, default, low - Priorities of placement
@@ -25,39 +25,39 @@ class Field_Display extends Meta_box {
 //            {
 //                register_field_group(array (
 //                    'id' => 'acf_'.$this -> get_meta_box_name().'_property',
-//                    'title' => __( 'Field Display', $this -> text_domain ),
+//                    'title' => __( 'Field Display', 'advanced-product' ),
 //                    'fields' => array(
 ////                        array(
 ////                            'key'   => 'field_61a5e21179a88',
 ////                            'name'  => 'show_in_excerpt',
 ////                            'type'  => 'radio',
-////                            'label' => __('Show in Excerpt view', $this->text_domain),
+////                            'label' => __('Show in Excerpt view', 'advanced-product'),
 ////                            'layout'	=>	'horizontal',
 ////                            'choices'	=>	array(
-////                                1	=>	__("Yes", $this -> text_domain),
-////                                0	=>	__("No", $this -> text_domain),
+////                                1	=>	__("Yes", 'advanced-product'),
+////                                0	=>	__("No", 'advanced-product'),
 ////                            ),
 ////                        ),
 //                        array(
 //                            'key'   => 'field_61a5e4c9c3c36',
 //                            'name'  => 'show_in_listing',
 //                            'type'  => 'radio',
-//                            'label' => __('Show in listing view', $this->text_domain),
+//                            'label' => __('Show in listing view', 'advanced-product'),
 //                            'layout'	=>	'horizontal',
 //                            'choices'	=>	array(
-//                                1	=>	__("Yes", $this -> text_domain),
-//                                0	=>	__("No", $this -> text_domain),
+//                                1	=>	__("Yes", 'advanced-product'),
+//                                0	=>	__("No", 'advanced-product'),
 //                            ),
 //                        ),
 //                        array(
 //                            'key'   => 'field_61a5e4d69b4c4',
 //                            'name'  => 'show_in_search',
 //                            'type'  => 'radio',
-//                            'label' => __('Show in search view', $this->text_domain),
+//                            'label' => __('Show in search view', 'advanced-product'),
 //                            'layout'	=>	'horizontal',
 //                            'choices'	=>	array(
-//                                1	=>	__("Yes", $this -> text_domain),
-//                                0	=>	__("No", $this -> text_domain),
+//                                1	=>	__("Yes", 'advanced-product'),
+//                                0	=>	__("No", 'advanced-product'),
 //                            ),
 //                        ),
 //                    ),
@@ -90,22 +90,22 @@ class Field_Display extends Meta_box {
                 'key'   => 'field_61a5e4c9c3c36',
                 'name'  => 'show_in_listing',
                 'type'  => 'radio',
-                'label' => __('Show in listing view', $this->text_domain),
+                'label' => __('Show in listing view', 'advanced-product'),
                 'layout'	=>	'horizontal',
                 'choices'	=>	array(
-                    1	=>	__("Yes", $this -> text_domain),
-                    0	=>	__("No", $this -> text_domain),
+                    1	=>	__("Yes", 'advanced-product'),
+                    0	=>	__("No", 'advanced-product'),
                 ),
             ),
             array(
                 'key'   => 'field_61a5e4d69b4c4',
                 'name'  => 'show_in_search',
                 'type'  => 'radio',
-                'label' => __('Show in search view', $this->text_domain),
+                'label' => __('Show in search view', 'advanced-product'),
                 'layout'	=>	'horizontal',
                 'choices'	=>	array(
-                    1	=>	__("Yes", $this -> text_domain),
-                    0	=>	__("No", $this -> text_domain),
+                    1	=>	__("Yes", 'advanced-product'),
+                    0	=>	__("No", 'advanced-product'),
                 ),
             ),
         );

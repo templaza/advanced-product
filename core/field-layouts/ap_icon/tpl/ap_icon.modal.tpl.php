@@ -6,7 +6,7 @@ defined('ADVANCED_PRODUCT') or exit();
     <div class="uk-modal-dialog uk-height-1-1 uk-flex uk-flex-column">
         <button class="uk-modal-close-default" type="button" data-uk-close></button>
         <div class="uk-modal-header">
-            <h3 class="uk-modal-title"><?php _e('Icon Library', $this -> text_domain);?></h3>
+            <h3 class="uk-modal-title"><?php _e('Icon Library', 'advanced-product');?></h3>
         </div>
         <div class="uk-modal-body uk-background-muted uk-overflow-hidden uk-height-1-1">
             <?php if($tabs = $this -> _get_tabs()){ ?>
@@ -32,8 +32,8 @@ defined('ADVANCED_PRODUCT') or exit();
             <?php } ?>
         </div>
         <div class="uk-modal-footer uk-text-right">
-            <button class="uk-button uk-button-default uk-modal-close" type="button"><?php echo __('Cancel', $this -> text_domain);?></button>
-            <button class="uk-button uk-button-primary" type="button" data-ap-field-icon-insert><?php echo __('Insert', $this -> text_domain);?></button>
+            <button class="uk-button uk-button-default uk-modal-close" type="button"><?php echo __('Cancel', 'advanced-product');?></button>
+            <button class="uk-button uk-button-primary" type="button" data-ap-field-icon-insert><?php echo __('Insert', 'advanced-product');?></button>
         </div>
     </div>
 </div>

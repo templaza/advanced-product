@@ -42,28 +42,28 @@ if(!class_exists('Advanced_Product\Post_Type\Product')){
             /**
              * Post types
              */
-            $singular  = __( 'Product', $this -> text_domain );
-            $plural    = __( 'Products', $this -> text_domain );
+            $singular  = __( 'Product', 'advanced-product' );
+            $plural    = __( 'Products', 'advanced-product' );
 
             $args = array(
-                'description'         => __( 'This is where you can create and manage products.', $this -> text_domain ),
+                'description'         => __( 'This is where you can create and manage products.', 'advanced-product' ),
                 'labels' => array(
 //                    'name' 					=> $plural,
-                    'name' 					=> __( 'Advanced Products', $this -> text_domain ),
+                    'name' 					=> __( 'Advanced Products', 'advanced-product' ),
                     'singular_name' 		=> $singular,
-                    'menu_name'             => __( 'Advanced Products', $this -> text_domain ),
-                    'all_items'             => sprintf( __( 'All %s', $this -> text_domain ), $plural ),
-                    'add_new' 				=> __( 'Add New', $this -> text_domain ),
-                    'add_new_item' 			=> sprintf( __( 'Add %s', $this -> text_domain ), $singular ),
-                    'edit' 					=> __( 'Edit', $this -> text_domain ),
-                    'edit_item' 			=> sprintf( __( 'Edit %s', $this -> text_domain ), $singular ),
-                    'new_item' 				=> sprintf( __( 'New %s', $this -> text_domain ), $singular ),
-                    'view' 					=> sprintf( __( 'View %s', $this -> text_domain ), $singular ),
-                    'view_item' 			=> sprintf( __( 'View %s', $this -> text_domain ), $singular ),
-                    'search_items' 			=> sprintf( __( 'Search %s', $this -> text_domain ), $plural ),
-                    'not_found' 			=> sprintf( __( 'No %s found', $this -> text_domain ), $plural ),
-                    'not_found_in_trash' 	=> sprintf( __( 'No %s found in trash', $this -> text_domain ), $plural ),
-                    'parent' 				=> sprintf( __( 'Parent %s', $this -> text_domain ), $singular )
+                    'menu_name'             => __( 'Advanced Products', 'advanced-product' ),
+                    'all_items'             => sprintf( __( 'All %s', 'advanced-product' ), $plural ),
+                    'add_new' 				=> __( 'Add New', 'advanced-product' ),
+                    'add_new_item' 			=> sprintf( __( 'Add %s', 'advanced-product' ), $singular ),
+                    'edit' 					=> __( 'Edit', 'advanced-product' ),
+                    'edit_item' 			=> sprintf( __( 'Edit %s', 'advanced-product' ), $singular ),
+                    'new_item' 				=> sprintf( __( 'New %s', 'advanced-product' ), $singular ),
+                    'view' 					=> sprintf( __( 'View %s', 'advanced-product' ), $singular ),
+                    'view_item' 			=> sprintf( __( 'View %s', 'advanced-product' ), $singular ),
+                    'search_items' 			=> sprintf( __( 'Search %s', 'advanced-product' ), $plural ),
+                    'not_found' 			=> sprintf( __( 'No %s found', 'advanced-product' ), $plural ),
+                    'not_found_in_trash' 	=> sprintf( __( 'No %s found in trash', 'advanced-product' ), $plural ),
+                    'parent' 				=> sprintf( __( 'Parent %s', 'advanced-product' ), $singular )
                 ),
                 'supports'            => array( 'title', 'editor', 'thumbnail','excerpt', 'custom-fields','comments' ),
                 'hierarchical'        => false,
@@ -193,7 +193,7 @@ if(!class_exists('Advanced_Product\Post_Type\Product')){
                 register_field_group(
                     array(
                         'id' => 'acf_'.md5($this -> get_post_type().'_properties'),
-                        'title' => __( 'Properties', $this -> text_domain ),
+                        'title' => __( 'Properties', 'advanced-product' ),
                         'fields' => $acf_fields,
                         'location' => array (
                             array (
@@ -225,7 +225,7 @@ if(!class_exists('Advanced_Product\Post_Type\Product')){
 //                register_field_group(
 //                    array(
 //                        'id' => 'acf_'.md5('product_branch_property'),
-//                        'title' => __( 'Branch Property', $this -> text_domain ),
+//                        'title' => __( 'Branch Property', 'advanced-product' ),
 //                        'fields' => array(
 //                            $acf_f
 ////                            array(
@@ -271,7 +271,7 @@ if(!class_exists('Advanced_Product\Post_Type\Product')){
 //                $gid            = md5('property');
 //                $goptions       = array (
 //                    'id' => 'acf_product_property',
-//                    'title' => __( 'Properties', $this -> text_domain ),
+//                    'title' => __( 'Properties', 'advanced-product' ),
 //                    'fields' => $fields,
 //                    'location' => array (
 //                        array (
@@ -303,7 +303,7 @@ if(!class_exists('Advanced_Product\Post_Type\Product')){
 //                                &&*/ $acf_fields[$next_index] -> term_slug != $acf_field -> term_slug)
 //                            || ($i == count($acf_fields) -1)){
 //                            $goptions['id']     = 'acf_product_'.(!empty($acf_field -> term_slug))?$acf_field -> term_slug:$gid;
-//                            $goptions['title']  = (!empty($acf_field -> term_name))?$acf_field -> term_name:__( 'Properties', $this -> text_domain );
+//                            $goptions['title']  = (!empty($acf_field -> term_name))?$acf_field -> term_name:__( 'Properties', 'advanced-product' );
 //                            $goptions['fields'] = $fields;
 //
 //                            $goptions['menu_order']  = $i;
@@ -399,7 +399,7 @@ if(!class_exists('Advanced_Product\Post_Type\Product')){
                     $gid = md5('property');
                     $goptions = array(
                         'id' => 'acf_' . md5('product_property'),
-                        'title' => __('Properties', $this->text_domain),
+                        'title' => __('Properties', 'advanced-product'),
                         'fields' => array(),
                         'location' => array(
                             array(
@@ -441,7 +441,7 @@ if(!class_exists('Advanced_Product\Post_Type\Product')){
                             if(!empty($fields)){
                                 // Register fields for acf
                                 $goptions['id'] = (!empty($group->slug) ? $group->slug : $gid);
-                                $goptions['title'] = (!empty($group->name)) ? $group->name : __('Properties', $this->text_domain);
+                                $goptions['title'] = (!empty($group->name)) ? $group->name : __('Properties', 'advanced-product');
                                 $goptions['menu_order'] = $i;
                                 $goptions['fields'] = $fields;
 
@@ -481,7 +481,7 @@ if(!class_exists('Advanced_Product\Post_Type\Product')){
 //                    $gid = md5('property');
 //                    $goptions = array(
 //                        'id' => 'acf_' . md5('product_property'),
-//                        'title' => __('Properties', $this->text_domain),
+//                        'title' => __('Properties', 'advanced-product'),
 //                        'fields' => $fields,
 //                        'location' => array(
 //                            array(
@@ -513,7 +513,7 @@ if(!class_exists('Advanced_Product\Post_Type\Product')){
 //                            if ((isset($cfields[$next_index]) && $cfields[$next_index]->term_slug != $acf_field->term_slug)
 //                                || ($i == count($cfields) - 1)) {
 //                                $goptions['id'] = (!empty($acf_field->term_slug) ? $acf_field->term_slug : $gid);
-//                                $goptions['title'] = (!empty($acf_field->term_name)) ? $acf_field->term_name : __('Properties', $this->text_domain);
+//                                $goptions['title'] = (!empty($acf_field->term_name)) ? $acf_field->term_name : __('Properties', 'advanced-product');
 //                                $goptions['menu_order'] = $m_order;
 //
 //                                $goptions['fields'] = $fields;

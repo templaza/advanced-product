@@ -30,28 +30,28 @@ if(!class_exists('Advanced_Product\Post_Type\Custom_Category')){
             /**
              * Post types
              */
-            $singular  = __( 'Custom Category', $this -> text_domain );
-            $plural    = __( 'Custom Categories', $this -> text_domain );
+            $singular  = __( 'Custom Category', 'advanced-product' );
+            $plural    = __( 'Custom Categories', 'advanced-product' );
 
             $args = array(
-                'description'         => __( 'This is where you can create and manage products.', $this -> text_domain ),
+                'description'         => __( 'This is where you can create and manage products.', 'advanced-product' ),
                 'labels' => array(
                     'name' 					=> $plural,
                     'singular_name' 		=> $singular,
                     'menu_name'             => $plural,
-//                    'all_items'             => sprintf( __( 'All %s', $this -> text_domain ), $plural ),
+//                    'all_items'             => sprintf( __( 'All %s', 'advanced-product' ), $plural ),
                     'all_items'             => $plural,
-                    'add_new' 				=> __( 'Add New', $this -> text_domain ),
-                    'add_new_item' 			=> sprintf( __( 'Add %s', $this -> text_domain ), $singular ),
-                    'edit' 					=> __( 'Edit', $this -> text_domain ),
-                    'edit_item' 			=> sprintf( __( 'Edit %s', $this -> text_domain ), $singular ),
-                    'new_item' 				=> sprintf( __( 'New %s', $this -> text_domain ), $singular ),
-                    'view' 					=> sprintf( __( 'View %s', $this -> text_domain ), $singular ),
-                    'view_item' 			=> sprintf( __( 'View %s', $this -> text_domain ), $singular ),
-                    'search_items' 			=> sprintf( __( 'Search %s', $this -> text_domain ), $plural ),
-                    'not_found' 			=> sprintf( __( 'No %s found', $this -> text_domain ), $plural ),
-                    'not_found_in_trash' 	=> sprintf( __( 'No %s found in trash', $this -> text_domain ), $plural ),
-                    'parent' 				=> sprintf( __( 'Parent %s', $this -> text_domain ), $singular )
+                    'add_new' 				=> __( 'Add New', 'advanced-product' ),
+                    'add_new_item' 			=> sprintf( __( 'Add %s', 'advanced-product' ), $singular ),
+                    'edit' 					=> __( 'Edit', 'advanced-product' ),
+                    'edit_item' 			=> sprintf( __( 'Edit %s', 'advanced-product' ), $singular ),
+                    'new_item' 				=> sprintf( __( 'New %s', 'advanced-product' ), $singular ),
+                    'view' 					=> sprintf( __( 'View %s', 'advanced-product' ), $singular ),
+                    'view_item' 			=> sprintf( __( 'View %s', 'advanced-product' ), $singular ),
+                    'search_items' 			=> sprintf( __( 'Search %s', 'advanced-product' ), $plural ),
+                    'not_found' 			=> sprintf( __( 'No %s found', 'advanced-product' ), $plural ),
+                    'not_found_in_trash' 	=> sprintf( __( 'No %s found in trash', 'advanced-product' ), $plural ),
+                    'parent' 				=> sprintf( __( 'Parent %s', 'advanced-product' ), $singular )
                 ),
                 'supports'            => array( 'title'),
 //                'supports'            => false,
@@ -111,7 +111,7 @@ if(!class_exists('Advanced_Product\Post_Type\Custom_Category')){
             $new_columns['cb']      = $columns['cb'];
             $new_columns['title']   = $columns['title'];
 
-            $new_columns['associate_to']   = __('Associate To', $this->text_domain);
+            $new_columns['associate_to']   = __('Associate To', 'advanced-product');
 
             return array_merge($new_columns, $columns);
         }
@@ -143,22 +143,22 @@ if(!class_exists('Advanced_Product\Post_Type\Custom_Category')){
             {
                 register_field_group(array (
                     'id' => 'acf_subcategory_general',
-                    'title' => __( 'General', $this -> text_domain ),
+                    'title' => __( 'General', 'advanced-product' ),
                     'fields' => array(
 //                        array (
 //                            'key' => 'field_'.uniqid(),
-//                            'label' => __( 'General', $this -> text_domain ),
+//                            'label' => __( 'General', 'advanced-product' ),
 //                            'name' => '',
 //                            'type' => 'tab',
 //                        ),
                         array (
                             'key' => 'field_618a30dd427f8',
-                            'label' => __( 'Plural name', $this -> text_domain ),
+                            'label' => __( 'Plural name', 'advanced-product' ),
                             'name' => 'plural_name',
                             'type' => 'text',
                             'column_width' => 35,
                             'default_value' => '',
-//                            'placeholder' => __( 'E.g. "Horsepower"', $this -> text_domain ),
+//                            'placeholder' => __( 'E.g. "Horsepower"', 'advanced-product' ),
                             'prepend' => '',
                             'append' => '',
                             'formatting' => 'none',
@@ -167,12 +167,12 @@ if(!class_exists('Advanced_Product\Post_Type\Custom_Category')){
                         ),
                         array (
                             'key' => 'field_618a325158397',
-                            'label' => __( 'Singular name', $this -> text_domain ),
+                            'label' => __( 'Singular name', 'advanced-product' ),
                             'name' => 'singular_name',
                             'type' => 'text',
                             'column_width' => 35,
                             'default_value' => '',
-//                            'placeholder' => __( 'E.g. "Horsepower"', $this -> text_domain ),
+//                            'placeholder' => __( 'E.g. "Horsepower"', 'advanced-product' ),
                             'prepend' => '',
                             'append' => '',
                             'formatting' => 'none',
@@ -181,12 +181,12 @@ if(!class_exists('Advanced_Product\Post_Type\Custom_Category')){
                         ),
                         array (
                             'key' => 'field_618a328c52627',
-                            'label' => __( 'Slug', $this -> text_domain ),
+                            'label' => __( 'Slug', 'advanced-product' ),
                             'name' => 'slug',
                             'type' => 'text',
                             'column_width' => 35,
                             'default_value' => '',
-//                            'placeholder' => __( 'E.g. "Horsepower"', $this -> text_domain ),
+//                            'placeholder' => __( 'E.g. "Horsepower"', 'advanced-product' ),
                             'prepend' => '',
                             'append' => '',
                             'formatting' => 'none',
@@ -195,7 +195,7 @@ if(!class_exists('Advanced_Product\Post_Type\Custom_Category')){
                         ),
                         array (
                             'key' => 'field_618a33aa67454',
-                            'label' => __('Associate To', $this->text_domain),
+                            'label' => __('Associate To', 'advanced-product'),
                             'name' => 'associate_to',
                             'type' => 'select',
 //                            'type' => 'taxonomy',
@@ -207,23 +207,23 @@ if(!class_exists('Advanced_Product\Post_Type\Custom_Category')){
                             'choices' => $this -> _categories_associate(),
 //                            'return_format' => 'array',
 //                            'multiple' => 1,
-//                            'instructions' => __('Press and hold the CTRL key and click items in the list to select multiple items. ', $this->text_domain),
+//                            'instructions' => __('Press and hold the CTRL key and click items in the list to select multiple items. ', 'advanced-product'),
 //                            'default_value' => ''
                         ),
 //                        array (
 //                            'key' => 'field_'.uniqid(),
-//                            'label' => __( 'Labels', $this -> text_domain ),
+//                            'label' => __( 'Labels', 'advanced-product' ),
 //                            'name' => '',
 //                            'type' => 'tab',
 //                        ),
 //                        array (
 //                            'key' => 'field_618a33326b07c',
-//                            'label' => __( 'Not found', $this -> text_domain ),
+//                            'label' => __( 'Not found', 'advanced-product' ),
 //                            'name' => 'not_found',
 //                            'type' => 'text',
 //                            'column_width' => 35,
 //                            'default_value' => '',
-////                            'placeholder' => __( 'E.g. "Horsepower"', $this -> text_domain ),
+////                            'placeholder' => __( 'E.g. "Horsepower"', 'advanced-product' ),
 //                            'prepend' => '',
 //                            'append' => '',
 //                            'formatting' => 'none',
@@ -260,8 +260,8 @@ if(!class_exists('Advanced_Product\Post_Type\Custom_Category')){
         protected function _categories_associate(){
             global $pagenow;
             $categories = array(
-                'ap_branch'     => __('Branch', $this -> text_domain),
-                'ap_category'   => __('Category', $this -> text_domain),
+                'ap_branch'     => __('Branch', 'advanced-product'),
+                'ap_category'   => __('Category', 'advanced-product'),
             );
             $args   = array(
                 'order' => 'ASC',

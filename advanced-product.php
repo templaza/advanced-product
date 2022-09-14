@@ -6,6 +6,7 @@ Description: This plugin help you manage advanced products.
 Author: Templaza
 Version: 1.0.2
 Text Domain: advanced-product
+Domain Path:  /languages/
 Author URI: http://templaza.com
 Forum: https://www.templaza.com/Forums.html
 Ticket: https://www.templaza.com/tz_membership/addticket.html
@@ -91,7 +92,7 @@ class Advanced_Product{
         add_filter('templaza-framework/shortcode/content_area/theme_html', array($this, 'theme_html'), 11);
 
         add_action( 'switch_theme', 'flush_rewrite_rules', 15 );
-        add_action( 'plugins_loaded', array( $this, 'load_plugin_textdomain' ) );
+        add_action( 'init', array( $this, 'ap_load_plugin_textdomain' ) );
 
 //        if($this -> validate_page()) {
         add_action('init', array($this, 'register_scripts'));
@@ -198,8 +199,8 @@ class Advanced_Product{
      * @access public
      * @return void
      */
-    public function load_plugin_textdomain() {
-        load_plugin_textdomain( $this -> text_domain, false, ADVANCED_PRODUCT_PATH . '/languages/' );
+    public function ap_load_plugin_textdomain() {
+        load_plugin_textdomain( 'advanced-product', false, ADVANCED_PRODUCT_PATH . '/languages' );
         load_plugin_textdomain( 'acf', false, ADVANCED_PRODUCT_PATH . '/languages/acf/' );
     }
 
@@ -558,7 +559,7 @@ class Advanced_Product{
      * Add options to wordpress settings
      * */
     public function wordpress_settings() {
-        add_settings_field('ap_archive_permalink', __('Advanced Product archive slug', $this -> text_domain),
+        add_settings_field('ap_archive_permalink', __('Advanced Product archive slug', 'advanced-product'),
             array($this, 'archive_permalink_option'), 'permalink', 'optional');
     }
 

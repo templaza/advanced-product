@@ -88,7 +88,7 @@ class Advanced_ProductSCAP extends ShortCodeAP {
             'p' => $pid));
 
         if(is_wp_error($product) || empty($product)){
-            echo wp_send_json_error(__('Can not found product', $this -> text_domain));
+            echo wp_send_json_error(__('Can not found product', 'advanced-product'));
             wp_die();
         }
 
@@ -125,8 +125,8 @@ class Advanced_ProductSCAP extends ShortCodeAP {
 //            'ajaxurl'   => admin_url('admin-ajax.php'),
 //            'l10n' => array(
 //                'compare' => array(
-//                    'active_text'   => __('In compare list', $this -> text_domain),
-//                    'add_product_successfully'   => __('Add product to compare list successfully', $this -> text_domain),
+//                    'active_text'   => __('In compare list', 'advanced-product'),
+//                    'add_product_successfully'   => __('Add product to compare list successfully', 'advanced-product'),
 //                )
 //            )
 //        ));
@@ -153,10 +153,10 @@ class Advanced_ProductSCAP extends ShortCodeAP {
             'ajaxurl'   => admin_url('admin-ajax.php'),
             'l10n' => array(
                 'compare' => array(
-                    'text'                      => __('Add to compare', $this -> text_domain),
-                    'active_text'               => __('In compare list', $this -> text_domain),
-                    'delete_question'           => __('Do you want to remove this product?', $this -> text_domain),
-                    'add_product_successfully'  => __('Add product to compare list successfully', $this -> text_domain),
+                    'text'                      => __('Add to compare', 'advanced-product'),
+                    'active_text'               => __('In compare list', 'advanced-product'),
+                    'delete_question'           => __('Do you want to remove this product?', 'advanced-product'),
+                    'add_product_successfully'  => __('Add product to compare list successfully', 'advanced-product'),
                 )
             )
         ));

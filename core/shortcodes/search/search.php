@@ -111,7 +111,7 @@ class Search extends Base {
             'exclude'   => '',
             'action' 	=> get_post_type_archive_link( 'ap_product' ), // action url,
             'form'		=> 'true',
-            'button' 	=> __( 'Search', $this -> text_domain),
+            'button' 	=> __( 'Search', 'advanced-product'),
             'form_atts' => '',
             'submit_text' => '',
             'submit_icon' => '',

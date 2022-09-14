@@ -568,7 +568,7 @@ class FieldHelper extends BaseHelper {
                 $gid = md5('property');
                 $goptions = array(
 //                    'id' => 'acf_' . md5('product_property'),
-//                    'title' => __('Properties', $this->text_domain),
+//                    'title' => __('Properties', 'advanced-product'),
                     'fields' => array(),
                     'location' => array(
                         array(

@@ -10,7 +10,7 @@ $key    = $field['name'];
 ?>
     <tr class="field-search-option-s_from_to field_option field_option_<?php echo $field['type']; ?> field_search_option field_search_option_<?php echo $field['s_type'];?>">
         <td class="label">
-            <label><?php _e("Search From-To",$this -> text_domain); ?></label>
+            <label><?php _e("Search From-To",'advanced-product'); ?></label>
         </td>
         <td>
             <?php
@@ -32,7 +32,7 @@ $key    = $field['name'];
     <tr class="field_option field-search-option-s_from_to_1 field_option_<?php echo $field['type'];
     ?> field_search_option field_search_option_<?php echo $field['s_type'];?>">
         <td class="label">
-            <label><?php _e("Search Choices From",$this -> text_domain); ?></label>
+            <label><?php _e("Search Choices From",'advanced-product'); ?></label>
             <p><?php _e("Enter each choice on a new line.",'acf'); ?></p>
             <p><?php _e("For more control, you may specify both a value and label like this:",'acf'); ?></p>
             <p><?php _e("red : Red",'acf'); ?><br /><?php _e("blue : Blue",'acf'); ?></p>
@@ -49,7 +49,7 @@ $key    = $field['name'];
     </tr>
     <tr class="field_option field-search-option-s_from_to_1 field_option_<?php echo $field['type']; ?> field_search_option field_search_option_<?php echo $field['s_type'];?>">
         <td class="label">
-            <label><?php _e("Search Default Value From", $this -> text_domain); ?></label>
+            <label><?php _e("Search Default Value From", 'advanced-product'); ?></label>
             <p class="description"><?php _e("Enter each default value on a new line",'acf'); ?></p>
         </td>
         <td>
@@ -67,7 +67,7 @@ $key    = $field['name'];
     <tr class="field_option field-search-option-s_from_to_1 field_option_<?php echo $field['type'];
     ?> field_search_option field_search_option_<?php echo $field['s_type'];?>">
         <td class="label">
-            <label><?php _e("Search Choices To",$this -> text_domain); ?></label>
+            <label><?php _e("Search Choices To",'advanced-product'); ?></label>
             <p><?php _e("Enter each choice on a new line.",'acf'); ?></p>
             <p><?php _e("For more control, you may specify both a value and label like this:",'acf'); ?></p>
             <p><?php _e("red : Red",'acf'); ?><br /><?php _e("blue : Blue",'acf'); ?></p>
@@ -85,7 +85,7 @@ $key    = $field['name'];
     <tr class="field_option field-search-option-s_from_to_1 field_option_<?php echo $field['type'];
     ?> field_search_option field_search_option_<?php echo $field['s_type'];?>">
         <td class="label">
-            <label><?php _e("Search Default Value To",$this -> text_domain); ?></label>
+            <label><?php _e("Search Default Value To",'advanced-product'); ?></label>
             <p class="description"><?php _e("Enter each default value on a new line",'acf'); ?></p>
         </td>
         <td>
@@ -104,7 +104,7 @@ $key    = $field['name'];
     <tr class="field_option field-search-option-s_from_to_0 field_option_<?php echo $field['type'];
     ?> field_search_option field_search_option_<?php echo $field['s_type'];?>">
         <td class="label">
-            <label><?php _e("Search choices",$this -> text_domain); ?></label>
+            <label><?php _e("Search choices",'advanced-product'); ?></label>
             <p><?php _e("Enter each choice on a new line.",'acf'); ?></p>
             <p><?php _e("For more control, you may specify both a value and label like this:",'acf'); ?></p>
             <p><?php _e("red : Red",'acf'); ?><br /><?php _e("blue : Blue",'acf'); ?></p>
@@ -122,7 +122,7 @@ $key    = $field['name'];
     <tr class="field_option field-search-option-s_from_to_0 field_option_<?php echo $field['type'];
     ?> field_search_option field_search_option_<?php echo $field['s_type'];?>">
         <td class="label">
-            <label><?php _e("Search Default Value",$this -> text_domain); ?></label>
+            <label><?php _e("Search Default Value",'advanced-product'); ?></label>
             <p class="description"><?php _e("Enter each default value on a new line",'acf'); ?></p>
         </td>
         <td>

@@ -24,8 +24,8 @@ class Group_Field extends Taxonomy {
 
     public function register(){
 
-        $singular  = __( 'Custom Field Group', $this -> text_domain );
-        $plural    = __( 'Custom Field Groups', $this -> text_domain );
+        $singular  = __( 'Custom Field Group', 'advanced-product' );
+        $plural    = __( 'Custom Field Groups', 'advanced-product' );
 
         return array(
             'object_type'   => 'ap_custom_field',
@@ -35,15 +35,15 @@ class Group_Field extends Taxonomy {
                     'name' 					=> $singular,
                     'singular_name' 		=> $singular,
                     'menu_name'				=> $plural,
-                    'search_items' 			=> sprintf( __( 'Search %s', $this -> text_domain ), $plural ),
-                    'all_items' 			=> sprintf( __( 'All %s', $this -> text_domain ), $plural ),
-                    'parent_item' 			=> sprintf( __( 'Parent %s', $this -> text_domain ), $singular ),
-                    'parent_item_colon'		=> sprintf( __( 'Parent %s:', $this -> text_domain ), $singular ),
-                    'edit_item' 			=> sprintf( __( 'Edit %s', $this -> text_domain ), $singular ),
-                    'update_item' 			=> sprintf( __( 'Update %s', $this -> text_domain ), $singular ),
-                    'add_new_item' 			=> sprintf( __( 'Add New %s', $this -> text_domain ), $singular ),
-                    'new_item_name' 		=> sprintf( __( 'New %s Name', $this -> text_domain ),  $singular ),
-                    'not_found' 		    => sprintf( __( 'No %s found.', $this -> text_domain ),  $plural ),
+                    'search_items' 			=> sprintf( __( 'Search %s', 'advanced-product' ), $plural ),
+                    'all_items' 			=> sprintf( __( 'All %s', 'advanced-product' ), $plural ),
+                    'parent_item' 			=> sprintf( __( 'Parent %s', 'advanced-product' ), $singular ),
+                    'parent_item_colon'		=> sprintf( __( 'Parent %s:', 'advanced-product' ), $singular ),
+                    'edit_item' 			=> sprintf( __( 'Edit %s', 'advanced-product' ), $singular ),
+                    'update_item' 			=> sprintf( __( 'Update %s', 'advanced-product' ), $singular ),
+                    'add_new_item' 			=> sprintf( __( 'Add New %s', 'advanced-product' ), $singular ),
+                    'new_item_name' 		=> sprintf( __( 'New %s Name', 'advanced-product' ),  $singular ),
+                    'not_found' 		    => sprintf( __( 'No %s found.', 'advanced-product' ),  $plural ),
                 ),
                 'hierarchical'              => true,
                 'show_admin_column'         => true,
@@ -77,7 +77,7 @@ class Group_Field extends Taxonomy {
         $fields = array(
             array(
                 'key'       => 'field_'.md5($this -> get_taxonomy_name().'__branch'),
-                'label'     => __('Branches Assignment', $this->text_domain),
+                'label'     => __('Branches Assignment', 'advanced-product'),
                 'name'      => 'branch_assigned',
                 'type'      => 'taxonomy',
                 'taxonomy'  => 'ap_branch',
@@ -91,7 +91,7 @@ class Group_Field extends Taxonomy {
 
     public function manage_edit_columns($columns){
         $pos            = array_search('name', array_keys($columns)) + 1;
-        $new_columns    = array('branch_assigned' => __('Branch Assigned', $this -> text_domain));
+        $new_columns    = array('branch_assigned' => __('Branch Assigned', 'advanced-product'));
 
         return array_merge(
             array_slice($columns, 0, $pos),
