@@ -90,6 +90,12 @@
     });
 
     $(document).on("click", "[data-field_type=ap_icon] [data-ap-field-icon-modal]", function(event){
+
+        if(!$("#ap-fields__icon-library").length) {
+            var __modal = wp.template("ap-template-field__ap-icon-modal");
+            $("body").append($(__modal({})));
+        }
+
         $("#ap-fields__icon-library").data("ap-field-icon__btn-clicked", $(this));
         UIkit.modal("#ap-fields__icon-library").show();
     });
