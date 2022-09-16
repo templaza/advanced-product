@@ -148,6 +148,25 @@ if(!class_exists('Advanced_Product\Taxonomy')) {
 
         public function saved_term($term_id, $tt_id, $taxonomy, $update){
 
+            $fields = isset($_POST['fields'])?$_POST['fields']:array();
+
+            // loop through and save
+            if( $fields && !empty($fields) )
+            {
+                // loop through and save $_POST data
+                foreach( $_POST['fields'] as $k => $v )
+                {
+                    // get field
+                    $f = apply_filters('acf/load_field', false, $k );
+
+                    $acf    = new \acf_field_functions();
+
+                    // update field
+                    do_action('acf/update_value', $v, 'term_'.$term_id, $f, $taxonomy );
+
+                }
+            }
+
             $taxonomies = array(
                 $this -> get_taxonomy_name()
             );
@@ -173,18 +192,36 @@ if(!class_exists('Advanced_Product\Taxonomy')) {
                 return;
             }
 
-            if(!empty($taxonomies) && !empty($this -> old_slug_before_save) && $this -> old_slug_before_save != $term -> slug) {
+            if(!empty($this -> old_slug_before_save) && $this -> old_slug_before_save != $term -> slug) {
                 global $wpdb;
 
-                foreach ($taxonomies as $f_cat_slug){
-                    $q  = 'UPDATE '.$wpdb -> termmeta.' AS tm';
-                    $q .= ' INNER JOIN '.$wpdb ->term_taxonomy.' AS tt ON tt.term_id = tm.term_id AND tt.taxonomy="'.$f_cat_slug.'"';
-                    $q .= ' INNER JOIN '.$wpdb ->terms.' AS t ON t.term_id = tm.term_id';
-                    $q .= ' SET tm.meta_value=REPLACE(tm.meta_value, "'.$this -> old_slug_before_save.'", "'.$term->slug.'")';
-                    $q .= ' WHERE tm.meta_key = "'.$this -> get_taxonomy_name().'"';
-                    $q .= ' AND tm.meta_value LIKE \'%"'.$this -> old_slug_before_save.'"%\'';
-                    $wpdb -> query($wpdb -> prepare($q));
-                    wp_reset_query();
+                // Update branch-slug with product data
+                $q  = 'UPDATE '.$wpdb -> postmeta.' AS pm';
+                $q .= ' INNER JOIN '.$wpdb ->posts.' AS p ON p.id = pm.post_id';
+                $q .= ' SET pm.meta_value=REPLACE(pm.meta_value, "'.$this -> old_slug_before_save.'", "'.$term -> slug.'")';
+                $q .= ' WHERE pm.meta_key IN (
+                SELECT post_excerpt FROM '.$wpdb -> posts.'
+                WHERE post_type="ap_custom_field"
+                AND post_content LIKE "%'.addslashes('s:4:"type";s:8:"taxonomy"').'%" AND post_content LIKE "%'
+                    .addslashes('s:8:"taxonomy";s:9:"'.$this -> get_taxonomy_name().'"').'%"
+                )';
+                $q  .= ' AND(pm.meta_value = "'.$this -> old_slug_before_save.'" OR pm.meta_value LIKE "%\"'
+                    .$this -> old_slug_before_save.'\"%")';
+                $wpdb -> query($q);
+                wp_reset_query();
+
+                if(!empty($taxonomies)){
+                    // Update taxonomy slug associated to
+                    foreach ($taxonomies as $f_cat_slug){
+                        $q  = 'UPDATE '.$wpdb -> termmeta.' AS tm';
+                        $q .= ' INNER JOIN '.$wpdb ->term_taxonomy.' AS tt ON tt.term_id = tm.term_id AND tt.taxonomy="'.$f_cat_slug.'"';
+                        $q .= ' INNER JOIN '.$wpdb ->terms.' AS t ON t.term_id = tm.term_id';
+                        $q .= ' SET tm.meta_value=REPLACE(tm.meta_value, "'.$this -> old_slug_before_save.'", "'.$term->slug.'")';
+                        $q .= ' WHERE tm.meta_key = "'.$this -> get_taxonomy_name().'"';
+                        $q .= ' AND tm.meta_value LIKE \'%"'.$this -> old_slug_before_save.'"%\'';
+                        $wpdb -> query($wpdb -> prepare($q));
+                        wp_reset_query();
+                    }
                 }
             }
         }
@@ -196,10 +233,11 @@ if(!class_exists('Advanced_Product\Taxonomy')) {
         public function __get_core_fields(){
             $fields = array(
                 array(
-                    'key' => 'field_'.md5($this -> get_taxonomy_name()),
-                    'label' => __('Image', 'advanced-product'),
-                    'name' => 'image',
-                    'type' => 'image',
+                    'key'           => 'field_'.md5($this -> get_taxonomy_name()),
+                    'label'         => __('Image', 'advanced-product'),
+                    'name'          => 'image',
+                    'type'          => 'image',
+                    'wp_type'       => 'taxonomy',
                     'default_value' => '',
                     'group' => $this -> __get_core_field_group_id()
                 )

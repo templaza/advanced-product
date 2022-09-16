@@ -111,10 +111,26 @@ class Branch extends Taxonomy {
             }
         }
 
-        // Update branch-slug associated to category
+        // Update all branch-slugs
         if(!empty($this -> old_slug_before_save) && $this -> old_slug_before_save != $term -> slug) {
             global $wpdb;
 
+            // Update branch-slug with product data
+            $q  = 'UPDATE '.$wpdb -> postmeta.' AS pm';
+            $q .= ' INNER JOIN '.$wpdb ->posts.' AS p ON p.id = pm.post_id';
+            $q .= ' SET pm.meta_value=REPLACE(pm.meta_value, "'.$this -> old_slug_before_save.'", "'.$tax_slug.'")';
+            $q .= ' WHERE pm.meta_key IN (
+                SELECT post_excerpt FROM '.$wpdb -> posts.'
+                WHERE post_type="ap_custom_field"
+                AND post_content LIKE "%'.addslashes('s:4:"type";s:8:"taxonomy"').'%" AND post_content LIKE "%'
+                .addslashes('s:8:"taxonomy";s:9:"ap_branch"').'%"
+            )';
+            $q  .= ' AND(pm.meta_value = "'.$this -> old_slug_before_save.'" OR pm.meta_value LIKE "%\"'
+                .$this -> old_slug_before_save.'\"%")';
+            $wpdb -> query($q);
+            wp_reset_query();
+
+            // Update branch-slug associated to category
             $q  = 'UPDATE '.$wpdb -> termmeta.' AS tm';
             $q .= ' INNER JOIN '.$wpdb ->term_taxonomy.' AS tt ON tt.term_id = tm.term_id AND tt.taxonomy="ap_category"';
             $q .= ' INNER JOIN '.$wpdb ->terms.' AS t ON t.term_id = tm.term_id';

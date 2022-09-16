@@ -80,7 +80,8 @@ if(!class_exists('Advanced_Product\Post_Type\Product')){
                 'exclude_from_search' => false,
                 'publicly_queryable'  => true,
                 'capability_type'     => 'post',
-                'rewrite'			  => array( 'slug' => 'ap-product' )
+                'rewrite'			  => array( 'slug' => 'ap-product' ),
+//                'query_var'           => 'ap-product'
             );
             return $args;
         }

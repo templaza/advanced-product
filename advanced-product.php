@@ -463,11 +463,13 @@ class Advanced_Product{
     }
 
     public function theme_html($html){
-        $post_type = get_post_type();
+        global $post_type;
+//        $post_type = get_post_type();
 
-        if($post_type != 'ap_product'){
+        if((!is_array($post_type) && $post_type != 'ap_product') || (is_array($post_type) && !in_array('ap_product', $post_type))){
             return $html;
         }
+
         $plugin_path    = ADVANCED_PRODUCT_TEMPLATE_PATH;
         $theme_path     = ADVANCED_PRODUCT_THEME_TEMPLATE_PATH;
         $framework_path = ADVANCED_PRODUCT_TEMPLAZA_FRAMEWORK_TEMPLATE_PATH;
@@ -478,6 +480,9 @@ class Advanced_Product{
             $file_name  = 'single';
         }elseif(is_archive()){
             $file_name  = 'archive';
+            if ( !have_posts()) {
+                $file_name  .= '/no_content';
+            }
         }
 
         // File path from theme
@@ -498,6 +503,8 @@ class Advanced_Product{
             require $file;
             $html   = ob_get_contents();
             ob_end_clean();
+
+            wp_reset_postdata();
         }
 
         return $html;

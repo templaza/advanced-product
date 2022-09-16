@@ -93,7 +93,7 @@ class Category extends Taxonomy {
 
         if($column == 'ap_branch'){
 //            $branches = get_field( 'ap_branch', $this -> get_taxonomy_name().'_'.$term_id );
-            $branches = get_field( 'ap_branch', 'term_'.$term_id );
+            $branches = \get_field( 'ap_branch', 'term_'.$term_id );
             if(!empty($branches) && count($branches)){
                 foreach($branches as $i => $branch){
                     if(is_numeric($branch)) {

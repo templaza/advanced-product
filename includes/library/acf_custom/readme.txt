@@ -21,9 +21,9 @@ Overrode List:
         + added code from line 45 to 49
 * includes/library/acf_custom/core/fields/_functions.php:
     - Overrode function "load_value":
-        + added code from line 93 to 105
-        + added code from line 226 to 232
-        + added code from line 309 to 314
+        + added code from line 92 to 104
+        + added code from line 228 to 235
+        + added code from line 313 to 317
 
 Advanced Custom Fields is the perfect solution for any wordpress website which needs more flexible data like other Content Management Systems. 
 

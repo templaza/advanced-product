@@ -224,7 +224,9 @@ class acf_field_functions
 			$user_id = str_replace('user_', '', $post_id);
 			update_metadata('user', $user_id, $field['name'], $value);
 			update_metadata('user', $user_id, '_' . $field['name'], $field['key']);
-		}elseif(strpos($post_id, 'term_') !== false){
+		}
+		elseif(strpos($post_id, 'term_') !== false ||
+            (isset($field['wp_type']) && $field['wp_type'] == 'taxonomy')){
 
             $term_id = str_replace('term_', '', $post_id);
 
