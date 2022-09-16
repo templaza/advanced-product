@@ -64,7 +64,7 @@ class Search extends Base {
         if ( !is_admin() && is_post_type_archive('ap_product') && $query->is_main_query()) {
 
 //            $query_var  = \get_query_var('field');
-            $query_var  = $_GET['field'];
+            $query_var  = isset($_GET['field'])?$_GET['field']:array();
             if(empty($query_var)){
                 return $query;
             }
