@@ -20,8 +20,20 @@ if($submit_icon_position == 'before'){
     $submit_html    .= ' '.$sicon_html;
 }
 $submit_html    = trim($submit_html);
+
+$instant        = isset($instant)?(bool) $instant:false;
+$enable_ajax    = isset($enable_ajax)?(bool) $enable_ajax:true;
+$update_url     = isset($update_url)?(bool) $update_url:true;
+
+$__ap_settings  = array(
+    "enable_ajax"   => $enable_ajax,
+    "instant"   => $instant,
+    "update_url"   => $update_url
+);
 ?>
-<form role="search" method="get" action="<?php echo esc_url($action); ?>" class="uk-form-stacked advanced-product-search-form">
+<form role="search" method="get" action="<?php echo esc_url($action);
+?>" class="uk-form-stacked advanced-product-search-form<?php echo $enable_ajax?' ap-ajax-filter':'';
+?>" data-ap-settings="<?php echo htmlspecialchars(json_encode($__ap_settings));?>">
     <?php if(!isset($enable_keyword) || (isset($enable_keyword) && $enable_keyword)){?>
     <div class="field ap-search-item field-keyword">
         <?php if($show_label){?>
@@ -73,9 +85,11 @@ $submit_html    = trim($submit_html);
         ?>
 
     <?php }  } ?>
+    <?php if(!$enable_ajax || ($enable_ajax && !$instant)){ ?>
     <div class="uk-margin ap-search-item ap-search-button">
         <button class="car-search-submit templaza-btn uk-button uk-margin-top"><?php echo $submit_html; ?></button>
     </div>
-    <input type="hidden" name="post_type" value="ap_product">
+    <?php } ?>
+<!--    <input type="hidden" name="post_type" value="ap_product">-->
 
 </form>

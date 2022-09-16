@@ -22,7 +22,7 @@ class Search extends Base {
 
         if(!is_admin()) {
             add_filter('query_vars', array($this, 'add_query_vars_filter'));
-            add_action('pre_get_posts', array($this, 'change_event_posts_per_page'));
+            add_action('pre_get_posts', array($this, 'change_event_posts_per_page'), 20);
 
             add_action('wp_enqueue_scripts', array($this, 'register_my_scripts'));
         }
@@ -52,23 +52,28 @@ class Search extends Base {
 
     public function change_event_posts_per_page( $query ) {
 
-        if (! $query->is_main_query() || !isset($query->query['post_type']) ||
-            (! is_post_type_archive('ap_product') &&
-            ( isset($query->query['post_type']) && 'ap_product' != $query->query['post_type'] ))) {
-            return;
-        }
+//        if (! $query->is_main_query() || !isset($query->query['post_type']) ||
+//            (! is_post_type_archive('ap_product') &&
+//            ( isset($query->query['post_type']) && 'ap_product' != $query->query['post_type'] ))) {
+//            return $query;
+//        }
 
-        if ( !is_admin() && $query->is_main_query()) {
+//        var_dump(is_post_type_archive('ap_product'));
 
-            $query_var  = \get_query_var('field');
+//        if ( !is_admin() && $query->is_main_query()) {
+        if ( !is_admin() && is_post_type_archive('ap_product') && $query->is_main_query()) {
+
+//            $query_var  = \get_query_var('field');
+            $query_var  = $_GET['field'];
             if(empty($query_var)){
-                return;
+                return $query;
             }
 
-            $query->set('post_type', array('ap_product'));
+//            $query->set('post_type', array('ap_product'));
 
             $meta_query = $query->get('meta_query');
             $meta_query = !empty($meta_query)?$meta_query:array();
+//            $meta_query = array();
 
             global $wpdb;
             foreach ($query_var as $fname => $query_value){
@@ -82,8 +87,9 @@ class Search extends Base {
                         $submeta_query  = array();
                         $submeta_query['relation']    = 'OR';
                         foreach ($query_value as $qval) {
-                            $qval = serialize($qval);
-                            $qval = preg_replace('/(^[a-z]+:[0-9]+:\{)|(\}$)/', '', $qval);
+                            $qval   = serialize($qval);
+                            $qval   = preg_replace('/(^[a-z]+:[0-9]+:\{)|(\}$)/', '', $qval);
+//                            $qval   = addslashes($qval);
                             $submeta_query[] = array(
                                 'key' => $acf_attr['name'],
                                 'value' => $qval,
@@ -92,8 +98,9 @@ class Search extends Base {
                         }
                         $meta_query[]   = $submeta_query;
                     }else{
+//                    if(!is_array($query_value)){
                         $meta_query[] = array(
-                            'key' => $acf_attr['name'],
+                            'key' => isset($acf_attr['name'])?$acf_attr['name']:'',
                             'value' => $query_value,
                             'compare' => '=',
                         );
@@ -116,12 +123,17 @@ class Search extends Base {
             'submit_text' => '',
             'submit_icon' => '',
             'submit_icon_position' => 'before',
-            'enable_keyword' => true,
-            'show_label' => true
+            'enable_keyword'    => true,
+            'enable_ajax'       => false,
+            'instant'           => false,
+            'update_url'        => false,
+            'show_label'        => true
         );
+
         extract( shortcode_atts( apply_filters( 'advanced-product/search-form/defaults', $defaults ), $shortcode_atts ) );
 
         $show_label     = filter_var($show_label, FILTER_VALIDATE_BOOLEAN);
+        $enable_ajax = filter_var($enable_ajax, FILTER_VALIDATE_BOOLEAN);
         $enable_keyword = filter_var($enable_keyword, FILTER_VALIDATE_BOOLEAN);
 
         if(isset($include)){

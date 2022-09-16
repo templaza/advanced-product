@@ -388,4 +388,70 @@
         });
     });
 
+    // Filter form ajax
+    $(document).ready(function(){
+        var __form  = $("form.advanced-product-search-form"),
+            __form_setting = __form.attr("data-ap-settings");
+
+        __form_setting  = typeof __form_setting == "string"?JSON.parse(__form_setting):__form_setting;
+
+        if(__form_setting['enable_ajax']) {
+            if(__form_setting['instant'] !== undefined && __form_setting['instant']) {
+
+                $(document).on("change", "form.advanced-product-search-form", function(event) {
+                    $.get(__form.attr("action"), __form.serialize(), function (data) {
+
+                        // Replace html filtered
+                        $(".templaza-ap-archive").html($(data).find(".templaza-ap-archive").html());
+
+                        // Replace current url without redirect
+                        if (__form_setting['update_url']) {
+                            window.history.pushState({urlPath: location.href}, "", this.url);
+                        }
+                    });
+                });
+            }else{
+                __form.find(".car-search-submit").on("click", function(event){
+                    event.preventDefault();
+
+                    $.get(__form.attr("action"), __form.serialize(), function (data) {
+
+                        // Replace html filtered
+                        $(".templaza-ap-archive").html($(data).find(".templaza-ap-archive").html());
+
+                        // Replace current url without redirect
+                        if(__form_setting['update_url']) {
+                            window.history.pushState({urlPath: location.href}, "", this.url);
+                        }
+                    });
+                });
+            }
+        }
+    });
+    // $(document).on("change", "form.advanced-product-search-form", function(){
+    //     var __form  = $(this).closest("form.advanced-product-search-form.ap-ajax-filter"),
+    //         __form_setting = __form.attr("data-ap-settings");
+    //
+    //     __form_setting  = typeof __form_setting == "string"?JSON.parse(__form_setting):__form_setting;
+    //
+    //     if(__form_setting['enable_ajax']) {
+    //         if(__form_setting['instant'] !== undefined && __form_setting['instant']) {
+    //
+    //             $.get(__form.attr("action"), __form.serialize(), function (data) {
+    //
+    //                 // Replace html filtered
+    //                 $(".templaza-ap-archive").html($(data).find(".templaza-ap-archive").html());
+    //
+    //                 // Replace current url without redirect
+    //                 window.history.pushState({urlPath: location.href}, "", this.url);
+    //             });
+    //         }else{
+    //             $(document).on("click", __form.find(".car-search-submit"), function(event){
+    //                 event.preventDefault();
+    //                 alert("Test");
+    //             });
+    //         }
+    //     }
+    // });
+
 })(jQuery);
