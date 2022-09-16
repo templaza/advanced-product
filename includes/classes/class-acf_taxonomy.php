@@ -15,6 +15,8 @@ if(!class_exists('Advanced_Product\ACF_Taxonomy')) {
         protected $taxonomy_name;
         protected $field_registered;
 
+        protected $old_slug_before_save = '';
+
         public function __construct($core = null, $post_type = null, $args = array())
         {
             global $pagenow;
@@ -45,8 +47,11 @@ if(!class_exists('Advanced_Product\ACF_Taxonomy')) {
             // Render custom fields with edit term taxonomy (acf v4 not supported)
             add_action( "{$this -> taxonomy_name}_edit_form", array( $this, 'render_fields' ), 10, 1 );
 
+            // Filter to get old slug before update term
+            add_filter('wp_update_term_data', array($this, 'wp_update_term_data'), 10, 3);
+
 //            add_action( 'edit_term', array( $this, 'save_term' ), 11, 3 );
-            add_action( 'saved_'.$this -> taxonomy_name, array( $this, 'saved_taxonomy' ), 10, 3 );
+            add_action( 'saved_'.$this -> taxonomy_name, array( $this, 'saved_taxonomy' ), 10, 4 );
 
         }
 
@@ -129,7 +134,15 @@ if(!class_exists('Advanced_Product\ACF_Taxonomy')) {
             }
         }
 
-        public function saved_taxonomy( $term_id, $tt_id, $update ) {
+        public function wp_update_term_data($data, $taxonomy, $args){
+            $old_term = get_term($taxonomy, $this -> taxonomy_name);
+            if(!empty($old_term) && !is_wp_error($old_term)) {
+                $this -> old_slug_before_save = $old_term->slug;
+            }
+            return $data;
+        }
+
+        public function saved_taxonomy( $term_id, $tt_id, $taxonomy, $update ) {
 
             $fields = isset($_POST['fields'])?$_POST['fields']:array();
 
@@ -152,6 +165,31 @@ if(!class_exists('Advanced_Product\ACF_Taxonomy')) {
                     do_action('acf/update_value', $v, 'term_'.$term_id, $f, $this ->taxonomy_name );
 
                 }
+            }
+
+            // Check this taxonomy is our terms
+            $term       = get_term( $term_id );
+            if(empty($term) || is_wp_error($term)){
+                return;
+            }
+
+            if(!empty($this -> old_slug_before_save) && $this -> old_slug_before_save != $term -> slug) {
+                global $wpdb;
+
+                // Update branch-slug with product data
+                $q = 'UPDATE ' . $wpdb->postmeta . ' AS pm';
+                $q .= ' INNER JOIN ' . $wpdb->posts . ' AS p ON p.id = pm.post_id';
+                $q .= ' SET pm.meta_value=REPLACE(pm.meta_value, "' . $this->old_slug_before_save . '", "' . $term->slug . '")';
+                $q .= ' WHERE pm.meta_key IN (
+                SELECT post_excerpt FROM ' . $wpdb->posts . '
+                WHERE post_type="ap_custom_field"
+                AND post_content LIKE "%' . addslashes('s:4:"type";s:8:"taxonomy"') . '%" AND post_content LIKE "%'
+                    . addslashes('s:8:"taxonomy";s:9:"' . $taxonomy . '"') . '%"
+                )';
+                $q .= ' AND(pm.meta_value = "' . $this->old_slug_before_save . '" OR pm.meta_value LIKE "%\"'
+                    . $this->old_slug_before_save . '\"%")';
+                $wpdb->query($q);
+                wp_reset_query();
             }
 
         }
