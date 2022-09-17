@@ -140,8 +140,6 @@ class AP_Custom_Field_Helper extends BaseHelper {
 
         ksort($fields);
 
-        wp_reset_query();
-
         return static::$cache[$store_id] = $fields;
     }
 
@@ -291,7 +289,6 @@ class AP_Custom_Field_Helper extends BaseHelper {
         }
 
         ksort($fields);
-        wp_reset_query();
 
         return static::$cache[$store_id] = $fields;
     }
@@ -358,7 +355,6 @@ class AP_Custom_Field_Helper extends BaseHelper {
         }
 
         ksort($fields);
-        wp_reset_query();
 
         return static::$cache[$store_id] = $fields;
     }
@@ -463,9 +459,7 @@ class AP_Custom_Field_Helper extends BaseHelper {
             return static::$cache[$store_id];
         }
 
-        static::$cache[$store_id] = $fields = get_posts($args);
-        wp_reset_query();
-        return static::$cache[$store_id];
+        return static::$cache[$store_id] = $fields = get_posts($args);
     }
 
     public static function get_custom_fields_have_choices(){
