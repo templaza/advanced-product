@@ -90,6 +90,6 @@ $__ap_settings  = array(
         <button class="car-search-submit templaza-btn uk-button uk-margin-top"><?php echo $submit_html; ?></button>
     </div>
     <?php } ?>
-<!--    <input type="hidden" name="post_type" value="ap_product">-->
+    <input type="hidden" name="post_type" value="ap_product">
 
 </form>
