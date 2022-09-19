@@ -51,7 +51,7 @@ if(!class_exists('Advanced_Product\ACF_Taxonomy')) {
             add_filter('wp_update_term_data', array($this, 'wp_update_term_data'), 10, 3);
 
 //            add_action( 'edit_term', array( $this, 'save_term' ), 11, 3 );
-            add_action( 'saved_'.$this -> taxonomy_name, array( $this, 'saved_taxonomy' ), 10, 4 );
+            add_action( 'saved_'.$this -> taxonomy_name, array( $this, 'saved_taxonomy' ), 10, 3 );
 
         }
 
@@ -142,7 +142,7 @@ if(!class_exists('Advanced_Product\ACF_Taxonomy')) {
             return $data;
         }
 
-        public function saved_taxonomy( $term_id, $tt_id, $taxonomy, $update ) {
+        public function saved_taxonomy( $term_id, $tt_id, $update ) {
 
             $fields = isset($_POST['fields'])?$_POST['fields']:array();
 
