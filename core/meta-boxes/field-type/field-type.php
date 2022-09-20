@@ -52,7 +52,9 @@ class Field_Type extends Meta_box {
             case 'select':
             case 'checkbox':
             case 'taxonomy':
-                $f_types_choices    = $field_types['Choice'];
+                if(isset($field_types['Choice'])) {
+                    $f_types_choices = $field_types['Choice'];
+                }
                 unset($f_types_choices['true_false']);
                 break;
             case 'textarea':
