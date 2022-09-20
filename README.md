@@ -7,6 +7,7 @@ Version 1.0.4 - September 20, 2022
 
     - Fix issue form setting of form search
     - Fix issue save category
+    - Fix issue Undefined index: Choice in custom field edit
 
 Version 1.0.3 - September 17, 2022
 
