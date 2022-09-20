@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-09-13 15:12+0700\n"
+"POT-Creation-Date: 2022-09-20 14:24+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: advanced-product.php:561
+#: advanced-product.php:569
 msgid "Advanced Product archive slug"
 msgstr ""
 
@@ -99,15 +99,15 @@ msgstr ""
 msgid "Font Awesome - Brands"
 msgstr ""
 
-#: core/field-layouts/ap_icon/tpl/ap_icon.modal.tpl.php:9
+#: core/field-layouts/ap_icon/tpl/ap_icon.modal.tpl.php:10
 msgid "Icon Library"
 msgstr ""
 
-#: core/field-layouts/ap_icon/tpl/ap_icon.modal.tpl.php:35
+#: core/field-layouts/ap_icon/tpl/ap_icon.modal.tpl.php:36
 msgid "Cancel"
 msgstr ""
 
-#: core/field-layouts/ap_icon/tpl/ap_icon.modal.tpl.php:36
+#: core/field-layouts/ap_icon/tpl/ap_icon.modal.tpl.php:37
 msgid "Insert"
 msgstr ""
 
@@ -307,11 +307,11 @@ msgstr ""
 msgid "Field Type"
 msgstr ""
 
-#: core/meta-boxes/field-type/field-type.php:74
+#: core/meta-boxes/field-type/field-type.php:76
 msgid "Search Field Type"
 msgstr ""
 
-#: core/meta-boxes/field-type/field-type.php:107
+#: core/meta-boxes/field-type/field-type.php:109
 #: core/meta-boxes/field-type/tpl/base.php:89
 #: includes/library/acf-flexible-content/views/options.php:139
 #: includes/library/acf-flexible-content/views/options.php:202
@@ -320,11 +320,11 @@ msgstr ""
 msgid "Field Name"
 msgstr ""
 
-#: core/meta-boxes/field-type/field-type.php:108
+#: core/meta-boxes/field-type/field-type.php:110
 msgid "Field type"
 msgstr ""
 
-#: core/meta-boxes/field-type/field-type.php:110
+#: core/meta-boxes/field-type/field-type.php:112
 msgid "Instruction"
 msgstr ""
 
@@ -688,8 +688,8 @@ msgstr ""
 msgid "Advanced Products"
 msgstr ""
 
-#: core/post-types/product.php:196 core/post-types/product.php:402
-#: core/post-types/product.php:444
+#: core/post-types/product.php:197 core/post-types/product.php:403
+#: core/post-types/product.php:445
 msgid "Properties"
 msgstr ""
 
@@ -714,18 +714,18 @@ msgstr ""
 msgid "Add product to compare list successfully"
 msgstr ""
 
-#: core/shortcodes/search/search.php:114
+#: core/shortcodes/search/search.php:121
 #: core/shortcodes/search/tpl/search.php:7
 #: includes/library/acf_custom/core/fields/relationship.php:653
 #: templates/shortcodes/search.php:7
 msgid "Search"
 msgstr ""
 
-#: core/shortcodes/search/tpl/search.php:28 templates/shortcodes/search.php:28
+#: core/shortcodes/search/tpl/search.php:40 templates/shortcodes/search.php:28
 msgid "Keyword:"
 msgstr ""
 
-#: core/shortcodes/search/tpl/search.php:31 templates/shortcodes/search.php:31
+#: core/shortcodes/search/tpl/search.php:43 templates/shortcodes/search.php:31
 msgid "Search ..."
 msgstr ""
 
@@ -772,7 +772,7 @@ msgstr ""
 msgid "Group Fields Assignment"
 msgstr ""
 
-#: core/taxonomies/branch.php:133
+#: core/taxonomies/branch.php:149
 msgid "Group Fields Assigned"
 msgstr ""
 
@@ -812,12 +812,12 @@ msgstr ""
 msgid "Associated %s"
 msgstr ""
 
-#: includes/classes/class-taxonomy.php:200
+#: includes/classes/class-taxonomy.php:237
 #: includes/library/acf_custom/core/fields/image.php:19
 msgid "Image"
 msgstr ""
 
-#: includes/classes/class-taxonomy.php:221
+#: includes/classes/class-taxonomy.php:259
 msgid "Property"
 msgstr ""
 
@@ -3184,6 +3184,10 @@ msgstr ""
 msgid ""
 "Details are shown above. The importer will now try again with a different "
 "parser..."
+msgstr ""
+
+#: templates/archive/no_content.php:7
+msgid "No products were found matching your selection."
 msgstr ""
 
 #: templates/archive/price.php:22
