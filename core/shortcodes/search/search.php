@@ -127,7 +127,12 @@ class Search extends Base {
             'enable_ajax'       => false,
             'instant'           => false,
             'update_url'        => false,
-            'show_label'        => true
+            'show_label'        => true,
+            'column'            => 1,
+            'column_large'      => 1,
+            'column_laptop'     => 1,
+            'column_tablet'     => 1,
+            'column_mobile'     => 1,
         );
 
         extract( shortcode_atts( apply_filters( 'advanced-product/search-form/defaults', $defaults ), $shortcode_atts ) );

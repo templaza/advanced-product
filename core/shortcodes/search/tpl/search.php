@@ -30,10 +30,29 @@ $__ap_settings  = array(
     "instant"   => $instant,
     "update_url"   => $update_url
 );
+$__class    = '';
+
+if(isset($column_large) && $column_large) {
+    $__class .= ' uk-child-width-1-' . $column_large.'@xl';
+}
+if(isset($column) && $column) {
+    $__class .= ' uk-child-width-1-' . $column.'@l';
+}
+if(isset($column_laptop) && $column_laptop) {
+    $__class .= ' uk-child-width-1-' . $column_laptop.'@m';
+}
+if(isset($column_tablet) && $column_tablet) {
+    $__class .= ' uk-child-width-1-' . $column_tablet.'@s';
+}
+if(isset($column_mobile) && $column_mobile) {
+    $__class .= ' uk-child-width-1-' . $column_mobile;
+}
 ?>
 <form role="search" method="get" action="<?php echo esc_url($action);
 ?>" class="uk-form-stacked advanced-product-search-form<?php echo $enable_ajax?' ap-ajax-filter':'';
-?>" data-ap-settings="<?php echo htmlspecialchars(json_encode($__ap_settings));?>">
+echo $__class;
+?>" data-ap-settings="<?php echo htmlspecialchars(json_encode($__ap_settings));?>"<?php
+echo isset($column)?' data-uk-grid':''; ?>>
     <?php if(!isset($enable_keyword) || (isset($enable_keyword) && $enable_keyword)){?>
     <div class="field ap-search-item field-keyword">
         <?php if($show_label){?>
