@@ -23,9 +23,9 @@ class AP_Helper extends BaseHelper {
         $original_price = $price;
         $symbol         = get_option('options_ap_currency_symbol', '$');
         $placement      = get_option('options_ap_symbol_placement', 'prepend');
-        $decimals       = get_option('ap_price_num_decimals', 0);
-        $decimal_sep    = get_option('ap_price_decimal_sep', ',');
-        $thousands_sep  = get_option('ap_price_thousands_sep', ',');
+        $decimals       = get_option('options_ap_price_num_decimals', 0);
+        $decimal_sep    = get_option('options_ap_price_decimal_sep', ',');
+        $thousands_sep  = get_option('options_ap_price_thousands_sep', ',');
 
         if ('space' == $thousands_sep) {
             $thousands_sep = ' ';
