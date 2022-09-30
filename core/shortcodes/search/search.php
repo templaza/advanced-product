@@ -133,6 +133,7 @@ class Search extends Base {
             'column_laptop'     => 1,
             'column_tablet'     => 1,
             'column_mobile'     => 1,
+            'max_height'        => '',
         );
 
         extract( shortcode_atts( apply_filters( 'advanced-product/search-form/defaults', $defaults ), $shortcode_atts ) );
