@@ -402,7 +402,15 @@
                     $.get(__form.attr("action"), __form.serialize(), function (data) {
 
                         // Replace html filtered
-                        $(".templaza-ap-archive").html($(data).find(".templaza-ap-archive").html());
+                        $(".templaza-ap-archive").html("").html($(data).find(".templaza-ap-archive").html());
+
+                        // Replace pagination
+                        if($(data).find(".templaza-blog-pagenavi").length) {
+                            $(".templaza-blog-pagenavi").show().html($(data).find(".templaza-blog-pagenavi").html());
+                        }else{
+                            $(".templaza-blog-pagenavi").hide();
+                        }
+
 
                         // Replace current url without redirect
                         if (__form_setting['update_url']) {
@@ -417,7 +425,14 @@
                     $.get(__form.attr("action"), __form.serialize(), function (data) {
 
                         // Replace html filtered
-                        $(".templaza-ap-archive").html($(data).find(".templaza-ap-archive").html());
+                        $(".templaza-ap-archive").html("").html($(data).find(".templaza-ap-archive").html());
+
+                        // Replace pagination
+                        if($(data).find(".templaza-blog-pagenavi").length) {
+                            $(".templaza-blog-pagenavi").show().html($(data).find(".templaza-blog-pagenavi").html());
+                        }else{
+                            $(".templaza-blog-pagenavi").hide();
+                        }
 
                         // Replace current url without redirect
                         if(__form_setting['update_url']) {
