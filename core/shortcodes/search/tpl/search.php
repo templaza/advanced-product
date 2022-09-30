@@ -30,8 +30,10 @@ $__ap_settings  = array(
     "instant"   => $instant,
     "update_url"   => $update_url
 );
-$__class    = '';
-
+$__class    = ' uk-grid-medium';
+if($column_large !=1 || $column !=1){
+    $__class .= ' ap-search-inline';
+}
 if(isset($column_large) && $column_large) {
     $__class .= ' uk-child-width-1-' . $column_large.'@xl';
 }
@@ -48,6 +50,7 @@ if(isset($column_mobile) && $column_mobile) {
     $__class .= ' uk-child-width-1-' . $column_mobile;
 }
 ?>
+<div class="ap-search-max-height">
 <form role="search" method="get" action="<?php echo esc_url($action);
 ?>" class="uk-form-stacked advanced-product-search-form<?php echo $enable_ajax?' ap-ajax-filter':'';
 echo $__class;
@@ -110,5 +113,9 @@ echo isset($column)?' data-uk-grid':''; ?>>
     </div>
     <?php } ?>
     <input type="hidden" name="post_type" value="ap_product">
-
 </form>
+<a href="javascript:" class="ap-search-close active ap-search-mini uk-position-top-right" ><i class="fas fa-times"></i></a>
+<a href="javascript:" class="ap-search-close ap-search-full uk-position-top-right" ><i class="fas fa-expand-arrows-alt"></i></a>
+<a href="javascript:" class="ap-search-ep active ap-search-expand uk-position-bottom-center" ><i class="fas fa-angle-double-down"></i></a>
+<a href="javascript:" class="ap-search-ep ap-search-shrink uk-position-bottom-center"><i class="fas fa-angle-double-up"></i></a>
+</div>

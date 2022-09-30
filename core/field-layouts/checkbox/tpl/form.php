@@ -28,7 +28,7 @@ if($field) {
 
     $html_field = preg_replace('/<input type="hidden"(\s+[^>]*)?[\/]?>/ius', '', $html_field);
     ?>
-    <div class="uk-margin">
+    <div class="ap-search-item uk-margin">
         <?php if(!isset($field['s_show_label']) || (isset($field['s_show_label']) && $field['s_show_label'])){?>
         <label class="search-label"><?php echo __($field['label'],'advanced-product'); ?></label>
         <?php } ?>
