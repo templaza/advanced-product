@@ -98,6 +98,7 @@
 
         $("#ap-fields__icon-library").data("ap-field-icon__btn-clicked", $(this));
         UIkit.modal("#ap-fields__icon-library").show();
+        $("#ap-fields__icon-library [data-ap-tab-item='ap_all']").click();
     });
 
     $(document).on("click", "#ap-fields__icon-library [data-ap-filter]", function(event){

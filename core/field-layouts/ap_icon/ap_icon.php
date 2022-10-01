@@ -100,8 +100,14 @@ if(!class_exists('Advanced_Product\Field\Layout\AP_Icon')) {
 //            wp_enqueue_script(TEMPLAZA_FRAMEWORK_NAME.'__css');
             wp_enqueue_style(ADVANCED_PRODUCT.'__css-uikit', AP_Functions::get_my_url()
                 .'/assets/css/vendor/uikit.min.css');
+
+            $ap_icon_options    = array('advanced-product');
+            if(defined('TEMPLAZA_FRAMEWORK')){
+                $ap_icon_options[]  = TEMPLAZA_FRAMEWORK.'_uikit_js';
+            }
+
             wp_enqueue_script(ADVANCED_PRODUCT.'__field-ap_icon', AP_Functions::get_my_url()
-                .'/core/field-layouts/ap_icon/ap_icon.js', array('advanced-product', TEMPLAZA_FRAMEWORK.'_uikit_js'));
+                .'/core/field-layouts/ap_icon/ap_icon.js', $ap_icon_options);
 //            wp_enqueue_script(ADVANCED_PRODUCT.'__font-awesome-solid', AP_Functions::get_my_url()
 //                .'/assets/lib/font-awesome/js/solid.js');
 
