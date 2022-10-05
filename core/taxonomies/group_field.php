@@ -49,7 +49,7 @@ class Group_Field extends Taxonomy {
                 'show_admin_column'         => true,
                 'show_in_nav_menus'         => false,
 //                'exclude_from_search' => true,
-                'query_var' => false,
+                'query_var' => true,
 //                'publicly_queryable'        => false,
             )
         );

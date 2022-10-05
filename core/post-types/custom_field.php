@@ -37,6 +37,8 @@ if(!class_exists('Advanced_Product\Post_Type\Custom_Field')){
             add_filter('posts_orderby', array($this, 'posts_orderby'), 100, 2);
 
             add_filter( 'manage_edit-'.$this -> get_post_type().'_sortable_columns', array($this,'sortable_columns') );
+            add_action('parse_query',array($this, 'parse_query'));
+            add_action('restrict_manage_posts',array($this, 'restrict_manage_posts'));
 
             add_action( 'wp_ajax_ap_post_type_ap_custom_field_archive_sortable', array($this, 'saveAjaxOrder'));
             add_action( 'wp_ajax_nopriv_ap_post_type_ap_custom_field_archive_sortable', array($this, 'saveAjaxOrder'));
@@ -420,22 +422,39 @@ if(!class_exists('Advanced_Product\Post_Type\Custom_Field')){
          * @since 1.1.0
          * @return void
          */
-        public function wisdom_filter_tracked_plugins() {
+        public function restrict_manage_posts() {
             global $typenow;
             global $wp_query;
-            if ( $typenow == 'tracked-plugin' ) { // Your custom post type slug
-                $plugins = array( 'uk-cookie-consent', 'wp-discussion-board', 'discussion-board-pro' ); // Options for the filter select field
-                $current_plugin = '';
-                if( isset( $_GET['slug'] ) ) {
-                    $current_plugin = $_GET['slug']; // Check if option has been selected
-                } ?>
-                <select name="slug" id="slug">
-                    <option value="all" <?php selected( 'all', $current_plugin ); ?>><?php _e( 'All', 'wisdom-plugin' ); ?></option>
-                    <?php foreach( $plugins as $key=>$value ) { ?>
-                        <option value="<?php echo esc_attr( $key ); ?>" <?php selected( $key, $current_plugin ); ?>><?php echo esc_attr( $key ); ?></option>
-                    <?php } ?>
-                </select>
-            <?php }
+            if ($typenow=='ap_custom_field') {
+                $taxonomy   = 'ap_group_field';
+                $selected   = isset($_REQUEST['ap_group_field'])?$_REQUEST['ap_group_field']:'';
+                $business_taxonomy = get_taxonomy($taxonomy);
+                wp_dropdown_categories(array(
+                    'show_option_all' =>  __("All {$business_taxonomy->label}"),
+                    'taxonomy'        =>  $taxonomy,
+                    'name'            =>  'ap_group_field',
+                    'orderby'         =>  'name',
+                    'selected'        =>  $selected,
+                    'hierarchical'    =>  true,
+                    'depth'           =>  3,
+                    'show_count'      =>  false, // Show # listings in parens
+                    'hide_empty'      =>  true, // Don't show businesses w/o listings
+                ));
+            }
+        }
+
+        public function parse_query($query) {
+            global $pagenow;
+            $qv = &$query->query_vars;
+            $filter   = isset($_REQUEST['ap_group_field'])?$_REQUEST['ap_group_field']:'';
+            if ($pagenow=='edit.php' &&
+                isset($qv['post_type']) && $qv['post_type']=='ap_custom_field' &&
+                $filter && is_numeric($filter)) {
+                $term = get_term_by('id',$filter,'ap_group_field');
+                $qv['ap_group_field'] = $term->slug;
+//                $qv['term'] = $term->slug;
+            }
+            return $query;
         }
 
     }
