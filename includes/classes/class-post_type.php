@@ -26,12 +26,12 @@ if(!class_exists('Advanced_Product\Post_Type')) {
             // Manage post type header column list hook
             if(method_exists($this, 'manage_edit_columns')){
                 remove_filter('manage_'.$this ->get_post_type().'_posts_columns', array($this, 'manage_edit_columns'));
-                add_filter('manage_'.$this ->get_post_type().'_posts_columns', array($this, 'manage_edit_columns'),9);
+                add_filter('manage_'.$this ->get_post_type().'_posts_columns', array($this, 'manage_edit_columns'),11);
             }
             // Manage post type content column list hook
             if(method_exists($this, 'manage_custom_column')) {
                 remove_action('manage_' . $this->get_post_type() . '_posts_custom_column', array($this, 'manage_custom_column'));
-                add_action('manage_' . $this->get_post_type() . '_posts_custom_column', array($this, 'manage_custom_column'), 9, 2);
+                add_action('manage_' . $this->get_post_type() . '_posts_custom_column', array($this, 'manage_custom_column'), 1, 2);
             }
 
             if(method_exists($this, 'save_post')) {

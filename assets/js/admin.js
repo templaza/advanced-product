@@ -826,6 +826,112 @@
         //     });
         }
 
+        if(window.adminpage === "edit-php" && window.typenow === "ap_custom_field") {
+            $(window).load(function () {
+
+                var getUrlParameter = function getUrlParameter(sParam)
+                {
+                    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+                        sURLVariables = sPageURL.split('&'),
+                        sParameterName,
+                        i;
+
+                    for (i = 0; i < sURLVariables.length; i++) {
+                        sParameterName = sURLVariables[i].split('=');
+
+                        if (sParameterName[0] === sParam) {
+                            return sParameterName[1] === undefined ? true : sParameterName[1];
+                        }
+                    }
+                };
+
+                console.log(advanced_product.orderby);
+
+                if(typeof advanced_product.orderby !== "undefined" && advanced_product.orderby === "menu_order") {
+                    $("body.post-type-ap_custom_field table.wp-list-table tbody").sortable({
+                        axis: "y",
+                        items: 'tr',
+                        containment: "parent",
+                        // cursor: 'move',
+                        handle: '.ap-handle',
+                        helper: function (e, ui) {
+                            //hard set left position to fix y-axis drag problem on Safari
+                            $(ui).css({'left': '0px'});
+
+                            ui.children().each(function () {
+                                $(this).width($(this).width());
+                            });
+                            // $(ui).children('td').addClass('dndlist-dragged-row');
+                            return ui;
+                        },
+                        placeholder: {
+                            element: function (currentItem) {
+                                // var cols    =   $(currentItem).children('td:visible').length + 1;
+                                var cols = $(currentItem).children('td').length + 1;
+                                return $('<tr class="ui-sortable-placeholder"><td colspan="' + cols + '">&nbsp;</td></tr>')[0];
+                            },
+                            update: function (container, p) {
+                                return;
+                            }
+                        },
+                        // helper: function(e, tr)
+                        // {
+                        //
+                        //     $(tr).css({'left':'0px'});
+                        //
+                        //     var $originals = tr.children();
+                        //     var $helper = tr.clone();
+                        //     $helper.children().each(function(index)
+                        //     {
+                        //         // Set helper cell sizes to match the original sizes
+                        //         $(this).width($originals.eq(index).width());
+                        //     });
+                        //
+                        //     return $helper;
+                        // },
+                        update: function (event, ui) {
+                            // $(this).children().each(function(index) {
+                            //     $(this).find('td').last().html(index + 1)
+                            // });
+                            var order = $('#the-list').sortable('serialize');
+                            var paged = getUrlParameter('paged');
+                            if (typeof paged === 'undefined')
+                                paged = 1;
+
+                            var queryString = {
+                                "action": "ap_post_type_" + window.typenow + "_archive_sortable",
+                                "post_type": window.typenow, "order": order, "paged": paged,
+                                "archive_sort_nonce": advanced_product.archive_sort_nonce
+                            };
+                            $.ajax({
+                                type: 'POST',
+                                url: window.ajaxurl,
+                                data: queryString,
+                                cache: false,
+                                dataType: "html",
+                                success: function (data) {
+
+                                },
+                                error: function (html) {
+
+                                }
+                            });
+                        },
+                        // start: function( event, ui ) {
+                        //     console.log(ui);
+                        //     console.log(ui.item.height());
+                        // // //     // console.log(ui.item.offset());
+                        // // //     // console.log(ui.item.position());
+                        // // //     // console.log(ui.item.children());
+                        // // //     // console.log(ui.placeholder);
+                        //     console.log(ui.placeholder.children());
+                        // // //     // console.log(event);
+                        // //     ui.placeholder.children().attr("colspan", ui.item.children().length);
+                        // }
+                    });
+                }
+            });
+        }
     });
 
     // $(document).ready(function(){

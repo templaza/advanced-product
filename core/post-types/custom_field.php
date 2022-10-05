@@ -33,6 +33,13 @@ if(!class_exists('Advanced_Product\Post_Type\Custom_Field')){
             add_filter('pre_trash_post', array($this, 'pre_trash_post'), 10, 2);
             add_filter('pre_delete_post', array($this, 'pre_delete_post'), 10, 3);
             add_filter('post_row_actions', array($this, 'post_row_actions'), 10, 2);
+
+            add_filter('posts_orderby', array($this, 'posts_orderby'), 100, 2);
+
+            add_filter( 'manage_edit-'.$this -> get_post_type().'_sortable_columns', array($this,'sortable_columns') );
+
+            add_action( 'wp_ajax_ap_post_type_ap_custom_field_archive_sortable', array($this, 'saveAjaxOrder'));
+            add_action( 'wp_ajax_nopriv_ap_post_type_ap_custom_field_archive_sortable', array($this, 'saveAjaxOrder'));
         }
 
         public function disable_autosave() {
@@ -108,18 +115,55 @@ if(!class_exists('Advanced_Product\Post_Type\Custom_Field')){
         }
 
         public function manage_edit_columns($columns){
+//            $columns    = array('__order' => '<span class="dashicons dashicons-sort"></span>') + $columns;
+//            return $columns;
+            $keys   = array_keys($columns);
+//            $first_columns  = array_splice($columns, 0, array_search('title', $keys));
+//            $first_columns  +=  array(
+//                '__order check-column' => '<span class="dashicons dashicons-sort"></span>',
+//            );
+            $first_columns  = array();
+            $first_columns['cb']    = $columns['cb'];
+            unset($columns['cb']);
+            $first_columns  +=  array(
+//                '__order' => '<a href="'.admin_url('edit.php?post_type='.$this ->get_post_type().'&orderby=menu_order&order=asc')
+//                    .'"><span class="dashicons dashicons-image-flip-vertical"></span><span class="sorting-indicator"></span></a> '
+//                '__order' => '<span class="dashicons dashicons-sort"></span>'
+                'menu_order' => '<span class="dashicons dashicons-image-flip-vertical"></span>'
+            );
+            $first_columns['title'] = $columns['title'];
+            $first_columns  +=  array(
+                'protected' => __('Protected', 'advanced-product')
+            );
+            unset($columns['title']);
+//            $first_columns  +=  $columns;
+            $second_columns  = array_splice($columns, 0, array_search('date', array_keys($columns)));
+//            var_dump($first_columns);
+//            var_dump($second_columns);
+//            var_dump($columns);
+//            die(__FILE__);
             $new_columns                = array();
-            $new_columns['cb']          = $columns['cb'];
-            $new_columns['protected']   = __('Protected', 'advanced-product');
-//            $new_columns['display_flag']   = __('Display Flag', 'advanced-product');
+//            $new_columns['__order']     = '';
+//            $new_columns['__order check-column']   = '<span class="dashicons dashicons-sort"></span>';
+            $new_columns['title']          = $columns['title'];
+//            $new_columns['protected']   = __('Protected', 'advanced-product');
             $new_columns['in_listing']  = __('In Listing', 'advanced-product');
             $new_columns['in_search']   = __('In Search', 'advanced-product');
 
-            return array_merge($new_columns, $columns);
+//            var_dump($columns); die(__FILE__);
+
+//            return array_merge($new_columns, $columns);
+            return $first_columns + $second_columns + $new_columns + $columns;
 
         }
 
         public function manage_custom_column($column, $post_id ){
+            if($column == 'menu_order') {
+                $order_by   = isset($_REQUEST['orderby'])?$_REQUEST['orderby']:'';
+                $inactive   = $order_by != 'menu_order'?' ap-inactive':'';
+
+                echo '<span class="dashicons dashicons-menu-alt2 ap-handle'.$inactive.'"></span>';
+            }
             if($column == 'protected') {
                 $protected  = get_post_meta($post_id, '__protected', true);
                 if($protected) {
@@ -144,9 +188,17 @@ if(!class_exists('Advanced_Product\Post_Type\Custom_Field')){
             }
         }
 
+
+        public function sortable_columns( $columns ) {
+            $columns['menu_order'] = 'menu_order';
+            return $columns;
+        }
+
         public function admin_enqueue_scripts($hook){
             if($this -> get_post_type() == $this -> get_current_screen_post_type()) {
                 wp_enqueue_script('advanced-product_admin_sanitize-title-script');
+                wp_enqueue_script('jquery');
+                wp_enqueue_script('jquery-ui-sortable');
             }
         }
 
@@ -201,6 +253,189 @@ if(!class_exists('Advanced_Product\Post_Type\Custom_Field')){
             }
 
             return $actions;
+        }
+
+        public function saveAjaxOrder(){
+
+            set_time_limit(600);
+
+            global $wpdb, $userdata;
+
+            $post_type  =   filter_var ( $_POST['post_type'], FILTER_SANITIZE_STRING);
+            $paged      =   filter_var ( $_POST['paged'], FILTER_SANITIZE_NUMBER_INT);
+            $nonce      =   $_POST['archive_sort_nonce'];
+
+            //verify the nonce
+            if (! wp_verify_nonce( $nonce, 'ap_archive_sort_nonce_' . $userdata->ID ) )
+                die();
+
+            parse_str($_POST['order'], $data);
+
+            if (!is_array($data)    ||  count($data)    <   1)
+                die();
+
+            //retrieve a list of all objects
+            $mysql_query    =   $wpdb->prepare("SELECT ID FROM ". $wpdb->posts ." 
+                                                            WHERE post_type = %s AND post_status IN ('publish', 'pending', 'draft', 'private', 'future', 'inherit')
+                                                            ORDER BY menu_order, post_date DESC", $post_type);
+            $results        =   $wpdb->get_results($mysql_query);
+
+            if (!is_array($results)    ||  count($results)    <   1)
+                die();
+
+            //create the list of ID's
+            $objects_ids    =   array();
+            foreach($results    as  $result)
+            {
+                $objects_ids[]  =   (int)$result->ID;
+            }
+
+            global $userdata;
+            $objects_per_page   =   get_user_meta($userdata->ID ,'edit_' .  $post_type  .'_per_page', TRUE);
+            if(empty($objects_per_page))
+                $objects_per_page   =   20;
+
+            $edit_start_at      =   $paged  *   $objects_per_page   -   $objects_per_page;
+            $index              =   0;
+            for($i  =   $edit_start_at; $i  <   ($edit_start_at +   $objects_per_page); $i++)
+            {
+                if(!isset($objects_ids[$i]))
+                    break;
+
+                $objects_ids[$i]    =   (int)$data['post'][$index];
+                $index++;
+            }
+
+            //update the menu_order within database
+            foreach( $objects_ids as $menu_order   =>  $id )
+            {
+                $data = array(
+                    'menu_order' => $menu_order
+                );
+
+                //Deprecated, rely on pto/save-ajax-order
+                $data = apply_filters('advanced-product/post-types-order_save-ajax-order', $data, $menu_order, $id);
+
+                $data = apply_filters('advanced-product/save-ajax-order', $data, $menu_order, $id);
+
+                $wpdb->update( $wpdb->posts, $data, array('ID' => $id) );
+
+                clean_post_cache( $id );
+            }
+
+            //trigger action completed
+            do_action('advanced-product/order_update_complete');
+        }
+
+        public function posts_orderby($orderBy, $query)
+        {
+            global $wpdb;
+
+
+            // ignore other post type
+            if($this -> get_current_screen_post_type() != $this -> get_post_type()){
+                return $orderBy;
+            }
+
+//            //check for ignore_custom_sort
+//            if (isset($query->query_vars['ignore_custom_sort']) && $query->query_vars['ignore_custom_sort'] === TRUE)
+//                return $orderBy;
+//
+//            //ignore the bbpress
+//            if (isset($query->query_vars['post_type']) && ((is_array($query->query_vars['post_type']) && in_array("reply", $query->query_vars['post_type'])) || ($query->query_vars['post_type'] == "reply")))
+//                return $orderBy;
+//            if (isset($query->query_vars['post_type']) && ((is_array($query->query_vars['post_type']) && in_array("topic", $query->query_vars['post_type'])) || ($query->query_vars['post_type'] == "topic")))
+//                return $orderBy;
+//
+//            var_dump($orderBy);
+            //check for orderby GET paramether in which case return default data
+            if (isset($_GET['orderby']) && $_GET['orderby'] !=  'menu_order')
+                return $orderBy;
+
+            //check to ignore
+            /**
+             * Deprecated filter
+             * do not rely on this anymore
+             */
+            if(apply_filters('advanced-product/posts_orderby', $orderBy, $query) === FALSE)
+                return $orderBy;
+
+            $ignore =   apply_filters('advanced-product/posts_orderby/ignore', FALSE, $orderBy, $query);
+            if($ignore  === TRUE)
+                return $orderBy;
+
+//            //ignore search
+//            if( $query->is_search()  &&  isset( $query->query['s'] )   &&  ! empty ( $query->query['s'] ) )
+//                return( $orderBy );
+
+            if (is_admin())
+            {
+
+//                if ( $options['adminsort'] == "1" || (defined('DOING_AJAX') && isset($_REQUEST['action']) && $_REQUEST['action'] == 'query-attachments') )
+//                {
+
+                    global $post;
+
+
+//                    $order  =   isset($_GET['order'])  ?   " " . $_GET['order'] : '';
+                    $order  =   isset($query->query_vars['order'])  ?   " " . $query->query_vars['order'] : '';
+
+                    $order  =   apply_filters('advanced-product/posts_order', $order, $query);
+
+//                    //temporary ignore ACF group and admin ajax calls, should be fixed within ACF plugin sometime later
+//                    if (is_object($post) && $post->post_type    ==  "acf-field-group"
+//                        ||  (defined('DOING_AJAX') && isset($_REQUEST['action']) && strpos($_REQUEST['action'], 'acf/') === 0))
+//                        return $orderBy;
+
+//                    if(isset($_POST['query'])   &&  isset($_POST['query']['post__in'])  &&  is_array($_POST['query']['post__in'])   &&  count($_POST['query']['post__in'])  >   0)
+//                        return $orderBy;
+
+//                    $orderBy = "{$wpdb->posts}.menu_order {$order}, {$wpdb->posts}.post_date DESC";
+                    $orderBy = "{$wpdb->posts}.menu_order {$order}";
+//                    var_dump($orderBy);
+//                }
+            }
+//            else
+//            {
+//                $order  =   '';
+////                if ($options['use_query_ASC_DESC'] == "1")
+////                    $order  =   isset($query->query_vars['order'])  ?   " " . $query->query_vars['order'] : '';
+//
+//                $order  =   apply_filters('advanced-product/posts_order', $order, $query);
+//
+////                if ($options['autosort'] == "1")
+////                {
+//                    if(trim($orderBy) == '')
+//                        $orderBy = "{$wpdb->posts}.menu_order " . $order;
+//                    else
+//                        $orderBy = "{$wpdb->posts}.menu_order". $order .", " . $orderBy;
+////                }
+//            }
+
+            return($orderBy);
+        }
+
+        /**
+         * Filter slugs
+         * @since 1.1.0
+         * @return void
+         */
+        public function wisdom_filter_tracked_plugins() {
+            global $typenow;
+            global $wp_query;
+            if ( $typenow == 'tracked-plugin' ) { // Your custom post type slug
+                $plugins = array( 'uk-cookie-consent', 'wp-discussion-board', 'discussion-board-pro' ); // Options for the filter select field
+                $current_plugin = '';
+                if( isset( $_GET['slug'] ) ) {
+                    $current_plugin = $_GET['slug']; // Check if option has been selected
+                } ?>
+                <select name="slug" id="slug">
+                    <option value="all" <?php selected( 'all', $current_plugin ); ?>><?php _e( 'All', 'wisdom-plugin' ); ?></option>
+                    <?php foreach( $plugins as $key=>$value ) { ?>
+                        <option value="<?php echo esc_attr( $key ); ?>" <?php selected( $key, $current_plugin ); ?>><?php echo esc_attr( $key ); ?></option>
+                    <?php } ?>
+                </select>
+            <?php }
         }
 
     }

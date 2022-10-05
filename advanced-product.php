@@ -556,8 +556,18 @@ class Advanced_Product{
 
     public function admin_enqueue_scripts($hook ){
         if($this -> validate_page()) {
+
+            global $userdata;
+
             wp_enqueue_script('advanced-product');
-            wp_add_inline_script('advanced-product', 'var advanced_product = {};', '');
+
+            wp_register_script('advanced-product__js_uikit', AP_Functions::get_my_url()
+                .'/assets/vendor/uikit/js/uikit.min.js');
+//            wp_add_inline_script('advanced-product', 'var advanced_product = {};', '');
+            wp_localize_script('advanced-product', 'advanced_product', array(
+                'archive_sort_nonce' => wp_create_nonce( 'ap_archive_sort_nonce_' . $userdata->ID),
+                'orderby'   => (isset($_REQUEST['orderby'])?$_REQUEST['orderby']:'')
+            ));
             wp_enqueue_script('advanced-product_admin_scripts');
         }
     }

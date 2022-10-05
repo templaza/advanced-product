@@ -229,11 +229,44 @@ class AP_Custom_Field_Helper extends BaseHelper {
             return false;
         }
 
+        $order      = 'ASC';
+        $order_by   = 'date';
+
+        if(is_post_type_archive('ap_product')){
+            $archive_order  = \get_field('ap_archive_product_order_by_custom_field', 'option');
+            switch ($archive_order){
+                default:
+                case 'order':
+                    $order_by   = 'menu_order';
+                    break;
+                case 'rorder':
+                    $order      = 'DESC';
+                    $order_by   = 'menu_order';
+                    break;
+                case 'date':
+                    $order      = 'ASC';
+                    $order_by   = 'date';
+                    break;
+                case 'rdate':
+                    $order      = 'DESC';
+                    $order_by   = 'date';
+                    break;
+                case 'alpha':
+                    $order      = 'ASC';
+                    $order_by   = 'title';
+                    break;
+                case 'ralpha':
+                    $order      = 'DESC';
+                    $order_by   = 'title';
+                    break;
+            }
+        }
+
         $args = array(
             'post_status' => 'publish',
             'post_type'   => 'ap_custom_field',
-            'orderby'     => 'date',
-            'order'       => 'ASC',
+            'orderby'     => $order_by,
+            'order'       => $order,
             'numberposts' => -1,
             'meta_query'  => array(
                 array(
@@ -327,12 +360,6 @@ class AP_Custom_Field_Helper extends BaseHelper {
         }
 
         $post_fields = get_posts($args);
-
-//        if(is_archive()){
-//            var_dump($post_fields);
-////            var_dump($args);
-//            var_dump(__FILE__);
-//        }
 
         if(!$post_fields){
             return false;
@@ -823,37 +850,18 @@ class AP_Custom_Field_Helper extends BaseHelper {
             return static::$cache[$store_id];
         }
 
-        $fields = static::get_fields_by_group_fields($tax_slug, 'posts', array(
+        $_options   = array(
             'tax_query' => array(
                 0 => array(
                     'field' => 'slug'
                 )
             )
-        ));
-
-//        var_dump($tax_slug);
-//        var_dump($fields);
-//        die(__FILE__);
-
-
-//        global $wpdb;
-//        $sql    = 'SELECT wp.*, wt.name AS term_name, wt.slug AS term_slug FROM '.$wpdb -> posts.' AS wp';
-//        $sql   .= ' LEFT JOIN '.$wpdb -> term_relationships.' wtr ON (wp.ID = wtr.object_id OR wtr.object_id IS NULL)';
-//        $sql   .= ' LEFT JOIN '.$wpdb -> term_taxonomy.' wtt ON (wtr.term_taxonomy_id = wtt.term_taxonomy_id AND wtt.taxonomy="ap_group_field")';
-//        $sql   .= ' LEFT JOIN '.$wpdb -> terms.' wt ON (wt.term_id = wtt.term_id)';
-//        $sql   .= ' WHERE post_type="ap_custom_field"';
-//        $sql   .= ' AND wp.post_status="publish"';
-//
-//        if(is_array($tax_slug)) {
-//            $sql   .= ' AND wt.slug IN("'.implode('","', $tax_slug).'")';
-//        }else{
-//            $sql   .= ' AND wt.slug = "'.$tax_slug.'"';
-//        }
-//
-//        $sql   .= ' GROUP BY wp.id';
-//        $sql   .= ' ORDER BY wt.term_id ASC, wp.id DESC';
-//
-//        $fields = $wpdb -> get_results($sql);
+        );
+        if(isset($options['field_orderby'])){
+            $_options['order']      = $options['field_order'];
+            $_options['orderby']    = $options['field_orderby'];
+        }
+        $fields = static::get_fields_by_group_fields($tax_slug, 'posts', $_options);
 
         if(!$fields){
             return false;
@@ -887,6 +895,41 @@ class AP_Custom_Field_Helper extends BaseHelper {
                 ]
             ],
         ];
+
+        if(is_singular('ap_product')) {
+            $order          = 'DESC';
+            $order_by       = 'date';
+            $field_order    = \get_field('ap_order_by_custom_field', 'option');
+            switch ($field_order){
+                default:
+                case 'order':
+                    $order      = 'ASC';
+                    $order_by   = 'menu_order';
+                    break;
+                case 'rorder':
+                    $order      = 'DESC';
+                    $order_by   = 'menu_order';
+                    break;
+                case 'date':
+                    $order      = 'ASC';
+                    $order_by   = 'date';
+                    break;
+                case 'rdate':
+                    $order      = 'DESC';
+                    $order_by   = 'date';
+                    break;
+                case 'alpha':
+                    $order      = 'ASC';
+                    $order_by   = 'title';
+                    break;
+                case 'ralpha':
+                    $order      = 'DESC';
+                    $order_by   = 'title';
+                    break;
+            }
+            $args['order']     = $order;
+            $args['orderby']   = $order_by;
+        }
 
         $args   = !empty($options)?array_merge($args, $options):$args;
 
@@ -1046,6 +1089,42 @@ class AP_Custom_Field_Helper extends BaseHelper {
             'posts_per_page'   => -1,
             'tax_query'     => $tax_query
         );
+
+        if(is_singular('ap_product')) {
+            $order          = 'DESC';
+            $order_by       = 'date';
+            $field_order    = \get_field('ap_order_by_custom_field', 'option');
+            switch ($field_order){
+                default:
+                case 'order':
+                    $order      = 'ASC';
+                    $order_by   = 'menu_order';
+                    break;
+                case 'rorder':
+                    $order      = 'DESC';
+                    $order_by   = 'menu_order';
+                    break;
+                case 'date':
+                    $order      = 'ASC';
+                    $order_by   = 'date';
+                    break;
+                case 'rdate':
+                    $order      = 'DESC';
+                    $order_by   = 'date';
+                    break;
+                case 'alpha':
+                    $order      = 'ASC';
+                    $order_by   = 'title';
+                    break;
+                case 'ralpha':
+                    $order      = 'DESC';
+                    $order_by   = 'title';
+                    break;
+            }
+            $post_args['order']     = $order;
+            $post_args['orderby']   = $order_by;
+        }
+
 
         if(!empty($options)){
             $post_args  = array_replace_recursive($post_args, $options);

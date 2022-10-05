@@ -425,12 +425,45 @@ if(!class_exists('Advanced_Product\Post_Type\Product')){
                         'menu_order' => 0,
                     );
 
+                    $order          = 'DESC';
+                    $order_by       = 'date';
+                    $field_order    = \get_field('ap_order_by_custom_field', 'option');
+                    switch ($field_order){
+//                        default:
+                        case 'order':
+                            $order      = 'ASC';
+                            $order_by   = 'menu_order';
+                            break;
+                        case 'rorder':
+                            $order      = 'DESC';
+                            $order_by   = 'menu_order';
+                            break;
+                        case 'date':
+                            $order      = 'ASC';
+                            $order_by   = 'date';
+                            break;
+                        case 'rdate':
+                            $order      = 'DESC';
+                            $order_by   = 'date';
+                            break;
+                        case 'alpha':
+                            $order      = 'ASC';
+                            $order_by   = 'title';
+                            break;
+                        case 'ralpha':
+                            $order      = 'DESC';
+                            $order_by   = 'title';
+                            break;
+                    }
                     foreach ($gfields_assigned as $i => $group_slug){
                         // Get group field info
                         $group  = get_term_by('slug', $group_slug, 'ap_group_field');
 
                         if(!empty($group) && !is_wp_error($group)){
-                            $cfields = AP_Custom_Field_Helper::get_fields_by_group_field_slug($group_slug);
+                            $cfields = AP_Custom_Field_Helper::get_fields_by_group_field_slug($group_slug, array(
+                                'field_order'     => $order,
+                                'field_orderby'   => $order_by
+                            ));
 
                             $fields = array();
                             if($cfields){
@@ -472,93 +505,7 @@ if(!class_exists('Advanced_Product\Post_Type\Product')){
                         }
                     }
                 }
-
-//                // Get all custom fields of group fields
-//                $cfields = AP_Custom_Field_Helper::get_fields_by_group_field_slug($gfields_assigned);
-//
-//                $fields = array();
-//
-//                if ($cfields) {
-//                    $gid = md5('property');
-//                    $goptions = array(
-//                        'id' => 'acf_' . md5('product_property'),
-//                        'title' => __('Properties', 'advanced-product'),
-//                        'fields' => $fields,
-//                        'location' => array(
-//                            array(
-//                                array(
-//                                    'param' => 'post_type',
-//                                    'operator' => '==',
-//                                    'value' => $this->get_post_type(),
-//                                    'order_no' => 0,
-//                                    'group_no' => 0,
-//                                ),
-//                            ),
-//                        ),
-//                        'options' => array(
-//                            'position' => 'normal',
-//                            'style' => 'default',
-//                            'layout' => 'default',
-//                            //                        'hide_on_screen' => array (
-//                            //                            /*'the_content',*/ 'custom_fields'
-//                            //                        ),
-//                            'hide_on_screen' => array(),
-//                        ),
-//                        'menu_order' => 0,
-//                    );
-//
-//                    $m_order = 0;
-//                    foreach ($cfields as $i => $acf_field) {
-//                        if ($acf_f = AP_Custom_Field_Helper::get_custom_field_option_by_id($acf_field->ID)) {
-//                            $next_index = $i + 1;
-//                            if ((isset($cfields[$next_index]) && $cfields[$next_index]->term_slug != $acf_field->term_slug)
-//                                || ($i == count($cfields) - 1)) {
-//                                $goptions['id'] = (!empty($acf_field->term_slug) ? $acf_field->term_slug : $gid);
-//                                $goptions['title'] = (!empty($acf_field->term_name)) ? $acf_field->term_name : __('Properties', 'advanced-product');
-//                                $goptions['menu_order'] = $m_order;
-//
-//                                $goptions['fields'] = $fields;
-//
-//                                register_field_group($goptions);
-//
-//
-//                                $_goptions = $goptions;
-//                                unset($_goptions['fields']);
-//                                $gfields[] = $_goptions;
-//
-//                                $fields = array();
-//                                $m_order++;
-//                            }
-//                            $fields[] = $acf_f;
-//                        }
-//                    }
-//                }
             }
-
-//            if (!empty($gfields) && count($gfields)) {
-//                foreach ($gfields as $gfield) {
-//
-//                    $show = true;
-//
-//                    // priority
-//                    $priority = 'high';
-//                    if ($gfield['options']['position'] == 'side') {
-//                        $priority = 'core';
-//                    }
-//                    $priority = apply_filters('acf/input/meta_box_priority', $priority, $gfield);
-//
-//                    // add meta box
-//                    add_meta_box(
-//                        'acf_' . $gfield['id'],
-//                        $gfield['title'],
-//                        array($this, 'ajax_meta_box_input'),
-//                        'ap_product',
-//                        $gfield['options']['position'],
-//                        $priority,
-//                        array('field_group' => $gfield, 'show' => $show, 'post_id' => $product_id)
-//                    );
-//                }
-//            }
 
             ob_start();
             do_meta_boxes('ap_product', 'normal', $product);
