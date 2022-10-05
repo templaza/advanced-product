@@ -214,7 +214,8 @@ class Advanced_Product_ACF_Custom
 		if( isset($_GET['preview_id']) )
 		{
 			$autosave = wp_get_post_autosave( $_GET['preview_id'] );
-			if( $autosave->post_parent == $post_id )
+			if( isset($autosave -> post_parent) && is_numeric($autosave -> post_parent) &&
+                $autosave->post_parent == $post_id )
 			{
 				$post_id = intval( $autosave->ID );
 			}
