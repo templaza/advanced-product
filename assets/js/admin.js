@@ -827,7 +827,7 @@
         }
 
         if(window.adminpage === "edit-php" && window.typenow === "ap_custom_field") {
-            $(window).load(function () {
+            $(document).ready(function () {
 
                 var getUrlParameter = function getUrlParameter(sParam)
                 {
@@ -845,9 +845,9 @@
                     }
                 };
 
-                console.log(advanced_product.orderby);
-
                 if(typeof advanced_product.orderby !== "undefined" && advanced_product.orderby === "menu_order") {
+
+                    console.log(advanced_product.orderby);
                     $("body.post-type-ap_custom_field table.wp-list-table tbody").sortable({
                         axis: "y",
                         items: 'tr',
