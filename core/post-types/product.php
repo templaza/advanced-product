@@ -173,22 +173,10 @@ if(!class_exists('Advanced_Product\Post_Type\Product')){
             }
 
             if($this -> get_current_screen_post_type() == 'ap_product') {
-//                $cfield = AP_Custom_Field_Helper::get_custom_field('ap_branch');
-//
-//                if(!$cfield){
-//                    return;
-//                }
-//                $acf_f = AP_Custom_Field_Helper::get_custom_field_option_by_id($cfield -> ID);
-//
-//
-//                if(!$acf_f){
-//                    return;
-//                }
-
-
                 $acf_fields  = FieldHelper::get_acf_fields_without_group_field(array(
                     'orderby'   => array(
-                        '__protected' => 'DESC'
+                        'menu_order'    => 'ASC',
+                        '__protected'   => 'DESC'
                     )
                 ));
                 register_field_group(
@@ -219,103 +207,7 @@ if(!class_exists('Advanced_Product\Post_Type\Product')){
                         'menu_order' => 0,
                     )
                 );
-
-
-
-//                // Get branch field option
-//                register_field_group(
-//                    array(
-//                        'id' => 'acf_'.md5('product_branch_property'),
-//                        'title' => __( 'Branch Property', 'advanced-product' ),
-//                        'fields' => array(
-//                            $acf_f
-////                            array(
-////                                'key'   => $branch_key,
-////                                'label' => '',
-////                                'name'  => 'ap_branch'
-////                            )
-//                        ),
-//                        'location' => array (
-//                            array (
-//                                array (
-//                                    'param' => 'post_type',
-//                                    'operator' => '==',
-//                                    'value' => $this -> get_post_type(),
-//                                    'order_no' => 0,
-//                                    'group_no' => 0,
-//                                ),
-//                            ),
-//                        ),
-//                        'options' => array (
-//                            'position' => 'side',
-//                            'style' => 'default',
-//                            'layout' => 'default',
-////                        'hide_on_screen' => array (
-////                            /*'the_content',*/ 'custom_fields'
-////                        ),
-//                            'hide_on_screen' => array(),
-//                        ),
-//                        'menu_order' => 0,
-//                    )
-//                );
-
             }
-
-
-//            $acf_fields = AP_Custom_Field_Helper::get_custom_fields();
-//
-//            $fields = array();
-//
-//            if($acf_fields){
-//                $prev_term_slug = '';
-////                $gid            = '6216fc1bd1117';
-//                $gid            = md5('property');
-//                $goptions       = array (
-//                    'id' => 'acf_product_property',
-//                    'title' => __( 'Properties', 'advanced-product' ),
-//                    'fields' => $fields,
-//                    'location' => array (
-//                        array (
-//                            array (
-//                                'param' => 'post_type',
-//                                'operator' => '==',
-//                                'value' => $this -> get_post_type(),
-//                                'order_no' => 0,
-//                                'group_no' => 0,
-//                            ),
-//                        ),
-//                    ),
-//                    'options' => array (
-//                        'position' => 'normal',
-//                        'style' => 'default',
-//                        'layout' => 'default',
-////                        'hide_on_screen' => array (
-////                            /*'the_content',*/ 'custom_fields'
-////                        ),
-//                        'hide_on_screen' => array(),
-//                    ),
-//                    'menu_order' => 0,
-//                );
-//
-//                foreach ($acf_fields as $i => $acf_field){
-//                    if($acf_f = AP_Custom_Field_Helper::get_custom_field_option_by_id($acf_field -> ID)) {
-//                        $next_index = $i + 1;
-//                        if((isset($acf_fields[$next_index]) && /*isset($acf_field -> term_slug)
-//                                &&*/ $acf_fields[$next_index] -> term_slug != $acf_field -> term_slug)
-//                            || ($i == count($acf_fields) -1)){
-//                            $goptions['id']     = 'acf_product_'.(!empty($acf_field -> term_slug))?$acf_field -> term_slug:$gid;
-//                            $goptions['title']  = (!empty($acf_field -> term_name))?$acf_field -> term_name:__( 'Properties', 'advanced-product' );
-//                            $goptions['fields'] = $fields;
-//
-//                            $goptions['menu_order']  = $i;
-//
-//                            register_field_group($goptions);
-//                            $fields = array();
-//                        }
-//                        $fields[] = $acf_f;
-//                    }
-//                }
-//            }
         }
 
         /**
@@ -425,36 +317,36 @@ if(!class_exists('Advanced_Product\Post_Type\Product')){
                         'menu_order' => 0,
                     );
 
-                    $order          = 'DESC';
-                    $order_by       = 'date';
-                    $field_order    = \get_field('ap_order_by_custom_field', 'option');
-                    switch ($field_order){
-//                        default:
-                        case 'order':
-                            $order      = 'ASC';
-                            $order_by   = 'menu_order';
-                            break;
-                        case 'rorder':
-                            $order      = 'DESC';
-                            $order_by   = 'menu_order';
-                            break;
-                        case 'date':
-                            $order      = 'ASC';
-                            $order_by   = 'date';
-                            break;
-                        case 'rdate':
-                            $order      = 'DESC';
-                            $order_by   = 'date';
-                            break;
-                        case 'alpha':
-                            $order      = 'ASC';
-                            $order_by   = 'title';
-                            break;
-                        case 'ralpha':
-                            $order      = 'DESC';
-                            $order_by   = 'title';
-                            break;
-                    }
+                    $order          = 'ASC';
+                    $order_by       = 'menu_order';
+//                    $field_order    = \get_field('ap_order_by_custom_field', 'option');
+//                    switch ($field_order){
+////                        default:
+//                        case 'order':
+//                            $order      = 'ASC';
+//                            $order_by   = 'menu_order';
+//                            break;
+//                        case 'rorder':
+//                            $order      = 'DESC';
+//                            $order_by   = 'menu_order';
+//                            break;
+//                        case 'date':
+//                            $order      = 'ASC';
+//                            $order_by   = 'date';
+//                            break;
+//                        case 'rdate':
+//                            $order      = 'DESC';
+//                            $order_by   = 'date';
+//                            break;
+//                        case 'alpha':
+//                            $order      = 'ASC';
+//                            $order_by   = 'title';
+//                            break;
+//                        case 'ralpha':
+//                            $order      = 'DESC';
+//                            $order_by   = 'title';
+//                            break;
+//                    }
                     foreach ($gfields_assigned as $i => $group_slug){
                         // Get group field info
                         $group  = get_term_by('slug', $group_slug, 'ap_group_field');
