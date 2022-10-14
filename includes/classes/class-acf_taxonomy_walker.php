@@ -31,7 +31,7 @@ if(!class_exists('Advanced_Product\ACF_Taxonomy_Walker')) {
 
             if(!empty($associate_from)){
 //                $associate  = \get_field($associate_from, $field['taxonomy'].'_'.$term -> term_id);
-                $associate  = \get_field($associate_from, $field['taxonomy'].'term_'.$term -> term_id);
+                $associate  = \get_field($associate_from, 'term_'.$term -> term_id);
                 if(is_array($associate) && count($associate)){
                     $associate  = implode(' ', $associate);
                 }

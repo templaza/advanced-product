@@ -17,6 +17,7 @@ Google+: https://plus.google.com/+Templaza
 
 namespace Advanced_Product;
 
+use Advanced_Product\Helper\AP_Custom_Field_Helper;
 use Advanced_Product\Helper\AP_Product_Helper;
 use Advanced_Product\Helper\AP_Custom_Taxonomy_Helper;
 
@@ -184,7 +185,8 @@ class Advanced_Product{
         $ap_taxonomies  = array('ap_branch', 'ap_category', 'ap_group_field');
 
         if(($ap_custom_taxonomies = AP_Custom_Taxonomy_Helper::get_taxonomies()) && is_array($ap_custom_taxonomies)) {
-            $ap_taxonomies = array_merge($ap_taxonomies,$ap_custom_taxonomies);
+            $custom_tax_slugs   = wp_list_pluck($ap_custom_taxonomies, 'post_name');
+            $ap_taxonomies = array_merge($ap_taxonomies,$custom_tax_slugs);
         }
 
         if(in_array($args['taxonomy'], $ap_taxonomies)) {
