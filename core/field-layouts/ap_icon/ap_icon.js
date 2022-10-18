@@ -90,6 +90,7 @@
     });
 
     $(document).on("click", "[data-field_type=ap_icon] [data-ap-field-icon-modal]", function(event){
+        event.preventDefault();
 
         if(!$("#ap-fields__icon-library").length) {
             var __modal = wp.template("ap-template-field__ap-icon-modal");
@@ -99,6 +100,18 @@
         $("#ap-fields__icon-library").data("ap-field-icon__btn-clicked", $(this));
         UIkit.modal("#ap-fields__icon-library").show();
         $("#ap-fields__icon-library [data-ap-tab-item='ap_all']").click();
+    });
+    $(document).on("click", "[data-field_type=ap_icon] [data-ap-field-icon-delete]", function(event){
+        event.preventDefault();
+        event.stopImmediatePropagation();
+
+        var i10n    = typeof APIconFieldConfig.i10n !== "undefined"?APIconFieldConfig.i10n:{};
+
+        var no_icon_text    = i10n.no_icon !== undefined?i10n.no_icon:"No Icon";
+
+        $(this).closest("[data-field_type=ap_icon]").find("input[name]").val("");
+        $(this).closest("[data-field_type=ap_icon]").find("[data-ap-field-icon-modal]").text(no_icon_text);
+
     });
 
     $(document).on("click", "#ap-fields__icon-library [data-ap-filter]", function(event){
@@ -125,9 +138,9 @@
 
         if(__icon_type !== "uikit-icon"){
             __icon_value    = __icon_source.displayPrefix + " "+ __icon_source.prefix + __icon_value;
-            __control_clicked.html("<i class=\'"+ __icon_value +" fa-3x\'></i>");
+            __control_clicked.html("<span data-uk-icon=\"icon: trash; ratio: 0.9\" class=\"uk-position-top-right uk-transition-slide-top-small\" style=\"margin: 7px 7px 0 0;z-index: 1;\" data-ap-field-icon-delete></span><i class=\'"+ __icon_value +" fa-3x\'></i>");
         }else{
-            __control_clicked.html("<span data-uk-icon=\'icon: "+ __icon_value +";ratio: 2;\'></span>");
+            __control_clicked.html("<span data-uk-icon=\"icon: trash; ratio: 0.9\" class=\"uk-position-top-right uk-transition-slide-top-small\" style=\"margin: 7px 7px 0 0;z-index: 1;\" data-ap-field-icon-delete></span><span data-uk-icon=\'icon: "+ __icon_value +";ratio: 2;\'></span>");
         }
 
         __parent_control.find("[data-ap-field-icon__type]").val(__icon_type);

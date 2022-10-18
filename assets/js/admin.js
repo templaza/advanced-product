@@ -374,7 +374,6 @@
                             // $el.trigger("ajaxCompleted", html);
                             // $el.triggerHandler("ajaxCompleted", tr);
 
-                            console.log(select);
                             select.trigger("ajaxCompleted", html, tr);
                         }
                     });

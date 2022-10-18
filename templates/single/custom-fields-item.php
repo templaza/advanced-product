@@ -13,9 +13,23 @@ if (!empty($field) && ($acf_f = AP_Custom_Field_Helper::get_custom_field_option_
 
     $f_value    = get_field($acf_f['name'], $product_id);
     if(!empty($f_value)){
+        $f_icon     = isset($acf_f['icon'])?$acf_f['icon']:'';
+        $show_icon  = get_field('ap_show_custom_field_icon', 'option');
     ?>
     <div class="uk-grid-small" data-uk-grid>
-        <div class="uk-width-expand" data-uk-leader><?php echo esc_html($acf_f['label']); ?></div>
+        <div class="uk-width-expand" data-uk-leader><?php
+            if( !empty($f_icon) && $show_icon){
+                if($f_icon['type'] == 'uikit-icon'){
+                    ?>
+                    <i data-uk-icon="icon:<?php echo $f_icon['icon']; ?>;"></i>
+                    <?php
+                }else {
+                    ?>
+                    <i class="<?php echo $f_icon['icon']; ?>"></i>
+                    <?php
+                }
+            }
+            ?><?php echo esc_html($acf_f['label']); ?></div>
         <div>
             <?php
             $html   = apply_filters('advanced-product/field/value_html/type='.$acf_f['type'], '', $f_value, $acf_f, $field);

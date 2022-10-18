@@ -113,7 +113,12 @@ if(!class_exists('Advanced_Product\Field\Layout\AP_Icon')) {
 
             if(!$this -> enqueue_required) {
                 wp_localize_script(ADVANCED_PRODUCT . '__field-ap_icon', 'APIconFieldConfig',
-                    array('icons' => $this->_get_tabs()));
+                    array(
+                        'icons' => $this->_get_tabs(),
+                        'i10n'  => array(
+                            'no_icon'   => __('No Icon', 'advanced-product')
+                        )
+                    ));
             }
             $this -> enqueue_required   = true;
         }
