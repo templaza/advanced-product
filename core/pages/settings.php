@@ -172,6 +172,18 @@ class Settings extends Base {
                     ),
                 ),
                 array (
+                    'key'           => 'field_634d1f9ef0431',
+                    'type'          => 'radio',
+                    'layout'        => 'horizontal',
+                    'name'          => 'ap_show_archive_custom_field_icon',
+                    'label'         => __( 'Show Custom Field Icon', 'advanced-product' ),
+                    'default_value' => 0,
+                    'choices'       => array(
+                        1   => __('Yes', 'advanced-product'),
+                        0   => __('No', 'advanced-product'),
+                    ),
+                ),
+                array (
                     'key'           => 'field_631aac11e8f20',
                     'type'          => 'select',
                     'layout'        => 'horizontal',
@@ -270,6 +282,18 @@ class Settings extends Base {
                     'name'          => 'ap_show_compare_button',
                     'label'         => __( 'Show Compare Button', 'advanced-product' ),
                     'default_value' => 1,
+                    'choices'       => array(
+                        1   => __('Yes', 'advanced-product'),
+                        0   => __('No', 'advanced-product'),
+                    ),
+                ),
+                array (
+                    'key'           => 'field_634e60321041b',
+                    'type'          => 'radio',
+                    'layout'        => 'horizontal',
+                    'name'          => 'ap_show_custom_field_icon',
+                    'label'         => __( 'Show Custom Field Icon', 'advanced-product' ),
+                    'default_value' => 0,
                     'choices'       => array(
                         1   => __('Yes', 'advanced-product'),
                         0   => __('No', 'advanced-product'),

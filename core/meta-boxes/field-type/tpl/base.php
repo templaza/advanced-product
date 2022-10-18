@@ -34,36 +34,10 @@ $conditional_logic_rule = array(
     'value' => ''
 );
 
-//$fake_name  = 'field_'.uniqid();
-//$fake_name  = 'field_61a050de33562';
 $fake_name = $field['key'];
 ?>
 
 <div id="acf_fields">
-    <!--<div class="field field_type---><?php //echo $field['type']; ?><!-- field_key---><?php //echo $field['key']; ?><!--" data-type="--><?php //echo $field['type']; ?><!--" data-id="--><?php //echo $field['key']; ?><!--">-->
-    <!--    <input type="hidden" class="input-field_key" name="fields[--><?php //echo $field['key']; ?><!--][key]" value="--><?php //echo $field['key']; ?><!--" />-->
-    <!--    <div class="field_meta">-->
-    <!--        <table class="acf widefat">-->
-    <!--            <tr>-->
-    <!--                <td class="field_order"><span class="circle">--><?php //echo (int)$field['order_no'] + 1; ?><!--</span></td>-->
-    <!--                <td class="field_label">-->
-    <!--                    <strong>-->
-    <!--                        <a class="acf_edit_field row-title" title="--><?php //_e("Edit this Field",'acf'); ?><!--" href="javascript:;">--><?php //echo $field['label']; ?><!--</a>-->
-    <!--                    </strong>-->
-    <!--                    <div class="row_options">-->
-    <!--                        <span><a class="acf_edit_field" title="--><?php //_e("Edit this Field",'acf'); ?><!--" href="javascript:;">--><?php //_e("Edit",'acf'); ?><!--</a> | </span>-->
-    <!--                        <span><a title="--><?php //_e("Read documentation for this field",'acf'); ?><!--" href="http://www.advancedcustomfields.com/resources/#field-types" target="_blank">--><?php //_e("Docs",'acf'); ?><!--</a> | </span>-->
-    <!--                        <span><a class="acf_duplicate_field" title="--><?php //_e("Duplicate this Field",'acf'); ?><!--" href="javascript:;">--><?php //_e("Duplicate",'acf'); ?><!--</a> | </span>-->
-    <!--                        <span><a class="acf_delete_field" title="--><?php //_e("Delete this Field",'acf'); ?><!--" href="javascript:;">--><?php //_e("Delete",'acf'); ?><!--</a></span>-->
-    <!--                    </div>-->
-    <!--                </td>-->
-    <!--                <td class="field_name">--><?php //echo $field['name']; ?><!--</td>-->
-    <!--                <td class="field_type">--><?php //$l = field_type_exists( $field['type'] ); if( $l ){ echo $l; }else{ echo $error_field_type; } ?><!--</td>-->
-    <!--                <td class="field_key">--><?php //echo $field['key']; ?><!--</td>-->
-    <!--            </tr>-->
-    <!--        </table>-->
-    <!--    </div>-->
-    <!--    <div class="field_form_mask">-->
             <div class="field_form">
 
                 <table class="acf_input widefat acf_field_form_table">
@@ -184,6 +158,22 @@ $fake_name = $field['key'];
                                 'layout'	=>	'horizontal',
                             ));
                             ?>
+                        </td>
+                    </tr>
+                    <tr class="conditional-logic" data-field_name="<?php echo $field['key']; ?>">
+                        <td class="label"><label><?php _e("Icon",'acf'); ?></label></td>
+                        <td>
+                            <div data-field_type="ap_icon">
+                                <?php
+                                do_action('acf/create_field', array(
+                                    'type'	=>	'ap_icon',
+                                    'name'	=>	'fields['.$field['key'].'][icon]',
+                                    'value'	=>	isset($field['icon'])?$field['icon']:'',
+                                    'layout'	=>	'horizontal',
+                                ));
+
+                                ?>
+                            </div>
                         </td>
                     </tr>
                     <?php
