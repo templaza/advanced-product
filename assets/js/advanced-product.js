@@ -442,7 +442,7 @@
                 });
             }
         }
-        if($('.ap-search-inline').length){
+        if($('.ap-search-max-height').length){
             $('.ap-search-expand').on('click',function(){
                 $(this).removeClass('active');
                 $(this).parent().find('.ap-search-shrink').addClass('active');

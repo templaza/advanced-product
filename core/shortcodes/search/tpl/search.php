@@ -24,7 +24,11 @@ $submit_html    = trim($submit_html);
 $instant        = isset($instant)?(bool) $instant:false;
 $enable_ajax    = isset($enable_ajax)?(bool) $enable_ajax:true;
 $update_url     = isset($update_url)?(bool) $update_url:true;
-$max_height     = isset($max_height)?$max_height:'';
+if(isset($_GET['filter_height'])){
+    $max_height = $_GET['filter_height'];
+}else {
+    $max_height     = isset($max_height)?$max_height:'';
+}
 
 $__ap_settings  = array(
     "enable_ajax"   => $enable_ajax,
@@ -32,27 +36,32 @@ $__ap_settings  = array(
     "update_url"   => $update_url
 );
 $__class    = ' uk-grid-medium';
-if($column_large !=1 || $column !=1){
-    $__class .= ' ap-search-inline';
-}
-if(isset($column_large) && $column_large) {
-    $__class .= ' uk-child-width-1-' . $column_large.'@xl';
-}
-if(isset($column) && $column) {
-    $__class .= ' uk-child-width-1-' . $column.'@l';
-}
-if(isset($column_laptop) && $column_laptop) {
-    $__class .= ' uk-child-width-1-' . $column_laptop.'@m';
-}
-if(isset($column_tablet) && $column_tablet) {
-    $__class .= ' uk-child-width-1-' . $column_tablet.'@s';
-}
-if(isset($column_mobile) && $column_mobile) {
-    $__class .= ' uk-child-width-1-' . $column_mobile;
+if(isset($_GET['filter_style']) && $_GET['filter_style'] =='block'){
+    $__class .= $_GET['filter_style'];
+    $__class .= 'uk-child-width-1-1';
+}else {
+    if($column_large !=1 || $column !=1){
+        $__class .= ' ap-search-inline';
+    }
+    if(isset($column_large) && $column_large) {
+        $__class .= ' uk-child-width-1-' . $column_large.'@xl';
+    }
+    if(isset($column) && $column) {
+        $__class .= ' uk-child-width-1-' . $column.'@l';
+    }
+    if(isset($column_laptop) && $column_laptop) {
+        $__class .= ' uk-child-width-1-' . $column_laptop.'@m';
+    }
+    if(isset($column_tablet) && $column_tablet) {
+        $__class .= ' uk-child-width-1-' . $column_tablet.'@s';
+    }
+    if(isset($column_mobile) && $column_mobile) {
+        $__class .= ' uk-child-width-1-' . $column_mobile;
+    }
 }
 ?>
 <?php if(!empty($max_height)){ ?>
-<div class="ap-search-max-height" style="max-height:<?php echo $max_height; ?>;">
+<div class="ap-search-max-height" style="height:<?php echo $max_height; ?>;">
 <?php }?>
     <form role="search" method="get" action="<?php echo esc_url($action);
     ?>" class="uk-form-stacked advanced-product-search-form<?php echo $enable_ajax?' ap-ajax-filter':'';
