@@ -395,7 +395,7 @@
 
         __form_setting  = typeof __form_setting == "string"?JSON.parse(__form_setting):__form_setting;
 
-        if(__form_setting !== undefined && __form_setting && __form_setting['enable_ajax'] !== undefined) {
+        if(__form_setting !== undefined && __form_setting && __form_setting['enable_ajax'] !== undefined && __form_setting['enable_ajax']) {
             if(__form_setting['instant'] !== undefined && __form_setting['instant']) {
 
                 $(document).on("change", "form.advanced-product-search-form", function(event) {
