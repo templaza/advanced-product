@@ -4,6 +4,7 @@ namespace Advanced_Product\Field\Layout;
 
 use Advanced_Product\AP_Functions;
 use Advanced_Product\Field_Layout;
+use Advanced_Product\Helper\AP_Helper;
 
 defined('ADVANCED_PRODUCT') or exit();
 
@@ -97,30 +98,56 @@ if(!class_exists('Advanced_Product\Field\Layout\AP_Icon')) {
         }
 
         public function admin_enqueue_scripts(){
-            wp_enqueue_style(ADVANCED_PRODUCT.'__css-uikit', AP_Functions::get_my_url()
-                .'/assets/vendor/uikit/css/uikit.min.css', array(), '3.15.10');
 
-            $ap_icon_options    = array('advanced-product');
-            if(defined('TEMPLAZA_FRAMEWORK')){
-                $ap_icon_options[]  = TEMPLAZA_FRAMEWORK.'_uikit_js';
-            }else{
-                wp_enqueue_script('advanced-product__js_uikit');
-                $ap_icon_options[]  = 'advanced-product__js-uikit';
+            $post_type  = $this -> _get_current_screen_post_type();
+
+            $includes   = array(
+                'ap_product', 'ap_custom_field'
+            );
+
+            if(in_array($post_type, $includes)) {
+                wp_enqueue_style(ADVANCED_PRODUCT . '__css-uikit', AP_Functions::get_my_url()
+                    . '/assets/vendor/uikit/css/uikit.min.css', array(), '3.15.10');
+
+                $ap_icon_options = array('advanced-product');
+                if (defined('TEMPLAZA_FRAMEWORK')) {
+                    $ap_icon_options[] = TEMPLAZA_FRAMEWORK . '_uikit_js';
+                } else {
+                    wp_enqueue_script('advanced-product__js_uikit');
+                    $ap_icon_options[] = 'advanced-product__js-uikit';
+                }
+
+                wp_enqueue_script(ADVANCED_PRODUCT . '__field-ap_icon', AP_Functions::get_my_url()
+                    . '/core/field-layouts/ap_icon/ap_icon.js', $ap_icon_options);
+
+                if (!$this->enqueue_required) {
+                    wp_localize_script(ADVANCED_PRODUCT . '__field-ap_icon', 'APIconFieldConfig',
+                        array(
+                            'icons' => $this->_get_tabs(),
+                            'i10n' => array(
+                                'no_icon' => __('No Icon', 'advanced-product')
+                            )
+                        ));
+                }
+                $this->enqueue_required = true;
             }
+        }
 
-            wp_enqueue_script(ADVANCED_PRODUCT.'__field-ap_icon', AP_Functions::get_my_url()
-                .'/core/field-layouts/ap_icon/ap_icon.js', $ap_icon_options);
+        protected function _get_current_screen_post_type() {
 
-            if(!$this -> enqueue_required) {
-                wp_localize_script(ADVANCED_PRODUCT . '__field-ap_icon', 'APIconFieldConfig',
-                    array(
-                        'icons' => $this->_get_tabs(),
-                        'i10n'  => array(
-                            'no_icon'   => __('No Icon', 'advanced-product')
-                        )
-                    ));
-            }
-            $this -> enqueue_required   = true;
+            global $post, $typenow, $current_screen;
+
+            if ($post && $post->post_type) return $post->post_type;
+
+            elseif($typenow) return $typenow;
+
+            elseif($current_screen && $current_screen->post_type) return $current_screen->post_type;
+
+            elseif(isset($_REQUEST['post']) && \get_post_type($_REQUEST['post'])) return \get_post_type($_REQUEST['post']);
+            elseif(isset($_REQUEST['post_type'])) return sanitize_key($_REQUEST['post_type']);
+
+            return null;
+
         }
 
         protected function _get_tabs(){
