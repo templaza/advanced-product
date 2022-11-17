@@ -42,6 +42,22 @@ if(!class_exists('Advanced_Product\Post_Type\Custom_Field')){
 
             add_action( 'wp_ajax_ap_post_type_ap_custom_field_archive_sortable', array($this, 'saveAjaxOrder'));
             add_action( 'wp_ajax_nopriv_ap_post_type_ap_custom_field_archive_sortable', array($this, 'saveAjaxOrder'));
+
+            add_filter( 'acf/load_field_defaults' , array($this, 'load_field_defaults') );
+        }
+
+        public function load_field_defaults($field){
+            $post_id    = isset($_POST['post_id'])?$_POST['post_id']:0;
+            $action     = isset($_POST['action'])?$_POST['action']:'';
+
+            $post_type  = $post_id?get_post_type($post_id):'';
+
+            if($post_type == $this -> get_post_type() &&
+                $field['type'] == $this -> get_name() && ($action == 'acf/field_group/render_options')){
+                $field['load_save_terms']   = 1;
+            }
+
+            return $field;
         }
 
         public function disable_autosave() {
