@@ -466,9 +466,10 @@ class Advanced_Product{
 
     public function theme_html($html){
         global $post_type;
-//        $post_type = get_post_type();
 
-        if((!is_array($post_type) && $post_type != 'ap_product') || (is_array($post_type) && !in_array('ap_product', $post_type))){
+        $_post_type = !empty($post_type)?$post_type:get_post_type();
+
+        if((!is_array($_post_type) && $_post_type != 'ap_product') || (is_array($_post_type) && !in_array('ap_product', $_post_type))){
             return $html;
         }
 
