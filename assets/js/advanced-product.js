@@ -388,60 +388,78 @@
         });
     });
 
+    // Search form change
+    $(document).on("change", "form.advanced-product-search-form", function(event) {
+        var __form  = $(this),
+            __form_setting = __form.attr("data-ap-settings");
+        __form_setting  = typeof __form_setting == "string"?JSON.parse(__form_setting):__form_setting;
+        var __is_ajax   = false;
+
+        if(__form_setting !== undefined && __form_setting && __form_setting['enable_ajax'] !== undefined
+            && __form_setting['enable_ajax'] && __form_setting['instant'] !== undefined && __form_setting['instant']) {
+            __is_ajax   = true;
+        }
+
+        if(__is_ajax) {
+            $.get(__form.attr("action"), __form.serialize(), function (data) {
+                // Replace html filtered
+                $(".templaza-ap-archive").html("").html($(data).find(".templaza-ap-archive").html());
+
+                // Replace pagination
+                if ($(data).find(".templaza-blog-pagenavi").length) {
+                    $(".templaza-blog-pagenavi").show().html($(data).find(".templaza-blog-pagenavi").html());
+                } else {
+                    $(".templaza-blog-pagenavi").hide();
+                }
+
+                // Replace current url without redirect
+                if (__form_setting['update_url']) {
+                    window.history.pushState({urlPath: location.href}, "", this.url);
+                }
+            });
+        }
+    });
+
+    // Search submit button click
+    $(document).on("click", "form.advanced-product-search-form .car-search-submit",function(event){
+        event.preventDefault();
+
+        var __form  = $(this).closest("form.advanced-product-search-form"),
+            __form_setting = __form.attr("data-ap-settings");
+        __form_setting  = typeof __form_setting == "string"?JSON.parse(__form_setting):__form_setting;
+        var __is_ajax   = false;
+
+        if(__form_setting !== undefined && __form_setting && __form_setting['enable_ajax'] !== undefined
+            && __form_setting['enable_ajax'] && __form_setting['instant'] !== undefined && !__form_setting['instant']) {
+            __is_ajax   = true;
+        }
+
+        if(!__is_ajax) {
+            __form.submit();
+            return;
+        }
+
+        $.get(__form.attr("action"), __form.serialize(), function (data) {
+
+            // Replace html filtered
+            $(".templaza-ap-archive").html("").html($(data).find(".templaza-ap-archive").html());
+
+            // Replace pagination
+            if ($(data).find(".templaza-blog-pagenavi").length) {
+                $(".templaza-blog-pagenavi").show().html($(data).find(".templaza-blog-pagenavi").html());
+            } else {
+                $(".templaza-blog-pagenavi").hide();
+            }
+
+            // Replace current url without redirect
+            if (__form_setting['update_url']) {
+                window.history.pushState({urlPath: location.href}, "", this.url);
+            }
+        });
+    });
+
     // Filter form ajax
     $(document).ready(function(){
-        var __form  = $("form.advanced-product-search-form"),
-            __form_setting = __form.attr("data-ap-settings");
-
-        __form_setting  = typeof __form_setting == "string"?JSON.parse(__form_setting):__form_setting;
-
-        if(__form_setting !== undefined && __form_setting && __form_setting['enable_ajax'] !== undefined && __form_setting['enable_ajax']) {
-            if(__form_setting['instant'] !== undefined && __form_setting['instant']) {
-
-                $(document).on("change", "form.advanced-product-search-form", function(event) {
-                    $.get(__form.attr("action"), __form.serialize(), function (data) {
-
-                        // Replace html filtered
-                        $(".templaza-ap-archive").html("").html($(data).find(".templaza-ap-archive").html());
-
-                        // Replace pagination
-                        if($(data).find(".templaza-blog-pagenavi").length) {
-                            $(".templaza-blog-pagenavi").show().html($(data).find(".templaza-blog-pagenavi").html());
-                        }else{
-                            $(".templaza-blog-pagenavi").hide();
-                        }
-
-
-                        // Replace current url without redirect
-                        if (__form_setting['update_url']) {
-                            window.history.pushState({urlPath: location.href}, "", this.url);
-                        }
-                    });
-                });
-            }else{
-                __form.find(".car-search-submit").on("click", function(event){
-                    event.preventDefault();
-
-                    $.get(__form.attr("action"), __form.serialize(), function (data) {
-
-                        // Replace html filtered
-                        $(".templaza-ap-archive").html("").html($(data).find(".templaza-ap-archive").html());
-
-                        // Replace pagination
-                        if($(data).find(".templaza-blog-pagenavi").length) {
-                            $(".templaza-blog-pagenavi").show().html($(data).find(".templaza-blog-pagenavi").html());
-                        }else{
-                            $(".templaza-blog-pagenavi").hide();
-                        }
-
-                        // Replace current url without redirect
-                        if(__form_setting['update_url']) {
-                            window.history.pushState({urlPath: location.href}, "", this.url);
-                        }
-                    });
-                });
-            }
-        }
         if($('.ap-search-max-height').length){
             $('.ap-search-expand').on('click',function(){
                 $(this).removeClass('active');
@@ -468,30 +486,5 @@
             });
         }
     });
-    // $(document).on("change", "form.advanced-product-search-form", function(){
-    //     var __form  = $(this).closest("form.advanced-product-search-form.ap-ajax-filter"),
-    //         __form_setting = __form.attr("data-ap-settings");
-    //
-    //     __form_setting  = typeof __form_setting == "string"?JSON.parse(__form_setting):__form_setting;
-    //
-    //     if(__form_setting['enable_ajax']) {
-    //         if(__form_setting['instant'] !== undefined && __form_setting['instant']) {
-    //
-    //             $.get(__form.attr("action"), __form.serialize(), function (data) {
-    //
-    //                 // Replace html filtered
-    //                 $(".templaza-ap-archive").html($(data).find(".templaza-ap-archive").html());
-    //
-    //                 // Replace current url without redirect
-    //                 window.history.pushState({urlPath: location.href}, "", this.url);
-    //             });
-    //         }else{
-    //             $(document).on("click", __form.find(".car-search-submit"), function(event){
-    //                 event.preventDefault();
-    //                 alert("Test");
-    //             });
-    //         }
-    //     }
-    // });
 
 })(jQuery);
