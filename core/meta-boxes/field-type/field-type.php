@@ -52,17 +52,17 @@ class Field_Type extends Meta_box {
             case 'select':
             case 'checkbox':
             case 'taxonomy':
-                if(isset($field_types['Choice'])) {
-                    $f_types_choices = $field_types['Choice'];
+                if(isset($field_types[__("Choice",'acf')])) {
+                    $f_types_choices = $field_types[__("Choice",'acf')];
                 }
                 unset($f_types_choices['true_false']);
                 break;
             case 'textarea':
-                $f_types_choices['text']    = $field_types['Basic']['text'];
+                $f_types_choices['text']    = $field_types[__("Basic",'acf')]['text'];
                 break;
             case 'number':
-                $f_types_choices['number']    = $field_types['Basic']['number'];
-                $f_types_choices['select']    = $field_types['Choice']['select'];
+                $f_types_choices['number']    = $field_types[__("Basic",'acf')]['number'];
+                $f_types_choices['select']    = $field_types[__("Choice",'acf')]['select'];
                 break;
         }
 
