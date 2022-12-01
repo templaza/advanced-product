@@ -102,8 +102,16 @@ if(isset($_GET['filter_style']) && $_GET['filter_style'] =='block'){
                 $file_path  = ADVANCED_PRODUCT_CORE_PATH.'/field-layouts/'.$s_field_type.'/'.$s_field_type.'.php';
 
                 if(file_exists($file_path)){
+                    ob_start();
                     do_action('advanced-product/field/create_form/type='.$s_field_type, $field);
-                }else {
+                    $html   = ob_get_contents();
+                    ob_end_clean();
+                    $html   = trim($html);
+                }
+
+                if(!empty($html)){
+                    echo $html;
+                }else{
                     ?>
                     <div class="uk-margin ap-search-item">
                     <?php if(!isset($field['s_show_label']) || (isset($field['s_show_label']) && $field['s_show_label'])){?>
