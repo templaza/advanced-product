@@ -131,7 +131,7 @@ class Group_Field extends Taxonomy {
         clean_taxonomy_cache($this -> get_taxonomy_name());
 
 //        $branch_assigned    = \get_field('branch_assigned', $this -> get_taxonomy_name().'_'.$term_id);
-        $branch_assigned    = \get_field('branch_assigned', 'term_'.$term_id);
+        $branch_assigned    = (array) \get_field('branch_assigned', 'term_'.$term_id);
 
         $branch_taxs    = \get_terms(array(
             'taxonomy'      => 'ap_branch',
@@ -143,22 +143,22 @@ class Group_Field extends Taxonomy {
             foreach($branch_taxs as $branch){
 //                $group_assigned = \get_field('group_field_assigned', 'ap_branch_' . $branch->term_id);
                 $group_assigned = \get_field('group_field_assigned', 'term_' . $branch->term_id);
+                $group_assigned = !empty($group_assigned)?$group_assigned:array();
 
-                $group_assigned = $group_assigned?$group_assigned:array();
                 if(is_array($branch_assigned) && in_array($branch -> slug, $branch_assigned)){
                     if(!$group_assigned || (!empty($group_assigned) && !in_array($tax_slug, $group_assigned))){
                         $group_assigned[]   = $tax_slug;
                         if(!empty($group_assigned)){
                             // Update group_field_assigned (field created from branch taxonomy)
-                            update_field($field_key, $group_assigned, 'term_' .$branch -> term_id);
+                            update_field($field_key, array_values($group_assigned), 'term_' .$branch -> term_id);
                         }
                     }
                 }else{
-                    if($group_assigned && !empty($group_assigned)){
+                    if(!empty($group_assigned)){
                         if(in_array($tax_slug, $group_assigned)) {
                             $group_assigned = array_diff($group_assigned, array($tax_slug));
                             // Update group_field_assigned (field created from branch taxonomy)
-                            update_field($field_key, $group_assigned, 'term_' .$branch -> term_id);
+                            update_field($field_key, array_values($group_assigned), 'term_' .$branch -> term_id);
                         }
                     }
                 }

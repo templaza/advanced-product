@@ -78,7 +78,7 @@ class Branch extends Taxonomy {
         clean_taxonomy_cache($this -> get_taxonomy_name());
 
 //        $group_field_assigned    = \get_field('group_field_assigned', $this -> get_taxonomy_name().'_'.$term_id);
-        $group_field_assigned    = \get_field('group_field_assigned', 'term_'.$term_id);
+        $group_field_assigned    = (array) \get_field('group_field_assigned', 'term_'.$term_id);
 
         $group_field_taxs    = get_terms(array(
             'taxonomy'      => 'ap_group_field',
@@ -90,28 +90,47 @@ class Branch extends Taxonomy {
             foreach($group_field_taxs as $group_field){
 //                $branch_assigned    = \get_field('branch_assigned', 'ap_group_field_' . $group_field->term_id);
                 $branch_assigned    = \get_field('branch_assigned', 'term_' . $group_field->term_id);
-                $branch_assigned    = $branch_assigned?$branch_assigned:array();
+                $branch_assigned    = !empty($branch_assigned)?$branch_assigned:array();
 
-                if(is_array($group_field_assigned) && in_array($group_field -> slug, $group_field_assigned)){
+                // Group field assigned to branch
+                if(in_array($group_field -> slug, $group_field_assigned)){
                     if(!$branch_assigned || (!empty($branch_assigned) && !in_array($tax_slug, $branch_assigned))){
                         $branch_assigned[]   = $tax_slug;
                         if(!empty($branch_assigned)){
                             // Update branch_assigned (field created from group field taxonomy)
-                            update_field($field_key, $branch_assigned, 'term_'.$group_field -> term_id);
+                            update_field($field_key, array_values($branch_assigned), 'term_'.$group_field -> term_id);
                         }
                     }
                 }else{
-                    if($branch_assigned && !empty($branch_assigned)){
-
+                    // Remove current branch if it exists in group field not assigned
+                    if(!empty($branch_assigned)){
                         if(in_array($tax_slug, $branch_assigned)) {
                             $branch_assigned = array_diff($branch_assigned, array($tax_slug));
-                        }else{
-                            $branch_assigned[]   = $tax_slug;
+                            update_field($field_key, array_values($branch_assigned), 'term_'.$group_field -> term_id);
                         }
-                        // Update branch_assigned (field created from group field taxonomy)
-                        update_field($field_key, $branch_assigned, 'term_'.$group_field -> term_id);
                     }
                 }
+
+//                if(is_array($group_field_assigned) && in_array($group_field -> slug, $group_field_assigned)){
+//                    if(!$branch_assigned || (!empty($branch_assigned) && !in_array($tax_slug, $branch_assigned))){
+//                        $branch_assigned[]   = $tax_slug;
+//                        if(!empty($branch_assigned)){
+//                            // Update branch_assigned (field created from group field taxonomy)
+//                            update_field($field_key, $branch_assigned, 'term_'.$group_field -> term_id);
+//                        }
+//                    }
+//                }else{
+//                    if($branch_assigned && !empty($branch_assigned)){
+//
+//                        if(in_array($tax_slug, $branch_assigned)) {
+//                            $branch_assigned = array_diff($branch_assigned, array($tax_slug));
+//                        }else{
+//                            $branch_assigned[]   = $tax_slug;
+//                        }
+//                        // Update branch_assigned (field created from group field taxonomy)
+//                        update_field($field_key, $branch_assigned, 'term_'.$group_field -> term_id);
+//                    }
+//                }
             }
         }
 
