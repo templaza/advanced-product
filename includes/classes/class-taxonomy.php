@@ -79,7 +79,7 @@ if(!class_exists('Advanced_Product\Taxonomy')) {
 
         public function my_taxonomy_exists(){
             $taxonomy  = $this -> get_taxonomy_name();
-            if(post_type_exists($taxonomy) && $this -> get_current_screen_taxonomy() == $taxonomy) {
+            if(taxonomy_exists($taxonomy) && $this -> get_current_screen_taxonomy() == $taxonomy) {
                 return true;
             }
             return false;
@@ -89,13 +89,12 @@ if(!class_exists('Advanced_Product\Taxonomy')) {
 
             global $post, $typenow, $current_screen;
 
-            if ($post && $post->post_type) return $post->post_type;
-
-            elseif($typenow) return $typenow;
-
-            elseif($current_screen && $current_screen->taxonomy) return $current_screen->taxonomy;
+            if($current_screen && $current_screen->taxonomy) return $current_screen->taxonomy;
 
             elseif(isset($_REQUEST['taxonomy'])) return sanitize_key($_REQUEST['taxonomy']);
+
+//            elseif ($post && $post->post_type) return $post->post_type;
+//            elseif($typenow) return $typenow;
 
             return null;
 

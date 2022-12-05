@@ -25,34 +25,6 @@ class Import_Sync_Templaza_Framework{
         add_action('import_term_meta', array($this, 'pre_term_meta'), 10, 3);
         add_filter('wp_import_existing_post', array($this, 'pre_post_exists'), 10, 2);
         add_action('templaza-framework/import/after_import_posts', array($this, 'after_import_posts'));
-
-//        add_action('templaza-framework/import/before_import_terms', function($import_obj){
-//            add_filter('wp_import_terms', function($terms){
-//                if(!empty($terms) && empty($this -> import_source_terms)) {
-//                    $this->import_source_terms = $terms;
-//                }
-//                return $terms;
-//            });
-//        });
-//
-//        add_action('templaza-framework/import/before_import_termmeta', function($import_obj){
-//            add_action('import_term_meta', function($term_id, $key, $value) use ($import_obj){
-//                // Get post by post_id
-//                if($key == '_image') {
-//                    $import_term_id = array_search($term_id, $import_obj -> processed_terms);
-//                    $this ->processed_term_images[$import_term_id]  = $term_id;
-//                }
-//            },10, 3);
-//        });
-//        add_action('templaza-framework/import/before_import_posts', function($import_obj){
-//            add_filter('wp_import_existing_post', function($post_exists, $post){
-//                if(!empty($post) && isset($post['post_type'])
-//                    && $post['post_type'] == 'ap_custom_category'){
-//                    $this -> processed_term_customs[]   = $post['post_name'];
-//                }
-//                return $post_exists;
-//            }, 10, 2);
-//        });
     }
 
     public function constructor($import_object){

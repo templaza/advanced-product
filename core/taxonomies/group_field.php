@@ -16,10 +16,7 @@ class Group_Field extends Taxonomy {
 
         add_action( 'admin_menu', array( $this, 'admin_menu' ) );
         add_action( 'parent_file', array($this,'menu_highlight' ));
-//        add_action( 'edited_'.$this ->get_taxonomy_name(), array($this,'edited_taxonomy'), 10, 2 );
         add_action( 'saved_'.$this ->get_taxonomy_name(), array($this,'saved_taxonomy'), 10, 2 );
-//        add_filter( 'acf/update_field/type=taxonomy', array($this,'update_field_value' ),20,2);
-//        add_filter( 'acf/load_value/type=taxonomy', array($this,'load_field_value' ),20,3);
     }
 
     public function register(){
@@ -123,6 +120,11 @@ class Group_Field extends Taxonomy {
     }
 
     public function saved_taxonomy($term_id, $tt_id ){
+
+        if(!$this -> my_taxonomy_exists()){
+            return;
+        }
+
         $term = get_term( $term_id );
         $tax_slug = $term->slug;
 

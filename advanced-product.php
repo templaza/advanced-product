@@ -105,11 +105,11 @@ class Advanced_Product{
         add_filter('acf/fields/taxonomy/wp_list_categories', array($this, 'acf_wp_list_categories'), 10, 2);
 
         if(is_admin()){
-            // Import my info when import data from templaza framework
-            require_once ADVANCED_PRODUCT_CLASSES_PATH.'/class-import_sync_templaza_framework.php';
-            if(class_exists('Advanced_Product\Import_Sync_Templaza_Framework')) {
-                $import_sync = new Import_Sync_Templaza_Framework();
-            }
+//            // Import my info when import data from templaza framework
+//            require_once ADVANCED_PRODUCT_CLASSES_PATH.'/class-import_sync_templaza_framework.php';
+//            if(class_exists('Advanced_Product\Import_Sync_Templaza_Framework')) {
+//                $import_sync = new Import_Sync_Templaza_Framework();
+//            }
 
             // Add options to wordpress settings
             add_action( 'admin_init', array($this, 'wordpress_settings'));

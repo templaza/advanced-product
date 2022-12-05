@@ -17,7 +17,6 @@ class Branch extends Taxonomy {
 
         add_action( 'admin_menu', array( $this, 'remove_taxonomy_metaboxes' ) );
         add_action( 'saved_'.$this ->get_taxonomy_name(), array($this,'saved_taxonomy'), 11, 3 );
-//        add_action( 'edited_'.$this ->get_taxonomy_name(), array($this,'edited_taxonomy'), 10, 2 );
     }
 
     public function register(){
@@ -68,6 +67,11 @@ class Branch extends Taxonomy {
     }
 
     public function saved_taxonomy($term_id, $tt_id, $update ){
+
+        if(!$this -> my_taxonomy_exists()){
+            return;
+        }
+
         $term       = get_term( $term_id );
         $tax_slug   = $term->slug;
 
