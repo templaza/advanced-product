@@ -4,7 +4,7 @@ Plugin Name: Advanced Product
 Plugin URI: https://github.com/templaza/advanced-product
 Description: This plugin help you manage advanced products.
 Author: Templaza
-Version: 1.0.5
+Version: 1.0.6
 Text Domain: advanced-product
 Domain Path:  /languages/
 Author URI: http://templaza.com
@@ -95,21 +95,19 @@ class Advanced_Product{
         add_action( 'switch_theme', 'flush_rewrite_rules', 15 );
         add_action( 'init', array( $this, 'ap_load_plugin_textdomain' ) );
 
-//        if($this -> validate_page()) {
         add_action('init', array($this, 'register_scripts'));
         add_action('admin_enqueue_scripts', array($this, 'admin_enqueue_scripts'));
 
-//        }
         // Use a custom walker for the ACF dropdowns
         // Change taxonomy id to slug
         add_filter('acf/fields/taxonomy/wp_list_categories', array($this, 'acf_wp_list_categories'), 10, 2);
 
         if(is_admin()){
-//            // Import my info when import data from templaza framework
-//            require_once ADVANCED_PRODUCT_CLASSES_PATH.'/class-import_sync_templaza_framework.php';
-//            if(class_exists('Advanced_Product\Import_Sync_Templaza_Framework')) {
-//                $import_sync = new Import_Sync_Templaza_Framework();
-//            }
+            // Import my info when import data from templaza framework
+            require_once ADVANCED_PRODUCT_CLASSES_PATH.'/class-import_sync_templaza_framework.php';
+            if(class_exists('Advanced_Product\Import_Sync_Templaza_Framework')) {
+                $import_sync = new Import_Sync_Templaza_Framework();
+            }
 
             // Add options to wordpress settings
             add_action( 'admin_init', array($this, 'wordpress_settings'));
@@ -117,9 +115,7 @@ class Advanced_Product{
             add_action( 'admin_init', array($this, 'save_wordpress_settings'));
         }
 
-//        add_action('init', function() {
-            add_action('pre_get_posts', array($this, 'custom_query_vars'));
-//        });
+        add_action('pre_get_posts', array($this, 'custom_query_vars'));
 
         // Replace slug
         add_filter( 'register_post_type_args', array($this, 'change_post_types_slug'), 10, 2 );

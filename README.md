@@ -3,6 +3,17 @@ Advanced Product - Wordpress Plugin
 
 Changelogs:
 
+Version 1.0.6 - December 06, 2022
+
+    - Fix issue archive html layout
+    - Fix issue import term meta of branch
+    - Fix issue generate form of search shortcode
+    - Fix issue option search field type in custom field
+    - Fix issue Load & Save Terms to Post of custom field type: taxonomy
+    - Fix issue filter products when use multiple search forms on a page
+    - Fix issue branch assignment and group fields assignment in back-end
+    - Fix issue default value taxonomy's Load & Save Terms to Post option
+
 Version 1.0.5 - November 10, 2022
 
     - Fix issue ajax search
