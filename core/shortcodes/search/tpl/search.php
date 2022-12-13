@@ -101,6 +101,7 @@ if(isset($_GET['filter_style']) && $_GET['filter_style'] =='block'){
 
                 $file_path  = ADVANCED_PRODUCT_CORE_PATH.'/field-layouts/'.$s_field_type.'/'.$s_field_type.'.php';
 
+                $html   = '';
                 if(file_exists($file_path)){
                     ob_start();
                     do_action('advanced-product/field/create_form/type='.$s_field_type, $field);
