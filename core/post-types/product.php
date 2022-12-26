@@ -65,7 +65,7 @@ if(!class_exists('Advanced_Product\Post_Type\Product')){
                     'not_found_in_trash' 	=> sprintf( __( 'No %s found in trash', 'advanced-product' ), $plural ),
                     'parent' 				=> sprintf( __( 'Parent %s', 'advanced-product' ), $singular )
                 ),
-                'supports'            => array( 'title', 'editor', 'thumbnail','excerpt', 'custom-fields','comments' ),
+                'supports'            => array( 'title', 'editor', 'thumbnail','excerpt', 'custom-fields','comments','author' ),
                 'hierarchical'        => false,
                 'public'              => true,
                 'show_ui'             => true,

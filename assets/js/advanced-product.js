@@ -401,9 +401,13 @@
         }
 
         if(__is_ajax) {
+            $('.templaza-ap-archive').addClass('tz-loading').append('<div class="templaza-posts__loading show"><span class="templaza-loading"></span> </div>');
             $.get(__form.attr("action"), __form.serialize(), function (data) {
                 // Replace html filtered
                 $(".templaza-ap-archive").html("").html($(data).find(".templaza-ap-archive").html());
+                $('.templaza-ap-archive').find('.ap-item').each(function (index, product) {
+                    $(product).css('animation-delay', index * 100 + 'ms');
+                });
 
                 // Replace pagination
                 if ($(data).find(".templaza-blog-pagenavi").length) {
