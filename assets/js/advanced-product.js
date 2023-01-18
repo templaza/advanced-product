@@ -273,7 +273,7 @@
                 $("[data-ap-compare-list-button]").removeClass("uk-hidden").addClass("ap-compare-has-product");
             }
 
-            UIkit.notification(l10n.compare.add_product_successfully, {"status":"success", "pos": "bottom-right"});
+            UIkit.notification(l10n.compare.add_product_successfully, {"status":"success", "pos": "bottom-right","timeout": "2000"});
         }
     });
 
@@ -402,9 +402,45 @@
 
         if(__is_ajax) {
             $('.templaza-ap-archive').addClass('tz-loading').append('<div class="templaza-posts__loading show"><span class="templaza-loading"></span> </div>');
-            $.get(__form.attr("action"), __form.serialize(), function (data) {
+            // var __ajax_options  = __form.serialize();
+            var __form_data  = __form.serializeArray();
+
+            var __data = [];
+            var __ajax_options = '';
+
+            // Get archive view
+            if($(".templaza-ap-archive-view").data("ap-archive-view") !== undefined){
+                __data.push("archive_view=" + $(".templaza-ap-archive-view").data("ap-archive-view"));
+            }
+
+            // Preprocess form data
+            if(__form_data.length){
+                $.each(__form_data, function(index, item){
+                    if(item.value.length){
+                        var __is_archive    = false;
+                        // if(item.name === "post_type" && item.value === "ap_product" && !$("body").hasClass("post-type-archive-" + item.value)){
+                        //     // __is_archive    = true;
+                        //     // if(!$("body").hasClass("post-type-archive-" + item.name)) {
+                        //         __data.push(item.name + "=" + item.value);
+                        //     // }
+                        // }else if(item.name !== "post_type"){
+                            __data.push(item.name + "=" + item.value);
+                        // }
+                    }
+                });
+            }
+
+            // __ajax_options  = __ajax_options.replace(/&?[^=]+=&|&[^=]+=$/g,'');
+            // __ajax_options  += "&archive_view=grid";
+
+            if(__data.length){
+                __ajax_options  = __data.join("&");
+            }
+
+            $.get(__form.attr("action"), __ajax_options, function (data) {
                 // Replace html filtered
-                $(".templaza-ap-archive").html("").html($(data).find(".templaza-ap-archive").html());
+                // $(".templaza-ap-archive").html("").html($(data).find(".templaza-ap-archive").html());
+                $(".templaza-ap-archive").replaceWith($(data).find(".templaza-ap-archive"));
                 $('.templaza-ap-archive').find('.ap-item').each(function (index, product) {
                     $(product).css('animation-delay', index * 100 + 'ms');
                 });
@@ -446,7 +482,8 @@
         $.get(__form.attr("action"), __form.serialize(), function (data) {
 
             // Replace html filtered
-            $(".templaza-ap-archive").html("").html($(data).find(".templaza-ap-archive").html());
+            // $(".templaza-ap-archive").html("").html($(data).find(".templaza-ap-archive").html());
+            $(".templaza-ap-archive").replaceWith($(data).find(".templaza-ap-archive"));
 
             // Replace pagination
             if ($(data).find(".templaza-blog-pagenavi").length) {
@@ -460,6 +497,21 @@
                 window.history.pushState({urlPath: location.href}, "", this.url);
             }
         });
+    });
+
+    // Grid view
+    $(document).on("click", ".templaza-ap-archive-view [data-ap-archive-view-item]", function(event){
+        var __el = $(this),
+            __parent = __el.closest(".templaza-ap-archive-view"),
+            __grid_view = __parent.data("ap-archive-view");
+
+        if(__el.attr("data-ap-archive-view-item") !== undefined){
+            __parent.data("ap-archive-view", __el.attr("data-ap-archive-view-item"));
+        }
+
+        if(__grid_view !== __parent.data("ap-archive-view")) {
+            $("form.advanced-product-search-form").trigger("change");
+        }
     });
 
     // Filter form ajax
