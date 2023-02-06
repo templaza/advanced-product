@@ -13,7 +13,7 @@ $has_compare    = (!empty($compare_list) && in_array($pid, $compare_list))?true:
 
 ?>
 <span class="ap-button ap-button-remove"><a href="" class="" data-uk-icon="icon: close; ratio: 0.85" data-uk-tooltip="<?php
-_e('Remove this product', AP_Functions::get_my_text_domain());?>" data-ap-compare-delete-button="<?php
+_e('Remove this product', 'advanced-product');?>" data-ap-compare-delete-button="<?php
     echo $pid;?>"></a></span>
 <?php
 if(isset($actions) && !empty($actions)){

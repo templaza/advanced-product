@@ -19,14 +19,14 @@ $autoshowroom_detail_model = isset($options['autoshowroom_Detail_show_model'])?(
 ?>
 <div class="widget <?php echo esc_attr($widget_heading_style);?> ap-box">
     <div class="widget-content">
-        <h3 class="widget-title"><span><?php esc_html_e('Specifications', AP_Functions::get_my_text_domain()); ?></span>
+        <h3 class="widget-title"><span><?php esc_html_e('Specifications', 'advanced-product'); ?></span>
         </h3>
         <div class="ap-specs">
         <?php if ($autoshowroom_detail_model || $autoshowroom_detail_make == 'yes') : ?>
 <!--            <div class="ap-specs">-->
                 <?php if ($autoshowroom_detail_make == 'yes') { ?>
                     <div class="uk-grid-small" data-uk-grid>
-                        <label class="uk-width-2-5"><?php esc_html_e('Branch', AP_Functions::get_my_text_domain()); ?></label>
+                        <label class="uk-width-2-5"><?php esc_html_e('Branch', 'advanced-product'); ?></label>
                         <span class=" uk-width-expand">
                                 <?php
                                 $branches = wp_get_post_terms(get_the_ID(), 'ap_branch');
@@ -40,7 +40,7 @@ $autoshowroom_detail_model = isset($options['autoshowroom_Detail_show_model'])?(
                 <?php } ?>
                 <?php if ($autoshowroom_detail_model == 'yes') { ?>
                     <div class="uk-grid-small" data-uk-grid>
-                        <label class="uk-width-2-5"><?php esc_html_e('Category', AP_Functions::get_my_text_domain()); ?></label>
+                        <label class="uk-width-2-5"><?php esc_html_e('Category', 'advanced-product'); ?></label>
                         <span class=" uk-width-expand">
                                 <?php $categories = wp_get_post_terms(get_the_ID(), 'ap_category');
                                 foreach ($categories as $category) {

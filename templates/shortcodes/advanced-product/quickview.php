@@ -36,10 +36,10 @@ if(isset($product) && !empty($product)){
 
                     $html = '<div class="ap-pricing">';
                     $html .= sprintf('<span class="ap-price"><b> %s</b> %s </span>',
-                        esc_html__(' ', AP_Functions::get_my_text_domain()), AP_Helper::format_price($price));
+                        esc_html__(' ', 'advanced-product'), AP_Helper::format_price($price));
                     if (!empty($msrp)) {
                         $html .= sprintf('<span class="ap-price-msrp"> %s  %s </span>',
-                            esc_html__('MSRP:', AP_Functions::get_my_text_domain()), AP_Helper::format_price($msrp));
+                            esc_html__('MSRP:', 'advanced-product'), AP_Helper::format_price($msrp));
                     }
                     $html .= '</div>';
 

@@ -16,5 +16,5 @@ if(!empty($file_url)){
 
 ?>
 <a href="<?php echo esc_attr($file_url); ?>" download><?php
-echo esc_html__('Download', AP_Functions::get_my_text_domain())?></a>
+echo esc_html__('Download', 'advanced-product')?></a>
 <?php } ?>

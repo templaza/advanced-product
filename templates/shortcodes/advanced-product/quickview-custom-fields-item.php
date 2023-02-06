@@ -33,7 +33,7 @@ if (!empty($field) && ($acf_f = AP_Custom_Field_Helper::get_custom_field_option_
                     }
                     ?>
                     <a href="<?php echo esc_attr($file_url); ?>" download><?php
-                        echo esc_html__('Download', AP_Functions::get_my_text_domain())?></a>
+                        echo esc_html__('Download', 'advanced-product')?></a>
                     <?php
                 }else{
                     echo \the_field($acf_f['name'], $product_id);

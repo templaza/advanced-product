@@ -17,10 +17,10 @@ $has_compare    = (!empty($compare_list) && in_array($pid, $compare_list))?true:
     <?php if($has_compare){?>
     <i class="fas fa-clipboard-list js-ap-icon"></i>
     <span class=" js-ap-text"><?php
-        _e('In compare list', AP_Functions::get_my_text_domain()); ?></span>
+        _e('In compare list', 'advanced-product'); ?></span>
     <?php }else{?>
     <i class="fas fa-balance-scale js-ap-icon"></i>
     <span class=" js-ap-text"><?php
-        _e('Add To Compare', AP_Functions::get_my_text_domain()); ?></span>
+        _e('Add To Compare', 'advanced-product'); ?></span>
     <?php }?>
 </a>

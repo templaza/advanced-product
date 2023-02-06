@@ -63,7 +63,7 @@ if($gfields_assigned && count($gfields_assigned)){
             <div class="widget <?php echo esc_attr($widget_heading_style);?> ap-box ap-group ap-group-<?php echo $group -> slug; ?>">
                 <div class="widget-content">
                     <h3 class="widget-title">
-                        <span><?php esc_html_e($group -> name, AP_Functions::get_my_text_domain()); ?></span>
+                        <span><?php esc_html_e($group -> name, 'advanced-product'); ?></span>
                     </h3>
                     <div class="ap-group-content"><?php echo $html;?></div>
                 </div>

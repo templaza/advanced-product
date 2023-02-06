@@ -36,9 +36,9 @@ $show_comment_count = filter_var($show_comment_count, FILTER_VALIDATE_BOOLEAN);
                 <?php
                 $templaza_comment_count = wp_count_comments(get_the_ID());
                 if ($templaza_comment_count->approved == ''|| $templaza_comment_count->approved < 2) {
-                    echo esc_html__('Comment:', AP_Functions::get_my_text_domain()).' '.esc_html($templaza_comment_count->approved);
+                    echo esc_html__('Comment:', 'advanced-product').' '.esc_html($templaza_comment_count->approved);
                 }else{
-                    echo esc_html__('Comments:', AP_Functions::get_my_text_domain()).' '.esc_html($templaza_comment_count->approved);
+                    echo esc_html__('Comments:', 'advanced-product').' '.esc_html($templaza_comment_count->approved);
                 }
                 ?>
             </span>
@@ -53,9 +53,9 @@ $show_comment_count = filter_var($show_comment_count, FILTER_VALIDATE_BOOLEAN);
             if ($count == '' || empty($count)) { // If such views are not
                 delete_post_meta(get_the_ID(), $count_key);
                 add_post_meta(get_the_ID(), $count_key, '0');
-                echo esc_html__('View: 0', AP_Functions::get_my_text_domain()); // return value of 0
+                echo esc_html__('View: 0', 'advanced-product'); // return value of 0
             }else{
-                echo esc_html__('Views:', AP_Functions::get_my_text_domain()).' '.$count;
+                echo esc_html__('Views:', 'advanced-product').' '.$count;
             }
             ?>
         </span>

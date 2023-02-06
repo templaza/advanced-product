@@ -19,10 +19,10 @@ if (!empty($price) && $show_price) {
     <div class="uk-card-footer uk-background-primary uk-light">
         <?php
         $html = sprintf('<span class="ap-price"><b> %s</b> %s </span>',
-            esc_html__(' ', AP_Functions::get_my_text_domain()), AP_Helper::format_price($price));
+            esc_html__(' ', 'advanced-product'), AP_Helper::format_price($price));
         if (!empty($msrp) && $show_price_msrp) {
             $html .= sprintf('<span class="ap-price-msrp"> %s  %s </span>',
-                esc_html__('MSRP:', AP_Functions::get_my_text_domain()), AP_Helper::format_price($msrp));
+                esc_html__('MSRP:', 'advanced-product'), AP_Helper::format_price($msrp));
         }
         ?>
         <?php
