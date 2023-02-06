@@ -50,6 +50,7 @@ class Advanced_ProductSCAP extends ShortCodeAP {
         AP_Templates::load_my_layout('shortcodes.'. $this -> get_shortcode_name().'.compare-modal', true, false, array(), '.tpl.php');
         AP_Templates::load_my_layout('shortcodes.'. $this -> get_shortcode_name().'.quickview-modal', true, false, array(), '.tpl.php');
         AP_Templates::load_my_layout('shortcodes.'. $this -> get_shortcode_name().'.compare-preloader', true, false, array(), '.tpl.php');
+        AP_Templates::load_my_layout('shortcodes.'. $this -> get_shortcode_name().'.compare-list-button', true, false, array(), '.php');
     }
 
     public function render_compare_list(){

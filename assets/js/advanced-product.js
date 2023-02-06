@@ -330,6 +330,11 @@
 
     });
 
+    /* Compare close button */
+    $(document).on("click", ".ap-compare-close", function(){
+        $(this).parent().toggleClass('active');
+    });
+
     // Quick view button
     $(document).on("click", "[data-ap-quickview-button]", function(event){
         var _compare_options = advanced_product.prepare_attribute($(this).data('ap-quickview-button'));
