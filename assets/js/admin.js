@@ -226,7 +226,7 @@
                     tbody.children('tr.field_option_' + val).show().find('[name]').removeAttr('disabled');
                 } else {
                     // add loading gif
-                    var tr = $('<tr"><td class="label"></td><td><div class="acf-loading"></div></td></tr>');
+                    var tr = $('<tr><td class="label"></td><td><div class="acf-loading"></div></td></tr>');
 
                     // hide current options
                     tbody.children('tr.field_option').hide().find('[name]').attr('disabled', 'true');
@@ -324,8 +324,7 @@
                     select.trigger("changed");
                 } else {
                     // add loading gif
-                    var tr = $('<tr"><td class="label"></td><td><div class="acf-loading"></div></td></tr>');
-
+                    var tr = $('<tr><td class="label"></td><td><div class="acf-loading"></div></td></tr>');
 
                     // hide current options
                     tbody.children('tr.field_search_option.field_option_' + f_type).hide().find('[name]').attr('disabled', 'true');
@@ -335,7 +334,6 @@
 
                     // // hide current options
                     // tbody.children('tr.field_search_option').hide().find('[name]').attr('disabled', 'true');
-
 
                     // append tr
                     if (tbody.children('tr.conditional-logic').exists()) {
