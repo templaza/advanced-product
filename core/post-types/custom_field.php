@@ -332,6 +332,7 @@ if(!class_exists('Advanced_Product\Post_Type\Custom_Field')){
             //retrieve a list of all objects
             $mysql_query    =   $wpdb->prepare("SELECT ID FROM ". $wpdb->posts ." 
                                                             WHERE post_type = %s AND post_status IN ('publish', 'pending', 'draft', 'private', 'future', 'inherit')
+                                                                AND ID IN(".implode(',', $data['post']).")
                                                             ORDER BY menu_order, post_date DESC", $post_type);
             $results        =   $wpdb->get_results($mysql_query);
 
@@ -373,7 +374,7 @@ if(!class_exists('Advanced_Product\Post_Type\Custom_Field')){
 
                 $data = apply_filters('advanced-product/save-ajax-order', $data, $menu_order, $id);
 
-                $wpdb->update( $wpdb->posts, $data, array('ID' => $id) );
+                $updated    = $wpdb->update( $wpdb->posts, $data, array('ID' => $id) );
 
                 clean_post_cache( $id );
             }
