@@ -502,7 +502,7 @@ class AP_Custom_Field_Helper extends BaseHelper {
 
         if(!empty($fields)){
             foreach ($fields as $field){
-                $acf_f = static::get_custom_field_option_by_id($field -> ID);
+                $acf_f = static::get_custom_field_option_by_id($field -> ID, array('exclude_core_field' => false));
                 if($acf_f){
                     if(isset($acf_f['type']) && $acf_f['type'] == 'taxonomy') {
                         $terms = get_terms( array(
@@ -715,8 +715,10 @@ class AP_Custom_Field_Helper extends BaseHelper {
         $protected_fields   = array(
             'ap_branch','ap_category',
             'ap_price',
-            /*'ap_price_msrp',
-            'ap_price_rental',*/
+            /*'ap_price_msrp',*/
+            'ap_rental_price',
+            'ap_rental_unit',
+            'ap_product_type',
             'ap_product_status',
             'ap_time_rental',
         );
@@ -730,7 +732,8 @@ class AP_Custom_Field_Helper extends BaseHelper {
     }
     public static function get_exclude_fields_registered(){
         return array(
-            'ap_price', 'ap_price_msrp', 'ap_gallery','ap_video'
+            'ap_price', 'ap_price_msrp', 'ap_rental_price',
+            'ap_rental_unit','ap_product_type', 'ap_gallery','ap_video'
         );
     }
 

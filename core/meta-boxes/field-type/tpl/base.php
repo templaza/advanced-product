@@ -160,7 +160,7 @@ $fake_name = $field['key'];
                             ?>
                         </td>
                     </tr>
-                    <tr class="conditional-logic" data-field_name="<?php echo $field['key']; ?>">
+                    <tr data-field_name="<?php echo $field['key']; ?>">
                         <td class="label"><label><?php _e("Icon",'acf'); ?></label></td>
                         <td>
                             <div data-field_type="ap_icon">
@@ -245,7 +245,7 @@ $fake_name = $field['key'];
                                                                     . $rule_i . '][value]',
                                                                 'class' => 'select conditional-logic-value conditional-logic-value-' . $cfield['key'],
                                                                 'style' => 'display:none;',
-                                                                'value' => isset($rule['field']['value'])?$rule['field']['value']:'',
+                                                                'value' => isset($rule['value'])?$rule['value']:'',
                                                                 'choices' => isset($cfield['choices']) ? $cfield['choices'] : '',
                                                             ));
                                                         }else{
@@ -255,7 +255,7 @@ $fake_name = $field['key'];
                                                                     . $rule_i . '][value]',
                                                                 'class' => 'conditional-logic-value conditional-logic-value-' . $cfield['key'],
                                                                 'style' => 'display:none;',
-                                                                'value' => isset($rule['field']['value'])?$rule['field']['value']:'',
+                                                                'value' => isset($rule['value'])?$rule['value']:'',
                                                             ));
                                                         }
 //
