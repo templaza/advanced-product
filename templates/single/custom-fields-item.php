@@ -13,8 +13,9 @@ if (!empty($field) && ($acf_f = AP_Custom_Field_Helper::get_custom_field_option_
 
     $f_value    = get_field($acf_f['name'], $product_id);
     if(!empty($f_value)){
-        $f_icon     = isset($acf_f['icon'])?$acf_f['icon']:'';
-        $show_icon  = get_field('ap_show_custom_field_icon', 'option');
+        $f_icon         = isset($acf_f['icon'])?$acf_f['icon']:'';
+        $show_icon      = get_field('ap_show_custom_field_icon', 'option');
+        $f_icon_image   = isset($acf_f['icon_image']) && !empty($acf_f['icon_image'])?$acf_f['icon_image']:'';
     ?>
     <div class="uk-grid-small" data-uk-grid>
         <div class="uk-width-expand" data-uk-leader><?php
@@ -23,7 +24,10 @@ if (!empty($field) && ($acf_f = AP_Custom_Field_Helper::get_custom_field_option_
                     ?>
                     <i data-uk-icon="icon:<?php echo $f_icon['icon']; ?>;"></i>
                     <?php
-                }else {
+                }else if((empty($f_icon['type']) || empty($f_icon['icon'])) && !empty($f_icon_image)){
+                    echo wp_get_attachment_image($f_icon_image, 'thumbnail', '',
+                        array('data-uk-svg' => ''));
+                }else{
                     ?>
                     <i class="<?php echo $f_icon['icon']; ?>"></i>
                     <?php

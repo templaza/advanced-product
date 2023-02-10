@@ -160,7 +160,7 @@ $fake_name = $field['key'];
                             ?>
                         </td>
                     </tr>
-                    <tr data-field_name="<?php echo $field['key']; ?>">
+                    <tr data-field_name="<?php echo $field['key']; ?>" class="acf-conditional_logic-show">
                         <td class="label"><label><?php _e("Icon",'acf'); ?></label></td>
                         <td>
                             <div data-field_type="ap_icon">
@@ -169,6 +169,21 @@ $fake_name = $field['key'];
                                     'type'	=>	'ap_icon',
                                     'name'	=>	'fields['.$field['key'].'][icon]',
                                     'value'	=>	isset($field['icon'])?$field['icon']:'',
+                                    'layout'	=>	'horizontal',
+                                ));
+                                ?>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr data-field_name="<?php echo $field['key']; ?>">
+                        <td class="label"><label><?php _e("Icon Image",'acf'); ?></label></td>
+                        <td>
+                            <div data-field_type="ap_icon">
+                                <?php
+                                do_action('acf/create_field', array(
+                                    'type'	=>	'image',
+                                    'name'	=>	'fields['.$field['key'].'][icon_image]',
+                                    'value'	=>	isset($field['icon_image'])?$field['icon_image']:'',
                                     'layout'	=>	'horizontal',
                                 ));
 
