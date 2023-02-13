@@ -609,22 +609,27 @@ class Advanced_Product{
         if (is_archive('ap_product')) {
             $order_opt  = get_field('ap_archive_product_order_by', 'option');
             $order_opt  = $order_opt?$order_opt:'rdate';
+            $order_opt  = isset($_GET['sort_order']) && !empty($_GET['sort_order'])?$_GET['sort_order']:$order_opt;
 
             switch ($order_opt){
                 default:
                 case 'rdate':
+                case 'date_high':
                     $order      = 'DESC';
                     $order_by   = 'date';
                     break;
                 case 'date':
+                case 'date_low':
                     $order      = 'ASC';
                     $order_by   = 'date';
                     break;
                 case 'alpha':
+                case 'title_low':
                     $order      = 'ASC';
                     $order_by   = 'title';
                     break;
                 case 'ralpha':
+                case 'title_high':
                     $order      = 'DESC';
                     $order_by   = 'title';
                     break;
@@ -647,11 +652,13 @@ class Advanced_Product{
                     $query -> query_vars['meta_key'] = 'post_views_count';
                     break;
                 case 'price':
+                case 'price_low':
                     $order      = 'ASC';
                     $order_by   = 'meta_value_num';
                     $query -> query_vars['meta_key'] = 'ap_price';
                     break;
                 case 'rprice':
+                case 'price_high':
                     $order      = 'DESC';
                     $order_by   = 'meta_value_num';
                     $query -> query_vars['meta_key'] = 'ap_price';
