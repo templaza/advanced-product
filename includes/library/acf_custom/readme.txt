@@ -24,6 +24,10 @@ Overrode List:
         + added code from line 92 to 104
         + added code from line 228 to 235
         + added code from line 313 to 317
+* includes/library/acf_custom/core/fields/wysiwyg.php:
+    - Added code line 39
+    - Added code from line 141 to 157
+    - Added code from line 254 to 278
 
 Advanced Custom Fields is the perfect solution for any wordpress website which needs more flexible data like other Content Management Systems. 
 

@@ -36,6 +36,7 @@ class acf_field_wysiwyg extends acf_field
 		$this->label = __("Wysiwyg Editor",'acf');
 		$this->category = __("Content",'acf');
 		$this->defaults = array(
+            'tabs'          => 'all',
 			'toolbar'		=>	'full',
 			'media_upload' 	=>	'yes',
 			'default_value'	=>	'',
@@ -109,7 +110,9 @@ class acf_field_wysiwyg extends acf_field
    		
    		// vars
    		$editor_id = 'acf_settings';
-   		
+
+        $acf    = advanced_product_acf();
+        $acf_version    = $acf -> settings['version'];
    		
    		if( version_compare($wp_version, '3.9', '>=' ) ) {
    		
@@ -134,7 +137,25 @@ class acf_field_wysiwyg extends acf_field
 	   			
 	   		);
 	   		  		
-   		} else {
+   		}
+   		else if(version_compare($acf_version, '5.0', '<')){
+            $mce_buttons   = array( 'formatselect', 'bold', 'italic', 'bullist', 'numlist', 'blockquote', 'alignleft', 'aligncenter', 'alignright', 'link', 'wp_more', 'spellchecker', 'fullscreen', 'wp_adv' );
+            $mce_buttons_2 = array( 'strikethrough', 'hr', 'forecolor', 'pastetext', 'removeformat', 'charmap', 'outdent', 'indent', 'undo', 'redo', 'wp_help' );
+
+            // Full
+            $toolbars['Full'] = array(
+
+                1 => apply_filters( 'mce_buttons', $mce_buttons, $editor_id ),
+
+                2 => apply_filters( 'mce_buttons_2', $mce_buttons_2, $editor_id ),
+
+                3 => apply_filters('mce_buttons_3', array(), $editor_id),
+
+                4 => apply_filters('mce_buttons_4', array(), $editor_id),
+
+            );
+        }
+   		else {
 	   		
 	   		// Full
 	   		$toolbars['Full'] = array(
@@ -230,6 +251,31 @@ class acf_field_wysiwyg extends acf_field
 						<div id="wp-<?php echo $id; ?>-media-buttons" class="hide-if-no-js wp-media-buttons">
 							<?php do_action( 'media_buttons' ); ?>
 						</div>
+                        <?php
+                        $show_tabs      = true;
+                        // detect mode
+                        if ( ! user_can_richedit() ) {
+
+                            $show_tabs = false;
+
+                        } elseif (isset($field['tabs']) && $field['tabs'] == 'visual' ) {
+
+                            // case: visual tab only
+                            $show_tabs      = false;
+
+                        } elseif (isset($field['tabs']) && $field['tabs'] == 'text' ) {
+
+                            // case: text tab only
+                            $show_tabs = false;
+
+                        }
+                        ?>
+                        <?php if ( user_can_richedit() && $show_tabs ) : ?>
+                            <div class="wp-editor-tabs">
+                                <button id="<?php echo esc_attr( $id ); ?>-tmce" class="wp-switch-editor switch-tmce" data-wp-editor-id="<?php echo esc_attr( $id ); ?>" type="button"><?php echo __( 'Visual', 'acf' ); ?></button>
+                                <button id="<?php echo esc_attr( $id ); ?>-html" class="wp-switch-editor switch-html" data-wp-editor-id="<?php echo esc_attr( $id ); ?>" type="button"><?php echo _x( 'Text', 'Name for the Text editor tab (formerly HTML)', 'acf' ); ?></button>
+                            </div>
+                        <?php endif; ?>
 					</div>
 				<?php endif; ?>
 			<?php endif; ?>
