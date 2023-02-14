@@ -414,8 +414,8 @@
             var __ajax_options = '';
 
             // Get archive view
-            if($(".templaza-ap-archive-view").data("ap-archive-view") !== undefined){
-                __data.push("archive_view=" + $(".templaza-ap-archive-view").data("ap-archive-view"));
+            if($("[data-ap-archive-view]").data("ap-archive-view") !== undefined){
+                __data.push("archive_view=" + $("[data-ap-archive-view]").data("ap-archive-view"));
             }
 
             // Get sort order
@@ -434,7 +434,7 @@
                         //         __data.push(item.name + "=" + item.value);
                         //     // }
                         // }else if(item.name !== "post_type"){
-                            __data.push(item.name + "=" + item.value);
+                        __data.push(item.name + "=" + item.value);
                         // }
                     }
                 });
@@ -462,8 +462,9 @@
                     $(".templaza-blog-pagenavi").hide();
                 }
 
-                if($(".templaza-ap-archive-view").data("ap-archive-view") !== undefined) {
-                    $(".templaza-ap-archive-view").data("ap-archive-view-loaded", true);
+                if($("[data-ap-archive-view]").data("ap-archive-view") !== undefined) {
+                    $("[data-ap-archive-view]").data("ap-archive-view-loaded", true);
+                    $("[data-ap-archive-view]").trigger("ap-archive-view-loaded");
                 }
 
                 // Replace current url without redirect
@@ -472,6 +473,13 @@
                 }
             });
         }
+    });
+
+    $(document).on("ap-archive-view-loaded", "[data-ap-archive-view]", function(){
+        var __view = $(this).data("ap-archive-view"),
+            __childs = $(this).find("[data-ap-archive-view-item]"),
+            __cindex = __childs.index($(this).find("[data-ap-archive-view-item="+ __view +"]"));
+        UIkit.switcher(this).show(__cindex);
     });
 
     // Search submit button click
@@ -528,8 +536,8 @@
             __ajax_options = '';
 
         // Get archive view
-        if($(".templaza-ap-archive-view").data("ap-archive-view") !== undefined){
-            __data.push("archive_view=" + $(".templaza-ap-archive-view").data("ap-archive-view"));
+        if($("[data-ap-archive-view]").data("ap-archive-view") !== undefined){
+            __data.push("archive_view=" + $("[data-ap-archive-view]").data("ap-archive-view"));
         }
 
         // Get sort order
@@ -557,8 +565,9 @@
                 $(".templaza-blog-pagenavi").hide();
             }
 
-            if($(".templaza-ap-archive-view").data("ap-archive-view") !== undefined) {
-                $(".templaza-ap-archive-view").data("ap-archive-view-loaded", true);
+            if($("[data-ap-archive-view]").data("ap-archive-view") !== undefined) {
+                $("[data-ap-archive-view]").data("ap-archive-view-loaded", true);
+                $("[data-ap-archive-view]").trigger("ap-archive-view-loaded");
             }
 
             // Replace current url without redirect
@@ -576,10 +585,10 @@
     };
 
     // Grid view
-    $(document).on("click", ".templaza-ap-archive-view [data-ap-archive-view-item]", function(event){
+    $(document).on("click", "[data-ap-archive-view] [data-ap-archive-view-item]", function(event){
 
         var __el = $(this),
-            __parent = __el.closest(".templaza-ap-archive-view"),
+            __parent = __el.closest("[data-ap-archive-view]"),
             __loaded = __parent.data("ap-archive-view-loaded") !== undefined?__parent.data("ap-archive-view-loaded"):true,
             __grid_view = __parent.data("ap-archive-view");
 
@@ -608,11 +617,11 @@
         // var __val   = $(this).val();
         // if(__val.length){
         //     var __ajax_options  = ["sort_order="+__val];
-            if($("form.advanced-product-search-form").length) {
-                $("form.advanced-product-search-form").trigger("change");
-            }else if($(".templaza-ap-archive").length){
-                advanced_product.__archive_ajax_html(undefined, undefined, {"update_url": true});
-            }
+        if($("form.advanced-product-search-form").length) {
+            $("form.advanced-product-search-form").trigger("change");
+        }else if($(".templaza-ap-archive").length){
+            advanced_product.__archive_ajax_html(undefined, undefined, {"update_url": true});
+        }
         // }
     });
 
