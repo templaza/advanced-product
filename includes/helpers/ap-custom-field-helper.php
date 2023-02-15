@@ -327,6 +327,111 @@ class AP_Custom_Field_Helper extends BaseHelper {
     }
 
     /**
+     * Get custom fields without group in post type ap_custom_field
+     * @param array $options An optional config of custom fields.
+     * */
+    public static function get_custom_fields_without_group_display_flag_by_product_id($flag_name, $product_id, $options = array()){
+
+        if(!$flag_name || !$product_id){
+            return false;
+        }
+
+        $order      = 'ASC';
+        $order_by   = 'date';
+
+        if(is_post_type_archive('ap_product')){
+            $archive_order  = \get_field('ap_archive_product_order_by_custom_field', 'option');
+            switch ($archive_order){
+                default:
+                case 'order':
+                    $order_by   = 'menu_order';
+                    break;
+                case 'rorder':
+                    $order      = 'DESC';
+                    $order_by   = 'menu_order';
+                    break;
+                case 'date':
+                    $order      = 'ASC';
+                    $order_by   = 'date';
+                    break;
+                case 'rdate':
+                    $order      = 'DESC';
+                    $order_by   = 'date';
+                    break;
+                case 'alpha':
+                    $order      = 'ASC';
+                    $order_by   = 'title';
+                    break;
+                case 'ralpha':
+                    $order      = 'DESC';
+                    $order_by   = 'title';
+                    break;
+            }
+        }
+
+        $args = array(
+            'post_status' => 'publish',
+            'post_type'   => 'ap_custom_field',
+            'orderby'     => $order_by,
+            'order'       => $order,
+            'numberposts' => -1,
+            'meta_query'  => array(
+                array(
+                    'key'   => $flag_name,
+                    'value' => 1
+                )
+            )
+        );
+
+//        // Get group assigned branch of product
+//        $group_fields = static::get_group_fields_by_product($product_id, array(
+//            'fields'    => 'ids',
+//        ));
+//        if(!empty($group_fields)){
+//            $args['tax_query']  = array(
+//                array(
+//                    'taxonomy'  => 'ap_group_field',
+//                    'terms'     => $group_fields
+//                )
+//            );
+//        }
+
+        $store_id   = static::_get_store_id(__METHOD__, $args, $options);
+
+        if(isset(static::$cache[$store_id])){
+            return static::$cache[$store_id];
+        }
+
+        $post_fields = get_posts($args);
+
+        if(!$post_fields){
+            return false;
+        }
+
+        $fields = array();
+
+//        $exclude_core_field = isset($options['exclude_core_field'])?$options['exclude_core_field']:true;
+        foreach($post_fields as $i => $field){
+            $acf_f = static::get_custom_field_option_by_id($field -> ID);
+            if(empty($acf_f)){
+                continue;
+            }
+
+            if($acf_f && !empty($acf_f)){
+                $fields[]   = $field;
+            }
+        }
+
+        if(!count($fields)){
+            return false;
+        }
+
+        ksort($fields);
+
+        return static::$cache[$store_id] = $fields;
+    }
+
+    /**
      * Get acf fields in post type ap_custom_field
      * @param array $options An optional config of custom fields.
      * */

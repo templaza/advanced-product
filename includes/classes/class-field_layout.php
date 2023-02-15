@@ -118,5 +118,27 @@ if(!class_exists('Advanced_Product\Field_Layout')) {
 
             return $value;
         }
+
+        /**
+         * Get html path by layout
+         * @param string $layout Layout name (.php file) in tpl folder
+         * */
+        protected function _get_html_value_path($layout = 'default'){
+            $path       = ADVANCED_PRODUCT_FIELD_LAYOUT_PATH.'/'.$this -> get_name().'/tpl';
+            $theme_path = ADVANCED_PRODUCT_THEME_TEMPLATE_PATH.'/field-layouts/'.$this -> get_name();
+
+            $layout     = !preg_match('/\.php$/',$layout)?$layout.'.php':$layout;
+
+            $file   = $theme_path.'/'.$layout;
+            if(!file_exists($file)){
+                $file   = $path.'/'.$layout;
+            }
+
+            if(file_exists($file)){
+                return $file;
+            }
+
+            return false;
+        }
     }
 }

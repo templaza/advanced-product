@@ -14,47 +14,17 @@ class Taxonomy extends Field_Layout {
     }
 
     public function value_html_filter($html, $value, $field, $post_field){
-        $term   = null;
-        if(is_object($value)){
-            $term   = $value;
-        }elseif(is_array($value)){
-            foreach ($value as $val){
-                if(is_numeric($val)) {
-                    $term   = get_term_by('term_id', $val, $field['taxonomy']);
-                    $html   = $term -> post_title;
-                }else{
-                    $term   = get_term_by('slug', $val, $field['taxonomy']);
-                }
-            }
-        }elseif(is_numeric($value)){
-            $term   = get_term_by('term_id', $value, $field['taxonomy']);
 
-        }else{
-            $term   = get_term_by('slug', $value, $field['taxonomy']);
-        }
-
-        if(!empty($term) && !is_wp_error($term)) {
-            $html = $term->name;
-        }
-        return $html;
-    }
-
-    protected function _get_html_value_path($layout = 'default'){
-        $path       = ADVANCED_PRODUCT_FIELD_LAYOUT_PATH.'/'.$this -> get_name().'/tpl';
-        $theme_path = ADVANCED_PRODUCT_THEME_TEMPLATE_PATH.'/field-layouts/'.$this -> get_name();
-
-        $layout     = !preg_match('/\.php$/',$layout)?$layout.'.php':$layout;
-
-        $file   = $theme_path.'/'.$layout;
-        if(!file_exists($file)){
-            $file   = $path.'/'.$layout;
-        }
+        $file   = $this -> _get_html_value_path();
 
         if(file_exists($file)){
-            return $file;
+            ob_start();
+            require $file;
+            $html   = ob_get_contents();
+            ob_end_clean();
         }
 
-        return false;
+        return $html;
     }
 }
 

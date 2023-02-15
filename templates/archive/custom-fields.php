@@ -7,6 +7,12 @@ use Advanced_Product\Helper\AP_Custom_Field_Helper;
 
 // Get custom fields
 $fields     = AP_Custom_Field_Helper::get_custom_fields_display_flag_by_product_id('show_in_listing',get_the_ID());
+
+// Get custom fields with no group
+$fields_no_group    = AP_Custom_Field_Helper::get_custom_fields_without_group_display_flag_by_product_id('show_in_listing', get_the_ID());
+
+$fields = !empty($fields)?array_merge($fields_no_group, $fields):$fields_no_group;
+
 if(!empty($fields)){
     ?>
     <div class="ap-specification uk-text-meta uk-text-emphasis">

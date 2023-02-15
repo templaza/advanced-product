@@ -25,8 +25,12 @@ class Image extends Field_Layout {
         }
 
         if(file_exists($file)){
+            ob_start();
             require $file;
+            $html   = ob_get_contents();
+            ob_end_clean();
         }
+        return $html;
     }
 
     public function value_html_filter($html, $value, $field, $post_field){
@@ -38,24 +42,6 @@ class Image extends Field_Layout {
             ob_end_clean();
         }
         return $html;
-    }
-
-    protected function _get_html_value_path($layout = 'default'){
-        $path       = ADVANCED_PRODUCT_FIELD_LAYOUT_PATH.'/'.$this -> get_name().'/tpl';
-        $theme_path = ADVANCED_PRODUCT_THEME_TEMPLATE_PATH.'/field-layouts/'.$this -> get_name();
-
-        $layout     = !preg_match('/\.php$/',$layout)?$layout.'.php':$layout;
-
-        $file   = $theme_path.'/'.$layout;
-        if(!file_exists($file)){
-            $file   = $path.'/'.$layout;
-        }
-
-        if(file_exists($file)){
-            return $file;
-        }
-
-        return false;
     }
 }
 
