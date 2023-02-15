@@ -378,23 +378,16 @@ class AP_Custom_Field_Helper extends BaseHelper {
             'meta_query'  => array(
                 array(
                     'key'   => $flag_name,
-                    'value' => 1
+                    'value' => '1'
+                )
+            ),
+            'tax_query' => array(
+                array(
+                    'taxonomy'  => 'ap_group_field',
+                    'operator'  => 'NOT EXISTS'
                 )
             )
         );
-
-//        // Get group assigned branch of product
-//        $group_fields = static::get_group_fields_by_product($product_id, array(
-//            'fields'    => 'ids',
-//        ));
-//        if(!empty($group_fields)){
-//            $args['tax_query']  = array(
-//                array(
-//                    'taxonomy'  => 'ap_group_field',
-//                    'terms'     => $group_fields
-//                )
-//            );
-//        }
 
         $store_id   = static::_get_store_id(__METHOD__, $args, $options);
 
