@@ -91,17 +91,23 @@ if(!class_exists('Advanced_Product\Post_Type\Custom_Field')){
                         $subSql.= " INNER JOIN {$wpdb -> posts} AS _p ON _p.ID = _ta.object_id AND _p.post_type='ap_product'";
                         $subSql.= " INNER JOIN {$wpdb -> term_taxonomy} AS _tt ON _tt.term_taxonomy_id=_ta.term_taxonomy_id AND _tt.taxonomy='{$acf_attribs['taxonomy']}'";
 
+
                         // Insert term relationships of taxonomy
-                        $sql    = " INSERT INTO {$wpdb -> term_relationships}(object_id,term_taxonomy_id)";
+                        $sql    = " INSERT IGNORE INTO {$wpdb -> term_relationships}(object_id,term_taxonomy_id)";
 //                        $sql    = "";
-                        $sql   .= " SELECT p.ID, t.term_id";
+                        $sql   .= " SELECT p.ID, t.term_taxonomy_id";
                         $sql   .= " FROM {$wpdb -> posts} AS p";
-                        $sql   .= " INNER JOIN {$wpdb -> term_taxonomy} AS t ON t.taxonomy = '{$acf_attribs['taxonomy']}'";
-                        $sql   .= " INNER JOIN {$wpdb -> terms} AS te ON te.term_id = t.term_id";
+                        $sql   .= " INNER JOIN {$wpdb -> postmeta} AS pm ON pm.post_id = p.ID AND pm.meta_key='{$acf_attribs['name']}'";
+                        $sql   .= " INNER JOIN {$wpdb -> terms} AS te ON te.slug = pm.meta_value OR"
+                                 ." pm.meta_value REGEXP CONCAT_WS('','.*;s:[0-9]+:\"', te.slug ,'\".*')";
+                        $sql   .= " INNER JOIN {$wpdb -> term_taxonomy} AS t ON t.term_id = te.term_id AND t.taxonomy = '{$acf_attribs['taxonomy']}'";
+//                        $sql   .= " INNER JOIN {$wpdb -> term_taxonomy} AS t ON t.taxonomy = '{$acf_attribs['taxonomy']}'";
+//                        $sql   .= " INNER JOIN {$wpdb -> terms} AS te ON te.term_id = t.term_id";
                         $sql   .= " WHERE p.post_type='ap_product'";
                         $sql   .= " AND p.ID NOT IN($subSql)";
 
-                       $wpdb -> query($sql);
+                       $result  = $wpdb -> query($sql);
+
                     }else{
                         // Get term_relationships added
                         $subSql = " SELECT DISTINCT _ta.term_taxonomy_id";
@@ -115,6 +121,23 @@ if(!class_exists('Advanced_Product\Post_Type\Custom_Field')){
 
                         $wpdb -> query($sql);
                     }
+
+                    // Update posts count for taxonomy
+                    $subSql = "SELECT tt2.term_taxonomy_id,";
+                    $subSql.= "(SELECT COUNT(DISTINCT p.ID)";
+                    $subSql.= " FROM {$wpdb -> posts} AS p";
+                    $subSql.= " INNER JOIN {$wpdb -> term_relationships} AS ts ON ts.object_id = p.ID";
+//                            $subSql.= " WHERE p.post_type='ap_product'";
+                    $subSql.= " WHERE p.post_type='ap_product' AND ts.term_taxonomy_id = tt2.term_taxonomy_id) AS pcount";
+                    $subSql.= " FROM {$wpdb -> term_taxonomy} AS tt2";
+                    $subSql.= " WHERE tt2.taxonomy='{$acf_attribs['taxonomy']}'";
+
+                    $sql     = "UPDATE {$wpdb -> term_taxonomy} AS tt3";
+                    $sql    .= " INNER JOIN($subSql) AS pp ON pp.term_taxonomy_id = tt3.term_taxonomy_id";
+                    $sql    .= " SET tt3.`count`= pp.pcount";
+                    $sql    .= " WHERE tt3.taxonomy='{$acf_attribs['taxonomy']}'";
+
+                    $wpdb -> query($sql);
                 }
             }
         }
