@@ -116,6 +116,8 @@ if(!class_exists('Advanced_Product\Taxonomy')) {
 
                         do_action('advanced-product/taxonomy/'.$taxonomy.'/registered', $taxonomy, $tax_obj, $this);
                         do_action('advanced-product/taxonomy/registered', $taxonomy, $tax_obj, $this);
+
+                        flush_rewrite_rules();
                     }
                 }
             }
