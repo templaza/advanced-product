@@ -197,6 +197,21 @@ $fake_name = $field['key'];
                     do_action('acf/create_field_options', $field );
 
                     ?>
+                    <tr class="">
+                        <td class="label"><label><?php _e("Wrapper Attributes",'advanced-product'); ?></label></td>
+                        <td>
+                            <div class="acf-input-prepend"><?php _e('Width', 'advanced-product'); ?></div>
+                            <div class="acf-input-append"><?php _e('%', 'advanced-product'); ?></div>
+                            <?php
+                            do_action('acf/create_field', array(
+                                'type'	=>	'number',
+                                'name'	=>	'fields['.$field['key'].'][wrapper_attribute][width]',
+                                'value'	=>	isset($field['wrapper_attribute']['width'])?$field['wrapper_attribute']['width']:'',
+                                'layout'	=>	'horizontal',
+                            ));
+                            ?>
+                        </td>
+                    </tr>
                     <tr class="conditional-logic" data-field_name="<?php echo $field['key']; ?>">
                         <td class="label"><label><?php _e("Conditional Logic",'acf'); ?></label></td>
                         <td>

@@ -35,3 +35,28 @@ table.wp-list-table{
     opacity: 0.3;
   }
 }
+.acf_postbox{
+  .inside{
+    .field{
+      box-sizing: border-box;
+      &[data-width]{
+        float: left;
+        border-top: none;
+        position: static;
+        p.label{
+          margin-top: 20px;
+        }
+        + .field:not([data-width]){
+          clear: both;
+        }
+      }
+      &:not([data-width]) + .field[data-width]:before{
+        content: "";
+        position: absolute;
+        left: 0;
+        width: 100%;
+        border-top: 1px solid #e8e8e8;
+      }
+    }
+  }
+}

@@ -790,7 +790,6 @@ class Advanced_Product_ACF_Custom
 				continue;
 			}
 			
-			
 			// set value
 			if( !isset($field['value']) )
 			{
@@ -807,9 +806,14 @@ class Advanced_Product_ACF_Custom
 				$required_class = ' required';
 				$required_label = ' <span class="required">*</span>';
 			}
-			
-			
-			echo '<div id="acf-' . $field['name'] . '" class="field field_type-' . $field['type'] . ' field_key-' . $field['key'] . $required_class . '" data-field_name="' . $field['name'] . '" data-field_key="' . $field['key'] . '" data-field_type="' . $field['type'] . '">';
+			$wrapper    = isset($field['wrapper_attribute'])?$field['wrapper_attribute']:array();
+			$attribute  = (isset($wrapper['width']) && !empty($wrapper['width']))?' style="width: '
+                .$wrapper['width'].'%;" data-width="'.$wrapper['width'].'"':'';
+
+			echo '<div id="acf-' . $field['name'] . '" class="field field_type-' . $field['type']
+                . ' field_key-' . $field['key'] . $required_class . '" data-field_name="' . $field['name']
+                . '" data-field_key="' . $field['key'] . '" data-field_type="' . $field['type'] . '"'
+                .$attribute.'>';
 
 				echo '<p class="label">';
 					echo '<label for="' . (isset($field['id'])?$field['id']:'acf-field-'.$field['name']) . '">' . $field['label'] . $required_label . '</label>';
