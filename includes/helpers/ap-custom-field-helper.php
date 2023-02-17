@@ -1091,7 +1091,7 @@ class AP_Custom_Field_Helper extends BaseHelper {
      * @param array $args An optional of group fields's query options.
      * */
     public static function get_group_fields_by_product($product = null, $args = array()){
-        $store_id   = static::_get_store_id(__METHOD__, $product);
+        $store_id   = static::_get_store_id(__METHOD__, $product, $args);
         if(isset(static::$cache[$store_id])){
             return static::$cache[$store_id];
         }
@@ -1126,6 +1126,11 @@ class AP_Custom_Field_Helper extends BaseHelper {
                     'order'     => 'DESC'
                 );
 
+                if(FieldHelper::term_order_exists()){
+                    $group_args['orderby']  = 'term_order';
+                    $group_args['order']    = 'ASC';
+                }
+
                 $is_number  = true;
                 foreach ($_groups as $_group){
                     if(!is_numeric($_group)){
@@ -1137,6 +1142,22 @@ class AP_Custom_Field_Helper extends BaseHelper {
                     $group_args['include']  = $_groups;
                 }else{
                     $group_args['slug']  = $_groups;
+                }
+
+                if(isset($args['orderby']) && $args['orderby'] == 'slug__in' && isset($args['slug'])) {
+                    $gincludes  = array_intersect($args['slug'], $group_args['slug']);
+                    $gothers    = array_diff($group_args['slug'], $args['slug']);
+
+                    $group_args['slug'] = array_merge($gincludes, $gothers);
+
+                    unset($args['slug']);
+                }elseif(isset($args['orderby']) && $args['orderby'] == 'include' && isset($args['include'])) {
+                    $gincludes  = array_intersect($args['include'], $group_args['include']);
+                    $gothers    = array_diff($group_args['include'], $args['include']);
+
+                    $group_args['include'] = array_merge($gincludes, $gothers);
+
+                    unset($args['include']);
                 }
 
                 if(!empty($args)) {

@@ -317,42 +317,32 @@ if(!class_exists('Advanced_Product\Post_Type\Product')){
                         'menu_order' => 0,
                     );
 
-                    $order          = 'ASC';
-                    $order_by       = 'menu_order';
-//                    $field_order    = \get_field('ap_order_by_custom_field', 'option');
-//                    switch ($field_order){
-////                        default:
-//                        case 'order':
-//                            $order      = 'ASC';
-//                            $order_by   = 'menu_order';
-//                            break;
-//                        case 'rorder':
-//                            $order      = 'DESC';
-//                            $order_by   = 'menu_order';
-//                            break;
-//                        case 'date':
-//                            $order      = 'ASC';
-//                            $order_by   = 'date';
-//                            break;
-//                        case 'rdate':
-//                            $order      = 'DESC';
-//                            $order_by   = 'date';
-//                            break;
-//                        case 'alpha':
-//                            $order      = 'ASC';
-//                            $order_by   = 'title';
-//                            break;
-//                        case 'ralpha':
-//                            $order      = 'DESC';
-//                            $order_by   = 'title';
-//                            break;
-//                    }
-                    foreach ($gfields_assigned as $i => $group_slug){
-                        // Get group field info
-                        $group  = get_term_by('slug', $group_slug, 'ap_group_field');
+                    $order      = 'ASC';
+                    $order_by   = 'menu_order';
+                    $groups     = $gfields_assigned;
+
+                    if(FieldHelper::term_order_exists()) {
+                        // Get group fields and sort by term order
+                        $_groups = get_terms(array(
+                            'slug'      => $gfields_assigned,
+                            'orderby'   => 'term_order',
+                            'taxonomy'  => 'ap_group_field',
+                        ));
+
+                        if(!empty($_groups) && !is_wp_error($_groups)){
+                            $groups = $_groups;
+                        }
+                    }
+
+                    foreach ($groups as $i => $group){
+
+                        if(!($group instanceof \WP_Term)) {
+                            // Get group field info
+                            $group = get_term_by('slug', $group, 'ap_group_field');
+                        }
 
                         if(!empty($group) && !is_wp_error($group)){
-                            $cfields = AP_Custom_Field_Helper::get_fields_by_group_field_slug($group_slug, array(
+                            $cfields = AP_Custom_Field_Helper::get_fields_by_group_field_slug($group -> slug, array(
                                 'field_order'     => $order,
                                 'field_orderby'   => $order_by
                             ));

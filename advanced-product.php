@@ -40,6 +40,7 @@ class Advanced_Product{
 
         $this -> text_domain    = AP_Functions::get_my_text_domain();
 
+        register_activation_hook(ADVANCED_PRODUCT . '/' . ADVANCED_PRODUCT, 'FieldHelper::add_term_order_field');
         register_activation_hook(  ADVANCED_PRODUCT . '/' . ADVANCED_PRODUCT, 'flush_rewrite_rules', 15 );
 
         $this -> register_post_types();
