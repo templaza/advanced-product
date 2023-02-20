@@ -219,17 +219,17 @@ class Advanced_Product{
             }
         }
 
-//            // Import rental price & rental unit field
-//            if(!$rprice_exists || !$runit_exists){
-//                $file  = ADVANCED_PRODUCT_PATH.'/data/upgrade/custom-fields/rental_price.xml';
-//
-//                if(file_exists($file)){
-//                    ob_start();
-//                    $importer->import($file);
-//                    $result = ob_get_contents();
-//                    ob_end_clean();
-//                }
-//            }
+        // Import rental price & rental unit field
+        if(!$rprice_exists || !$runit_exists){
+            $file  = ADVANCED_PRODUCT_PATH.'/data/upgrade/custom-fields/rental_price.xml';
+
+            if(file_exists($file)){
+                ob_start();
+                $importer->import($file);
+                $result = ob_get_contents();
+                ob_end_clean();
+            }
+        }
     }
 
     /**
