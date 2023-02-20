@@ -99,6 +99,8 @@ class Advanced_Product{
         add_action('init', array($this, 'register_scripts'));
         add_action('admin_enqueue_scripts', array($this, 'admin_enqueue_scripts'));
 
+        add_action('admin_init', array($this, 'update_custom_fields'));
+
         // Use a custom walker for the ACF dropdowns
         // Change taxonomy id to slug
         add_filter('acf/fields/taxonomy/wp_list_categories', array($this, 'acf_wp_list_categories'), 10, 2);
@@ -170,6 +172,64 @@ class Advanced_Product{
         }
 
         return true;
+    }
+
+    public function update_custom_fields(){
+        if(!post_type_exists('ap_custom_field')){
+            return;
+        }
+
+        // Check product type, rental price, rental unit exists
+        $ptype_exists   = AP_Custom_Field_Helper::get_custom_field('ap_product_type');
+        $runit_exists   = AP_Custom_Field_Helper::get_custom_field('ap_rental_unit');
+        $rprice_exists  = AP_Custom_Field_Helper::get_custom_field('ap_rental_price');
+
+        $importer   = false;
+
+        if(!$ptype_exists || !$runit_exists || !$rprice_exists){
+            // Require import object
+            $importer_file = ADVANCED_PRODUCT_LIBRARY_PATH.'/importer/class-advanced-product-importer.php';
+
+            if ( ! class_exists( 'Advanced_Product_Importer' ) ) {
+                if ( file_exists( $importer_file ) )
+                    require_once $importer_file;
+            }
+
+            if(!class_exists('Advanced_Product_Importer')){
+                return;
+            }
+
+            $importer   = new \Advanced_Product_Importer();
+
+        }
+
+        if(!$importer){
+            return;
+        }
+
+        // Import product type field
+        if(!$ptype_exists){
+            $file  = ADVANCED_PRODUCT_PATH.'/data/upgrade/custom-fields/product_type.xml';
+
+            if(file_exists($file)){
+                ob_start();
+                $importer->import($file);
+                $result = ob_get_contents();
+                ob_end_clean();
+            }
+        }
+
+//            // Import rental price & rental unit field
+//            if(!$rprice_exists || !$runit_exists){
+//                $file  = ADVANCED_PRODUCT_PATH.'/data/upgrade/custom-fields/rental_price.xml';
+//
+//                if(file_exists($file)){
+//                    ob_start();
+//                    $importer->import($file);
+//                    $result = ob_get_contents();
+//                    ob_end_clean();
+//                }
+//            }
     }
 
     /**
