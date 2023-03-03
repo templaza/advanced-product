@@ -19,6 +19,24 @@ class AP_Custom_Field_Helper extends BaseHelper {
         die(__METHOD__);
     }
 
+    public static function get_al_taxonomy_by_product_id($product_id,$ap_taxonomy_show){
+        $tax_values = array();
+        global $wpdb;
+        if(!empty($ap_taxonomy_show)){
+            foreach ($ap_taxonomy_show as $tax){
+                $tax_val = wp_get_object_terms($product_id,$tax);
+                if($tax_val){
+                    $results = $wpdb->get_row( "SELECT post_title FROM {$wpdb->prefix}posts WHERE post_excerpt = '".$tax_val[0]->taxonomy."'", ARRAY_A );
+                    if($results){
+                        $tax_values[$results['post_title']] = $tax_val[0]->name;
+                    }
+                }
+            }
+        }
+        return $tax_values;
+
+    }
+
     /**
      * Get custom fields in post type ap_custom_field
      * @param array $args An optional exclude of custom fields.

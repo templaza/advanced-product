@@ -63,6 +63,7 @@ if(isset($_GET['filter_style']) && $_GET['filter_style'] =='block'){
 <?php if(!empty($max_height)){ ?>
 <div class="ap-search-max-height" style="height:<?php echo $max_height; ?>;">
 <?php }?>
+    <div class="uk-position-top-right templaza-filter-closed uk-padding-small uk-hidden@m"><i class="fas fa-times"></i> </div>
     <form role="search" method="get" action="<?php echo esc_url($action);
     ?>" class="uk-form-stacked advanced-product-search-form<?php echo $enable_ajax?' ap-ajax-filter':'';
     echo $__class;

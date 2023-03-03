@@ -652,6 +652,21 @@
                 $(this).parents('.uk-sticky').removeClass('closed');
             });
         }
+        if($('.ap-compare-btn-wrap').length){
+            $('.ap-compare-close').on('click',function(){
+                $(this).parent().toggleClass('closed');
+            });
+        }
+        if($('.templaza-ap-archive').length){
+            if($('.templaza-framework-gutenberg-adv-product-filters').parents('.templaza-column').hasClass('hideonsm')){
+                $(document.body).on('click', '.ap-filter-btn', function (e) {
+                    $('.templaza-framework-gutenberg-adv-product-filters').parents('.templaza-column').toggleClass('sidebar-fixed');
+                });
+                $(document.body).on('click', '.templaza-filter-closed', function (e) {
+                    $('.templaza-framework-gutenberg-adv-product-filters').parents('.templaza-column').removeClass('sidebar-fixed');
+                });
+            }
+        }
     });
 
 })(jQuery);
