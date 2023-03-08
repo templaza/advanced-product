@@ -82,28 +82,79 @@ class Search extends Base {
                 }
                 $field  = AP_Custom_Field_Helper::get_custom_field($fname);
                 if(!empty($field)){
-                    $acf_attr   = AP_Custom_Field_Helper::get_custom_field_option_by_id($field->ID);
+                    $acf_attr   = AP_Custom_Field_Helper::get_custom_field_option_by_id($field->ID,
+                        array('exclude_core_field' => false));
+                    $f_type     = isset($acf_attr['type'])?$acf_attr['type']:'';
+                    $f_name     = isset($acf_attr['name']) ? $acf_attr['name'] : '';
+                    $meta_main  = array();
+
                     if(is_array($query_value)){
-                        $submeta_query  = array();
-                        $submeta_query['relation']    = 'OR';
-                        foreach ($query_value as $qval) {
-                            $qval   = serialize($qval);
-                            $qval   = preg_replace('/(^[a-z]+:[0-9]+:\{)|(\}$)/', '', $qval);
-//                            $qval   = addslashes($qval);
-                            $submeta_query[] = array(
-                                'key' => $acf_attr['name'],
-                                'value' => $qval,
+                        $submeta_query = array();
+                        $submeta_query['relation'] = 'OR';
+                        if($f_type == 'number') {
+                            $submeta_query['relation'] = 'AND';
+
+                            $query_filter    = array_filter($query_value);
+                        }
+
+                        foreach ($query_value as $i => $qval) {
+                            if($f_type == 'number') {
+                                if(!empty($qval)){
+                                    if(isset($query_filter) && is_array($query_filter)
+                                        && count($query_filter) == 1 && $i % 2 == 0){
+                                        $submeta_query[] = array(
+                                            'key' => $acf_attr['name'],
+                                            'value' => $qval,
+                                            'compare' => '>=',
+                                            'type' => 'DECIMAL(10,3)'
+                                        );
+                                    }else {
+                                        $submeta_query[] = array(
+                                            'key' => $acf_attr['name'],
+                                            'value' => $query_value,
+                                            'compare' => 'BETWEEN',
+                                            'type' => 'DECIMAL(10,3)'
+                                        );
+                                    }
+                                }
+                            }else {
+                                $qval = serialize($qval);
+                                $qval = preg_replace('/(^[a-z]+:[0-9]+:\{)|(\}$)/', '', $qval);
+                                $submeta_query[] = array(
+                                    'key' => $acf_attr['name'],
+                                    'value' => $qval,
+                                    'compare' => 'LIKE',
+                                );
+                            }
+                        }
+
+                        $meta_main[] = $submeta_query;
+                        if($f_type == 'number'){
+                            $query -> set('orderby', array($f_name => 'ASC'));
+                        }
+                    }else{
+                        if($f_type == 'number'){
+                            $meta_main[$acf_attr['key']] = array(
+                                'key' => $f_name,
+                                'value' => (float) $query_value,
+                                'compare' => '=',
+                                'type' => 'DECIMAL(10,3)'
+                            );
+//                            $query -> set('orderby', array($f_name => 'ASC'));
+                        }else {
+                            $meta_main[$acf_attr['key']] = array(
+                                'key' => isset($acf_attr['name']) ? $acf_attr['name'] : '',
+                                'value' => $query_value,
                                 'compare' => 'LIKE',
                             );
                         }
-                        $meta_query[]   = $submeta_query;
-                    }else{
-//                    if(!is_array($query_value)){
-                        $meta_query[] = array(
-                            'key' => isset($acf_attr['name'])?$acf_attr['name']:'',
-                            'value' => $query_value,
-                            'compare' => '=',
-                        );
+                    }
+
+                    // Hook to prepare our meta query
+                    $meta_main  = apply_filters('advanced-product/search-form/meta_query', $meta_main, $acf_attr, $field);
+
+                    if(!empty($meta_main)){
+                        $meta_query = array_merge($meta_query, array_values($meta_main));
                     }
                 }
             }
