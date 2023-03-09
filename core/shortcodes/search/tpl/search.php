@@ -94,9 +94,11 @@ if(isset($_GET['filter_style']) && $_GET['filter_style'] =='block'){
 
                 if(isset($field['s_type'])){
                     if(isset($field['field_type'])){
-                        $field['field_type'] = $field['s_type'];
+                        $field['__field_type']  = $field['field_type'];
+                        $field['field_type']    = $field['s_type'];
                     }else {
-                        $field['type'] = $field['s_type'];
+                        $field['__field_type']  = $field['type'];
+                        $field['type']          = $field['s_type'];
                     }
                 }
 

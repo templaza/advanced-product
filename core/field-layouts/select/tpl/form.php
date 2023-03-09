@@ -4,13 +4,22 @@ defined('ADVANCED_PRODUCT') or exit();
 
 //if($field = $this -> field) {
 
+$is_from_to = false;
+$orgf_type = isset($field['__field_type'])?$field['__field_type']:'';
+
 if(isset($field['s_from_to']) && $field['s_from_to'] == 1){
 
+    $is_from_to = true;
     $field_from = $field;
+
     $field_from['name']            .= '[]';
     $field_from['type']             = isset($field['s_type'])?$field['s_type']:$field['type'];
     $field_from['choices']          = isset($field['s_choices_from'])?$field['s_choices_from']:array();
     $field_from['default_value']    = isset($field['s_default_value_from'])?$field['s_default_value_from']:$field['default_value'];
+
+    if(!is_array($field_from['choices']) && $field_from['choices'] === 0){
+        $field_from['choices']  = (array) $field_from['choices'];
+    }
 
     $field_from['value']   = apply_filters('acf/load_value/type='.$field_from['type'] , $field_from['default_value'], $field_from['field_group'], $field_from );
     $field_from['value']  = (isset($field['value']) && !empty($field['value']))?$field['value']:$field_from['value'];
@@ -26,6 +35,13 @@ if(isset($field['s_from_to']) && $field['s_from_to'] == 1){
     do_action('acf/create_field', $field_from);
     $html_field = ob_get_contents();
     ob_end_clean();
+
+    if((!empty($orgf_type) && $orgf_type == 'number' && $is_from_to) &&
+        (($field['type'] == 'select' || (isset($field['field_type']) && $field['field_type'] == 'select'))
+            && preg_match('/(<select(\s+[^>]*)?>)((.|\n)*?)(<\/select(\s+[^>]*)?>)/ius', trim($html_field)))) {
+        $html_field = preg_replace('/(<select(\s+[^>]*)?>)((.|\n)*?)(<\/select(\s+[^>]*)?>)/ius', '$1<option value="">'
+            .esc_html__('From','advanced-product').'</option>$3$5', $html_field);
+    }
 
     $field_to = $field;
     $field_to['name']          .= '[]';
@@ -47,8 +63,19 @@ if(isset($field['s_from_to']) && $field['s_from_to'] == 1){
     // Override html from acf field rendered
     ob_start();
     do_action('acf/create_field', $field_to);
-    $html_field .= ob_get_contents();
+    $html_to = ob_get_contents();
     ob_end_clean();
+
+    if(!empty($html_to)){
+        if((!empty($orgf_type) && $orgf_type == 'number' && $is_from_to) &&
+            (($field['type'] == 'select' || (isset($field['field_type']) && $field['field_type'] == 'select'))
+                && preg_match('/(<select(\s+[^>]*)?>)((.|\n)*?)(<\/select(\s+[^>]*)?>)/ius', trim($html_to)))) {
+            $html_to = preg_replace('/(<select(\s+[^>]*)?>)((.|\n)*?)(<\/select(\s+[^>]*)?>)/ius', '$1<option value="">'
+                .esc_html__('To','advanced-product').'</option>$3$5', $html_to);
+        }
+    }
+
+    $html_field .= $html_to;
 
 }else{
     $field_search   = $field;
@@ -88,8 +115,9 @@ $html_field = trim($html_field);
 
 $html_field = preg_replace('/<input type="hidden"(\s+[^>]*)?[\/]?>/ius', '', $html_field);
 
-if(($field['type'] == 'select' || (isset($field['field_type']) && $field['field_type'] == 'select'))
-    && preg_match('/(<select(\s+[^>]*)?>)((.|\n)*?)(<\/select(\s+[^>]*)?>)/ius', trim($html_field))) {
+if((empty($orgf_type) || ($orgf_type = 'number' && !$is_from_to)) &&
+    (($field['type'] == 'select' || (isset($field['field_type']) && $field['field_type'] == 'select'))
+    && preg_match('/(<select(\s+[^>]*)?>)((.|\n)*?)(<\/select(\s+[^>]*)?>)/ius', trim($html_field)))) {
     $html_field = preg_replace('/(<select(\s+[^>]*)?>)((.|\n)*?)(<\/select(\s+[^>]*)?>)/ius', '$1<option value="">'
         .sprintf(esc_html__('All %s','advanced-product'), __($field['label'],'advanced-product')).'</option>$3$5', $html_field);
 }
