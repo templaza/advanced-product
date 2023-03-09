@@ -11,7 +11,7 @@ extract($args);
 if(isset($product) && !empty($product)){
     do_action('advanced-product/quickview/before_content');
 ?>
-    <div class="uk-grid-collapse uk-child-width-1-2@s" data-uk-grid>
+    <div class="uk-grid-collapse uk-width-1-1 uk-child-width-1-2@s" data-uk-grid>
             <?php
             $options    = array();
             $autoshowroom_video = get_post_meta(get_the_ID(), 'video',true);
