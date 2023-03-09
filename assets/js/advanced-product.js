@@ -658,12 +658,17 @@
             });
         }
         if($('.templaza-ap-archive').length){
-            if($('.templaza-framework-gutenberg-adv-product-filters').parents('.templaza-column').hasClass('hideonsm')){
+            if($('.templaza-column').hasClass('hideonlg')){
+                $('.templaza-ap-product-filter, .templaza-filter-closed ').removeClass('uk-hidden@m').addClass('uk-hidden@l');
+            }
+
+            if($('.templaza-framework-gutenberg-adv-product-filters').parents('.templaza-column').hasClass('hideonsm') || $('.templaza-framework-gutenberg-adv-product-filters').parents('.templaza-column').hasClass('hideonlg')){
                 $(document.body).on('click', '.ap-filter-btn', function (e) {
                     $('.templaza-framework-gutenberg-adv-product-filters').parents('.templaza-column').toggleClass('sidebar-fixed');
                 });
                 $(document.body).on('click', '.templaza-filter-closed', function (e) {
                     $('.templaza-framework-gutenberg-adv-product-filters').parents('.templaza-column').removeClass('sidebar-fixed');
+                    console.log(!$(e.target).is(".templaza-framework-gutenberg-adv-product-filters"));
                 });
             }
         }
