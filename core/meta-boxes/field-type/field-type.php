@@ -61,8 +61,9 @@ class Field_Type extends Meta_box {
                 $f_types_choices['text']    = $field_types[__("Basic",'acf')]['text'];
                 break;
             case 'number':
-                $f_types_choices['number']    = $field_types[__("Basic",'acf')]['number'];
-                $f_types_choices['select']    = $field_types[__("Choice",'acf')]['select'];
+                $f_types_choices['number']      = $field_types[__("Basic",'acf')]['number'];
+                $f_types_choices['select']      = $field_types[__("Choice",'acf')]['select'];
+                $f_types_choices['range_slider'] = __('Range Slider', 'advanced-product');
                 break;
         }
 
