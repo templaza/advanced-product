@@ -15,12 +15,15 @@ jQuery( function($) {
 
             __settings  = Object.assign(__defsetings,__settings);
 
+            var __val_min   = __slider.find("[data-ap-range-min]").val(),
+                __val_max = __slider.find("[data-ap-range-max]").val();
+
             __range.slider({
                 range: true,
                 step: __settings["step"],
                 min: __settings["min"],
                 max: __settings["max"],
-                values: [__settings["min"], __settings["max"]],
+                values: [__val_min, __val_max],
                 slide: function (event, ui) {
                     var __symbol = __settings["symbol"],
                         __place = __settings["placement"],
