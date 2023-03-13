@@ -462,6 +462,11 @@
                     $(".templaza-blog-pagenavi").hide();
                 }
 
+                // Replace product number
+                if($(data).find(".ap-number-product").length && $(".ap-number-product").length){
+                    $(".ap-number-product").html($(data).find(".ap-number-product").html());
+                }
+
                 if($("[data-ap-archive-view]").data("ap-archive-view") !== undefined) {
                     $("[data-ap-archive-view]").data("ap-archive-view-loaded", true);
                     $("[data-ap-archive-view]").trigger("ap-archive-view-loaded");
@@ -512,6 +517,11 @@
                 $(".templaza-blog-pagenavi").show().html($(data).find(".templaza-blog-pagenavi").html());
             } else {
                 $(".templaza-blog-pagenavi").hide();
+            }
+
+            // Replace product number
+            if($(data).find(".ap-number-product").length && $(".ap-number-product").length){
+                $(".ap-number-product").html($(data).find(".ap-number-product").html());
             }
 
             // Replace current url without redirect

@@ -48,6 +48,10 @@ jQuery( function($) {
                         __slider.find(".ap-slider-number-label .from").text(__min);
                         __slider.find(".ap-slider-number-label .to").text(__max);
                     }
+                },
+                stop: function( event, ui ) {
+                    var __form = $(this).closest("form");
+                    __form.trigger("change");
                 }
             });
         });

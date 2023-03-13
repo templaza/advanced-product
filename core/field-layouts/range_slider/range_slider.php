@@ -18,6 +18,7 @@ if(!class_exists('Advanced_Product\Field\Layout\Range_Slider')){
             parent::hooks();
 
             add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'));
+            add_action('enqueue_block_editor_assets', array($this, 'enqueue_scripts'));
         }
 
         public function enqueue_scripts(){
