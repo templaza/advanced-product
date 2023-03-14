@@ -11,6 +11,7 @@ jQuery( function($) {
                 "step": 1,
                 "symbol": "$",
                 "placement": "prepend",
+                "enable_symbol": false,
             };
 
             __settings  = Object.assign(__defsetings,__settings);
@@ -39,12 +40,14 @@ jQuery( function($) {
                         }
                     }
 
-                    if (__place === "append") {
-                        __min += __symbol;
-                        __max += __symbol;
-                    } else {
-                        __min = __symbol + __min;
-                        __max = __symbol + __max;
+                    if(__settings["enable_symbol"]){
+                        if (__place === "append") {
+                            __min += __symbol;
+                            __max += __symbol;
+                        } else {
+                            __min = __symbol + __min;
+                            __max = __symbol + __max;
+                        }
                     }
 
                     if (__slider.length && __slider.find(".ap-slider-number-label")) {

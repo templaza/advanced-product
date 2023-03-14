@@ -11,12 +11,15 @@ if($field) {
     $s_range_to     = isset($field['s_range_to'])?$field['s_range_to']:0;
     $s_range_from   = isset($field['s_range_from'])?$field['s_range_from']:0;
 
+    $s_currency_symbol   = isset($field['s_currency_symbol'])?filter_var($field['s_currency_symbol'], FILTER_VALIDATE_BOOLEAN):false;
+
     $range_options  = array(
-            'max'   => $s_range_to,
-            'min'   => $s_range_from,
-            'step'   => $s_range_step,
-            'symbol'   => $symbol,
-            'placement' => $placement,
+        'max'   => $s_range_to,
+        'min'   => $s_range_from,
+        'step'   => $s_range_step,
+        'symbol'   => $symbol,
+        'placement' => $placement,
+        'enable_symbol'   => $s_currency_symbol,
     );
 
     if(!empty($f_value)){
@@ -37,8 +40,10 @@ if($field) {
                 <div class="ap-slider-range"></div>
                 <div class="ap-slider-number-label">
                     <?php
-                    $s_range_to     = $placement == 'append'?$s_range_to.$symbol:$symbol.$s_range_to;
-                    $s_range_from   = $placement == 'append'?$s_range_from.$symbol:$symbol.$s_range_from;
+                    if($s_currency_symbol) {
+                        $s_range_to     = $placement == 'append' ? $s_range_to . $symbol : $symbol . $s_range_to;
+                        $s_range_from   = $placement == 'append' ? $s_range_from . $symbol : $symbol . $s_range_from;
+                    }
                     ?>
                     <span class="from"><?php echo $s_range_from; ?></span> - <span class="to"><?php
                         echo $s_range_to;?></span>
