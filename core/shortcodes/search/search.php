@@ -129,9 +129,9 @@ class Search extends Base {
                         }
 
                         $meta_main[] = $submeta_query;
-                        if($f_type == 'number'){
-                            $query -> set('orderby', array($f_name => 'ASC'));
-                        }
+//                        if($f_type == 'number'){
+//                            $query -> set('orderby', array($f_name => 'ASC'));
+//                        }
                     }else{
                         if($f_type == 'number'){
                             $meta_main[$acf_attr['key']] = array(
