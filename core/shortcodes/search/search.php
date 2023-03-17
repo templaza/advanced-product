@@ -84,22 +84,25 @@ class Search extends Base {
                 if(!empty($field)){
                     $acf_attr   = AP_Custom_Field_Helper::get_custom_field_option_by_id($field->ID,
                         array('exclude_core_field' => false));
-                    $f_type     = isset($acf_attr['type'])?$acf_attr['type']:'';
+
+                    $type       = isset($acf_attr['type'])?$acf_attr['type']:'';
+                    $f_type     = isset($acf_attr['field_type'])?$acf_attr['field_type']:'';
                     $f_name     = isset($acf_attr['name']) ? $acf_attr['name'] : '';
                     $meta_main  = array();
 
                     if(is_array($query_value)){
                         $submeta_query = array();
                         $submeta_query['relation'] = 'OR';
-                        if($f_type == 'number') {
-                            $submeta_query['relation'] = 'AND';
+                        if($type == 'number') {
+//                            $submeta_query['relation'] = 'AND';
 
                             $query_filter    = array_filter($query_value);
                         }
 
                         foreach ($query_value as $i => $qval) {
-                            if($f_type == 'number') {
-                                if(!empty($qval)){
+                            if($type == 'number') {
+//                                if(!empty($qval)){
+                                if($qval !== ''){
                                     if(isset($query_filter) && is_array($query_filter)
                                         && count($query_filter) == 1 && $i % 2 == 0){
                                         $submeta_query[] = array(
@@ -118,8 +121,18 @@ class Search extends Base {
                                     }
                                 }
                             }else {
-                                $qval = serialize($qval);
-                                $qval = preg_replace('/(^[a-z]+:[0-9]+:\{)|(\}$)/', '', $qval);
+                                $orgval = $qval;
+
+                                if(in_array($f_type, array('checkbox', 'multi_select'))) {
+                                    $qval = serialize($qval);
+                                    $qval = preg_replace('/(^[a-z]+:[0-9]+:\{)|(\}$)/', '', $qval);
+                                }
+
+                                $qval   = apply_filters('advanced-product/shortcodes/search-form/meta_query/pre-filter-value',
+                                    $qval, $orgval, $acf_attr, $field);
+                                $qval   = apply_filters('advanced-product/shortcodes/search-form'.$type
+                                    .'/meta_query/pre-filter-value', $qval, $orgval, $acf_attr, $field);
+
                                 $submeta_query[] = array(
                                     'key' => $acf_attr['name'],
                                     'value' => $qval,
@@ -129,11 +142,11 @@ class Search extends Base {
                         }
 
                         $meta_main[] = $submeta_query;
-//                        if($f_type == 'number'){
+//                        if($type == 'number'){
 //                            $query -> set('orderby', array($f_name => 'ASC'));
 //                        }
                     }else{
-                        if($f_type == 'number'){
+                        if($type == 'number'){
                             $meta_main[$acf_attr['key']] = array(
                                 'key' => $f_name,
                                 'value' => (float) $query_value,
