@@ -66,13 +66,13 @@ if(!class_exists('Advanced_Product\ACF_Taxonomy_Walker')) {
             {
                 $output .= '<li><label class="selectit"><input type="checkbox" name="' . $this->field['name']
                     . '" value="' . $term->slug . '" ' . ($selected ? 'checked="checked"' : '')
-                    .(!empty($attribs)?implode(' ', $attribs):'') . ' /> ' . $term->name . '</label>';
+                    .(!empty($attribs)?' ' .implode(' ', $attribs):'') . ' /> ' . $term->name . '</label>';
             }
             elseif( $this->field['field_type'] == 'radio' )
             {
                 $output .= '<li><label class="selectit"><input type="radio" name="' . $this->field['name']
                     . '" value="' . $term->slug . '" ' . ($selected ? 'checked="checkbox"' : '')
-                    .(!empty($attribs)?implode(' ', $attribs):'') . ' /> '
+                    .(!empty($attribs)?' ' .implode(' ', $attribs):'') . ' /> '
                     . $term->name . '</label>';
             }
             elseif( $this->field['field_type'] == 'select' )
@@ -80,7 +80,7 @@ if(!class_exists('Advanced_Product\ACF_Taxonomy_Walker')) {
                 $indent = str_repeat("&mdash; ", $depth);
                 $output .= '<option value="' . $term->slug . '" '
                     . ($selected ? 'selected="selected"' : ''). ' class="level-'.$depth.'"'
-                    .(!empty($attribs)?implode(' ', $attribs):'').'>'
+                    .(!empty($attribs)?' ' .implode(' ', $attribs):'').'>'
                     . $indent . $term->name . '</option>';
             }
         }
