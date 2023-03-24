@@ -93,8 +93,8 @@ rental : Rental";s:13:"default_value";s:4:"sale";s:6:"layout";s:8:"vertical";s:6
 		<dc:creator><![CDATA[admin]]></dc:creator>
 		<guid isPermaLink="false">http://wp2021.templaza.net/duongtv/wordpress_plugin/?post_type=ap_custom_field&#038;p=454</guid>
 		<description></description>
-		<content:encoded><![CDATA[]]></content:encoded>
-		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<content:encoded><![CDATA[a:16:{s:5:"label";s:5:"Price";s:4:"name";s:8:"ap_price";s:4:"type";s:6:"number";s:12:"instructions";s:45:"The price that the customer will have to pay.";s:8:"required";s:1:"0";s:13:"default_value";s:0:"";s:11:"placeholder";s:0:"";s:7:"prepend";s:1:"$";s:6:"append";s:0:"";s:3:"min";s:1:"0";s:3:"max";s:10:"8000000000";s:4:"step";s:0:"";s:6:"s_type";s:6:"number";s:17:"conditional_logic";a:3:{s:6:"status";s:1:"1";s:5:"rules";a:1:{i:0;a:3:{s:5:"field";s:19:"field_63e370f99bdcb";s:8:"operator";s:2:"==";s:5:"value";s:4:"sale";}}s:8:"allorany";s:3:"all";}s:8:"order_no";i:0;s:3:"key";s:19:"field_61a73b2c2047f";}]]></content:encoded>
+		<excerpt:encoded><![CDATA[ap_price]]></excerpt:encoded>
 		<wp:post_id>454</wp:post_id>
 		<wp:post_date><![CDATA[2021-12-01 09:07:47]]></wp:post_date>
 		<wp:post_date_gmt><![CDATA[2021-12-01 09:07:47]]></wp:post_date_gmt>
@@ -235,8 +235,8 @@ night : Night";s:13:"default_value";s:0:"";s:10:"allow_null";s:1:"1";s:8:"multip
 		<dc:creator><![CDATA[admin]]></dc:creator>
 		<guid isPermaLink="false">http://wp2021.templaza.net/duongtv/wordpress_plugin/?post_type=ap_custom_field&#038;p=466</guid>
 		<description></description>
-		<content:encoded><![CDATA[]]></content:encoded>
-		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<content:encoded><![CDATA[a:22:{s:5:"label";s:6:"Branch";s:4:"name";s:9:"ap_branch";s:4:"type";s:8:"taxonomy";s:12:"instructions";s:0:"";s:8:"required";s:1:"0";s:8:"taxonomy";s:9:"ap_branch";s:10:"field_type";s:6:"select";s:10:"allow_null";s:1:"0";s:15:"load_save_terms";s:1:"1";s:13:"return_format";s:2:"id";s:6:"s_type";s:6:"select";s:9:"s_from_to";s:1:"0";s:14:"s_choices_from";s:0:"";s:20:"s_default_value_from";s:0:"";s:12:"s_choices_to";s:0:"";s:18:"s_default_value_to";s:0:"";s:9:"s_choices";s:0:"";s:15:"s_default_value";s:0:"";s:20:"s_meta_query_compare";s:1:"=";s:17:"conditional_logic";a:3:{s:6:"status";s:1:"0";s:5:"rules";a:1:{i:0;a:3:{s:5:"field";s:19:"field_61a739710a326";s:8:"operator";s:2:"==";s:5:"value";s:4:"sale";}}s:8:"allorany";s:3:"all";}s:8:"order_no";i:0;s:3:"key";s:19:"field_61ad9f7827f4b";}]]></content:encoded>
+		<excerpt:encoded><![CDATA[ap_branch]]></excerpt:encoded>
 		<wp:post_id>466</wp:post_id>
 		<wp:post_date><![CDATA[2021-12-06 05:31:03]]></wp:post_date>
 		<wp:post_date_gmt><![CDATA[2021-12-06 05:31:03]]></wp:post_date_gmt>
@@ -279,8 +279,8 @@ night : Night";s:13:"default_value";s:0:"";s:10:"allow_null";s:1:"1";s:8:"multip
 		<dc:creator><![CDATA[admin]]></dc:creator>
 		<guid isPermaLink="false">http://wp2021.templaza.net/duongtv/wordpress_plugin/?post_type=ap_custom_field&#038;p=467</guid>
 		<description></description>
-		<content:encoded><![CDATA[]]></content:encoded>
-		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<content:encoded><![CDATA[a:26:{s:3:"key";s:19:"field_61ada067121df";s:5:"label";s:8:"Category";s:4:"name";s:11:"ap_category";s:5:"_name";s:11:"ap_category";s:4:"type";s:8:"taxonomy";s:8:"order_no";i:0;s:12:"instructions";s:0:"";s:8:"required";i:0;s:2:"id";s:21:"acf-field-ap_category";s:5:"class";s:8:"taxonomy";s:17:"conditional_logic";a:3:{s:6:"status";i:0;s:5:"rules";a:1:{i:0;a:3:{s:5:"field";s:19:"field_61ad9f7827f4b";s:8:"operator";s:2:"==";s:5:"value";s:2:"18";}}s:8:"allorany";s:3:"all";}s:8:"taxonomy";s:11:"ap_category";s:10:"field_type";s:6:"select";s:10:"allow_null";i:1;s:15:"load_save_terms";i:1;s:13:"return_format";s:2:"id";s:6:"s_type";s:6:"select";s:9:"s_from_to";i:0;s:14:"s_choices_from";s:0:"";s:20:"s_default_value_from";s:0:"";s:18:"s_default_value_to";s:0:"";s:9:"s_choices";s:0:"";s:15:"s_default_value";s:0:"";s:11:"field_group";i:467;s:8:"multiple";i:0;s:7:"choices";s:0:"";}]]></content:encoded>
+		<excerpt:encoded><![CDATA[ap_category]]></excerpt:encoded>
 		<wp:post_id>467</wp:post_id>
 		<wp:post_date><![CDATA[2021-12-06 05:32:53]]></wp:post_date>
 		<wp:post_date_gmt><![CDATA[2021-12-06 05:32:53]]></wp:post_date_gmt>
@@ -323,8 +323,8 @@ night : Night";s:13:"default_value";s:0:"";s:10:"allow_null";s:1:"1";s:8:"multip
 		<dc:creator><![CDATA[admin]]></dc:creator>
 		<guid isPermaLink="false">http://wp2021.templaza.net/duongtv/wordpress_plugin/?post_type=ap_custom_field&#038;p=472</guid>
 		<description></description>
-		<content:encoded><![CDATA[]]></content:encoded>
-		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<content:encoded><![CDATA[a:10:{s:5:"label";s:7:"Gallery";s:4:"name";s:10:"ap_gallery";s:4:"type";s:7:"gallery";s:12:"instructions";s:0:"";s:8:"required";s:1:"0";s:12:"preview_size";s:9:"thumbnail";s:7:"library";s:3:"all";s:17:"conditional_logic";a:3:{s:6:"status";s:1:"0";s:5:"rules";a:1:{i:0;a:3:{s:5:"field";s:0:"";s:8:"operator";s:2:"==";s:5:"value";s:0:"";}}s:8:"allorany";s:3:"all";}s:8:"order_no";i:0;s:3:"key";s:19:"field_61aed84fab804";}]]></content:encoded>
+		<excerpt:encoded><![CDATA[ap_gallery]]></excerpt:encoded>
 		<wp:post_id>472</wp:post_id>
 		<wp:post_date><![CDATA[2021-12-07 03:47:30]]></wp:post_date>
 		<wp:post_date_gmt><![CDATA[2021-12-07 03:47:30]]></wp:post_date_gmt>
@@ -367,8 +367,8 @@ night : Night";s:13:"default_value";s:0:"";s:10:"allow_null";s:1:"1";s:8:"multip
 		<dc:creator><![CDATA[admin]]></dc:creator>
 		<guid isPermaLink="false">http://wp2021.templaza.net/duongtv/wordpress_plugin/?post_type=ap_custom_field&#038;p=486</guid>
 		<description></description>
-		<content:encoded><![CDATA[]]></content:encoded>
-		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<content:encoded><![CDATA[a:14:{s:5:"label";s:5:"Video";s:4:"name";s:8:"ap_video";s:4:"type";s:8:"textarea";s:12:"instructions";s:0:"";s:8:"required";s:1:"0";s:13:"default_value";s:0:"";s:11:"placeholder";s:0:"";s:9:"maxlength";s:0:"";s:4:"rows";s:0:"";s:10:"formatting";s:4:"html";s:6:"s_type";s:4:"text";s:17:"conditional_logic";a:3:{s:6:"status";s:1:"0";s:5:"rules";a:1:{i:0;a:3:{s:5:"field";s:0:"";s:8:"operator";s:2:"==";s:5:"value";s:0:"";}}s:8:"allorany";s:3:"all";}s:8:"order_no";i:0;s:3:"key";s:19:"field_61af1c71b4855";}]]></content:encoded>
+		<excerpt:encoded><![CDATA[ap_video]]></excerpt:encoded>
 		<wp:post_id>486</wp:post_id>
 		<wp:post_date><![CDATA[2021-12-07 08:36:11]]></wp:post_date>
 		<wp:post_date_gmt><![CDATA[2021-12-07 08:36:11]]></wp:post_date_gmt>
