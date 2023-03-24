@@ -940,6 +940,15 @@ class AP_Custom_Field_Helper extends BaseHelper {
 
         $acf_fields = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wpdb->posts WHERE post_excerpt=%s AND post_type=%s" , $field_name , 'ap_custom_field' ) );
 
+        // Get custom field from post by name in post meta
+        if(empty($acf_fields)) {
+            $acf_fields = $wpdb->get_results($wpdb->prepare("SELECT DISTINCT p.* FROM $wpdb->posts AS p"
+                . " INNER JOIN $wpdb->postmeta AS pm ON pm.post_id = p.ID"
+                . " WHERE pm.meta_key LIKE %s"
+                . " AND pm.meta_value LIKE %s"
+                . "  AND p.post_type=%s", 'field_%','%s:4:"name";s:'.strlen($field_name).':"'.$field_name.'"%', 'ap_custom_field'));
+        }
+
 
         // get all fields with that name.
         switch ( count( $acf_fields ) ) {
