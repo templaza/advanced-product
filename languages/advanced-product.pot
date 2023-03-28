@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-09-20 14:24+0700\n"
+"POT-Creation-Date: 2023-03-28 10:06+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,15 +17,15 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: advanced-product.php:569
+#: advanced-product.php:639
 msgid "Advanced Product archive slug"
 msgstr ""
 
-#: core/field-layouts/ap_icon/ap_icon.php:23
+#: core/field-layouts/ap_icon/ap_icon.php:24
 msgid "AP Icon"
 msgstr ""
 
-#: core/field-layouts/ap_icon/ap_icon.php:24
+#: core/field-layouts/ap_icon/ap_icon.php:25
 #: includes/library/acf-gallery/gallery.php:23
 #: includes/library/acf_custom/core/fields/file.php:20
 #: includes/library/acf_custom/core/fields/image.php:20
@@ -33,69 +33,76 @@ msgstr ""
 msgid "Content"
 msgstr ""
 
-#: core/field-layouts/ap_icon/ap_icon.php:30
+#: core/field-layouts/ap_icon/ap_icon.php:31
 #: includes/library/acf-gallery/gallery.php:29
 msgid "Add Image to Gallery"
 msgstr ""
 
-#: core/field-layouts/ap_icon/ap_icon.php:31
+#: core/field-layouts/ap_icon/ap_icon.php:32
 #: includes/library/acf-gallery/gallery.php:30
 #: includes/library/acf_custom/core/fields/image.php:28
 msgid "Edit Image"
 msgstr ""
 
-#: core/field-layouts/ap_icon/ap_icon.php:32
+#: core/field-layouts/ap_icon/ap_icon.php:33
 #: includes/library/acf-gallery/gallery.php:31
 #: includes/library/acf_custom/core/fields/image.php:29
 msgid "Update Image"
 msgstr ""
 
-#: core/field-layouts/ap_icon/ap_icon.php:33
+#: core/field-layouts/ap_icon/ap_icon.php:34
 #: includes/library/acf-gallery/gallery.php:32
 #: includes/library/acf_custom/core/fields/file.php:29
 #: includes/library/acf_custom/core/fields/image.php:30
 msgid "uploaded to this post"
 msgstr ""
 
-#: core/field-layouts/ap_icon/ap_icon.php:34
+#: core/field-layouts/ap_icon/ap_icon.php:35
 #: includes/library/acf-gallery/gallery.php:33
 msgid "No images selected"
 msgstr ""
 
-#: core/field-layouts/ap_icon/ap_icon.php:35
+#: core/field-layouts/ap_icon/ap_icon.php:36
 #: includes/library/acf-gallery/gallery.php:34
 msgid "1 image selected"
 msgstr ""
 
-#: core/field-layouts/ap_icon/ap_icon.php:36
+#: core/field-layouts/ap_icon/ap_icon.php:37
 #: includes/library/acf-gallery/gallery.php:35
 #, php-format
 msgid "%d images selected"
 msgstr ""
 
-#: core/field-layouts/ap_icon/ap_icon.php:78
+#: core/field-layouts/ap_icon/ap_icon.php:79
+#: core/meta-boxes/field-type/field-type.php:61
+#: core/meta-boxes/field-type/field-type.php:64
 #: includes/library/acf_custom/core/fields/_base.php:124
 #: includes/library/acf_custom/core/views/meta_box_location.php:74
 msgid "Basic"
 msgstr ""
 
-#: core/field-layouts/ap_icon/ap_icon.php:145
+#: core/field-layouts/ap_icon/ap_icon.php:128
+#: core/field-layouts/ap_icon/tpl/default.php:27
+msgid "No Icon"
+msgstr ""
+
+#: core/field-layouts/ap_icon/ap_icon.php:183
 msgid "All Icons"
 msgstr ""
 
-#: core/field-layouts/ap_icon/ap_icon.php:156
+#: core/field-layouts/ap_icon/ap_icon.php:194
 msgid "UIKit"
 msgstr ""
 
-#: core/field-layouts/ap_icon/ap_icon.php:170
+#: core/field-layouts/ap_icon/ap_icon.php:208
 msgid "Font Awesome - Regular"
 msgstr ""
 
-#: core/field-layouts/ap_icon/ap_icon.php:184
+#: core/field-layouts/ap_icon/ap_icon.php:222
 msgid "Font Awesome - Solid"
 msgstr ""
 
-#: core/field-layouts/ap_icon/ap_icon.php:198
+#: core/field-layouts/ap_icon/ap_icon.php:236
 msgid "Font Awesome - Brands"
 msgstr ""
 
@@ -109,10 +116,6 @@ msgstr ""
 
 #: core/field-layouts/ap_icon/tpl/ap_icon.modal.tpl.php:37
 msgid "Insert"
-msgstr ""
-
-#: core/field-layouts/ap_icon/tpl/default.php:25
-msgid "No Icon"
 msgstr ""
 
 #: core/field-layouts/checkbox/tpl/search_settings.php:11
@@ -185,7 +188,7 @@ msgstr ""
 #: includes/library/acf_custom/core/controllers/field_groups.php:447
 #: includes/library/acf_custom/core/controllers/field_groups.php:455
 #: templates/shortcodes/advanced-product/quickview-custom-fields-item.php:36
-#: templates/single/custom-fields-item.php:36
+#: templates/single/custom-fields-item.php:54
 msgid "Download"
 msgstr ""
 
@@ -195,37 +198,53 @@ msgid "Enter your choices one per line"
 msgstr ""
 
 #: core/field-layouts/radio/tpl/search_settings.php:14
-#: includes/helpers/fieldhelper.php:106
+#: includes/helpers/fieldhelper.php:109
 #: includes/library/acf_custom/core/fields/radio.php:150
 msgid "Red"
 msgstr ""
 
 #: core/field-layouts/radio/tpl/search_settings.php:15
-#: includes/helpers/fieldhelper.php:107
+#: includes/helpers/fieldhelper.php:110
 #: includes/library/acf_custom/core/fields/radio.php:151
 msgid "Blue"
 msgstr ""
 
-#: core/field-layouts/select/tpl/form.php:94 core/post-types/product.php:55
-#: core/taxonomies/branch.php:37 core/taxonomies/category.php:36
-#: core/taxonomies/group_field.php:39
-#: includes/classes/class-custom_taxonomy.php:106
-#, php-format
-msgid "All %s"
+#: core/field-layouts/range_slider/tpl/search_settings.php:18
+msgid "Search Range From"
 msgstr ""
 
-#: core/field-layouts/select/tpl/search_settings.php:13
-msgid "Search From-To"
+#: core/field-layouts/range_slider/tpl/search_settings.php:19
+#: core/field-layouts/range_slider/tpl/search_settings.php:35
+#: core/field-layouts/range_slider/tpl/search_settings.php:51
+msgid "Enter a number."
 msgstr ""
 
+#: core/field-layouts/range_slider/tpl/search_settings.php:34
+msgid "Search Range To"
+msgstr ""
+
+#: core/field-layouts/range_slider/tpl/search_settings.php:50
+msgid "Search Range Step"
+msgstr ""
+
+#: core/field-layouts/range_slider/tpl/search_settings.php:66
+msgid "Search Currency Symbol"
+msgstr ""
+
+#: core/field-layouts/range_slider/tpl/search_settings.php:67
+msgid "Enable Currency symbol - It is already configured in settings"
+msgstr ""
+
+#: core/field-layouts/range_slider/tpl/search_settings.php:75
 #: core/field-layouts/select/tpl/search_settings.php:24
 #: core/meta-boxes/field-display/field-display.php:96
 #: core/meta-boxes/field-display/field-display.php:107
-#: core/meta-boxes/field-type/tpl/base.php:181
-#: core/meta-boxes/field-type/tpl/base.php:204 core/pages/settings.php:158
-#: core/pages/settings.php:170 core/pages/settings.php:208
-#: core/pages/settings.php:220 core/pages/settings.php:232
-#: core/pages/settings.php:244 core/pages/settings.php:258
+#: core/meta-boxes/field-type/tpl/base.php:155
+#: core/meta-boxes/field-type/tpl/base.php:224 core/pages/settings.php:158
+#: core/pages/settings.php:170 core/pages/settings.php:182
+#: core/pages/settings.php:236 core/pages/settings.php:248
+#: core/pages/settings.php:260 core/pages/settings.php:272
+#: core/pages/settings.php:286 core/pages/settings.php:298
 #: includes/library/acf-flexible-content/views/options.php:259
 #: includes/library/acf-flexible-content/views/options.php:305
 #: includes/library/acf_custom/core/controllers/field_group.php:461
@@ -237,20 +256,22 @@ msgstr ""
 #: includes/library/acf_custom/core/fields/select.php:242
 #: includes/library/acf_custom/core/fields/taxonomy.php:346
 #: includes/library/acf_custom/core/fields/user.php:331
-#: includes/library/acf_custom/core/fields/wysiwyg.php:334
+#: includes/library/acf_custom/core/fields/wysiwyg.php:380
 #: includes/library/acf_custom/core/views/meta_box_fields.php:195
 #: includes/library/acf_custom/core/views/meta_box_fields.php:218
 msgid "Yes"
 msgstr ""
 
+#: core/field-layouts/range_slider/tpl/search_settings.php:76
 #: core/field-layouts/select/tpl/search_settings.php:25
 #: core/meta-boxes/field-display/field-display.php:97
 #: core/meta-boxes/field-display/field-display.php:108
-#: core/meta-boxes/field-type/tpl/base.php:182
-#: core/meta-boxes/field-type/tpl/base.php:205 core/pages/settings.php:159
-#: core/pages/settings.php:171 core/pages/settings.php:209
-#: core/pages/settings.php:221 core/pages/settings.php:233
-#: core/pages/settings.php:245 core/pages/settings.php:259
+#: core/meta-boxes/field-type/tpl/base.php:156
+#: core/meta-boxes/field-type/tpl/base.php:225 core/pages/settings.php:159
+#: core/pages/settings.php:171 core/pages/settings.php:183
+#: core/pages/settings.php:237 core/pages/settings.php:249
+#: core/pages/settings.php:261 core/pages/settings.php:273
+#: core/pages/settings.php:287 core/pages/settings.php:299
 #: includes/library/acf-flexible-content/views/options.php:260
 #: includes/library/acf-flexible-content/views/options.php:306
 #: includes/library/acf_custom/core/controllers/field_group.php:460
@@ -262,10 +283,30 @@ msgstr ""
 #: includes/library/acf_custom/core/fields/select.php:243
 #: includes/library/acf_custom/core/fields/taxonomy.php:347
 #: includes/library/acf_custom/core/fields/user.php:332
-#: includes/library/acf_custom/core/fields/wysiwyg.php:335
+#: includes/library/acf_custom/core/fields/wysiwyg.php:381
 #: includes/library/acf_custom/core/views/meta_box_fields.php:196
 #: includes/library/acf_custom/core/views/meta_box_fields.php:219
 msgid "No"
+msgstr ""
+
+#: core/field-layouts/select/tpl/form.php:43
+msgid "From"
+msgstr ""
+
+#: core/field-layouts/select/tpl/form.php:74
+msgid "To"
+msgstr ""
+
+#: core/field-layouts/select/tpl/form.php:122 core/post-types/product.php:55
+#: core/taxonomies/branch.php:36 core/taxonomies/category.php:36
+#: core/taxonomies/group_field.php:47
+#: includes/classes/class-custom_taxonomy.php:106
+#, php-format
+msgid "All %s"
+msgstr ""
+
+#: core/field-layouts/select/tpl/search_settings.php:13
+msgid "Search From-To"
 msgstr ""
 
 #: core/field-layouts/select/tpl/search_settings.php:35
@@ -284,6 +325,10 @@ msgstr ""
 msgid "Search Default Value To"
 msgstr ""
 
+#: core/field-layouts/taxonomy/tpl/default.php:18
+msgid ","
+msgstr ""
+
 #: core/meta-boxes/field-display/field-display.php:15
 msgid "Field Display"
 msgstr ""
@@ -297,7 +342,7 @@ msgid "Show in search view"
 msgstr ""
 
 #: core/meta-boxes/field-type/field-type.php:34
-#: core/meta-boxes/field-type/tpl/base.php:113
+#: core/meta-boxes/field-type/tpl/base.php:87
 #: includes/library/acf-flexible-content/views/options.php:140
 #: includes/library/acf-flexible-content/views/options.php:217
 #: includes/library/acf_custom/core/fields/taxonomy.php:312
@@ -307,12 +352,26 @@ msgstr ""
 msgid "Field Type"
 msgstr ""
 
-#: core/meta-boxes/field-type/field-type.php:76
+#: core/meta-boxes/field-type/field-type.php:55
+#: core/meta-boxes/field-type/field-type.php:56
+#: core/meta-boxes/field-type/field-type.php:65
+#: includes/library/acf_custom/core/fields/checkbox.php:20
+#: includes/library/acf_custom/core/fields/radio.php:19
+#: includes/library/acf_custom/core/fields/select.php:19
+#: includes/library/acf_custom/core/fields/true_false.php:20
+msgid "Choice"
+msgstr ""
+
+#: core/meta-boxes/field-type/field-type.php:66
+msgid "Range Slider"
+msgstr ""
+
+#: core/meta-boxes/field-type/field-type.php:77
 msgid "Search Field Type"
 msgstr ""
 
-#: core/meta-boxes/field-type/field-type.php:109
-#: core/meta-boxes/field-type/tpl/base.php:89
+#: core/meta-boxes/field-type/field-type.php:110
+#: core/meta-boxes/field-type/tpl/base.php:63
 #: includes/library/acf-flexible-content/views/options.php:139
 #: includes/library/acf-flexible-content/views/options.php:202
 #: includes/library/acf_custom/core/views/meta_box_fields.php:76
@@ -320,15 +379,15 @@ msgstr ""
 msgid "Field Name"
 msgstr ""
 
-#: core/meta-boxes/field-type/field-type.php:110
+#: core/meta-boxes/field-type/field-type.php:111
 msgid "Field type"
 msgstr ""
 
-#: core/meta-boxes/field-type/field-type.php:112
+#: core/meta-boxes/field-type/field-type.php:113
 msgid "Instruction"
 msgstr ""
 
-#: core/meta-boxes/field-type/tpl/base.php:73
+#: core/meta-boxes/field-type/tpl/base.php:47
 #: includes/library/acf-flexible-content/views/options.php:138
 #: includes/library/acf-flexible-content/views/options.php:186
 #: includes/library/acf_custom/core/views/meta_box_fields.php:75
@@ -336,79 +395,99 @@ msgstr ""
 msgid "Field Label"
 msgstr ""
 
-#: core/meta-boxes/field-type/tpl/base.php:74
+#: core/meta-boxes/field-type/tpl/base.php:48
 #: includes/library/acf_custom/core/views/meta_box_fields.php:128
 msgid "This is the name which will appear on the EDIT page"
 msgstr ""
 
-#: core/meta-boxes/field-type/tpl/base.php:90
+#: core/meta-boxes/field-type/tpl/base.php:64
 #: includes/library/acf-flexible-content/views/options.php:203
 #: includes/library/acf_custom/core/views/meta_box_fields.php:144
 msgid "Single word, no spaces. Underscores and dashes allowed"
 msgstr ""
 
-#: core/meta-boxes/field-type/tpl/base.php:159
+#: core/meta-boxes/field-type/tpl/base.php:133
 #: includes/library/acf-flexible-content/views/options.php:232
 #: includes/library/acf_custom/core/views/meta_box_fields.php:173
 msgid "Field Instructions"
 msgstr ""
 
-#: core/meta-boxes/field-type/tpl/base.php:160
+#: core/meta-boxes/field-type/tpl/base.php:134
 #: includes/library/acf_custom/core/views/meta_box_fields.php:174
 msgid "Instructions for authors. Shown when submitting data"
 msgstr ""
 
-#: core/meta-boxes/field-type/tpl/base.php:173
+#: core/meta-boxes/field-type/tpl/base.php:147
 #: includes/library/acf-flexible-content/views/options.php:251
 #: includes/library/acf_custom/core/views/meta_box_fields.php:187
 msgid "Required?"
 msgstr ""
 
-#: core/meta-boxes/field-type/tpl/base.php:196
+#: core/meta-boxes/field-type/tpl/base.php:164
+msgid "Icon"
+msgstr ""
+
+#: core/meta-boxes/field-type/tpl/base.php:179
+msgid "Icon Image"
+msgstr ""
+
+#: core/meta-boxes/field-type/tpl/base.php:201
+msgid "Wrapper Attributes"
+msgstr ""
+
+#: core/meta-boxes/field-type/tpl/base.php:203
+msgid "Width"
+msgstr ""
+
+#: core/meta-boxes/field-type/tpl/base.php:204
+msgid "%"
+msgstr ""
+
+#: core/meta-boxes/field-type/tpl/base.php:216
 #: includes/library/acf-flexible-content/views/options.php:297
 #: includes/library/acf_custom/core/views/meta_box_fields.php:210
 msgid "Conditional Logic"
 msgstr ""
 
-#: core/meta-boxes/field-type/tpl/base.php:297
+#: core/meta-boxes/field-type/tpl/base.php:317
 #: includes/library/acf-flexible-content/views/options.php:348
 #: includes/library/acf_custom/core/views/meta_box_fields.php:261
 #: includes/library/acf_custom/core/views/meta_box_location.php:117
 msgid "is equal to"
 msgstr ""
 
-#: core/meta-boxes/field-type/tpl/base.php:298
+#: core/meta-boxes/field-type/tpl/base.php:318
 #: includes/library/acf-flexible-content/views/options.php:349
 #: includes/library/acf_custom/core/views/meta_box_fields.php:262
 #: includes/library/acf_custom/core/views/meta_box_location.php:118
 msgid "is not equal to"
 msgstr ""
 
-#: core/meta-boxes/field-type/tpl/base.php:328
+#: core/meta-boxes/field-type/tpl/base.php:348
 #: includes/library/acf-flexible-content/views/options.php:367
 #: includes/library/acf_custom/core/views/meta_box_fields.php:280
 msgid "Show this field when"
 msgstr ""
 
-#: core/meta-boxes/field-type/tpl/base.php:334
+#: core/meta-boxes/field-type/tpl/base.php:354
 #: includes/library/acf-flexible-content/views/options.php:373
 #: includes/library/acf_custom/core/views/meta_box_fields.php:286
 msgid "all"
 msgstr ""
 
-#: core/meta-boxes/field-type/tpl/base.php:335
+#: core/meta-boxes/field-type/tpl/base.php:355
 #: includes/library/acf-flexible-content/views/options.php:374
 #: includes/library/acf_custom/core/views/meta_box_fields.php:287
 msgid "any"
 msgstr ""
 
-#: core/meta-boxes/field-type/tpl/base.php:338
+#: core/meta-boxes/field-type/tpl/base.php:358
 #: includes/library/acf-flexible-content/views/options.php:377
 #: includes/library/acf_custom/core/views/meta_box_fields.php:290
 msgid "these rules are met"
 msgstr ""
 
-#: core/pages/settings.php:39 core/pages/settings.php:565
+#: core/pages/settings.php:39 core/pages/settings.php:324
 msgid "Settings"
 msgstr ""
 
@@ -460,7 +539,7 @@ msgstr ""
 msgid "Archive Product"
 msgstr ""
 
-#: core/pages/settings.php:155 core/pages/settings.php:255
+#: core/pages/settings.php:155 core/pages/settings.php:283
 msgid "Show Compare Button"
 msgstr ""
 
@@ -468,67 +547,84 @@ msgstr ""
 msgid "Show Quick View Button"
 msgstr ""
 
-#: core/pages/settings.php:179
-msgid "Product Order"
-msgstr ""
-
-#: core/pages/settings.php:182
-msgid "Most recent first"
-msgstr ""
-
-#: core/pages/settings.php:183
-msgid "Oldest First"
-msgstr ""
-
-#: core/pages/settings.php:184
-msgid "Title Alphabetical"
-msgstr ""
-
-#: core/pages/settings.php:185
-msgid "Title Reverse Alphabetical"
-msgstr ""
-
-#: core/pages/settings.php:186
-msgid "Author Alphabetical"
-msgstr ""
-
-#: core/pages/settings.php:187
-msgid "Author Reverse Alphabetical"
-msgstr ""
-
-#: core/pages/settings.php:188
-msgid "Most Hits"
-msgstr ""
-
-#: core/pages/settings.php:189
-msgid "Least Hits"
-msgstr ""
-
-#: core/pages/settings.php:190
-msgid "Minimum Price First"
+#: core/pages/settings.php:179 core/pages/settings.php:295
+msgid "Show Custom Field Icon"
 msgstr ""
 
 #: core/pages/settings.php:191
-msgid "Maximum Price First"
+msgid "Product Order"
+msgstr ""
+
+#: core/pages/settings.php:194 core/pages/settings.php:215
+#: core/pages/settings.php:310
+msgid "Most recent first"
+msgstr ""
+
+#: core/pages/settings.php:195 core/pages/settings.php:216
+#: core/pages/settings.php:311
+msgid "Oldest First"
+msgstr ""
+
+#: core/pages/settings.php:196 core/pages/settings.php:217
+#: core/pages/settings.php:312
+msgid "Title Alphabetical"
+msgstr ""
+
+#: core/pages/settings.php:197 core/pages/settings.php:218
+#: core/pages/settings.php:313
+msgid "Title Reverse Alphabetical"
 msgstr ""
 
 #: core/pages/settings.php:198
+msgid "Author Alphabetical"
+msgstr ""
+
+#: core/pages/settings.php:199
+msgid "Author Reverse Alphabetical"
+msgstr ""
+
+#: core/pages/settings.php:200
+msgid "Most Hits"
+msgstr ""
+
+#: core/pages/settings.php:201
+msgid "Least Hits"
+msgstr ""
+
+#: core/pages/settings.php:202
+msgid "Minimum Price First"
+msgstr ""
+
+#: core/pages/settings.php:203
+msgid "Maximum Price First"
+msgstr ""
+
+#: core/pages/settings.php:212 core/pages/settings.php:219
+#: core/pages/settings.php:307 core/pages/settings.php:314
+msgid "Custom Field Order"
+msgstr ""
+
+#: core/pages/settings.php:220 core/pages/settings.php:315
+msgid "Custom Field Reverse Order"
+msgstr ""
+
+#: core/pages/settings.php:226
 msgid "Single Product"
 msgstr ""
 
-#: core/pages/settings.php:204
+#: core/pages/settings.php:232
 msgid "Show Date"
 msgstr ""
 
-#: core/pages/settings.php:216
+#: core/pages/settings.php:244
 msgid "Show Author"
 msgstr ""
 
-#: core/pages/settings.php:228
+#: core/pages/settings.php:256
 msgid "Show Post View"
 msgstr ""
 
-#: core/pages/settings.php:240
+#: core/pages/settings.php:268
 msgid "Show Comment Count"
 msgstr ""
 
@@ -544,20 +640,20 @@ msgstr ""
 msgid "This is where you can create and manage products."
 msgstr ""
 
-#: core/post-types/custom_category.php:44 core/post-types/custom_field.php:74
+#: core/post-types/custom_category.php:44 core/post-types/custom_field.php:159
 #: core/post-types/product.php:56
 #: includes/library/acf-flexible-content/views/options.php:54
-#: includes/library/acf_custom/acf_custom.php:497
+#: includes/library/acf_custom/acf_custom.php:498
 msgid "Add New"
 msgstr ""
 
-#: core/post-types/custom_category.php:45 core/post-types/custom_field.php:75
+#: core/post-types/custom_category.php:45 core/post-types/custom_field.php:160
 #: core/post-types/product.php:57
 #, php-format
 msgid "Add %s"
 msgstr ""
 
-#: core/post-types/custom_category.php:46 core/post-types/custom_field.php:76
+#: core/post-types/custom_category.php:46 core/post-types/custom_field.php:161
 #: core/post-types/product.php:58
 #: includes/library/acf-flexible-content/views/options.php:168
 #: includes/library/acf-gallery/gallery.php:154
@@ -567,51 +663,51 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
-#: core/post-types/custom_category.php:47 core/post-types/custom_field.php:77
-#: core/post-types/product.php:59 core/taxonomies/branch.php:40
-#: core/taxonomies/category.php:39 core/taxonomies/group_field.php:42
+#: core/post-types/custom_category.php:47 core/post-types/custom_field.php:162
+#: core/post-types/product.php:59 core/taxonomies/branch.php:39
+#: core/taxonomies/category.php:39 core/taxonomies/group_field.php:50
 #: includes/classes/class-custom_taxonomy.php:109
 #, php-format
 msgid "Edit %s"
 msgstr ""
 
-#: core/post-types/custom_category.php:48 core/post-types/custom_field.php:78
+#: core/post-types/custom_category.php:48 core/post-types/custom_field.php:163
 #: core/post-types/product.php:60
 #, php-format
 msgid "New %s"
 msgstr ""
 
 #: core/post-types/custom_category.php:49
-#: core/post-types/custom_category.php:50 core/post-types/custom_field.php:79
-#: core/post-types/custom_field.php:80 core/post-types/product.php:61
+#: core/post-types/custom_category.php:50 core/post-types/custom_field.php:164
+#: core/post-types/custom_field.php:165 core/post-types/product.php:61
 #: core/post-types/product.php:62
 #, php-format
 msgid "View %s"
 msgstr ""
 
-#: core/post-types/custom_category.php:51 core/post-types/custom_field.php:81
-#: core/post-types/product.php:63 core/taxonomies/branch.php:36
-#: core/taxonomies/category.php:35 core/taxonomies/group_field.php:38
+#: core/post-types/custom_category.php:51 core/post-types/custom_field.php:166
+#: core/post-types/product.php:63 core/taxonomies/branch.php:35
+#: core/taxonomies/category.php:35 core/taxonomies/group_field.php:46
 #: includes/classes/class-custom_taxonomy.php:105
 #, php-format
 msgid "Search %s"
 msgstr ""
 
-#: core/post-types/custom_category.php:52 core/post-types/custom_field.php:82
+#: core/post-types/custom_category.php:52 core/post-types/custom_field.php:167
 #: core/post-types/product.php:64
 #, php-format
 msgid "No %s found"
 msgstr ""
 
-#: core/post-types/custom_category.php:53 core/post-types/custom_field.php:83
+#: core/post-types/custom_category.php:53 core/post-types/custom_field.php:168
 #: core/post-types/product.php:65
 #, php-format
 msgid "No %s found in trash"
 msgstr ""
 
-#: core/post-types/custom_category.php:54 core/post-types/custom_field.php:84
-#: core/post-types/product.php:66 core/taxonomies/branch.php:38
-#: core/taxonomies/category.php:37 core/taxonomies/group_field.php:40
+#: core/post-types/custom_category.php:54 core/post-types/custom_field.php:169
+#: core/post-types/product.php:66 core/taxonomies/branch.php:37
+#: core/taxonomies/category.php:37 core/taxonomies/group_field.php:48
 #: includes/classes/class-custom_taxonomy.php:107
 #, php-format
 msgid "Parent %s"
@@ -635,44 +731,44 @@ msgstr ""
 msgid "Slug"
 msgstr ""
 
-#: core/post-types/custom_category.php:263 core/taxonomies/branch.php:25
-#: core/taxonomies/category.php:86 includes/helpers/fieldhelper.php:123
+#: core/post-types/custom_category.php:263 core/taxonomies/branch.php:24
+#: core/taxonomies/category.php:86 includes/helpers/fieldhelper.php:126
 #: templates/single/content-custom-fields.php:29
 #: templates/single/content-specification.php:26
 msgid "Branch"
 msgstr ""
 
 #: core/post-types/custom_category.php:264 core/taxonomies/category.php:24
-#: includes/helpers/fieldhelper.php:132
+#: includes/helpers/fieldhelper.php:135
 #: templates/single/content-custom-fields.php:43
 #: templates/single/content-specification.php:40
 msgid "Category"
 msgstr ""
 
-#: core/post-types/custom_field.php:64
+#: core/post-types/custom_field.php:149
 msgid "Custom Field"
 msgstr ""
 
-#: core/post-types/custom_field.php:65
-#: includes/library/acf_custom/acf_custom.php:589
+#: core/post-types/custom_field.php:150
+#: includes/library/acf_custom/acf_custom.php:590
 #: includes/library/acf_custom/core/views/meta_box_options.php:99
 #: templates/single/custom-fields.php:36
 msgid "Custom Fields"
 msgstr ""
 
-#: core/post-types/custom_field.php:68
+#: core/post-types/custom_field.php:153
 msgid "This is where you can create and manage custom fields."
 msgstr ""
 
-#: core/post-types/custom_field.php:113
+#: core/post-types/custom_field.php:214
 msgid "Protected"
 msgstr ""
 
-#: core/post-types/custom_field.php:115
+#: core/post-types/custom_field.php:228
 msgid "In Listing"
 msgstr ""
 
-#: core/post-types/custom_field.php:116
+#: core/post-types/custom_field.php:229
 msgid "In Search"
 msgstr ""
 
@@ -688,91 +784,91 @@ msgstr ""
 msgid "Advanced Products"
 msgstr ""
 
-#: core/post-types/product.php:197 core/post-types/product.php:403
-#: core/post-types/product.php:445
+#: core/post-types/product.php:185 core/post-types/product.php:295
+#: core/post-types/product.php:360
 msgid "Properties"
 msgstr ""
 
-#: core/shortcodes/advanced-product/advanced-product.php:91
+#: core/shortcodes/advanced-product/advanced-product.php:92
 msgid "Can not found product"
 msgstr ""
 
-#: core/shortcodes/advanced-product/advanced-product.php:156
+#: core/shortcodes/advanced-product/advanced-product.php:157
 msgid "Add to compare"
 msgstr ""
 
-#: core/shortcodes/advanced-product/advanced-product.php:157
+#: core/shortcodes/advanced-product/advanced-product.php:158
 #: templates/shortcodes/advanced-product/compare-button.php:20
 msgid "In compare list"
 msgstr ""
 
-#: core/shortcodes/advanced-product/advanced-product.php:158
+#: core/shortcodes/advanced-product/advanced-product.php:159
 msgid "Do you want to remove this product?"
 msgstr ""
 
-#: core/shortcodes/advanced-product/advanced-product.php:159
+#: core/shortcodes/advanced-product/advanced-product.php:160
 msgid "Add product to compare list successfully"
 msgstr ""
 
-#: core/shortcodes/search/search.php:121
+#: core/shortcodes/search/search.php:185
 #: core/shortcodes/search/tpl/search.php:7
 #: includes/library/acf_custom/core/fields/relationship.php:653
 #: templates/shortcodes/search.php:7
 msgid "Search"
 msgstr ""
 
-#: core/shortcodes/search/tpl/search.php:40 templates/shortcodes/search.php:28
+#: core/shortcodes/search/tpl/search.php:75 templates/shortcodes/search.php:28
 msgid "Keyword:"
 msgstr ""
 
-#: core/shortcodes/search/tpl/search.php:43 templates/shortcodes/search.php:31
+#: core/shortcodes/search/tpl/search.php:78 templates/shortcodes/search.php:31
 msgid "Search ..."
 msgstr ""
 
-#: core/taxonomies/branch.php:26
+#: core/taxonomies/branch.php:25
 msgid "Branches"
 msgstr ""
 
-#: core/taxonomies/branch.php:39 core/taxonomies/category.php:38
-#: core/taxonomies/group_field.php:41
+#: core/taxonomies/branch.php:38 core/taxonomies/category.php:38
+#: core/taxonomies/group_field.php:49
 #: includes/classes/class-custom_taxonomy.php:108
 #, php-format
 msgid "Parent %s:"
 msgstr ""
 
-#: core/taxonomies/branch.php:41 core/taxonomies/category.php:40
-#: core/taxonomies/group_field.php:43
+#: core/taxonomies/branch.php:40 core/taxonomies/category.php:40
+#: core/taxonomies/group_field.php:51
 #: includes/classes/class-custom_taxonomy.php:110
 #, php-format
 msgid "Update %s"
 msgstr ""
 
-#: core/taxonomies/branch.php:42 core/taxonomies/category.php:41
-#: core/taxonomies/group_field.php:44
+#: core/taxonomies/branch.php:41 core/taxonomies/category.php:41
+#: core/taxonomies/group_field.php:52
 #: includes/classes/class-custom_taxonomy.php:111
 #, php-format
 msgid "Add New %s"
 msgstr ""
 
-#: core/taxonomies/branch.php:43 core/taxonomies/category.php:42
-#: core/taxonomies/group_field.php:45
+#: core/taxonomies/branch.php:42 core/taxonomies/category.php:42
+#: core/taxonomies/group_field.php:53
 #: includes/classes/class-custom_taxonomy.php:112
 #, php-format
 msgid "New %s Name"
 msgstr ""
 
-#: core/taxonomies/branch.php:44 core/taxonomies/category.php:43
-#: core/taxonomies/group_field.php:46
+#: core/taxonomies/branch.php:43 core/taxonomies/category.php:43
+#: core/taxonomies/group_field.php:54
 #: includes/classes/class-custom_taxonomy.php:113
 #, php-format
 msgid "No %s found."
 msgstr ""
 
-#: core/taxonomies/branch.php:59
+#: core/taxonomies/branch.php:58
 msgid "Group Fields Assignment"
 msgstr ""
 
-#: core/taxonomies/branch.php:149
+#: core/taxonomies/branch.php:172
 msgid "Group Fields Assigned"
 msgstr ""
 
@@ -791,19 +887,19 @@ msgid ""
 "items. "
 msgstr ""
 
-#: core/taxonomies/group_field.php:27
+#: core/taxonomies/group_field.php:35
 msgid "Custom Field Group"
 msgstr ""
 
-#: core/taxonomies/group_field.php:28
+#: core/taxonomies/group_field.php:36
 msgid "Custom Field Groups"
 msgstr ""
 
-#: core/taxonomies/group_field.php:80
+#: core/taxonomies/group_field.php:94
 msgid "Branches Assignment"
 msgstr ""
 
-#: core/taxonomies/group_field.php:94
+#: core/taxonomies/group_field.php:108
 msgid "Branch Assigned"
 msgstr ""
 
@@ -812,259 +908,259 @@ msgstr ""
 msgid "Associated %s"
 msgstr ""
 
-#: includes/classes/class-taxonomy.php:237
+#: includes/classes/class-taxonomy.php:238
 #: includes/library/acf_custom/core/fields/image.php:19
 msgid "Image"
 msgstr ""
 
-#: includes/classes/class-taxonomy.php:259
+#: includes/classes/class-taxonomy.php:260
 msgid "Property"
 msgstr ""
 
-#: includes/helpers/ap-custom-field-helper.php:711
+#: includes/helpers/ap-custom-field-helper.php:857
 msgid "="
 msgstr ""
 
-#: includes/helpers/ap-custom-field-helper.php:712
+#: includes/helpers/ap-custom-field-helper.php:858
 msgid "!="
 msgstr ""
 
-#: includes/helpers/ap-custom-field-helper.php:713
+#: includes/helpers/ap-custom-field-helper.php:859
 msgid ">"
 msgstr ""
 
-#: includes/helpers/ap-custom-field-helper.php:714
+#: includes/helpers/ap-custom-field-helper.php:860
 msgid ">="
 msgstr ""
 
-#: includes/helpers/ap-custom-field-helper.php:715
+#: includes/helpers/ap-custom-field-helper.php:861
 msgid "<"
 msgstr ""
 
-#: includes/helpers/ap-custom-field-helper.php:716
+#: includes/helpers/ap-custom-field-helper.php:862
 msgid "<="
 msgstr ""
 
-#: includes/helpers/ap-custom-field-helper.php:717
+#: includes/helpers/ap-custom-field-helper.php:863
 msgid "LIKE"
 msgstr ""
 
-#: includes/helpers/ap-custom-field-helper.php:718
+#: includes/helpers/ap-custom-field-helper.php:864
 msgid "NOT LIKE"
 msgstr ""
 
-#: includes/helpers/ap-custom-field-helper.php:719
+#: includes/helpers/ap-custom-field-helper.php:865
 msgid "IN"
 msgstr ""
 
-#: includes/helpers/ap-custom-field-helper.php:720
+#: includes/helpers/ap-custom-field-helper.php:866
 msgid "NOT IN"
 msgstr ""
 
-#: includes/helpers/ap-custom-field-helper.php:721
+#: includes/helpers/ap-custom-field-helper.php:867
 msgid "BETWEEN"
 msgstr ""
 
-#: includes/helpers/ap-custom-field-helper.php:722
+#: includes/helpers/ap-custom-field-helper.php:868
 msgid "NOT BETWEEN"
 msgstr ""
 
-#: includes/helpers/ap-custom-field-helper.php:723
+#: includes/helpers/ap-custom-field-helper.php:869
 msgid "EXISTS"
 msgstr ""
 
-#: includes/helpers/ap-custom-field-helper.php:724
+#: includes/helpers/ap-custom-field-helper.php:870
 msgid "NOT EXISTS"
 msgstr ""
 
-#: includes/helpers/ap-custom-field-helper.php:725
+#: includes/helpers/ap-custom-field-helper.php:871
 msgid "REGEXP"
 msgstr ""
 
-#: includes/helpers/ap-custom-field-helper.php:726
-#: includes/helpers/ap-custom-field-helper.php:727
+#: includes/helpers/ap-custom-field-helper.php:872
+#: includes/helpers/ap-custom-field-helper.php:873
 msgid "NOT REGEXP"
 msgstr ""
 
-#: includes/helpers/fieldhelper.php:103
+#: includes/helpers/fieldhelper.php:106
 msgid "Silver"
 msgstr ""
 
-#: includes/helpers/fieldhelper.php:104 includes/helpers/fieldhelper.php:115
+#: includes/helpers/fieldhelper.php:107 includes/helpers/fieldhelper.php:118
 msgid "Black"
 msgstr ""
 
-#: includes/helpers/fieldhelper.php:105 includes/helpers/fieldhelper.php:116
+#: includes/helpers/fieldhelper.php:108 includes/helpers/fieldhelper.php:119
 msgid "White"
 msgstr ""
 
-#: includes/helpers/fieldhelper.php:108
+#: includes/helpers/fieldhelper.php:111
 msgid "Brown/Beige"
 msgstr ""
 
-#: includes/helpers/fieldhelper.php:109
+#: includes/helpers/fieldhelper.php:112
 msgid "Yellow"
 msgstr ""
 
-#: includes/helpers/fieldhelper.php:110
+#: includes/helpers/fieldhelper.php:113
 msgid "Green"
 msgstr ""
 
-#: includes/helpers/fieldhelper.php:117
+#: includes/helpers/fieldhelper.php:120
 msgid "Brown (Leather)"
 msgstr ""
 
-#: includes/helpers/fieldhelper.php:134
+#: includes/helpers/fieldhelper.php:137
 msgid ""
 "If you do not see Make or can not choose it please edit and save again in "
 "make manager"
 msgstr ""
 
-#: includes/helpers/fieldhelper.php:143
+#: includes/helpers/fieldhelper.php:146
 msgid "Text Price"
 msgstr ""
 
-#: includes/helpers/fieldhelper.php:146
+#: includes/helpers/fieldhelper.php:149
 msgid "Contact get price"
 msgstr ""
 
-#: includes/helpers/fieldhelper.php:148
+#: includes/helpers/fieldhelper.php:151
 msgid "Price Contact"
 msgstr ""
 
-#: includes/helpers/fieldhelper.php:153 includes/helpers/fieldhelper.php:158
+#: includes/helpers/fieldhelper.php:156 includes/helpers/fieldhelper.php:161
 msgid "Url Price"
 msgstr ""
 
-#: includes/helpers/fieldhelper.php:156
+#: includes/helpers/fieldhelper.php:159
 msgid "URL get price"
 msgstr ""
 
-#: includes/helpers/fieldhelper.php:164
+#: includes/helpers/fieldhelper.php:167
 msgid "Product sale/rent"
 msgstr ""
 
-#: includes/helpers/fieldhelper.php:169
+#: includes/helpers/fieldhelper.php:172
 msgid "For Sale"
 msgstr ""
 
-#: includes/helpers/fieldhelper.php:170
+#: includes/helpers/fieldhelper.php:173
 msgid "For Rent"
 msgstr ""
 
-#: includes/helpers/fieldhelper.php:178
+#: includes/helpers/fieldhelper.php:181
 msgid "Price"
 msgstr ""
 
-#: includes/helpers/fieldhelper.php:180
+#: includes/helpers/fieldhelper.php:183
 msgid "The price that the customer will have to pay."
 msgstr ""
 
-#: includes/helpers/fieldhelper.php:193
+#: includes/helpers/fieldhelper.php:196
 msgid "MSRP"
 msgstr ""
 
-#: includes/helpers/fieldhelper.php:195
+#: includes/helpers/fieldhelper.php:198
 msgid "Use integers to set the listing price."
 msgstr ""
 
-#: includes/helpers/fieldhelper.php:208
+#: includes/helpers/fieldhelper.php:211
 msgid "Price Rental"
 msgstr ""
 
-#: includes/helpers/fieldhelper.php:210
+#: includes/helpers/fieldhelper.php:213
 msgid "Prices for rent a day or a week"
 msgstr ""
 
-#: includes/helpers/fieldhelper.php:233
+#: includes/helpers/fieldhelper.php:236
 msgid "Time unit for Rent"
 msgstr ""
 
-#: includes/helpers/fieldhelper.php:237
+#: includes/helpers/fieldhelper.php:240
 msgid "day"
 msgstr ""
 
-#: includes/helpers/fieldhelper.php:242
+#: includes/helpers/fieldhelper.php:245
 msgid "Registration date"
 msgstr ""
 
-#: includes/helpers/fieldhelper.php:245
+#: includes/helpers/fieldhelper.php:248
 msgid "The year of first registration"
 msgstr ""
 
-#: includes/helpers/fieldhelper.php:246
+#: includes/helpers/fieldhelper.php:249
 msgid "e.g. 2009"
 msgstr ""
 
-#: includes/helpers/fieldhelper.php:253
+#: includes/helpers/fieldhelper.php:256
 msgid "Mileage"
 msgstr ""
 
-#: includes/helpers/fieldhelper.php:256
+#: includes/helpers/fieldhelper.php:259
 msgid "The number of miles travelled or covered"
 msgstr ""
 
-#: includes/helpers/fieldhelper.php:258
+#: includes/helpers/fieldhelper.php:261
 msgid "e.g. 70000"
 msgstr ""
 
-#: includes/helpers/fieldhelper.php:264
+#: includes/helpers/fieldhelper.php:267
 msgid "Condition"
 msgstr ""
 
-#: includes/helpers/fieldhelper.php:269
+#: includes/helpers/fieldhelper.php:272
 msgid "New"
 msgstr ""
 
-#: includes/helpers/fieldhelper.php:270
+#: includes/helpers/fieldhelper.php:273
 msgid "Used"
 msgstr ""
 
-#: includes/helpers/fieldhelper.php:271
+#: includes/helpers/fieldhelper.php:274
 msgid "Certified Pre-Owned"
 msgstr ""
 
-#: includes/helpers/fieldhelper.php:278
+#: includes/helpers/fieldhelper.php:281
 msgid "Exterior Color"
 msgstr ""
 
-#: includes/helpers/fieldhelper.php:289
+#: includes/helpers/fieldhelper.php:292
 msgid "Interior Color"
 msgstr ""
 
-#: includes/helpers/fieldhelper.php:300
+#: includes/helpers/fieldhelper.php:303
 msgid "Transmission"
 msgstr ""
 
-#: includes/helpers/fieldhelper.php:304
+#: includes/helpers/fieldhelper.php:307
 msgid "Automatic"
 msgstr ""
 
-#: includes/helpers/fieldhelper.php:305
+#: includes/helpers/fieldhelper.php:308
 msgid "Manual"
 msgstr ""
 
-#: includes/helpers/fieldhelper.php:312
+#: includes/helpers/fieldhelper.php:315
 msgid "Engine"
 msgstr ""
 
-#: includes/helpers/fieldhelper.php:314
+#: includes/helpers/fieldhelper.php:317
 msgid "The displacement the engine gives in Litres"
 msgstr ""
 
-#: includes/helpers/fieldhelper.php:323
+#: includes/helpers/fieldhelper.php:326
 msgid "Drivetrain"
 msgstr ""
 
-#: includes/helpers/fieldhelper.php:327
+#: includes/helpers/fieldhelper.php:330
 msgid "FWD"
 msgstr ""
 
-#: includes/helpers/fieldhelper.php:328
+#: includes/helpers/fieldhelper.php:331
 msgid "RWD"
 msgstr ""
 
-#: includes/helpers/fieldhelper.php:329
+#: includes/helpers/fieldhelper.php:332
 msgid "4WD"
 msgstr ""
 
@@ -1383,94 +1479,94 @@ msgstr ""
 msgid "Save Options"
 msgstr ""
 
-#: includes/library/acf_custom/acf_custom.php:495
+#: includes/library/acf_custom/acf_custom.php:496
 msgid "Field&nbsp;Groups"
 msgstr ""
 
-#: includes/library/acf_custom/acf_custom.php:496
+#: includes/library/acf_custom/acf_custom.php:497
 #: includes/library/acf_custom/core/controllers/field_groups.php:214
 msgid "Advanced Custom Fields"
 msgstr ""
 
-#: includes/library/acf_custom/acf_custom.php:498
+#: includes/library/acf_custom/acf_custom.php:499
 msgid "Add New Field Group"
 msgstr ""
 
-#: includes/library/acf_custom/acf_custom.php:499
+#: includes/library/acf_custom/acf_custom.php:500
 msgid "Edit Field Group"
 msgstr ""
 
-#: includes/library/acf_custom/acf_custom.php:500
+#: includes/library/acf_custom/acf_custom.php:501
 msgid "New Field Group"
 msgstr ""
 
-#: includes/library/acf_custom/acf_custom.php:501
+#: includes/library/acf_custom/acf_custom.php:502
 msgid "View Field Group"
 msgstr ""
 
-#: includes/library/acf_custom/acf_custom.php:502
+#: includes/library/acf_custom/acf_custom.php:503
 msgid "Search Field Groups"
 msgstr ""
 
-#: includes/library/acf_custom/acf_custom.php:503
+#: includes/library/acf_custom/acf_custom.php:504
 msgid "No Field Groups found"
 msgstr ""
 
-#: includes/library/acf_custom/acf_custom.php:504
+#: includes/library/acf_custom/acf_custom.php:505
 msgid "No Field Groups found in Trash"
 msgstr ""
 
-#: includes/library/acf_custom/acf_custom.php:607
-#: includes/library/acf_custom/acf_custom.php:610
+#: includes/library/acf_custom/acf_custom.php:608
+#: includes/library/acf_custom/acf_custom.php:611
 msgid "Field group updated."
 msgstr ""
 
-#: includes/library/acf_custom/acf_custom.php:608
+#: includes/library/acf_custom/acf_custom.php:609
 msgid "Custom field updated."
 msgstr ""
 
-#: includes/library/acf_custom/acf_custom.php:609
+#: includes/library/acf_custom/acf_custom.php:610
 msgid "Custom field deleted."
 msgstr ""
 
-#: includes/library/acf_custom/acf_custom.php:612
+#: includes/library/acf_custom/acf_custom.php:613
 #, php-format
 msgid "Field group restored to revision from %s"
 msgstr ""
 
-#: includes/library/acf_custom/acf_custom.php:613
+#: includes/library/acf_custom/acf_custom.php:614
 msgid "Field group published."
 msgstr ""
 
-#: includes/library/acf_custom/acf_custom.php:614
+#: includes/library/acf_custom/acf_custom.php:615
 msgid "Field group saved."
 msgstr ""
 
-#: includes/library/acf_custom/acf_custom.php:615
+#: includes/library/acf_custom/acf_custom.php:616
 msgid "Field group submitted."
 msgstr ""
 
-#: includes/library/acf_custom/acf_custom.php:616
+#: includes/library/acf_custom/acf_custom.php:617
 msgid "Field group scheduled for."
 msgstr ""
 
-#: includes/library/acf_custom/acf_custom.php:617
+#: includes/library/acf_custom/acf_custom.php:618
 msgid "Field group draft updated."
 msgstr ""
 
-#: includes/library/acf_custom/acf_custom.php:752
+#: includes/library/acf_custom/acf_custom.php:753
 msgid "Thumbnail"
 msgstr ""
 
-#: includes/library/acf_custom/acf_custom.php:753
+#: includes/library/acf_custom/acf_custom.php:754
 msgid "Medium"
 msgstr ""
 
-#: includes/library/acf_custom/acf_custom.php:754
+#: includes/library/acf_custom/acf_custom.php:755
 msgid "Large"
 msgstr ""
 
-#: includes/library/acf_custom/acf_custom.php:755
+#: includes/library/acf_custom/acf_custom.php:756
 msgid "Full"
 msgstr ""
 
@@ -2187,13 +2283,6 @@ msgstr ""
 msgid "Checkbox"
 msgstr ""
 
-#: includes/library/acf_custom/core/fields/checkbox.php:20
-#: includes/library/acf_custom/core/fields/radio.php:19
-#: includes/library/acf_custom/core/fields/select.php:19
-#: includes/library/acf_custom/core/fields/true_false.php:20
-msgid "Choice"
-msgstr ""
-
 #: includes/library/acf_custom/core/fields/checkbox.php:146
 #: includes/library/acf_custom/core/fields/radio.php:147
 #: includes/library/acf_custom/core/fields/select.php:177
@@ -2209,7 +2298,7 @@ msgstr ""
 #: includes/library/acf_custom/core/fields/text.php:116
 #: includes/library/acf_custom/core/fields/textarea.php:103
 #: includes/library/acf_custom/core/fields/true_false.php:94
-#: includes/library/acf_custom/core/fields/wysiwyg.php:277
+#: includes/library/acf_custom/core/fields/wysiwyg.php:323
 msgid "Default Value"
 msgstr ""
 
@@ -2245,7 +2334,7 @@ msgstr ""
 #: includes/library/acf_custom/core/fields/number.php:117
 #: includes/library/acf_custom/core/fields/text.php:117
 #: includes/library/acf_custom/core/fields/textarea.php:104
-#: includes/library/acf_custom/core/fields/wysiwyg.php:278
+#: includes/library/acf_custom/core/fields/wysiwyg.php:324
 msgid "Appears when creating a new post"
 msgstr ""
 
@@ -2703,11 +2792,20 @@ msgstr ""
 msgid "Wysiwyg Editor"
 msgstr ""
 
-#: includes/library/acf_custom/core/fields/wysiwyg.php:292
+#: includes/library/acf_custom/core/fields/wysiwyg.php:275
+msgid "Visual"
+msgstr ""
+
+#: includes/library/acf_custom/core/fields/wysiwyg.php:276
+msgctxt "Name for the Text editor tab (formerly HTML)"
+msgid "Text"
+msgstr ""
+
+#: includes/library/acf_custom/core/fields/wysiwyg.php:338
 msgid "Toolbar"
 msgstr ""
 
-#: includes/library/acf_custom/core/fields/wysiwyg.php:324
+#: includes/library/acf_custom/core/fields/wysiwyg.php:370
 msgid "Show Media Upload Buttons?"
 msgstr ""
 
@@ -3186,20 +3284,24 @@ msgid ""
 "parser..."
 msgstr ""
 
-#: templates/archive/no_content.php:7
+#: templates/archive/no_content.php:8
 msgid "No products were found matching your selection."
 msgstr ""
 
-#: templates/archive/price.php:22
+#: templates/archive/price.php:28
 #: templates/shortcodes/advanced-product/quickview.php:39
-#: templates/single/price.php:24
+#: templates/single/price.php:21
 msgid " "
 msgstr ""
 
-#: templates/archive/price.php:25
+#: templates/archive/price.php:31
 #: templates/shortcodes/advanced-product/quickview.php:42
-#: templates/single/price.php:27
+#: templates/single/price.php:24
 msgid "MSRP:"
+msgstr ""
+
+#: templates/archive/price.php:36
+msgid "Rental:"
 msgstr ""
 
 #: templates/shortcodes/advanced-product/compare-action.php:16
@@ -3241,4 +3343,8 @@ msgstr ""
 
 #: templates/single/meta.php:58
 msgid "Views:"
+msgstr ""
+
+#: templates/single/price.php:32
+msgid "RENTAL PRICE:"
 msgstr ""
