@@ -156,7 +156,7 @@ class Advanced_ProductSCAP extends ShortCodeAP {
                 'compare' => array(
                     'text'                      => __('Add to compare', 'advanced-product'),
                     'active_text'               => __('In compare list', 'advanced-product'),
-                    'delete_question'           => __('Do you want to remove this product?', 'advanced-product'),
+                    'delete_question'           => __('Do you want to remove this product from compare list?', 'advanced-product'),
                     'add_product_successfully'  => __('Add product to compare list successfully', 'advanced-product'),
                 )
             )

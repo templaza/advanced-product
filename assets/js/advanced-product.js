@@ -181,7 +181,7 @@
                 }
 
                 if(!__html.length){
-                    UIkit.notification("No matching results", {"status":"danger", "pos": "bottom-right"});
+                    UIkit.notification("No matching results", {"status":"danger", "pos": "top-right"});
                     return;
                 }
 
@@ -273,7 +273,7 @@
                 $("[data-ap-compare-list-button]").removeClass("uk-hidden").addClass("ap-compare-has-product");
             }
 
-            UIkit.notification(l10n.compare.add_product_successfully, {"status":"success", "pos": "bottom-right","timeout": "2000"});
+            UIkit.notification(l10n.compare.add_product_successfully, {"status":"success", "pos": "top-right","timeout": "2000"});
         }
     });
 
@@ -374,7 +374,7 @@
                 }
 
                 if(!__html.length){
-                    UIkit.notification("No matching results", {"status":"danger", "pos": "bottom-right"});
+                    UIkit.notification("No matching results", {"status":"danger", "pos": "top-right"});
                     return;
                 }
 
