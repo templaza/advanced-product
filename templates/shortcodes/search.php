@@ -20,8 +20,12 @@ if($submit_icon_position == 'before'){
     $submit_html    .= ' '.$sicon_html;
 }
 $submit_html    = trim($submit_html);
+$__class = '';
+if(!isset($limit_height) || (isset($limit_height) && $limit_height)){
+    $__class .=' advanced-product-search-limit-height';
+}
 ?>
-<form role="search" method="get" action="<?php echo esc_url($action); ?>" class="uk-form-stacked advanced-product-search-form">
+<form role="search" method="get" action="<?php echo esc_url($action); ?>" class="uk-form-stacked advanced-product-search-form <?php echo esc_attr($__class);?>">
     <?php if(!isset($enable_keyword) || (isset($enable_keyword) && $enable_keyword)){?>
     <div class="field ap-search-item field-keyword">
         <?php if($show_label){?>

@@ -188,6 +188,7 @@ class Search extends Base {
             'submit_icon' => '',
             'submit_icon_position' => 'before',
             'enable_keyword'    => true,
+            'limit_height'    => true,
             'enable_ajax'       => false,
             'instant'           => false,
             'update_url'        => false,
@@ -205,6 +206,7 @@ class Search extends Base {
         $show_label     = filter_var($show_label, FILTER_VALIDATE_BOOLEAN);
         $enable_ajax = filter_var($enable_ajax, FILTER_VALIDATE_BOOLEAN);
         $enable_keyword = filter_var($enable_keyword, FILTER_VALIDATE_BOOLEAN);
+        $limit_height = filter_var($limit_height, FILTER_VALIDATE_BOOLEAN);
 
         if(isset($include)){
             if(!empty($include)) {

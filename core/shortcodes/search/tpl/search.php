@@ -59,6 +59,9 @@ if(isset($_GET['filter_style']) && $_GET['filter_style'] =='block'){
         $__class .= ' uk-child-width-1-' . $column_mobile;
     }
 }
+if(!isset($limit_height) || (isset($limit_height) && $limit_height)){
+    $__class .=' advanced-product-search-limit-height';
+}
 ?>
 <?php if(!empty($max_height)){ ?>
 <div class="ap-search-max-height" style="height:<?php echo $max_height; ?>;">
