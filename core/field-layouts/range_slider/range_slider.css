@@ -198,7 +198,7 @@
 .ui-state-default,
 .ui-widget-content .ui-state-default,
 .ui-widget-header .ui-state-default,
-.ui-button,
+.advanced-product-search-form .ui-button,
 
     /* We use html here because we need a greater specificity to make sure disabled
     works properly when clicked or hovered */
@@ -212,10 +212,10 @@ html .ui-button.ui-state-disabled:active {
 .ui-state-default a,
 .ui-state-default a:link,
 .ui-state-default a:visited,
-a.ui-button,
-a:link.ui-button,
-a:visited.ui-button,
-.ui-button {
+.advanced-product-search-form  a.ui-button,
+.advanced-product-search-form  a:link.ui-button,
+.advanced-product-search-form  a:visited.ui-button,
+.advanced-product-search-form .ui-button {
     color: #454545;
     text-decoration: none;
 }
@@ -225,8 +225,8 @@ a:visited.ui-button,
 .ui-state-focus,
 .ui-widget-content .ui-state-focus,
 .ui-widget-header .ui-state-focus,
-.ui-button:hover,
-.ui-button:focus {
+.advanced-product-search-form .ui-button:hover,
+.advanced-product-search-form .ui-button:focus {
     border: 1px solid #cccccc;
     background: #ededed;
     font-weight: normal;
@@ -240,8 +240,8 @@ a:visited.ui-button,
 .ui-state-focus a:hover,
 .ui-state-focus a:link,
 .ui-state-focus a:visited,
-a.ui-button:hover,
-a.ui-button:focus {
+.advanced-product-search-form a.ui-button:hover,
+.advanced-product-search-form a.ui-button:focus {
     color: #2b2b2b;
     text-decoration: none;
 }
@@ -252,9 +252,9 @@ a.ui-button:focus {
 .ui-state-active,
 .ui-widget-content .ui-state-active,
 .ui-widget-header .ui-state-active,
-a.ui-button:active,
-.ui-button:active,
-.ui-button.ui-state-active:hover {
+.advanced-product-search-form a.ui-button:active,
+.advanced-product-search-form .ui-button:active,
+.advanced-product-search-form .ui-button.ui-state-active:hover {
     border: 1px solid #003eff;
     background: #007fff;
     font-weight: normal;
