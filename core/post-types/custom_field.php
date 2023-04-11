@@ -193,44 +193,24 @@ if(!class_exists('Advanced_Product\Post_Type\Custom_Field')){
         }
 
         public function manage_edit_columns($columns){
-//            $columns    = array('__order' => '<span class="dashicons dashicons-sort"></span>') + $columns;
-//            return $columns;
             $keys   = array_keys($columns);
-//            $first_columns  = array_splice($columns, 0, array_search('title', $keys));
-//            $first_columns  +=  array(
-//                '__order check-column' => '<span class="dashicons dashicons-sort"></span>',
-//            );
+
             $first_columns  = array();
             $first_columns['cb']    = $columns['cb'];
             unset($columns['cb']);
             $first_columns  +=  array(
-//                '__order' => '<a href="'.admin_url('edit.php?post_type='.$this ->get_post_type().'&orderby=menu_order&order=asc')
-//                    .'"><span class="dashicons dashicons-image-flip-vertical"></span><span class="sorting-indicator"></span></a> '
-//                '__order' => '<span class="dashicons dashicons-sort"></span>'
-                'menu_order' => '<span class="dashicons dashicons-image-flip-vertical"></span>'
+                'menu_order' => __('Order','advanced-product')
             );
             $first_columns['title'] = $columns['title'];
             $first_columns  +=  array(
                 'protected' => __('Protected', 'advanced-product')
             );
             unset($columns['title']);
-//            $first_columns  +=  $columns;
             $second_columns  = array_splice($columns, 0, array_search('date', array_keys($columns)));
-//            var_dump($first_columns);
-//            var_dump($second_columns);
-//            var_dump($columns);
-//            die(__FILE__);
             $new_columns                = array();
-//            $new_columns['__order']     = '';
-//            $new_columns['__order check-column']   = '<span class="dashicons dashicons-sort"></span>';
             $new_columns['title']          = $columns['title'];
-//            $new_columns['protected']   = __('Protected', 'advanced-product');
             $new_columns['in_listing']  = __('In Listing', 'advanced-product');
             $new_columns['in_search']   = __('In Search', 'advanced-product');
-
-//            var_dump($columns); die(__FILE__);
-
-//            return array_merge($new_columns, $columns);
             return $first_columns + $second_columns + $new_columns + $columns;
 
         }
@@ -416,17 +396,6 @@ if(!class_exists('Advanced_Product\Post_Type\Custom_Field')){
                 return $orderBy;
             }
 
-//            //check for ignore_custom_sort
-//            if (isset($query->query_vars['ignore_custom_sort']) && $query->query_vars['ignore_custom_sort'] === TRUE)
-//                return $orderBy;
-//
-//            //ignore the bbpress
-//            if (isset($query->query_vars['post_type']) && ((is_array($query->query_vars['post_type']) && in_array("reply", $query->query_vars['post_type'])) || ($query->query_vars['post_type'] == "reply")))
-//                return $orderBy;
-//            if (isset($query->query_vars['post_type']) && ((is_array($query->query_vars['post_type']) && in_array("topic", $query->query_vars['post_type'])) || ($query->query_vars['post_type'] == "topic")))
-//                return $orderBy;
-//
-//            var_dump($orderBy);
             //check for orderby GET paramether in which case return default data
             if (isset($_GET['orderby']) && $_GET['orderby'] !=  'menu_order')
                 return $orderBy;
@@ -443,54 +412,15 @@ if(!class_exists('Advanced_Product\Post_Type\Custom_Field')){
             if($ignore  === TRUE)
                 return $orderBy;
 
-//            //ignore search
-//            if( $query->is_search()  &&  isset( $query->query['s'] )   &&  ! empty ( $query->query['s'] ) )
-//                return( $orderBy );
-
             if (is_admin())
             {
+                global $post;
+                $order  =   isset($query->query_vars['order'])  ?   " " . $query->query_vars['order'] : '';
 
-//                if ( $options['adminsort'] == "1" || (defined('DOING_AJAX') && isset($_REQUEST['action']) && $_REQUEST['action'] == 'query-attachments') )
-//                {
+                $order  =   apply_filters('advanced-product/posts_order', $order, $query);
 
-                    global $post;
-
-
-//                    $order  =   isset($_GET['order'])  ?   " " . $_GET['order'] : '';
-                    $order  =   isset($query->query_vars['order'])  ?   " " . $query->query_vars['order'] : '';
-
-                    $order  =   apply_filters('advanced-product/posts_order', $order, $query);
-
-//                    //temporary ignore ACF group and admin ajax calls, should be fixed within ACF plugin sometime later
-//                    if (is_object($post) && $post->post_type    ==  "acf-field-group"
-//                        ||  (defined('DOING_AJAX') && isset($_REQUEST['action']) && strpos($_REQUEST['action'], 'acf/') === 0))
-//                        return $orderBy;
-
-//                    if(isset($_POST['query'])   &&  isset($_POST['query']['post__in'])  &&  is_array($_POST['query']['post__in'])   &&  count($_POST['query']['post__in'])  >   0)
-//                        return $orderBy;
-
-//                    $orderBy = "{$wpdb->posts}.menu_order {$order}, {$wpdb->posts}.post_date DESC";
-                    $orderBy = "{$wpdb->posts}.menu_order {$order}";
-//                    var_dump($orderBy);
-//                }
+                $orderBy = "{$wpdb->posts}.menu_order {$order}";
             }
-//            else
-//            {
-//                $order  =   '';
-////                if ($options['use_query_ASC_DESC'] == "1")
-////                    $order  =   isset($query->query_vars['order'])  ?   " " . $query->query_vars['order'] : '';
-//
-//                $order  =   apply_filters('advanced-product/posts_order', $order, $query);
-//
-////                if ($options['autosort'] == "1")
-////                {
-//                    if(trim($orderBy) == '')
-//                        $orderBy = "{$wpdb->posts}.menu_order " . $order;
-//                    else
-//                        $orderBy = "{$wpdb->posts}.menu_order". $order .", " . $orderBy;
-////                }
-//            }
-
             return($orderBy);
         }
 
