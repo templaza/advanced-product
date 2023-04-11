@@ -111,7 +111,7 @@ class Group_Field extends Taxonomy {
 
         if($this -> term_order_exists()) {
             $order_column               = array_slice($columns, 0, $pos-1);
-            $order_column['term_order'] = '<span class="dashicons dashicons-image-flip-vertical"></span>';
+            $order_column['term_order'] = __('Order','advanced-product');
         }
 
         return array_merge(
