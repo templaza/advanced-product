@@ -183,10 +183,12 @@ class Advanced_Product{
         $ptype_exists   = AP_Custom_Field_Helper::get_custom_field('ap_product_type');
         $runit_exists   = AP_Custom_Field_Helper::get_custom_field('ap_rental_unit');
         $rprice_exists  = AP_Custom_Field_Helper::get_custom_field('ap_rental_price');
+        $sold_exists    = AP_Custom_Field_Helper::get_custom_field('ap_price_sold');
+        $contact_exists = AP_Custom_Field_Helper::get_custom_field('ap_price_contact');
 
         $importer   = false;
 
-        if(!$ptype_exists || !$runit_exists || !$rprice_exists){
+        if(!$ptype_exists || !$runit_exists || !$rprice_exists || !$sold_exists || !$contact_exists){
             // Require import object
             $importer_file = ADVANCED_PRODUCT_LIBRARY_PATH.'/importer/class-advanced-product-importer.php';
 
@@ -222,6 +224,30 @@ class Advanced_Product{
         // Import rental price & rental unit field
         if(!$rprice_exists || !$runit_exists){
             $file  = ADVANCED_PRODUCT_PATH.'/data/upgrade/custom-fields/rental_price.xml';
+
+            if(file_exists($file)){
+                ob_start();
+                $importer->import($file);
+                $result = ob_get_contents();
+                ob_end_clean();
+            }
+        }
+
+        // Import contact field
+        if(!$contact_exists){
+            $file  = ADVANCED_PRODUCT_PATH.'/data/upgrade/custom-fields/price_contact.xml';
+
+            if(file_exists($file)){
+                ob_start();
+                $importer->import($file);
+                $result = ob_get_contents();
+                ob_end_clean();
+            }
+        }
+
+        // Import sold field
+        if(!$sold_exists){
+            $file  = ADVANCED_PRODUCT_PATH.'/data/upgrade/custom-fields/price_sold.xml';
 
             if(file_exists($file)){
                 ob_start();
