@@ -217,7 +217,7 @@ if(!class_exists('Advanced_Product\Post_Type\Custom_Field')){
 
         public function manage_custom_column($column, $post_id ){
             if($column == 'menu_order') {
-                $order_by   = isset($_REQUEST['orderby'])?$_REQUEST['orderby']:'';
+                $order_by   = isset($_REQUEST['orderby'])?$_REQUEST['orderby']:get_query_var('orderby');
                 $inactive   = $order_by != 'menu_order'?' ap-inactive':'';
 
                 echo '<span class="dashicons dashicons-menu-alt2 ap-handle'.$inactive.'"></span>';
@@ -415,7 +415,8 @@ if(!class_exists('Advanced_Product\Post_Type\Custom_Field')){
             if (is_admin())
             {
                 global $post;
-                $order  =   isset($query->query_vars['order'])  ?   " " . $query->query_vars['order'] : '';
+                $order  =   isset($query->query_vars['order'])  ?   " " . $query->query_vars['order'] : 'menu_order';
+//                $order  =   'ASC';
 
                 $order  =   apply_filters('advanced-product/posts_order', $order, $query);
 
@@ -447,18 +448,92 @@ if(!class_exists('Advanced_Product\Post_Type\Custom_Field')){
                     'show_count'      =>  false, // Show # listings in parens
                     'hide_empty'      =>  true, // Don't show businesses w/o listings
                 ));
+
+//                // Filter by field type
+//                // get name of all fields for use in field type drop down
+//                $ftype_selected   = isset($_REQUEST['field_type'])?(array) $_REQUEST['field_type']:array();
+//
+//                $field_types = array();
+//                $field_types['']    = __('All Field Type', 'advanced-product');
+//                $field_types+= apply_filters('acf/registered_fields', array());
+//
+//                if(!empty($field_types)){
+//                    echo '<select name="field_type">';
+//                    foreach ($field_types as $key => $value){
+//                        if(is_array($value)){
+//
+//                            // this select is grouped with optgroup
+//                            if($key != '') echo '<optgroup label="'.$key.'">';
+//
+//                            if(!empty($value)){
+//                                foreach($value as $id => $label)
+//                                {
+//                                    $selected = in_array($id, $ftype_selected) ? ' selected="selected"' : '';
+//                                    echo '<option value="'.$id.'"'.$selected.'>'.$label.'</option>';
+//                                }
+//                            }
+//
+//                            if($key != '') echo '</optgroup>';
+//                        }else{
+//                            $selected = in_array($key, $ftype_selected) ? ' selected="selected"' : '';
+//                            echo '<option value="'.$key.'"'.$selected.'>'.$value.'</option>';
+//                        }
+//                    }
+//                    echo '</select>';
+//                }
+
+                // Filter by protected status
+                $__protected  = isset($_REQUEST['__protected'])?$_REQUEST['__protected']:'';
+                $poptions   = array(
+                    ''  => __('All Status', 'advanced-product'),
+                    '1'  => __('Protected', 'advanced-product'),
+                    '0'  => __('Unprotected', 'advanced-product'),
+                );
+                echo '<select name="__protected">';
+                foreach ($poptions as $val => $text) {
+                    $pselected  = $__protected == $val?' selected="selected"':'';
+                    echo '<option value="'.$val.'"'.$pselected.'>' . $text . '</option>';
+                }
+                echo '</select>';
             }
         }
 
         public function parse_query($query) {
             global $pagenow;
             $qv = &$query->query_vars;
-            $filter   = isset($_REQUEST['ap_group_field'])?$_REQUEST['ap_group_field']:'';
             if ($pagenow=='edit.php' &&
-                isset($qv['post_type']) && $qv['post_type']=='ap_custom_field' &&
-                $filter && is_numeric($filter)) {
-                $term = get_term_by('id',$filter,'ap_group_field');
-                $qv['ap_group_field'] = $term->slug;
+                isset($qv['post_type']) && $qv['post_type']=='ap_custom_field') {
+
+                $filter   = isset($_REQUEST['ap_group_field'])?$_REQUEST['ap_group_field']:'';
+                if($filter && is_numeric($filter)) {
+                    $term = get_term_by('id', $filter, 'ap_group_field');
+                    $qv['ap_group_field'] = $term->slug;
+                }
+
+                $fprotected   = isset($_REQUEST['__protected'])?$_REQUEST['__protected']:'';
+                if($fprotected == 1){
+                    $qv['meta_query']   = array(
+                        array(
+                            'key'     => '__protected',
+                            'compare' => '=',
+                            'value'   => $fprotected,
+                            'type'    => 'numeric',
+                        )
+                    );
+                }elseif($fprotected == 0){
+                    $qv['meta_query']   = array(
+                        array(
+                            'key'     => '__protected',
+                            'compare' => 'NOT EXISTS',
+                        )
+                    );
+                }
+
+                if(!isset($_GET['orderby'])) {
+                    $qv['order'] = 'ASC';
+                    $qv['orderby'] = 'menu_order';
+                }
+
 //                $qv['term'] = $term->slug;
             }
             return $query;
