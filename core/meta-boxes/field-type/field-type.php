@@ -2,8 +2,9 @@
 
 namespace Advanced_Product\Meta_Box;
 
-use Advanced_Product\Helper\AP_Custom_Field_Helper;
 use Advanced_Product\Meta_box;
+use Advanced_Product\Application;
+use Advanced_Product\Helper\AP_Custom_Field_Helper;
 
 defined('ADVANCED_PRODUCT') or exit();
 
@@ -130,8 +131,6 @@ class Field_Type extends Meta_box {
                 echo $field[$f_name];
             }
         }
-
-//        return $column;
     }
 
     public function save_meta_box( $post_id, $post )
@@ -156,9 +155,20 @@ class Field_Type extends Meta_box {
         {
             $i = -1;
 
-
             // remove clone field
             unset( $_POST['fields']['field_clone'] );
+
+            $field_data = current($_POST['fields']);
+
+            // Validate field name
+            $acf_field  = AP_Custom_Field_Helper::get_custom_field($field_data['name'], array('exclude_post_id' => $post_id));
+            if(!empty($acf_field)) {
+                $app = Application::get_instance();
+                $app->enqueue_message(sprintf(__('The field name %s is already being used by the %s custom field.',
+                    'advanced-product'), $field_data['name'], $acf_field -> post_title), 'error');
+                return false;
+            }
+
 
             // loop through and save fields
             foreach( $_POST['fields'] as $key => $field )

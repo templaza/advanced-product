@@ -116,12 +116,49 @@ class Advanced_Product{
             add_action( 'admin_init', array($this, 'wordpress_settings'));
             // Save options from wordpress settings
             add_action( 'admin_init', array($this, 'save_wordpress_settings'));
+
+            add_action( 'admin_notices', array($this, 'admin_notices'),999);
         }
 
         add_action('pre_get_posts', array($this, 'custom_query_vars'));
 
         // Replace slug
         add_filter( 'register_post_type_args', array($this, 'change_post_types_slug'), 10, 2 );
+    }
+
+    public function admin_notices(){
+
+        session_start();
+        $app    = Application::get_instance();
+        $queues = $app -> get_message_queue();
+
+        if($queues && count($queues)) {
+            foreach ($queues as $notice) {
+                $notice_option      = isset($notice['options'])?$notice['options']:array();
+                $show_close_button  = isset($notice_option['show_close_button'])?(bool) $notice_option['show_close_button']:true;
+
+                switch ($notice['type']){
+                    default:
+                        $notice_type    = $notice['type'];
+                        break;
+                    case 'message':
+                    case 'primary':
+                        $notice_type    = 'info';
+                        break;
+                        break;
+                    case 'notice':
+                        $notice_type    = 'warning';
+                        break;
+                }
+                ?>
+                <div class="notice notice-<?php echo esc_attr($notice_type);
+                echo $show_close_button?' is-dismissible':''; ?>">
+                    <p>
+                        <b><?php _e('Advanced Products Notice', 'advanced-product');?></b><br/>
+                        <?php echo $notice['message']; ?></p>
+                </div>
+            <?php }
+        }
     }
 
     public function change_post_types_slug( $args, $post_type ) {
@@ -652,7 +689,7 @@ class Advanced_Product{
 //            wp_add_inline_script('advanced-product', 'var advanced_product = {};', '');
             wp_localize_script('advanced-product', 'advanced_product', array(
                 'archive_sort_nonce' => wp_create_nonce( 'ap_archive_sort_nonce_' . $userdata->ID),
-                'orderby'   => (isset($_REQUEST['orderby'])?$_REQUEST['orderby']:'')
+                'orderby'   => (isset($_REQUEST['orderby'])?$_REQUEST['orderby']:'menu_order')
             ));
             wp_enqueue_script('advanced-product_admin_scripts');
         }

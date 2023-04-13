@@ -837,6 +837,8 @@ class AP_Custom_Field_Helper extends BaseHelper {
             'ap_product_type',
             'ap_product_status',
             'ap_time_rental',
+            'ap_price_sold',
+            'ap_price_contact',
         );
 
         return array_merge($protected_fields, static::get_protected_fields_media_registered());
@@ -929,24 +931,44 @@ class AP_Custom_Field_Helper extends BaseHelper {
      * @param $post_id int The post id to check.
      * @return
      */
-    public static function get_custom_field( $field_name) {
+    public static function get_custom_field( $field_name, $options = array()) {
         global $wpdb;
 
-        $store_id   = static::_get_store_id(__METHOD__, $field_name);
+        $store_id   = static::_get_store_id(__METHOD__, $field_name, $options);
 
         if(isset(static::$cache[$store_id])){
             return static::$cache[$store_id];
         }
+        $ex_post_id = isset($options['exclude_post_id']) && !empty($options['exclude_post_id'])?$options['exclude_post_id']:0;
 
-        $acf_fields = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wpdb->posts WHERE post_excerpt=%s AND post_type=%s" , $field_name , 'ap_custom_field' ) );
+        $sql    = "SELECT * FROM $wpdb->posts WHERE post_excerpt=%s AND post_type=%s";
+
+        if(!empty($ex_post_id)){
+            if(is_array($ex_post_id)) {
+                $sql .= " AND ID NOT IN(".implode(','. $ex_post_id).")";
+            }else{
+                $sql    .= " AND ID <> $ex_post_id";
+            }
+        }
+
+        $acf_fields = $wpdb->get_results( $wpdb->prepare(  $sql , $field_name , 'ap_custom_field') );
 
         // Get custom field from post by name in post meta
         if(empty($acf_fields)) {
-            $acf_fields = $wpdb->get_results($wpdb->prepare("SELECT DISTINCT p.* FROM $wpdb->posts AS p"
+            $sql        = "SELECT DISTINCT p.* FROM $wpdb->posts AS p"
                 . " INNER JOIN $wpdb->postmeta AS pm ON pm.post_id = p.ID"
                 . " WHERE pm.meta_key LIKE %s"
                 . " AND pm.meta_value LIKE %s"
-                . "  AND p.post_type=%s", 'field_%','%s:4:"name";s:'.strlen($field_name).':"'.$field_name.'"%', 'ap_custom_field'));
+                . " AND p.post_type=%s";
+            if(!empty($ex_post_id)){
+                if(is_array($ex_post_id)) {
+                    $sql .= " AND p.ID NOT IN(".implode(','. $ex_post_id).")";
+                }else{
+                    $sql    .= " AND p.ID <> $ex_post_id";
+                }
+            }
+            $acf_fields = $wpdb->get_results($wpdb->prepare( $sql, 'field_%','%s:4:"name";s:'
+                .strlen($field_name).':"'.$field_name.'"%', 'ap_custom_field'));
         }
 
 
