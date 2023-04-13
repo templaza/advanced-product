@@ -154,7 +154,7 @@ class Advanced_Product{
                 <div class="notice notice-<?php echo esc_attr($notice_type);
                 echo $show_close_button?' is-dismissible':''; ?>">
                     <p>
-                        <b><?php _e('Advanced Products Notice', 'advanced-product');?></b><br/>
+                        <b><?php _e('Advanced Product', 'advanced-product');?></b><br/>
                         <?php echo $notice['message']; ?></p>
                 </div>
             <?php }
