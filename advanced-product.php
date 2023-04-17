@@ -128,7 +128,9 @@ class Advanced_Product{
 
     public function admin_notices(){
 
-        session_start();
+        if( empty(session_id()) && !headers_sent()){
+            session_start();
+        }
         $app    = Application::get_instance();
         $queues = $app -> get_message_queue();
 

@@ -47,7 +47,9 @@ if (!class_exists('Advanced_Product\Application')) {
         {
             // For empty queue, if messages exists in the session, enqueue them.
             if (!$this->_message_queue) {
-                session_start();
+                if( empty(session_id()) && !headers_sent()){
+                    session_start();
+                }
                 $sessionQueue = (isset($_SESSION[ADVANCED_PRODUCT . '.application.queue'])
                     && $_SESSION[ADVANCED_PRODUCT . '.application.queue']) ?
                     $_SESSION[ADVANCED_PRODUCT . '.application.queue'] : array();
