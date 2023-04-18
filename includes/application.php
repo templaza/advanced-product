@@ -39,7 +39,9 @@ if (!class_exists('Advanced_Product\Application')) {
                 // Enqueue the message.
                 $this->_message_queue[] = $message;
             }
-            session_start();
+            if( empty(session_id()) && !headers_sent()){
+                session_start();
+            }
             $_SESSION[ADVANCED_PRODUCT . '.application.queue'] = $this->_message_queue;
         }
 
