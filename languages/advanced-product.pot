@@ -1,23 +1,40 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
+# Copyright (C) 2023 Templaza
+# This file is distributed under the same license as the Advanced Product plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-28 10:06+0700\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Project-Id-Version: Advanced Product 1.0.7\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/advanced-product\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2023-04-18T05:46:34+02:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.4.0\n"
 
-#: advanced-product.php:639
+#. Plugin Name of the plugin
+#: advanced-product.php:159
+msgid "Advanced Product"
+msgstr ""
+
+#. Plugin URI of the plugin
+msgid "https://github.com/templaza/advanced-product"
+msgstr ""
+
+#. Description of the plugin
+msgid "This plugin help you manage advanced products."
+msgstr ""
+
+#. Author of the plugin
+msgid "Templaza"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "http://templaza.com"
+msgstr ""
+
+#: advanced-product.php:704
 msgid "Advanced Product archive slug"
 msgstr ""
 
@@ -69,13 +86,12 @@ msgstr ""
 
 #: core/field-layouts/ap_icon/ap_icon.php:37
 #: includes/library/acf-gallery/gallery.php:35
-#, php-format
 msgid "%d images selected"
 msgstr ""
 
 #: core/field-layouts/ap_icon/ap_icon.php:79
-#: core/meta-boxes/field-type/field-type.php:61
-#: core/meta-boxes/field-type/field-type.php:64
+#: core/meta-boxes/field-type/field-type.php:62
+#: core/meta-boxes/field-type/field-type.php:65
 #: includes/library/acf_custom/core/fields/_base.php:124
 #: includes/library/acf_custom/core/views/meta_box_location.php:74
 msgid "Basic"
@@ -240,11 +256,16 @@ msgstr ""
 #: core/meta-boxes/field-display/field-display.php:96
 #: core/meta-boxes/field-display/field-display.php:107
 #: core/meta-boxes/field-type/tpl/base.php:155
-#: core/meta-boxes/field-type/tpl/base.php:224 core/pages/settings.php:158
-#: core/pages/settings.php:170 core/pages/settings.php:182
-#: core/pages/settings.php:236 core/pages/settings.php:248
-#: core/pages/settings.php:260 core/pages/settings.php:272
-#: core/pages/settings.php:286 core/pages/settings.php:298
+#: core/meta-boxes/field-type/tpl/base.php:224
+#: core/pages/settings.php:158
+#: core/pages/settings.php:170
+#: core/pages/settings.php:182
+#: core/pages/settings.php:236
+#: core/pages/settings.php:248
+#: core/pages/settings.php:260
+#: core/pages/settings.php:272
+#: core/pages/settings.php:286
+#: core/pages/settings.php:298
 #: includes/library/acf-flexible-content/views/options.php:259
 #: includes/library/acf-flexible-content/views/options.php:305
 #: includes/library/acf_custom/core/controllers/field_group.php:461
@@ -267,11 +288,16 @@ msgstr ""
 #: core/meta-boxes/field-display/field-display.php:97
 #: core/meta-boxes/field-display/field-display.php:108
 #: core/meta-boxes/field-type/tpl/base.php:156
-#: core/meta-boxes/field-type/tpl/base.php:225 core/pages/settings.php:159
-#: core/pages/settings.php:171 core/pages/settings.php:183
-#: core/pages/settings.php:237 core/pages/settings.php:249
-#: core/pages/settings.php:261 core/pages/settings.php:273
-#: core/pages/settings.php:287 core/pages/settings.php:299
+#: core/meta-boxes/field-type/tpl/base.php:225
+#: core/pages/settings.php:159
+#: core/pages/settings.php:171
+#: core/pages/settings.php:183
+#: core/pages/settings.php:237
+#: core/pages/settings.php:249
+#: core/pages/settings.php:261
+#: core/pages/settings.php:273
+#: core/pages/settings.php:287
+#: core/pages/settings.php:299
 #: includes/library/acf-flexible-content/views/options.php:260
 #: includes/library/acf-flexible-content/views/options.php:306
 #: includes/library/acf_custom/core/controllers/field_group.php:460
@@ -297,11 +323,12 @@ msgstr ""
 msgid "To"
 msgstr ""
 
-#: core/field-layouts/select/tpl/form.php:122 core/post-types/product.php:55
-#: core/taxonomies/branch.php:36 core/taxonomies/category.php:36
+#: core/field-layouts/select/tpl/form.php:122
+#: core/post-types/product.php:55
+#: core/taxonomies/branch.php:36
+#: core/taxonomies/category.php:36
 #: core/taxonomies/group_field.php:47
 #: includes/classes/class-custom_taxonomy.php:106
-#, php-format
 msgid "All %s"
 msgstr ""
 
@@ -341,7 +368,7 @@ msgstr ""
 msgid "Show in search view"
 msgstr ""
 
-#: core/meta-boxes/field-type/field-type.php:34
+#: core/meta-boxes/field-type/field-type.php:35
 #: core/meta-boxes/field-type/tpl/base.php:87
 #: includes/library/acf-flexible-content/views/options.php:140
 #: includes/library/acf-flexible-content/views/options.php:217
@@ -352,9 +379,9 @@ msgstr ""
 msgid "Field Type"
 msgstr ""
 
-#: core/meta-boxes/field-type/field-type.php:55
 #: core/meta-boxes/field-type/field-type.php:56
-#: core/meta-boxes/field-type/field-type.php:65
+#: core/meta-boxes/field-type/field-type.php:57
+#: core/meta-boxes/field-type/field-type.php:66
 #: includes/library/acf_custom/core/fields/checkbox.php:20
 #: includes/library/acf_custom/core/fields/radio.php:19
 #: includes/library/acf_custom/core/fields/select.php:19
@@ -362,15 +389,15 @@ msgstr ""
 msgid "Choice"
 msgstr ""
 
-#: core/meta-boxes/field-type/field-type.php:66
+#: core/meta-boxes/field-type/field-type.php:67
 msgid "Range Slider"
 msgstr ""
 
-#: core/meta-boxes/field-type/field-type.php:77
+#: core/meta-boxes/field-type/field-type.php:78
 msgid "Search Field Type"
 msgstr ""
 
-#: core/meta-boxes/field-type/field-type.php:110
+#: core/meta-boxes/field-type/field-type.php:111
 #: core/meta-boxes/field-type/tpl/base.php:63
 #: includes/library/acf-flexible-content/views/options.php:139
 #: includes/library/acf-flexible-content/views/options.php:202
@@ -379,12 +406,16 @@ msgstr ""
 msgid "Field Name"
 msgstr ""
 
-#: core/meta-boxes/field-type/field-type.php:111
+#: core/meta-boxes/field-type/field-type.php:112
 msgid "Field type"
 msgstr ""
 
-#: core/meta-boxes/field-type/field-type.php:113
+#: core/meta-boxes/field-type/field-type.php:114
 msgid "Instruction"
+msgstr ""
+
+#: core/meta-boxes/field-type/field-type.php:167
+msgid "The field name %s is already being used by the %s custom field."
 msgstr ""
 
 #: core/meta-boxes/field-type/tpl/base.php:47
@@ -487,11 +518,13 @@ msgstr ""
 msgid "these rules are met"
 msgstr ""
 
-#: core/pages/settings.php:39 core/pages/settings.php:324
+#: core/pages/settings.php:39
+#: core/pages/settings.php:324
 msgid "Settings"
 msgstr ""
 
-#: core/pages/settings.php:74 core/post-types/custom_category.php:146
+#: core/pages/settings.php:74
+#: core/post-types/custom_category.php:146
 msgid "General"
 msgstr ""
 
@@ -539,7 +572,8 @@ msgstr ""
 msgid "Archive Product"
 msgstr ""
 
-#: core/pages/settings.php:155 core/pages/settings.php:283
+#: core/pages/settings.php:155
+#: core/pages/settings.php:283
 msgid "Show Compare Button"
 msgstr ""
 
@@ -547,7 +581,8 @@ msgstr ""
 msgid "Show Quick View Button"
 msgstr ""
 
-#: core/pages/settings.php:179 core/pages/settings.php:295
+#: core/pages/settings.php:179
+#: core/pages/settings.php:295
 msgid "Show Custom Field Icon"
 msgstr ""
 
@@ -555,22 +590,26 @@ msgstr ""
 msgid "Product Order"
 msgstr ""
 
-#: core/pages/settings.php:194 core/pages/settings.php:215
+#: core/pages/settings.php:194
+#: core/pages/settings.php:215
 #: core/pages/settings.php:310
 msgid "Most recent first"
 msgstr ""
 
-#: core/pages/settings.php:195 core/pages/settings.php:216
+#: core/pages/settings.php:195
+#: core/pages/settings.php:216
 #: core/pages/settings.php:311
 msgid "Oldest First"
 msgstr ""
 
-#: core/pages/settings.php:196 core/pages/settings.php:217
+#: core/pages/settings.php:196
+#: core/pages/settings.php:217
 #: core/pages/settings.php:312
 msgid "Title Alphabetical"
 msgstr ""
 
-#: core/pages/settings.php:197 core/pages/settings.php:218
+#: core/pages/settings.php:197
+#: core/pages/settings.php:218
 #: core/pages/settings.php:313
 msgid "Title Reverse Alphabetical"
 msgstr ""
@@ -599,12 +638,15 @@ msgstr ""
 msgid "Maximum Price First"
 msgstr ""
 
-#: core/pages/settings.php:212 core/pages/settings.php:219
-#: core/pages/settings.php:307 core/pages/settings.php:314
+#: core/pages/settings.php:212
+#: core/pages/settings.php:219
+#: core/pages/settings.php:307
+#: core/pages/settings.php:314
 msgid "Custom Field Order"
 msgstr ""
 
-#: core/pages/settings.php:220 core/pages/settings.php:315
+#: core/pages/settings.php:220
+#: core/pages/settings.php:315
 msgid "Custom Field Reverse Order"
 msgstr ""
 
@@ -636,24 +678,27 @@ msgstr ""
 msgid "Custom Categories"
 msgstr ""
 
-#: core/post-types/custom_category.php:37 core/post-types/product.php:49
+#: core/post-types/custom_category.php:37
+#: core/post-types/product.php:49
 msgid "This is where you can create and manage products."
 msgstr ""
 
-#: core/post-types/custom_category.php:44 core/post-types/custom_field.php:159
+#: core/post-types/custom_category.php:44
+#: core/post-types/custom_field.php:159
 #: core/post-types/product.php:56
 #: includes/library/acf-flexible-content/views/options.php:54
 #: includes/library/acf_custom/acf_custom.php:498
 msgid "Add New"
 msgstr ""
 
-#: core/post-types/custom_category.php:45 core/post-types/custom_field.php:160
+#: core/post-types/custom_category.php:45
+#: core/post-types/custom_field.php:160
 #: core/post-types/product.php:57
-#, php-format
 msgid "Add %s"
 msgstr ""
 
-#: core/post-types/custom_category.php:46 core/post-types/custom_field.php:161
+#: core/post-types/custom_category.php:46
+#: core/post-types/custom_field.php:161
 #: core/post-types/product.php:58
 #: includes/library/acf-flexible-content/views/options.php:168
 #: includes/library/acf-gallery/gallery.php:154
@@ -663,53 +708,60 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
-#: core/post-types/custom_category.php:47 core/post-types/custom_field.php:162
-#: core/post-types/product.php:59 core/taxonomies/branch.php:39
-#: core/taxonomies/category.php:39 core/taxonomies/group_field.php:50
+#: core/post-types/custom_category.php:47
+#: core/post-types/custom_field.php:162
+#: core/post-types/product.php:59
+#: core/taxonomies/branch.php:39
+#: core/taxonomies/category.php:39
+#: core/taxonomies/group_field.php:50
 #: includes/classes/class-custom_taxonomy.php:109
-#, php-format
 msgid "Edit %s"
 msgstr ""
 
-#: core/post-types/custom_category.php:48 core/post-types/custom_field.php:163
+#: core/post-types/custom_category.php:48
+#: core/post-types/custom_field.php:163
 #: core/post-types/product.php:60
-#, php-format
 msgid "New %s"
 msgstr ""
 
 #: core/post-types/custom_category.php:49
-#: core/post-types/custom_category.php:50 core/post-types/custom_field.php:164
-#: core/post-types/custom_field.php:165 core/post-types/product.php:61
+#: core/post-types/custom_category.php:50
+#: core/post-types/custom_field.php:164
+#: core/post-types/custom_field.php:165
+#: core/post-types/product.php:61
 #: core/post-types/product.php:62
-#, php-format
 msgid "View %s"
 msgstr ""
 
-#: core/post-types/custom_category.php:51 core/post-types/custom_field.php:166
-#: core/post-types/product.php:63 core/taxonomies/branch.php:35
-#: core/taxonomies/category.php:35 core/taxonomies/group_field.php:46
+#: core/post-types/custom_category.php:51
+#: core/post-types/custom_field.php:166
+#: core/post-types/product.php:63
+#: core/taxonomies/branch.php:35
+#: core/taxonomies/category.php:35
+#: core/taxonomies/group_field.php:46
 #: includes/classes/class-custom_taxonomy.php:105
-#, php-format
 msgid "Search %s"
 msgstr ""
 
-#: core/post-types/custom_category.php:52 core/post-types/custom_field.php:167
+#: core/post-types/custom_category.php:52
+#: core/post-types/custom_field.php:167
 #: core/post-types/product.php:64
-#, php-format
 msgid "No %s found"
 msgstr ""
 
-#: core/post-types/custom_category.php:53 core/post-types/custom_field.php:168
+#: core/post-types/custom_category.php:53
+#: core/post-types/custom_field.php:168
 #: core/post-types/product.php:65
-#, php-format
 msgid "No %s found in trash"
 msgstr ""
 
-#: core/post-types/custom_category.php:54 core/post-types/custom_field.php:169
-#: core/post-types/product.php:66 core/taxonomies/branch.php:37
-#: core/taxonomies/category.php:37 core/taxonomies/group_field.php:48
+#: core/post-types/custom_category.php:54
+#: core/post-types/custom_field.php:169
+#: core/post-types/product.php:66
+#: core/taxonomies/branch.php:37
+#: core/taxonomies/category.php:37
+#: core/taxonomies/group_field.php:48
 #: includes/classes/class-custom_taxonomy.php:107
-#, php-format
 msgid "Parent %s"
 msgstr ""
 
@@ -731,14 +783,17 @@ msgstr ""
 msgid "Slug"
 msgstr ""
 
-#: core/post-types/custom_category.php:263 core/taxonomies/branch.php:24
-#: core/taxonomies/category.php:86 includes/helpers/fieldhelper.php:126
+#: core/post-types/custom_category.php:263
+#: core/taxonomies/branch.php:24
+#: core/taxonomies/category.php:86
+#: includes/helpers/fieldhelper.php:126
 #: templates/single/content-custom-fields.php:29
 #: templates/single/content-specification.php:26
 msgid "Branch"
 msgstr ""
 
-#: core/post-types/custom_category.php:264 core/taxonomies/category.php:24
+#: core/post-types/custom_category.php:264
+#: core/taxonomies/category.php:24
 #: includes/helpers/fieldhelper.php:135
 #: templates/single/content-custom-fields.php:43
 #: templates/single/content-specification.php:40
@@ -760,16 +815,30 @@ msgstr ""
 msgid "This is where you can create and manage custom fields."
 msgstr ""
 
-#: core/post-types/custom_field.php:214
+#: core/post-types/custom_field.php:202
+#: core/taxonomies/group_field.php:114
+msgid "Order"
+msgstr ""
+
+#: core/post-types/custom_field.php:206
+#: core/post-types/custom_field.php:489
 msgid "Protected"
 msgstr ""
 
-#: core/post-types/custom_field.php:228
+#: core/post-types/custom_field.php:212
 msgid "In Listing"
 msgstr ""
 
-#: core/post-types/custom_field.php:229
+#: core/post-types/custom_field.php:213
 msgid "In Search"
+msgstr ""
+
+#: core/post-types/custom_field.php:488
+msgid "All Status"
+msgstr ""
+
+#: core/post-types/custom_field.php:490
+msgid "Unprotected"
 msgstr ""
 
 #: core/post-types/product.php:45
@@ -780,11 +849,13 @@ msgstr ""
 msgid "Products"
 msgstr ""
 
-#: core/post-types/product.php:52 core/post-types/product.php:54
+#: core/post-types/product.php:52
+#: core/post-types/product.php:54
 msgid "Advanced Products"
 msgstr ""
 
-#: core/post-types/product.php:185 core/post-types/product.php:295
+#: core/post-types/product.php:185
+#: core/post-types/product.php:295
 #: core/post-types/product.php:360
 msgid "Properties"
 msgstr ""
@@ -803,7 +874,7 @@ msgid "In compare list"
 msgstr ""
 
 #: core/shortcodes/advanced-product/advanced-product.php:159
-msgid "Do you want to remove this product?"
+msgid "Do you want to remove this product from compare list?"
 msgstr ""
 
 #: core/shortcodes/advanced-product/advanced-product.php:160
@@ -817,11 +888,13 @@ msgstr ""
 msgid "Search"
 msgstr ""
 
-#: core/shortcodes/search/tpl/search.php:75 templates/shortcodes/search.php:28
+#: core/shortcodes/search/tpl/search.php:78
+#: templates/shortcodes/search.php:32
 msgid "Keyword:"
 msgstr ""
 
-#: core/shortcodes/search/tpl/search.php:78 templates/shortcodes/search.php:31
+#: core/shortcodes/search/tpl/search.php:81
+#: templates/shortcodes/search.php:35
 msgid "Search ..."
 msgstr ""
 
@@ -829,38 +902,38 @@ msgstr ""
 msgid "Branches"
 msgstr ""
 
-#: core/taxonomies/branch.php:38 core/taxonomies/category.php:38
+#: core/taxonomies/branch.php:38
+#: core/taxonomies/category.php:38
 #: core/taxonomies/group_field.php:49
 #: includes/classes/class-custom_taxonomy.php:108
-#, php-format
 msgid "Parent %s:"
 msgstr ""
 
-#: core/taxonomies/branch.php:40 core/taxonomies/category.php:40
+#: core/taxonomies/branch.php:40
+#: core/taxonomies/category.php:40
 #: core/taxonomies/group_field.php:51
 #: includes/classes/class-custom_taxonomy.php:110
-#, php-format
 msgid "Update %s"
 msgstr ""
 
-#: core/taxonomies/branch.php:41 core/taxonomies/category.php:41
+#: core/taxonomies/branch.php:41
+#: core/taxonomies/category.php:41
 #: core/taxonomies/group_field.php:52
 #: includes/classes/class-custom_taxonomy.php:111
-#, php-format
 msgid "Add New %s"
 msgstr ""
 
-#: core/taxonomies/branch.php:42 core/taxonomies/category.php:42
+#: core/taxonomies/branch.php:42
+#: core/taxonomies/category.php:42
 #: core/taxonomies/group_field.php:53
 #: includes/classes/class-custom_taxonomy.php:112
-#, php-format
 msgid "New %s Name"
 msgstr ""
 
-#: core/taxonomies/branch.php:43 core/taxonomies/category.php:43
+#: core/taxonomies/branch.php:43
+#: core/taxonomies/category.php:43
 #: core/taxonomies/group_field.php:54
 #: includes/classes/class-custom_taxonomy.php:113
-#, php-format
 msgid "No %s found."
 msgstr ""
 
@@ -882,9 +955,7 @@ msgid "Associated Branch"
 msgstr ""
 
 #: core/taxonomies/category.php:69
-msgid ""
-"Press and hold the CTRL key and click items in the list to select multiple "
-"items. "
+msgid "Press and hold the CTRL key and click items in the list to select multiple items. "
 msgstr ""
 
 #: core/taxonomies/group_field.php:35
@@ -904,7 +975,6 @@ msgid "Branch Assigned"
 msgstr ""
 
 #: includes/classes/class-custom_taxonomy.php:155
-#, php-format
 msgid "Associated %s"
 msgstr ""
 
@@ -917,68 +987,68 @@ msgstr ""
 msgid "Property"
 msgstr ""
 
-#: includes/helpers/ap-custom-field-helper.php:857
+#: includes/helpers/ap-custom-field-helper.php:859
 msgid "="
 msgstr ""
 
-#: includes/helpers/ap-custom-field-helper.php:858
+#: includes/helpers/ap-custom-field-helper.php:860
 msgid "!="
 msgstr ""
 
-#: includes/helpers/ap-custom-field-helper.php:859
+#: includes/helpers/ap-custom-field-helper.php:861
 msgid ">"
 msgstr ""
 
-#: includes/helpers/ap-custom-field-helper.php:860
+#: includes/helpers/ap-custom-field-helper.php:862
 msgid ">="
 msgstr ""
 
-#: includes/helpers/ap-custom-field-helper.php:861
+#: includes/helpers/ap-custom-field-helper.php:863
 msgid "<"
 msgstr ""
 
-#: includes/helpers/ap-custom-field-helper.php:862
+#: includes/helpers/ap-custom-field-helper.php:864
 msgid "<="
 msgstr ""
 
-#: includes/helpers/ap-custom-field-helper.php:863
+#: includes/helpers/ap-custom-field-helper.php:865
 msgid "LIKE"
 msgstr ""
 
-#: includes/helpers/ap-custom-field-helper.php:864
+#: includes/helpers/ap-custom-field-helper.php:866
 msgid "NOT LIKE"
 msgstr ""
 
-#: includes/helpers/ap-custom-field-helper.php:865
+#: includes/helpers/ap-custom-field-helper.php:867
 msgid "IN"
 msgstr ""
 
-#: includes/helpers/ap-custom-field-helper.php:866
+#: includes/helpers/ap-custom-field-helper.php:868
 msgid "NOT IN"
 msgstr ""
 
-#: includes/helpers/ap-custom-field-helper.php:867
+#: includes/helpers/ap-custom-field-helper.php:869
 msgid "BETWEEN"
 msgstr ""
 
-#: includes/helpers/ap-custom-field-helper.php:868
+#: includes/helpers/ap-custom-field-helper.php:870
 msgid "NOT BETWEEN"
 msgstr ""
 
-#: includes/helpers/ap-custom-field-helper.php:869
+#: includes/helpers/ap-custom-field-helper.php:871
 msgid "EXISTS"
 msgstr ""
 
-#: includes/helpers/ap-custom-field-helper.php:870
+#: includes/helpers/ap-custom-field-helper.php:872
 msgid "NOT EXISTS"
 msgstr ""
 
-#: includes/helpers/ap-custom-field-helper.php:871
+#: includes/helpers/ap-custom-field-helper.php:873
 msgid "REGEXP"
 msgstr ""
 
-#: includes/helpers/ap-custom-field-helper.php:872
-#: includes/helpers/ap-custom-field-helper.php:873
+#: includes/helpers/ap-custom-field-helper.php:874
+#: includes/helpers/ap-custom-field-helper.php:875
 msgid "NOT REGEXP"
 msgstr ""
 
@@ -986,11 +1056,13 @@ msgstr ""
 msgid "Silver"
 msgstr ""
 
-#: includes/helpers/fieldhelper.php:107 includes/helpers/fieldhelper.php:118
+#: includes/helpers/fieldhelper.php:107
+#: includes/helpers/fieldhelper.php:118
 msgid "Black"
 msgstr ""
 
-#: includes/helpers/fieldhelper.php:108 includes/helpers/fieldhelper.php:119
+#: includes/helpers/fieldhelper.php:108
+#: includes/helpers/fieldhelper.php:119
 msgid "White"
 msgstr ""
 
@@ -1011,9 +1083,7 @@ msgid "Brown (Leather)"
 msgstr ""
 
 #: includes/helpers/fieldhelper.php:137
-msgid ""
-"If you do not see Make or can not choose it please edit and save again in "
-"make manager"
+msgid "If you do not see Make or can not choose it please edit and save again in make manager"
 msgstr ""
 
 #: includes/helpers/fieldhelper.php:146
@@ -1028,7 +1098,8 @@ msgstr ""
 msgid "Price Contact"
 msgstr ""
 
-#: includes/helpers/fieldhelper.php:156 includes/helpers/fieldhelper.php:161
+#: includes/helpers/fieldhelper.php:156
+#: includes/helpers/fieldhelper.php:161
 msgid "Url Price"
 msgstr ""
 
@@ -1224,7 +1295,6 @@ msgid "Flexible Content requires at least 1 layout"
 msgstr ""
 
 #: includes/library/acf-flexible-content/views/field.php:75
-#, php-format
 msgid "Click the \"%s\" button below to start creating your layout"
 msgstr ""
 
@@ -1287,8 +1357,7 @@ msgid "Field Order"
 msgstr ""
 
 #: includes/library/acf-flexible-content/views/options.php:149
-msgid ""
-"No fields. Click the \"+ Add Sub Field button\" to create your first field."
+msgid "No fields. Click the \"+ Add Sub Field button\" to create your first field."
 msgstr ""
 
 #: includes/library/acf-flexible-content/views/options.php:165
@@ -1529,8 +1598,8 @@ msgstr ""
 msgid "Custom field deleted."
 msgstr ""
 
+#. translators: %s: date and time of the revision
 #: includes/library/acf_custom/acf_custom.php:613
-#, php-format
 msgid "Field group restored to revision from %s"
 msgstr ""
 
@@ -1570,14 +1639,6 @@ msgstr ""
 msgid "Full"
 msgstr ""
 
-#: includes/library/acf_custom/core/api.php:1177
-msgid "Update"
-msgstr ""
-
-#: includes/library/acf_custom/core/api.php:1178
-msgid "Post updated"
-msgstr ""
-
 #: includes/library/acf_custom/core/actions/export.php:26
 #: includes/library/acf_custom/core/views/meta_box_fields.php:58
 msgid "Error"
@@ -1585,6 +1646,14 @@ msgstr ""
 
 #: includes/library/acf_custom/core/actions/export.php:33
 msgid "No ACF groups selected"
+msgstr ""
+
+#: includes/library/acf_custom/core/api.php:1177
+msgid "Update"
+msgstr ""
+
+#: includes/library/acf_custom/core/api.php:1178
+msgid "Post updated"
 msgstr ""
 
 #: includes/library/acf_custom/core/controllers/addons.php:42
@@ -1659,15 +1728,11 @@ msgid "Advanced Custom Fields Add-Ons"
 msgstr ""
 
 #: includes/library/acf_custom/core/controllers/addons.php:196
-msgid ""
-"The following Add-ons are available to increase the functionality of the "
-"Advanced Custom Fields plugin."
+msgid "The following Add-ons are available to increase the functionality of the Advanced Custom Fields plugin."
 msgstr ""
 
 #: includes/library/acf_custom/core/controllers/addons.php:197
-msgid ""
-"Each Add-on can be installed as a separate plugin (receives updates) or "
-"included in your theme (does not receive updates)."
+msgid "Each Add-on can be installed as a separate plugin (receives updates) or included in your theme (does not receive updates)."
 msgstr ""
 
 #: includes/library/acf_custom/core/controllers/addons.php:219
@@ -1707,15 +1772,11 @@ msgid "Export to PHP"
 msgstr ""
 
 #: includes/library/acf_custom/core/controllers/export.php:253
-msgid ""
-"ACF will create a .xml export file which is compatible with the native WP "
-"import plugin."
+msgid "ACF will create a .xml export file which is compatible with the native WP import plugin."
 msgstr ""
 
 #: includes/library/acf_custom/core/controllers/export.php:254
-msgid ""
-"Imported field groups <b>will</b> appear in the list of editable field "
-"groups. This is useful for migrating fields groups between Wp websites."
+msgid "Imported field groups <b>will</b> appear in the list of editable field groups. This is useful for migrating fields groups between Wp websites."
 msgstr ""
 
 #: includes/library/acf_custom/core/controllers/export.php:256
@@ -1752,18 +1813,12 @@ msgstr ""
 
 #: includes/library/acf_custom/core/controllers/export.php:269
 #: includes/library/acf_custom/core/controllers/export.php:310
-msgid ""
-"Registered field groups <b>will not</b> appear in the list of editable field "
-"groups. This is useful for including fields in themes."
+msgid "Registered field groups <b>will not</b> appear in the list of editable field groups. This is useful for including fields in themes."
 msgstr ""
 
 #: includes/library/acf_custom/core/controllers/export.php:270
 #: includes/library/acf_custom/core/controllers/export.php:311
-msgid ""
-"Please note that if you export and register field groups within the same WP, "
-"you will see duplicate fields on your edit screens. To fix this, please move "
-"the original field group to the trash or remove the code from your functions."
-"php file."
+msgid "Please note that if you export and register field groups within the same WP, you will see duplicate fields on your edit screens. To fix this, please move the original field group to the trash or remove the code from your functions.php file."
 msgstr ""
 
 #: includes/library/acf_custom/core/controllers/export.php:272
@@ -1803,17 +1858,11 @@ msgid "Include in theme"
 msgstr ""
 
 #: includes/library/acf_custom/core/controllers/export.php:317
-msgid ""
-"The Advanced Custom Fields plugin can be included within a theme. To do so, "
-"move the ACF plugin inside your theme and add the following code to your "
-"functions.php file:"
+msgid "The Advanced Custom Fields plugin can be included within a theme. To do so, move the ACF plugin inside your theme and add the following code to your functions.php file:"
 msgstr ""
 
 #: includes/library/acf_custom/core/controllers/export.php:323
-msgid ""
-"To remove all visual interfaces from the ACF plugin, you can use a constant "
-"to enable lite mode. Add the following code to your functions.php file "
-"<b>before</b> the include_once code:"
+msgid "To remove all visual interfaces from the ACF plugin, you can use a constant to enable lite mode. Add the following code to your functions.php file <b>before</b> the include_once code:"
 msgstr ""
 
 #: includes/library/acf_custom/core/controllers/export.php:331
@@ -2004,10 +2053,7 @@ msgid "Activation codes have grown into plugins!"
 msgstr ""
 
 #: includes/library/acf_custom/core/controllers/field_groups.php:310
-msgid ""
-"Add-ons are now activated by downloading and installing individual plugins. "
-"Although these plugins will not be hosted on the wordpress.org repository, "
-"each Add-on will continue to receive updates in the usual way."
+msgid "Add-ons are now activated by downloading and installing individual plugins. Although these plugins will not be hosted on the wordpress.org repository, each Add-on will continue to receive updates in the usual way."
 msgstr ""
 
 #: includes/library/acf_custom/core/controllers/field_groups.php:316
@@ -2023,9 +2069,7 @@ msgid "Download your activated Add-ons"
 msgstr ""
 
 #: includes/library/acf_custom/core/controllers/field_groups.php:325
-msgid ""
-"This website does not use premium Add-ons and will not be affected by this "
-"change."
+msgid "This website does not use premium Add-ons and will not be affected by this change."
 msgstr ""
 
 #: includes/library/acf_custom/core/controllers/field_groups.php:335
@@ -2057,9 +2101,7 @@ msgid "Custom Field Types"
 msgstr ""
 
 #: includes/library/acf_custom/core/controllers/field_groups.php:345
-msgid ""
-"Creating your own field type has never been easier! Unfortunately, version 3 "
-"field types are not compatible with version 4."
+msgid "Creating your own field type has never been easier! Unfortunately, version 3 field types are not compatible with version 4."
 msgstr ""
 
 #: includes/library/acf_custom/core/controllers/field_groups.php:346
@@ -2079,9 +2121,7 @@ msgid "Actions &amp; Filters"
 msgstr ""
 
 #: includes/library/acf_custom/core/controllers/field_groups.php:349
-msgid ""
-"All actions & filters have received a major facelift to make customizing ACF "
-"even easier! Please"
+msgid "All actions & filters have received a major facelift to make customizing ACF even easier! Please"
 msgstr ""
 
 #: includes/library/acf_custom/core/controllers/field_groups.php:349
@@ -2113,10 +2153,7 @@ msgid "Database Changes"
 msgstr ""
 
 #: includes/library/acf_custom/core/controllers/field_groups.php:359
-msgid ""
-"Absolutely <strong>no</strong> changes have been made to the database "
-"between versions 3 and 4. This means you can roll back to version 3 without "
-"any issues."
+msgid "Absolutely <strong>no</strong> changes have been made to the database between versions 3 and 4. This means you can roll back to version 3 without any issues."
 msgstr ""
 
 #: includes/library/acf_custom/core/controllers/field_groups.php:361
@@ -2124,10 +2161,7 @@ msgid "Potential Issues"
 msgstr ""
 
 #: includes/library/acf_custom/core/controllers/field_groups.php:362
-msgid ""
-"Do to the sizable changes surounding Add-ons, field types and action/"
-"filters, your website may not operate correctly. It is important that you "
-"read the full"
+msgid "Do to the sizable changes surounding Add-ons, field types and action/filters, your website may not operate correctly. It is important that you read the full"
 msgstr ""
 
 #: includes/library/acf_custom/core/controllers/field_groups.php:362
@@ -2143,9 +2177,7 @@ msgid "Really Important!"
 msgstr ""
 
 #: includes/library/acf_custom/core/controllers/field_groups.php:365
-msgid ""
-"If you updated the ACF plugin without prior knowledge of such changes, "
-"please roll back to the latest"
+msgid "If you updated the ACF plugin without prior knowledge of such changes, please roll back to the latest"
 msgstr ""
 
 #: includes/library/acf_custom/core/controllers/field_groups.php:365
@@ -2161,9 +2193,7 @@ msgid "Thank You"
 msgstr ""
 
 #: includes/library/acf_custom/core/controllers/field_groups.php:371
-msgid ""
-"A <strong>BIG</strong> thank you to everyone who has helped test the version "
-"4 beta and for all the support I have received."
+msgid "A <strong>BIG</strong> thank you to everyone who has helped test the version 4 beta and for all the support I have received."
 msgstr ""
 
 #: includes/library/acf_custom/core/controllers/field_groups.php:372
@@ -2183,16 +2213,11 @@ msgid "Overview"
 msgstr ""
 
 #: includes/library/acf_custom/core/controllers/field_groups.php:401
-msgid ""
-"Previously, all Add-ons were unlocked via an activation code (purchased from "
-"the ACF Add-ons store). New to v4, all Add-ons act as separate plugins which "
-"need to be individually downloaded, installed and updated."
+msgid "Previously, all Add-ons were unlocked via an activation code (purchased from the ACF Add-ons store). New to v4, all Add-ons act as separate plugins which need to be individually downloaded, installed and updated."
 msgstr ""
 
 #: includes/library/acf_custom/core/controllers/field_groups.php:403
-msgid ""
-"This page will assist you in downloading and installing each available Add-"
-"on."
+msgid "This page will assist you in downloading and installing each available Add-on."
 msgstr ""
 
 #: includes/library/acf_custom/core/controllers/field_groups.php:405
@@ -2237,9 +2262,7 @@ msgid "Use the uploader to browse, select and install your Add-on (.zip file)"
 msgstr ""
 
 #: includes/library/acf_custom/core/controllers/field_groups.php:470
-msgid ""
-"Once the plugin has been uploaded and installed, click the 'Activate Plugin' "
-"link"
+msgid "Once the plugin has been uploaded and installed, click the 'Activate Plugin' link"
 msgstr ""
 
 #: includes/library/acf_custom/core/controllers/field_groups.php:471
@@ -2317,9 +2340,58 @@ msgid "Color Picker"
 msgstr ""
 
 #: includes/library/acf_custom/core/fields/color_picker.php:20
-#: includes/library/acf_custom/core/fields/google-map.php:19
 #: includes/library/acf_custom/core/fields/date_picker/date_picker.php:20
+#: includes/library/acf_custom/core/fields/google-map.php:19
 msgid "jQuery"
+msgstr ""
+
+#: includes/library/acf_custom/core/fields/date_picker/date_picker.php:19
+msgid "Date Picker"
+msgstr ""
+
+#: includes/library/acf_custom/core/fields/date_picker/date_picker.php:55
+msgid "Done"
+msgstr ""
+
+#: includes/library/acf_custom/core/fields/date_picker/date_picker.php:56
+msgid "Today"
+msgstr ""
+
+#: includes/library/acf_custom/core/fields/date_picker/date_picker.php:59
+msgid "Show a different month"
+msgstr ""
+
+#: includes/library/acf_custom/core/fields/date_picker/date_picker.php:126
+msgid "Save format"
+msgstr ""
+
+#: includes/library/acf_custom/core/fields/date_picker/date_picker.php:127
+msgid "This format will determin the value saved to the database and returned via the API"
+msgstr ""
+
+#: includes/library/acf_custom/core/fields/date_picker/date_picker.php:128
+msgid "\"yymmdd\" is the most versatile save format. Read more about"
+msgstr ""
+
+#: includes/library/acf_custom/core/fields/date_picker/date_picker.php:128
+#: includes/library/acf_custom/core/fields/date_picker/date_picker.php:144
+msgid "jQuery date formats"
+msgstr ""
+
+#: includes/library/acf_custom/core/fields/date_picker/date_picker.php:142
+msgid "Display format"
+msgstr ""
+
+#: includes/library/acf_custom/core/fields/date_picker/date_picker.php:143
+msgid "This format will be seen by the user when entering a value"
+msgstr ""
+
+#: includes/library/acf_custom/core/fields/date_picker/date_picker.php:144
+msgid "\"dd/mm/yy\" or \"mm/dd/yy\" are the most used display formats. Read more about"
+msgstr ""
+
+#: includes/library/acf_custom/core/fields/date_picker/date_picker.php:158
+msgid "Week Starts On"
 msgstr ""
 
 #: includes/library/acf_custom/core/fields/dummy.php:19
@@ -2660,15 +2732,11 @@ msgid "Tab"
 msgstr ""
 
 #: includes/library/acf_custom/core/fields/tab.php:68
-msgid ""
-"Use \"Tab Fields\" to better organize your edit screen by grouping your "
-"fields together under separate tab headings."
+msgid "Use \"Tab Fields\" to better organize your edit screen by grouping your fields together under separate tab headings."
 msgstr ""
 
 #: includes/library/acf_custom/core/fields/tab.php:69
-msgid ""
-"All the fields following this \"tab field\" (or until another \"tab field\" "
-"is defined) will be grouped together."
+msgid "All the fields following this \"tab field\" (or until another \"tab field\" is defined) will be grouped together."
 msgstr ""
 
 #: includes/library/acf_custom/core/fields/tab.php:70
@@ -2709,8 +2777,7 @@ msgid "Load & Save Terms to Post"
 msgstr ""
 
 #: includes/library/acf_custom/core/fields/taxonomy.php:364
-msgid ""
-"Load value based on the post's terms and update the post's terms on save"
+msgid "Load value based on the post's terms and update the post's terms on save"
 msgstr ""
 
 #: includes/library/acf_custom/core/fields/taxonomy.php:381
@@ -2809,59 +2876,6 @@ msgstr ""
 msgid "Show Media Upload Buttons?"
 msgstr ""
 
-#: includes/library/acf_custom/core/fields/date_picker/date_picker.php:19
-msgid "Date Picker"
-msgstr ""
-
-#: includes/library/acf_custom/core/fields/date_picker/date_picker.php:55
-msgid "Done"
-msgstr ""
-
-#: includes/library/acf_custom/core/fields/date_picker/date_picker.php:56
-msgid "Today"
-msgstr ""
-
-#: includes/library/acf_custom/core/fields/date_picker/date_picker.php:59
-msgid "Show a different month"
-msgstr ""
-
-#: includes/library/acf_custom/core/fields/date_picker/date_picker.php:126
-msgid "Save format"
-msgstr ""
-
-#: includes/library/acf_custom/core/fields/date_picker/date_picker.php:127
-msgid ""
-"This format will determin the value saved to the database and returned via "
-"the API"
-msgstr ""
-
-#: includes/library/acf_custom/core/fields/date_picker/date_picker.php:128
-msgid "\"yymmdd\" is the most versatile save format. Read more about"
-msgstr ""
-
-#: includes/library/acf_custom/core/fields/date_picker/date_picker.php:128
-#: includes/library/acf_custom/core/fields/date_picker/date_picker.php:144
-msgid "jQuery date formats"
-msgstr ""
-
-#: includes/library/acf_custom/core/fields/date_picker/date_picker.php:142
-msgid "Display format"
-msgstr ""
-
-#: includes/library/acf_custom/core/fields/date_picker/date_picker.php:143
-msgid "This format will be seen by the user when entering a value"
-msgstr ""
-
-#: includes/library/acf_custom/core/fields/date_picker/date_picker.php:144
-msgid ""
-"\"dd/mm/yy\" or \"mm/dd/yy\" are the most used display formats. Read more "
-"about"
-msgstr ""
-
-#: includes/library/acf_custom/core/fields/date_picker/date_picker.php:158
-msgid "Week Starts On"
-msgstr ""
-
 #: includes/library/acf_custom/core/views/meta_box_fields.php:58
 msgid "Field type does not exist"
 msgstr ""
@@ -2871,9 +2885,7 @@ msgid "Field Key"
 msgstr ""
 
 #: includes/library/acf_custom/core/views/meta_box_fields.php:90
-msgid ""
-"No fields. Click the <strong>+ Add Field</strong> button to create your "
-"first field."
+msgid "No fields. Click the <strong>+ Add Field</strong> button to create your first field."
 msgstr ""
 
 #: includes/library/acf_custom/core/views/meta_box_fields.php:318
@@ -2885,9 +2897,7 @@ msgid "Rules"
 msgstr ""
 
 #: includes/library/acf_custom/core/views/meta_box_location.php:49
-msgid ""
-"Create a set of rules to determine which edit screens will use these "
-"advanced custom fields"
+msgid "Create a set of rules to determine which edit screens will use these advanced custom fields"
 msgstr ""
 
 #: includes/library/acf_custom/core/views/meta_box_location.php:60
@@ -2997,9 +3007,7 @@ msgid "<b>Select</b> items to <b>hide</b> them from the edit screen"
 msgstr ""
 
 #: includes/library/acf_custom/core/views/meta_box_options.php:86
-msgid ""
-"If multiple field groups appear on an edit screen, the first field group's "
-"options will be used. (the one with the lowest order number)"
+msgid "If multiple field groups appear on an edit screen, the first field group's options will be used. (the one with the lowest order number)"
 msgstr ""
 
 #: includes/library/acf_custom/core/views/meta_box_options.php:96
@@ -3067,24 +3075,15 @@ msgid "Remember to update the passwords and roles of imported users."
 msgstr ""
 
 #: includes/library/importer/wordpress-importer/class-wp-import.php:171
-#, php-format
-msgid ""
-"The export file could not be found at <code>%s</code>. It is likely that "
-"this was caused by a permissions problem."
+msgid "The export file could not be found at <code>%s</code>. It is likely that this was caused by a permissions problem."
 msgstr ""
 
 #: includes/library/importer/wordpress-importer/class-wp-import.php:187
-#, php-format
-msgid ""
-"This WXR file (version %s) may not be supported by this version of the "
-"importer. Please consider updating."
+msgid "This WXR file (version %s) may not be supported by this version of the importer. Please consider updating."
 msgstr ""
 
 #: includes/library/importer/wordpress-importer/class-wp-import.php:212
-#, php-format
-msgid ""
-"Failed to import author %s. Their posts will be attributed to the current "
-"user."
+msgid "Failed to import author %s. Their posts will be attributed to the current user."
 msgstr ""
 
 #: includes/library/importer/wordpress-importer/class-wp-import.php:238
@@ -3092,18 +3091,11 @@ msgid "Assign Authors"
 msgstr ""
 
 #: includes/library/importer/wordpress-importer/class-wp-import.php:239
-msgid ""
-"To make it simpler for you to edit and save the imported content, you may "
-"want to reassign the author of the imported item to an existing user of this "
-"site, such as your primary administrator account."
+msgid "To make it simpler for you to edit and save the imported content, you may want to reassign the author of the imported item to an existing user of this site, such as your primary administrator account."
 msgstr ""
 
 #: includes/library/importer/wordpress-importer/class-wp-import.php:241
-#, php-format
-msgid ""
-"If a new user is created by WordPress, a new password will be randomly "
-"generated and the new user&#8217;s role will be set as %s. Manually changing "
-"the new user&#8217;s details will be necessary."
+msgid "If a new user is created by WordPress, a new password will be randomly generated and the new user&#8217;s role will be set as %s. Manually changing the new user&#8217;s details will be necessary."
 msgstr ""
 
 #: includes/library/importer/wordpress-importer/class-wp-import.php:251
@@ -3143,40 +3135,31 @@ msgid "- Select -"
 msgstr ""
 
 #: includes/library/importer/wordpress-importer/class-wp-import.php:360
-#, php-format
-msgid ""
-"Failed to create new user for %s. Their posts will be attributed to the "
-"current user."
+msgid "Failed to create new user for %s. Their posts will be attributed to the current user."
 msgstr ""
 
 #: includes/library/importer/wordpress-importer/class-wp-import.php:412
-#, php-format
 msgid "Failed to import category %s"
 msgstr ""
 
 #: includes/library/importer/wordpress-importer/class-wp-import.php:457
-#, php-format
 msgid "Failed to import post tag %s"
 msgstr ""
 
 #: includes/library/importer/wordpress-importer/class-wp-import.php:512
 #: includes/library/importer/wordpress-importer/class-wp-import.php:738
-#, php-format
 msgid "Failed to import %s %s"
 msgstr ""
 
 #: includes/library/importer/wordpress-importer/class-wp-import.php:605
-#, php-format
 msgid "Failed to import &#8220;%s&#8221;: Invalid post type %s"
 msgstr ""
 
 #: includes/library/importer/wordpress-importer/class-wp-import.php:642
-#, php-format
 msgid "%s &#8220;%s&#8221; already exists."
 msgstr ""
 
 #: includes/library/importer/wordpress-importer/class-wp-import.php:704
-#, php-format
 msgid "Failed to import %s &#8220;%s&#8221;"
 msgstr ""
 
@@ -3185,7 +3168,6 @@ msgid "Menu item skipped due to missing menu slug"
 msgstr ""
 
 #: includes/library/importer/wordpress-importer/class-wp-import.php:885
-#, php-format
 msgid "Menu item skipped due to invalid menu slug: %s"
 msgstr ""
 
@@ -3201,13 +3183,13 @@ msgstr ""
 msgid "Could not create temporary file."
 msgstr ""
 
+#. translators: 1: The WordPress error message. 2: The WordPress error code.
 #: includes/library/importer/wordpress-importer/class-wp-import.php:1019
-#, php-format
 msgid "Request failed due to an error: %1$s (%2$s)"
 msgstr ""
 
+#. translators: 1: The HTTP error message. 2: The HTTP error code.
 #: includes/library/importer/wordpress-importer/class-wp-import.php:1035
-#, php-format
 msgid "Remote server returned the following unexpected result: %1$s (%2$s)"
 msgstr ""
 
@@ -3224,7 +3206,6 @@ msgid "Downloaded file has incorrect size"
 msgstr ""
 
 #: includes/library/importer/wordpress-importer/class-wp-import.php:1065
-#, php-format
 msgid "Remote file is too large, limit is %s"
 msgstr ""
 
@@ -3241,35 +3222,22 @@ msgid "Import WordPress"
 msgstr ""
 
 #: includes/library/importer/wordpress-importer/class-wp-import.php:1231
-#, php-format
-msgid ""
-"A new version of this importer is available. Please update to version %s to "
-"ensure compatibility with newer export files."
+msgid "A new version of this importer is available. Please update to version %s to ensure compatibility with newer export files."
 msgstr ""
 
 #: includes/library/importer/wordpress-importer/class-wp-import.php:1246
-msgid ""
-"Howdy! Upload your WordPress eXtended RSS (WXR) file and we&#8217;ll import "
-"the posts, pages, comments, custom fields, categories, and tags into this "
-"site."
+msgid "Howdy! Upload your WordPress eXtended RSS (WXR) file and we&#8217;ll import the posts, pages, comments, custom fields, categories, and tags into this site."
 msgstr ""
 
 #: includes/library/importer/wordpress-importer/class-wp-import.php:1247
 msgid "Choose a WXR (.xml) file to upload, then click Upload file and import."
 msgstr ""
 
-#: includes/library/importer/wordpress-importer/wordpress-importer.php:58
-msgid ""
-"Import <strong>posts, pages, comments, custom fields, categories, and tags</"
-"strong> from a WordPress export file."
-msgstr ""
-
 #: includes/library/importer/wordpress-importer/parsers/class-wxr-parser-regex.php:96
 #: includes/library/importer/wordpress-importer/parsers/class-wxr-parser-simplexml.php:41
 #: includes/library/importer/wordpress-importer/parsers/class-wxr-parser-simplexml.php:46
 #: includes/library/importer/wordpress-importer/parsers/class-wxr-parser-xml.php:48
-msgid ""
-"This does not appear to be a WXR file, missing/invalid WXR version number"
+msgid "This does not appear to be a WXR file, missing/invalid WXR version number"
 msgstr ""
 
 #: includes/library/importer/wordpress-importer/parsers/class-wxr-parser-simplexml.php:29
@@ -3279,9 +3247,11 @@ msgid "There was an error when reading this WXR file"
 msgstr ""
 
 #: includes/library/importer/wordpress-importer/parsers/class-wxr-parser.php:43
-msgid ""
-"Details are shown above. The importer will now try again with a different "
-"parser..."
+msgid "Details are shown above. The importer will now try again with a different parser..."
+msgstr ""
+
+#: includes/library/importer/wordpress-importer/wordpress-importer.php:58
+msgid "Import <strong>posts, pages, comments, custom fields, categories, and tags</strong> from a WordPress export file."
 msgstr ""
 
 #: templates/archive/no_content.php:8

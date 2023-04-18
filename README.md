@@ -1,49 +1,35 @@
 # Advanced Product
+
 Advanced Product - Wordpress Plugin
 
-Changelogs:
 
-Version 1.0.6 - December 06, 2022
+_Documentation: https://docs.templaza.com_
 
-    - Fix issue archive html layout
-    - Fix issue import term meta of branch
-    - Fix issue generate form of search shortcode
-    - Fix issue option search field type in custom field
-    - Fix issue Load & Save Terms to Post of custom field type: taxonomy
-    - Fix issue filter products when use multiple search forms on a page
-    - Fix issue branch assignment and group fields assignment in back-end
-    - Fix issue default value taxonomy's Load & Save Terms to Post option
+_Forum: https://www.templaza.com/forums.html_
 
-Version 1.0.5 - November 10, 2022
+_Ticket: https://www.templaza.com/tz_membership/addticket.html_
 
-    - Fix issue ajax search
-    - Fix issue associate fields
-    - Fix issue Number of decimals
-    - Fix issue with ap_icon field
-    - Fix issue load uikit css in backend
-    - Fix issue disable ajax in search form
-    - Fix issue order field when edit product in back-end
-    - Fix issue post_parent in acf_custom
-    - Fix issue uikit css in back-end
-    - Add style 4 advanced product
-    - Update language file
-    - Update order custom field
-    - Update search shortcode
-    - Update icon for custom field
-    - Update max-height for search shortcode
-    - Update column for search form shortcode
-    - Update filter by Custom Field Group of Custom field in backend
+_FanPage: https://www.facebook.com/templaza_
 
-Version 1.0.4 - September 20, 2022
+_Twitter: https://twitter.com/templazavn_
 
-    - Fix issue form setting of form search
-    - Fix issue save category
-    - Fix issue Undefined index: Choice in custom field edit
+_Google+: https://plus.google.com/+Templaza_
 
-Version 1.0.3 - September 17, 2022
+## Getting Started
+ 
+ ### Installation
+ 
+ 1. Download the plugin .zip file
+ 2. Log in to your WordPress admin panel
+ 3. Go to Plugins > click "Add New" button > upload the plugin .zip file 
+ 4. Click "Install Now" and activate the plugin
+ 
+ ### Usage
+ 
+ _For more examples, please refer to the [Documentation](https://docs.templaza.com)_
 
-    - Fix issue ap_icon modal in footer
-    - Fix issue modal z-index of field type ap_icon
-    - Fix issue undefined array field in search shortcode
-    - Fix issue slug of branch and category with fields used
-    - Update filter use ajax
+## Changelogs:
+
+Go read the entire changelog at [this link](https://github.com/templaza/advanced-product/blob/main/CHANGELOG.md).
+
+Looking for older versions of TemPlaza Framework? Check the [releases](https://github.com/templaza/advanced-product/releases).
