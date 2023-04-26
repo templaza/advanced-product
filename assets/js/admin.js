@@ -735,6 +735,17 @@
                                 $(_main_id).prepend(__postbox);
                             }
 
+                            // Reinitialize the editor: Remove the editor then add it back
+                            if($(_main_id).find(".acf_wysiwyg textarea").length) {
+                                $(_main_id).find(".acf_wysiwyg textarea").each(function () {
+                                    var __textarea_id = $(this).attr("id");
+
+                                    // Reinitialize the editor: Remove the editor then add it back
+                                    tinymce.execCommand('mceRemoveEditor', false, __textarea_id);
+                                    tinymce.execCommand('mceAddEditor', false, __textarea_id);
+                                });
+                            }
+
                             $(_main_id).find('.acf-date_picker').each(function(){
 
                                 acf.fields.date_picker.set({ $el : $(this) }).init();
