@@ -761,6 +761,10 @@
                                 $("#postbox-container-2 > .acf-loading:first-child").remove();
                             }
 
+                            if(typeof acf.conditional_logic !== "undefined"){
+                                acf.conditional_logic.init();
+                            }
+
                             __ajax_loaded   = true;
 
                             // $obj.data("__ajax_loaded", $branch_slug);
