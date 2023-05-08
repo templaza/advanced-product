@@ -145,7 +145,7 @@ if(!isset($limit_height) || (isset($limit_height) && $limit_height)){
     <?php if(!empty($max_height)){ ?>
     <a href="javascript:" class="ap-search-close active ap-search-mini uk-position-top-right" ><i class="fas fa-times"></i></a>
     <a href="javascript:" class="ap-search-close ap-search-full uk-position-top-right" ><i class="fas fa-expand-arrows-alt"></i></a>
-    <a href="javascript:" class="ap-search-ep active ap-search-expand uk-position-bottom-center" ><i class="fas fa-angle-double-down"></i></a>
-    <a href="javascript:" class="ap-search-ep ap-search-shrink uk-position-bottom-center"><i class="fas fa-angle-double-up"></i></a>
+    <a href="javascript:" class="ap-search-ep active ap-search-expand uk-position-bottom-right" ><i class="fas fa-angle-double-down"></i><?php esc_html_e('See more','advanced-product');?></a>
+    <a href="javascript:" class="ap-search-ep ap-search-shrink uk-position-bottom-right"><i class="fas fa-angle-double-up"></i><?php esc_html_e('See less','advanced-product');?></a>
 </div>
 <?php } ?>

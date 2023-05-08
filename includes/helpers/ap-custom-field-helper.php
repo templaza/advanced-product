@@ -851,7 +851,7 @@ class AP_Custom_Field_Helper extends BaseHelper {
     public static function get_exclude_fields_registered(){
         return array(
             'ap_price', 'ap_price_msrp', 'ap_rental_price',
-            'ap_rental_unit','ap_product_type', 'ap_gallery','ap_video'
+            'ap_rental_unit','ap_price_contact','ap_price_sold','ap_product_type', 'ap_gallery','ap_video'
         );
     }
 
