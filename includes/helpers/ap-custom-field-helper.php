@@ -291,6 +291,12 @@ class AP_Custom_Field_Helper extends BaseHelper {
                     'key'   => $flag_name,
                     'value' => 1
                 )
+            ),
+            'tax_query' => array(
+                array(
+                    'taxonomy' => 'ap_group_field',
+                    'operator' => 'EXISTS',
+                )
             )
         );
 
