@@ -307,11 +307,12 @@ class Group_Field extends Taxonomy {
         {
             global $post;
 
-//            $order  =   isset($_GET['order'])  ?   $_GET['order'] : '';
-            $order  =   isset($query->query_vars['order'])  ?   $query->query_vars['order'] : '';
+            if($query->is_main_query()){
+                $order  =   isset($query->query_vars['order'])  ?   $query->query_vars['order'] : '';
 
-            $order  =   apply_filters('advanced-product/taxonomy_orderby', $order, $query);
-            $orderBy = "{$wpdb->terms}.term_order {$order}";
+                $order  =   apply_filters('advanced-product/taxonomy_orderby', $order, $query);
+                $orderBy = "{$wpdb->terms}.term_order {$order}";
+            }
         }
 
         return($orderBy);
