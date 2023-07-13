@@ -646,6 +646,7 @@
     // Filter form ajax
     $(document).ready(function(){
         if($('.ap-search-max-height').length){
+            $('body').addClass('body-ap-search-max-height');
             $('.ap-search-expand').on('click',function(){
                 $(this).removeClass('active');
                 $(this).parent().find('.ap-search-shrink').addClass('active');
