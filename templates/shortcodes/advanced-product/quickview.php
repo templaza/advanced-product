@@ -29,22 +29,8 @@ if(isset($product) && !empty($product)){
             <div class="uk-padding">
                 <h2 class="ap-quickview-product_title entry-title"><a href="<?php the_permalink(); ?>"><?php the_title();?></a></h2>
                 <?php
-                $msrp   = get_field('ap_price_msrp', get_the_ID());
-                $price  = get_field('ap_price', get_the_ID());
-
-                if (!empty($price)) {
-
-                    $html = '<div class="ap-pricing">';
-                    $html .= sprintf('<span class="ap-price"><b> %s</b> %s </span>',
-                        esc_html__(' ', 'advanced-product'), AP_Helper::format_price($price));
-                    if (!empty($msrp)) {
-                        $html .= sprintf('<span class="ap-price-msrp"> %s  %s </span>',
-                            esc_html__('MSRP:', 'advanced-product'), AP_Helper::format_price($msrp));
-                    }
-                    $html .= '</div>';
-
-                    echo balanceTags($html);
-                }  ?>
+                AP_Templates::load_my_layout('archive.price');
+                ?>
                 <div class="ap-quickview-excerpt"><?php the_excerpt(); ?></div>
                 <?php
                 AP_Templates::load_my_layout('shortcodes.advanced-product.quickview-custom-fields');
