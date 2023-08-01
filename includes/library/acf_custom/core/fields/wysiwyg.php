@@ -51,7 +51,17 @@ class acf_field_wysiwyg extends acf_field
     	add_filter( 'acf/fields/wysiwyg/toolbars', array( $this, 'toolbars'), 1, 1 );
     	add_filter( 'mce_external_plugins', array( $this, 'mce_external_plugins'), 20, 1 );
 
+        add_action('wp_enqueue_scripts', array($this, 'wp_enqueue_scripts'));
+
 	}
+
+	public function wp_enqueue_scripts(){
+        if(!is_admin()) {
+            wp_enqueue_script( 'editor' );
+            wp_enqueue_script('wp-tinymce');
+            wp_enqueue_style( 'editor-buttons' );
+        }
+    }
 	
 	
 	/*
@@ -235,21 +245,28 @@ class acf_field_wysiwyg extends acf_field
 		
 		// vars
 		$id = 'wysiwyg-' . $field['id'] . '-' . uniqid();
-		
-		
+
 		?>
 		<div id="wp-<?php echo $id; ?>-wrap" class="acf_wysiwyg wp-editor-wrap" data-toolbar="<?php echo $field['toolbar']; ?>" data-upload="<?php echo $field['media_upload']; ?>">
 			<?php if( user_can_richedit() && $field['media_upload'] == 'yes' ): ?>
 				<?php if( version_compare($wp_version, '3.3', '<') ): ?>
 					<div id="editor-toolbar">
 						<div id="media-buttons" class="hide-if-no-js">
-							<?php do_action( 'media_buttons' ); ?>
+							<?php
+                            if ( ! function_exists( 'media_buttons' ) ) {
+                                require ABSPATH . 'wp-admin/includes/media.php';
+                            }
+                            do_action( 'media_buttons' ); ?>
 						</div>
 					</div>
 				<?php else: ?>
 					<div id="wp-<?php echo $id; ?>-editor-tools" class="wp-editor-tools">
 						<div id="wp-<?php echo $id; ?>-media-buttons" class="hide-if-no-js wp-media-buttons">
-							<?php do_action( 'media_buttons' ); ?>
+							<?php
+                            if ( ! function_exists( 'media_buttons' ) ) {
+                                require ABSPATH . 'wp-admin/includes/media.php';
+                            }
+                            do_action( 'media_buttons' ); ?>
 						</div>
                         <?php
                         $show_tabs      = true;
