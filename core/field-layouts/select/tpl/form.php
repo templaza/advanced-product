@@ -121,9 +121,10 @@ if((empty($orgf_type) || ($orgf_type = 'number' && !$is_from_to)) &&
     $html_field = preg_replace('/(<select(\s+[^>]*)?>)((.|\n)*?)(<\/select(\s+[^>]*)?>)/ius', '$1<option value="">'
         .sprintf(esc_html__('All %s','advanced-product'), __($field['label'],'advanced-product')).'</option>$3$5', $html_field);
 }
-
     ?>
-    <div class="ap-search-item uk-margin">
+    <div class="ap-search-item uk-margin" data-field_name="<?php echo isset($field['_name'])?$field['_name']:'';
+    ?>" data-field_type="<?php echo isset($field['type'])?$field['type']:'';
+    ?>" data-field_key="<?php echo isset($field['key'])?$field['key']:'';?>">
         <?php if(!isset($field['s_show_label']) || (isset($field['s_show_label']) && $field['s_show_label'])){?>
         <label class="search-label"><?php echo __($field['label'],'advanced-product'); ?></label>
         <?php }?>

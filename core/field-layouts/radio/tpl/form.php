@@ -20,11 +20,11 @@ if($field) {
     $html_field = trim($html_field);
 
     $html_field = preg_replace('/<input type="hidden"(\s+[^>]*)?[\/]?>/ius', '', $html_field);
-/*    $html_field = preg_replace('/(<input)((\s+[^>]*)?[\/]?>)/ius', '$1 class="uk-radio" $2', $html_field);*/
     preg_match('/(<input)((\s+[^>]*)?[\/]?>)/ius', $html_field, $match);
-//    var_dump($match); die(__FILE__);
     ?>
-    <div class="uk-margin ap-search-item">
+    <div class="uk-margin ap-search-item" data-field_name="<?php echo isset($field['_name'])?$field['_name']:'';
+    ?>" data-field_type="<?php echo isset($field['type'])?$field['type']:'';
+    ?>" data-field_key="<?php echo isset($field['key'])?$field['key']:'';?>">
         <?php if(!isset($field['s_show_label']) || (isset($field['s_show_label']) && $field['s_show_label'])){?>
         <label class="search-label"><?php echo __($field['label'],'advanced-product'); ?></label>
         <?php } ?>

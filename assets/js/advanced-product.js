@@ -1,9 +1,6 @@
 (function($){
     "use strict";
 
-    // $.fn.advanced_product   = function(){
-    //
-    // };
     var advanced_product    = window.advanced_product|| {};
 
     var l10n    = advanced_product.l10n||{
@@ -62,7 +59,6 @@
     };
 
     advanced_product.getMyCookie = function(){
-        // advanced_product.__setCookie("advanced-product", "", -1);
         var cstring = advanced_product.__getCookie("advanced-product");
 
 
@@ -86,34 +82,17 @@
 
             return mycookie;
         }
-
-        // var _cookie = advanced_product.__getCookie("advanced-product");
-        // console.log("getMyCookie");
-        // console.log(_cookie);
-        // return false;
-        //
-        // return _cookie.length?JSON.parse(_cookie):{};
     };
     advanced_product.setCookie  = function(cname, cvalue, exdays) {
         var _cookie = advanced_product.getMyCookie();
-        // var _cookie = advanced_product.__getCookie("advanced-product");
-
-        // _cookie = _cookie.length?JSON.parse(_cookie):{};
 
         _cookie[cname]  = cvalue;
 
-        // advanced_product.__setCookie("advanced-product", advanced_product.arrayAsString(_cookie), exdays);
         advanced_product.__setCookie("advanced-product", JSON.stringify(_cookie), exdays);
     };
     advanced_product.getCookie  = function(cname) {
 
         var _cookie = advanced_product.getMyCookie();
-
-        // var _cookie = advanced_product.__getCookie("advanced-product");
-        //
-        // _cookie = _cookie.length?JSON.parse(_cookie):{};
-
-        // _cookie = (_cookie !== undefined && _cookie.length)?JSON.parse(_cookie):{};
 
         return _cookie[cname];
     };
@@ -128,16 +107,11 @@
     };
 
     advanced_product.eraseCookieValue  = function(cname, cvalue) {
-        var _cookie = advanced_product.__getCookie(cname).split("|")
-            /*.map(function (number) {
-            return parseInt(number, 10);
-        })*/;
+        var _cookie = advanced_product.__getCookie(cname).split("|");
 
         if(!cname || !cvalue){
             return false;
         }
-
-        // advanced_product.eraseCookie("advanced-product__compare-list");
 
         if(_cookie.indexOf(cvalue.toString()) !== -1){
             var _index    = _cookie.indexOf(cvalue.toString());
@@ -202,7 +176,6 @@
 
     advanced_product.prepare_attribute = function(data_attribute){
         var _attributes = {};
-        // var data_attribute    = $(this).data("ap-compare-button");
         if(data_attribute !== undefined){
             if(typeof data_attribute === "string"){
                 data_attribute  = data_attribute.split(";");
@@ -407,7 +380,7 @@
 
         if(__is_ajax) {
             $('.templaza-ap-archive').addClass('tz-loading').append('<div class="templaza-posts__loading show"><span class="templaza-loading"></span> </div>');
-            // var __ajax_options  = __form.serialize();
+
             var __form_data  = __form.serializeArray();
 
             var __data = [];
@@ -440,16 +413,12 @@
                 });
             }
 
-            // __ajax_options  = __ajax_options.replace(/&?[^=]+=&|&[^=]+=$/g,'');
-            // __ajax_options  += "&archive_view=grid";
-
             if(__data.length){
                 __ajax_options  = __data.join("&");
             }
 
             $.get(__form.attr("action"), __ajax_options, function (data) {
                 // Replace html filtered
-                // $(".templaza-ap-archive").html("").html($(data).find(".templaza-ap-archive").html());
                 $(".templaza-ap-archive").replaceWith($(data).find(".templaza-ap-archive"));
                 $('.templaza-ap-archive').find('.ap-item').each(function (index, product) {
                     $(product).css('animation-delay', index * 100 + 'ms');
@@ -513,7 +482,6 @@
         $.get(__form.attr("action"), __form.serialize(), function (data) {
 
             // Replace html filtered
-            // $(".templaza-ap-archive").html("").html($(data).find(".templaza-ap-archive").html());
             $(".templaza-ap-archive").replaceWith($(data).find(".templaza-ap-archive"));
 
             // Replace pagination
@@ -547,7 +515,6 @@
 
         var __url   = new URL(location.href);
 
-        // ajax_url    = ajax_url !== undefined?ajax_url:location.href;
         ajax_url    = ajax_url !== undefined?ajax_url:__url.origin + __url.pathname;
 
         var __data = [],
@@ -632,15 +599,11 @@
 
     // Sort order
     $(document).on("change",".templaza-ap-archive-sort select", function(event){
-        // var __val   = $(this).val();
-        // if(__val.length){
-        //     var __ajax_options  = ["sort_order="+__val];
         if($("form.advanced-product-search-form").length) {
             $("form.advanced-product-search-form").trigger("change");
         }else if($(".templaza-ap-archive").length){
             advanced_product.__archive_ajax_html(undefined, undefined, {"update_url": true});
         }
-        // }
     });
 
     // Filter form ajax
@@ -687,9 +650,85 @@
                 });
                 $(document.body).on('click', '.templaza-filter-closed', function (e) {
                     $('.templaza-framework-gutenberg-adv-product-filters').parents('.templaza-column').removeClass('sidebar-fixed');
-                    console.log(!$(e.target).is(".templaza-framework-gutenberg-adv-product-filters"));
                 });
             }
+        }
+
+        /* Associate for filter form */
+        if($("form.advanced-product-search-form [data-field_type=taxonomy]").length) {
+            /* Enable or disable taxonomy */
+            var _ap_enable_disable_options = function($f_name, $f_value){
+                if(!$f_value || !$f_value.length){
+                    $("form.advanced-product-search-form [data-field_type=taxonomy] [data-associate-from=" + $f_name+"]").prop("disabled", true);
+                    return;
+                }
+
+                var __ap_set_enable_disable_option = function($_f_value, $_disabled = true){
+
+                    var __f_option = $("form.advanced-product-search-form [data-field_type=taxonomy] [data-associate-from=" + $f_name+"][data-associate~=" + $_f_value+"]");
+
+                    var __main  = $("form.advanced-product-search-form [data-field_type=taxonomy] [data-associate-from=" + $f_name+"]").closest(".field_type-taxonomy");
+
+                    if(__f_option.length) {
+                        __main.find("[data-associate-from=" + $f_name + "]:not([data-associate~="
+                            + $_f_value + "])").prop("disabled", true);
+                        __f_option.prop("disabled", false);
+                    }else{
+                        __main.find("[data-associate-from="+ $f_name+"]").prop("disabled", true);
+                        if(__main.find("select").length){
+                            __main.find("select").val("");
+                        }
+                    }
+                };
+
+                if(typeof $f_value === "object"){
+                    var __main  = $("form.advanced-product-search-form [data-field_type=taxonomy] [data-associate-from=" + $f_name+"]").closest(".acf-taxonomy-field");
+                    __main.find("[data-associate-from="+ $f_name+"]").prop("disabled", true);
+
+                    $.each($f_value, function(index, f_val){
+                        __ap_set_enable_disable_option(f_val, false);
+                    });
+
+                }else{
+                    __ap_set_enable_disable_option($f_value);
+                }
+            };
+            $("form.advanced-product-search-form [data-field_type=taxonomy]").each(function () {
+
+                var __f = $(this),
+                    __f_name = $(this).attr("data-field_name"),
+                    __f_key = $(this).attr("data-field_key"),
+                    // __f_control = $(this).find("#acf-field-"+__f_name);
+                    __f_control = $(this);
+
+                if(!__f_control.length) {
+                    __f_control = $(this).find("[name^=fields\\\[" + __f_key + "\\\]]");
+                }
+
+                if(__f_control.length) {
+                    $.each(__f_control, function () {
+                        var __f_value   = typeof $(this).val() !== "undefined"?$(this).val():"";
+                        if (typeof $(this).prop("checked") !== "undefined" && !$(this).prop("checked")) {
+                            __f_value   = "";
+                        }
+
+                        _ap_enable_disable_options(__f_name, __f_value);
+                    });
+                }
+
+                __f_control.on("change", function() {
+                    var __f_value = $(this).val();
+
+                    if (!__f_value.length) {
+                        return;
+                    }
+
+                    if (typeof $(this).prop("checked") !== "undefined" && !$(this).prop("checked")) {
+                        __f_value   = "";
+                    }
+                    _ap_enable_disable_options(__f_name, __f_value);
+                });
+            });
         }
     });
 
