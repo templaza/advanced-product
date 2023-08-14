@@ -117,9 +117,9 @@ $html_field = preg_replace('/<input type="hidden"(\s+[^>]*)?[\/]?>/ius', '', $ht
 
 if((empty($orgf_type) || ($orgf_type = 'number' && !$is_from_to)) &&
     (($field['type'] == 'select' || (isset($field['field_type']) && $field['field_type'] == 'select'))
-    && preg_match('/(<select(\s+[^>]*)?>)((.|\n)*?)(<\/select(\s+[^>]*)?>)/ius', trim($html_field)))) {
-    $html_field = preg_replace('/(<select(\s+[^>]*)?>)((.|\n)*?)(<\/select(\s+[^>]*)?>)/ius', '$1<option value="">'
-        .sprintf(esc_html__('All %s','advanced-product'), __($field['label'],'advanced-product')).'</option>$3$5', $html_field);
+    && preg_match('/(<select(\s+[^>]*)?>)/ius', trim($html_field)))) {
+    $html_field = preg_replace('/(<select(\s+[^>]*)?>)/ius', '$1<option value="">'
+        .sprintf(esc_html__('All %s','advanced-product'), __($field['label'],'advanced-product')).'</option>', $html_field);
 }
     ?>
     <div class="ap-search-item uk-margin" data-field_name="<?php echo isset($field['_name'])?$field['_name']:'';
