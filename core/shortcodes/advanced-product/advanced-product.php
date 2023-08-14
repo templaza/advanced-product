@@ -29,6 +29,7 @@ class Advanced_ProductSCAP extends ShortCodeAP {
 
     public function before_content(){
         add_action('advanced-product/archive/compare/action', array($this, 'render_compare_action'), 10, 2);
+//        add_action('advanced-product/archive/after_content', array($this, 'render_compare_action'));
     }
 
     public function render_compare_action($pid, $args){
@@ -82,6 +83,7 @@ class Advanced_ProductSCAP extends ShortCodeAP {
             return '';
         }
 
+//        $product    = get_post($pid);
         wp_reset_query();
         $product   = AP_Product_Helper::get_products(array(
             'p' => $pid));
@@ -103,6 +105,7 @@ class Advanced_ProductSCAP extends ShortCodeAP {
             ob_end_clean();
         }
 
+//        wp_reset_postdata();
         wp_reset_query();
 
 
@@ -118,7 +121,6 @@ class Advanced_ProductSCAP extends ShortCodeAP {
     }
 
     public function render($atts){
-
         $layout = $this -> get_shortcode_name();
 
         if(isset($atts['type']) && !empty($atts['type'])){
@@ -137,6 +139,7 @@ class Advanced_ProductSCAP extends ShortCodeAP {
 
     public function wp_enqueue_scripts(){
         wp_enqueue_script('advanced-product');
+        wp_enqueue_script('advanced-product-serialize-object');
         wp_localize_script('advanced-product', 'advanced_product', array(
             'ajaxurl'   => admin_url('admin-ajax.php'),
             'l10n' => array(

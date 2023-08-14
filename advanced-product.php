@@ -675,6 +675,8 @@ class Advanced_Product{
         }else{
             wp_register_script('advanced-product', AP_Functions::get_my_url().'/assets/js/advanced-product.js',
                 array(), AP_Functions::get_my_version(), true);
+            wp_register_script('advanced-product-serialize-object', AP_Functions::get_my_url().'/assets/js/jquery.serialize-object.min.js',
+                array('advanced-product'), AP_Functions::get_my_version(), true);
             wp_register_style('advanced-product', AP_Functions::get_my_url().'/assets/css/style.css');
         }
     }

@@ -654,7 +654,7 @@
             }
         }
 
-        /* Associate for filter form */
+        /* Associate for form */
         if($("form.advanced-product-search-form [data-field_type=taxonomy]").length) {
             /* Enable or disable taxonomy */
             var _ap_enable_disable_options = function($f_name, $f_value){
@@ -681,9 +681,10 @@
                     }
                 };
 
+                var __main  = $("form.advanced-product-search-form [data-field_type=taxonomy] [data-associate-from="
+                    + $f_name+"]").closest(".acf-taxonomy-field");
+                __main.find("[data-associate-from="+ $f_name+"]").prop("disabled", true);
                 if(typeof $f_value === "object"){
-                    var __main  = $("form.advanced-product-search-form [data-field_type=taxonomy] [data-associate-from=" + $f_name+"]").closest(".acf-taxonomy-field");
-                    __main.find("[data-associate-from="+ $f_name+"]").prop("disabled", true);
 
                     $.each($f_value, function(index, f_val){
                         __ap_set_enable_disable_option(f_val, false);
@@ -702,7 +703,7 @@
                     __f_control = $(this);
 
                 if(!__f_control.length) {
-                    __f_control = $(this).find("[name^=fields\\\[" + __f_key + "\\\]]");
+                    __f_control = $(this).find("[name^=field\\\[" + __f_name + "\\\]]");
                 }
 
                 if(__f_control.length) {
@@ -717,17 +718,21 @@
                 }
 
                 __f_control.on("change", function() {
-                    var __f_value = $(this).val();
+                    var __f_input = $(this).find("[name^=field\\\[" + __f_name + "\\\]]");
+                    var __f_value = __f_input.serializeObject();
 
-                    if (!__f_value.length) {
+                    if ((typeof __f_value === "object" && !Object.keys(__f_value).length) || (typeof __f_value !== "object" && !__f_value.length)) {
+                        $.each(__f_control, function () {
+                            _ap_enable_disable_options(__f_name, "");
+                        });
                         return;
                     }
 
-                    if (typeof $(this).prop("checked") !== "undefined" && !$(this).prop("checked")) {
-                        __f_value   = "";
-                    }
+                    __f_value   = __f_value["field"][__f_name];
+
                     _ap_enable_disable_options(__f_name, __f_value);
                 });
+
             });
         }
     });
