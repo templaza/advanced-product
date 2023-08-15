@@ -719,7 +719,7 @@
 
                 __f_control.on("change", function() {
                     var __f_input = $(this).find("[name^=field\\\[" + __f_name + "\\\]]");
-                    var __f_value = __f_input.serializeObject();
+                    var __f_value = __f_input.advSerializeObject();
 
                     if ((typeof __f_value === "object" && !Object.keys(__f_value).length) || (typeof __f_value !== "object" && !__f_value.length)) {
                         $.each(__f_control, function () {
