@@ -554,123 +554,103 @@
 
         if(window.pagenow == 'ap_product'){
             /* Function to enable or disable taxonomy associated to other taxonomy */
-            if($("form#post [data-field_type=taxonomy]").length) {
-                /* Enable or disable taxonomy */
-                var _ap_enable_disable_options = function($f_name, $f_value){
-                    if(!$f_value || !$f_value.length){
-                        $("form#post [data-field_type=taxonomy] [data-associate-from=" + $f_name+"]").prop("disabled", true);
-                        return;
-                    }
-
-                    var __ap_set_enable_disable_option = function($_f_value, $_disabled = true){
-
-                        var __f_option = $("form#post [data-field_type=taxonomy] [data-associate-from=" + $f_name+"][data-associate~=" + $_f_value+"]");
-
-                        var __main  = $("form#post [data-field_type=taxonomy] [data-associate-from=" + $f_name+"]").closest(".field_type-taxonomy");
-
-                        // $_disabled  = typeof
-                        // __main.find("[data-associate-from="+ $f_name+"]").prop("disabled", true);
-                        // console.log("__main");
-                        // console.log(__main);
-                        // console.log("$_disabled");
-                        // console.log($_disabled);
-                        if(__f_option.length) {
-                            __main.find("[data-associate-from=" + $f_name + "]:not([data-associate~="
-                                + $_f_value + "])").prop("disabled", true);
-                            __f_option.prop("disabled", false);
-                        }else{
-                            __main.find("[data-associate-from="+ $f_name+"]").prop("disabled", true);
-                            if(__main.find("select").length){
-                                __main.find("select").val("");
-                            }
-                        }
-                    };
-
-                    // console.log("$f_value");
-                    // console.log($f_value);
-                    if(typeof $f_value === "object"){
-                        var __main  = $("form#post [data-field_type=taxonomy] [data-associate-from=" + $f_name+"]").closest(".field_type-taxonomy");
-                        __main.find("[data-associate-from="+ $f_name+"]").prop("disabled", true);
-
-                        $.each($f_value, function(index, f_val){
-                            __ap_set_enable_disable_option(f_val, false);
-                        });
-
-                    }else{
-                        __ap_set_enable_disable_option($f_value);
-
-                        // var __f_option = $("form#post [data-field_type=taxonomy] [data-associate-from=" + $f_name+"][data-associate~=" + $f_value+"]");
-                        //
-                        // if(__f_option.length) {
-                        //     __f_option.parent().find("> [data-associate-from=" + $f_name + "]:not([data-associate~="
-                        //         + $f_value + "])").prop("disabled", true);
-                        //     __f_option.prop("disabled", false);
-                        // }else{
-                        //     $("form#post [data-field_type=taxonomy] [data-associate-from="
-                        //         + $f_name+"]").prop("disabled", true)
-                        //         .parent().val("");
-                        // }
-                    }
-                };
-                $("form#post [data-field_type=taxonomy]").each(function () {
-
-                    var __f = $(this),
-                        __f_name = $(this).attr("data-field_name"),
-                        __f_key = $(this).attr("data-field_key"),
-                        __f_control = $(this).find("#acf-field-"+__f_name);
-
-                    if(!__f_control.length) {
-                        __f_control = $(this).find("[name^=fields\\\[" + __f_key + "\\\]]");
-                        // $.each(__f_control, function(){
-                        //     if(typeof $(this).prop("checked") !== "undefined" && $(this).prop("checked")) {
-                        //         _ap_enable_disable_options(__f_name, $(this).val());
-                        //     }
-                        // });
-                    }
-                    // else{
-                    //     _ap_enable_disable_options(__f_name, __f_control.val());
-                    // }
-
-                    // var __main  = $("form#post [data-field_type=taxonomy] [data-associate-from=" + __f_name+"]").closest(".field_type-taxonomy");
-                    //
-                    // if(__main.length) {
-                    //     __main.find("[data-associate-from="+ __f_name+"]").prop("disabled", true);
-                    // }
-
-                    if(__f_control.length) {
-                        $.each(__f_control, function () {
-                            var __f_value   = typeof $(this).val() !== "undefined"?$(this).val():"";
-                            if (typeof $(this).prop("checked") !== "undefined" && !$(this).prop("checked")) {
-                                __f_value   = "";
-                            }
-                            // if (typeof $(this).prop("checked") === "undefined" || $(this).prop("checked")) {
-                                // _ap_enable_disable_options(__f_name, $(this).val());
-                            // }
-                            _ap_enable_disable_options(__f_name, __f_value);
-                        });
-                    }
-
-                    __f_control.on("change", function() {
-                        var __f_value = $(this).val();
-
-                        if (!__f_value.length) {
+            var __custom_field_associate    = function($mainObj){
+                if($mainObj.find("[data-field_type=taxonomy]").length) {
+                    /* Enable or disable taxonomy */
+                    var _ap_enable_disable_options = function($f_name, $f_value){
+                        if(!$f_value || !$f_value.length){
+                            $mainObj.find("[data-field_type=taxonomy] [data-associate-from=" + $f_name+"]").prop("disabled", true);
                             return;
                         }
 
-                        if (typeof $(this).prop("checked") !== "undefined" && !$(this).prop("checked")) {
-                            __f_value   = "";
-                        }
-                        // console.log(__f_value);
-                        // if (typeof $(this).prop("checked") === "undefined" || $(this).prop("checked")) {
-                            _ap_enable_disable_options(__f_name, __f_value);
-                        // }
-                        // else{
-                        //     $("form#post [data-field_type=taxonomy] [data-associate-from=" + __f_name+"]").prop("disabled", true);
-                        // }
-                    });
+                        var __ap_set_enable_disable_option = function($_f_value, $_disabled = true){
 
-                });
-            }
+                            var __f_option = $mainObj.find("[data-field_type=taxonomy] [data-associate-from=" + $f_name+"][data-associate~=" + $_f_value+"]");
+
+                            var __main  = $mainObj.find("[data-field_type=taxonomy] [data-associate-from=" + $f_name+"]").closest(".field_type-taxonomy");
+
+                            if(__f_option.length) {
+                                __main.find("[data-associate-from=" + $f_name + "]:not([data-associate~="
+                                    + $_f_value + "])").prop("disabled", true);
+                                __f_option.prop("disabled", false);
+                            }else{
+                                __main.find("[data-associate-from="+ $f_name+"]").prop("disabled", true);
+                                if(__main.find("select").length){
+                                    __main.find("select").val("");
+                                }
+                            }
+                        };
+
+                        if(typeof $f_value === "object"){
+                            var __main  = $mainObj.find("[data-field_type=taxonomy] [data-associate-from=" + $f_name+"]").closest(".field_type-taxonomy");
+                            __main.find("[data-associate-from="+ $f_name+"]").prop("disabled", true);
+
+                            $.each($f_value, function(index, f_val){
+                                __ap_set_enable_disable_option(f_val, false);
+                            });
+
+                        }else{
+                            __ap_set_enable_disable_option($f_value);
+                        }
+                    };
+
+                    $mainObj.find("[data-field_type=taxonomy]").each(function () {
+                        var __f = $(this),
+                            __f_name = $(this).attr("data-field_name"),
+                            __f_key = $(this).attr("data-field_key"),
+                            __f_control = $(this).find("#acf-field-"+__f_name);
+
+                        if(!__f_control.length) {
+                            __f_control = $(this).find("[name^=fields\\\[" + __f_key + "\\\]]");
+                            // $.each(__f_control, function(){
+                            //     if(typeof $(this).prop("checked") !== "undefined" && $(this).prop("checked")) {
+                            //         _ap_enable_disable_options(__f_name, $(this).val());
+                            //     }
+                            // });
+                        }
+
+                        if(__f_control.length) {
+                            $.each(__f_control, function () {
+                                var __f_value   = typeof $(this).val() !== "undefined"?$(this).val():"";
+                                if (typeof $(this).prop("checked") !== "undefined" && !$(this).prop("checked")) {
+                                    __f_value   = "";
+                                }
+                                // if (typeof $(this).prop("checked") === "undefined" || $(this).prop("checked")) {
+                                    // _ap_enable_disable_options(__f_name, $(this).val());
+                                // }
+                                _ap_enable_disable_options(__f_name, __f_value);
+                            });
+                        }
+
+                        __f_control.off("change").on("change", function() {
+                            var __f_value = $(this).val();
+
+                            if (!__f_value.length) {
+                                return;
+                            }
+
+                            if (typeof $(this).prop("checked") !== "undefined" && !$(this).prop("checked")) {
+                                __f_value   = "";
+                            }
+
+                            // if (typeof $(this).prop("checked") === "undefined" || $(this).prop("checked")) {
+                                _ap_enable_disable_options(__f_name, __f_value);
+                            // }
+                            // else{
+                            //     $("form#post [data-field_type=taxonomy] [data-associate-from=" + __f_name+"]").prop("disabled", true);
+                            // }
+                        });
+
+                    });
+                }
+            };
+
+            __custom_field_associate($("form#post"));
+
+            // Call custom field associate after ajax load custom field
+            $(document).on("advanced-product/product/custom_field/ajax_completed", "#acf-field-ap_branch", function(event, $resultObj){
+                __custom_field_associate($($resultObj));
+            });
 
             var ap_product_init = function() {
                 /* Ajax function to get metabox with acf fields */
@@ -701,10 +681,6 @@
                     $obj.data("__ajax_loaded", __ajax_loaded);
                     if(!__ajax_loaded) {
 
-                        // var _main   = $("#postbox-container-2").find(".acf_postbox:last");
-                        // console.log(_main);
-                        // console.log($("#postbox-container-2").find(".acf_postbox:last"));
-
                         /* Insert loading after branch option */
                         if(!$("#postbox-container-2 > .acf-loading:first").length) {
                             $("#postbox-container-2").prepend("<div class=\"acf-loading\"/>");
@@ -718,8 +694,6 @@
                                 _main_id = "#" + $(_html).attr("id");
 
                             $(_main_id + "> .ap-acf_postbox-ajax").remove();
-                            // $(_main_id + "> .acf_postbox").addClass("acf-hidden");
-
 
                             var __postbox   = $(_html).find(".postbox");
 
@@ -770,34 +744,21 @@
                             // $obj.data("__ajax_loaded", $branch_slug);
                             $obj.data("__ajax_loaded", __ajax_loaded);
 
-                            // window.postboxes.add_postbox_toggles(window.pagenow);
+                            $obj.trigger("advanced-product/product/custom_field/ajax_completed", $(_main_id));
                         }, 'json');
                     }
                 };
 
                 // Disable trigger valid postbox group of acf
                 $(document).off("acf/update_field_groups");
-                // $(document).on("acf/update_field_groups", function(e){
-                //     // e.preventDefault();
-                //     e.stopPropagation();
-                // });
-                // $("#acf-field-ap_branch").on("change", function (e) {
 
                 $(document).on("change","#acf-field-ap_branch", function (e) {
                     e.preventDefault();
 
-                    // var __ajax_loaded   = $(this).data("__ajax_loaded");
-                    //
-                    // if(typeof __ajax_loaded !== "undefined" && !__ajax_loaded){
-                    //     return;
-                    // }
-
                     _ap_product_ajax($(this));
-                    // _ap_product_ajax($(this).val(), $(this));
                 });
 
                 /* Init ajax when page load */
-                // _ap_product_ajax($("#acf-field-ap_branch").val());
                 _ap_product_ajax($("#acf-field-ap_branch"));
             };
             ap_product_init();
@@ -827,15 +788,7 @@
                 if(__main.find("#acf-field-slug").length) {
                     __main.find("#acf-field-slug").val(wpFeSanitizeTitle($(this).val()));
                 }
-                // if(!__main.find("#ap_meta_box_field_type tr.field_name input").val().trim().length) {
-                //     __main.find("#ap_meta_box_field_type tr.field_name input").val(wpFeSanitizeTitle($(this).val()));
-                // }
             });
-        //     $(document).on("keyup", "input#acf-field-singular_name", function(){
-        //         var __main = $(this).closest("#poststuff");
-        //         __main.find("input[name=post_title]").prev("#title-prompt-text").prop("class", "screen-reader-text")
-        //             .end().val($(this).val());
-        //     });
         }
 
         if( window.typenow === "ap_custom_field" && (window.adminpage === "edit-php"
@@ -917,68 +870,8 @@
                             },
                         });
                     }
-                    // if(advanced_product.orderby === "term_order"){
-                    //     $("body.post-type-ap_custom_field table.wp-list-table tbody").sortable({
-                    //         axis: "y",
-                    //         items: 'tr',
-                    //         containment: "parent",
-                    //         // cursor: 'move',
-                    //         handle: '.ap-handle',
-                    //         helper: function (e, ui) {
-                    //             //hard set left position to fix y-axis drag problem on Safari
-                    //             $(ui).css({'left': '0px'});
-                    //
-                    //             ui.children().each(function () {
-                    //                 $(this).width($(this).width());
-                    //             });
-                    //             // $(ui).children('td').addClass('dndlist-dragged-row');
-                    //             return ui;
-                    //         },
-                    //         placeholder: {
-                    //             element: function (currentItem) {
-                    //                 // var cols    =   $(currentItem).children('td:visible').length + 1;
-                    //                 var cols = $(currentItem).children('td').length + 1;
-                    //                 return $('<tr class="ui-sortable-placeholder"><td colspan="' + cols + '">&nbsp;</td></tr>')[0];
-                    //             },
-                    //             update: function (container, p) {
-                    //                 return;
-                    //             }
-                    //         },
-                    //         update: function (event, ui) {
-                    //             var order = $('#the-list').sortable('serialize');
-                    //             var paged = getUrlParameter('paged');
-                    //             if (typeof paged === 'undefined')
-                    //                 paged = 1;
-                    //
-                    //             var queryString = {
-                    //                 "action": "ap_post_type_" + window.typenow + "_archive_sortable",
-                    //                 "post_type": window.typenow, "order": order, "paged": paged,
-                    //                 "archive_sort_nonce": advanced_product.archive_sort_nonce
-                    //             };
-                    //             $.ajax({
-                    //                 type: 'POST',
-                    //                 url: window.ajaxurl,
-                    //                 data: queryString,
-                    //                 cache: false,
-                    //                 dataType: "html",
-                    //                 success: function (data) {
-                    //
-                    //                 },
-                    //                 error: function (html) {
-                    //
-                    //                 }
-                    //             });
-                    //         },
-                    //     });
-                    // }
                 }
             });
         }
     });
-
-    // $(document).ready(function(){
-    //     console.log(acf);
-    //     console.log($('tr.conditional-logic input[type="radio"]'));
-    //     acf.conditional_logic.init();
-    // });
 })(jQuery, window);
