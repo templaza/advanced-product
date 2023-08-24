@@ -431,7 +431,7 @@ class acf_options_page_plugin
 		<script type="text/javascript">
 		(function($){
 
-			$('.postbox .handlediv').live('click', function(){
+            $(document).on('click', '.postbox .handlediv', function(){
 
 				var postbox = $(this).closest('.postbox');
 
