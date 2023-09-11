@@ -47,7 +47,6 @@ if(!class_exists('Advanced_Product\Taxonomy')) {
 
         public function register_acf(){
             // Register acf input controller to add fields with edit term taxonomy
-//            $acf    = acf();
             $acf    = advanced_product_acf();
             if(/*$pagenow == 'term.php' &&*/ $acf && version_compare($acf -> settings['version'], '5.0', '<') &&
                 $this ->get_current_screen_taxonomy() == $this ->get_taxonomy_name()) {
@@ -92,9 +91,6 @@ if(!class_exists('Advanced_Product\Taxonomy')) {
             if($current_screen && $current_screen->taxonomy) return $current_screen->taxonomy;
 
             elseif(isset($_REQUEST['taxonomy'])) return sanitize_key($_REQUEST['taxonomy']);
-
-//            elseif ($post && $post->post_type) return $post->post_type;
-//            elseif($typenow) return $typenow;
 
             return null;
 
@@ -267,8 +263,6 @@ if(!class_exists('Advanced_Product\Taxonomy')) {
                             'value'     => $this -> get_taxonomy_name(),
                             'order_no' => 0,
                             'group_no' => md5($this -> get_taxonomy_name()),
-//                            'group_no' => "6188abe73f914",
-//                            'group_no' => 0,
                         ),
                     ),
                 ),

@@ -15,8 +15,6 @@ class Settings extends Base {
     {
         parent::__construct($core, $post_type);
 
-//        register_activation_hook( ADVANCED_PRODUCT . '/' . ADVANCED_PRODUCT, array( $this, 'register_admin_fields' ) );
-
         $this -> build_in   = FieldHelper::get_core_fields();
 
     }
@@ -25,10 +23,7 @@ class Settings extends Base {
     {
         parent::hooks();
 
-//        add_action( 'plugins_loaded', array( $this, 'register_admin_fields' ) );
-//        add_action( 'advanced-product/after_init', array( $this, 'register_admin_fields' ) );
         add_action( 'plugins_loaded', array( $this, 'register_admin_fields' ) );
-//        add_action( 'init', array( $this, 'register_field_groups' ) );
     }
 
     public function register_admin_fields()
@@ -229,7 +224,6 @@ class Settings extends Base {
                     ),
                 ),
                 array (
-//                        'key' => 'field_'.uniqid(),
                     'key' => 'field_61b705ba820c5',
                     'label' => __( 'Single Product', 'advanced-product' ),
                     'name' => '',
