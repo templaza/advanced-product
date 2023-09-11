@@ -798,15 +798,6 @@ class Advanced_Product{
 
             if(!empty($sold_order)) {
                 $query->query_vars['meta_query'] = array(
-//                '_ap_price' => array(
-//                    'key' => 'ap_price',
-//                ),
-//                array(
-//                    array(
-//                        'key'   => 'ap_price_sold',
-//                        'compare' => 'EXISTS'
-//                    )
-//                )
                     array(
                         'relation' => 'OR',
                         '__ap_product_sold_not_exists' => array(
