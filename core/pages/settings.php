@@ -41,9 +41,7 @@ class Settings extends Base {
                 'capability' => 'manage_options'
             ));
 
-//            if(!function_exists('acf_add_local_field_group')){
             $this -> register_field_groups();
-//            }
         }
     }
 
@@ -52,7 +50,6 @@ class Settings extends Base {
         if (function_exists('\acf_add_options_sub_page') && (function_exists('register_field_group')
                 || function_exists('acf_add_local_field_group'))) {
 
-//            $built_in_fields = FieldHelper::get_core_fields();
             $built_in_fields = $this -> build_in;
 
 
@@ -141,7 +138,6 @@ class Settings extends Base {
                     'default_value' => '0',
                 ),
                 array (
-//                        'key' => 'field_'.uniqid(),
                     'key' => 'field_6306f42b88ed8',
                     'label' => __( 'Archive Product', 'advanced-product' ),
                     'name' => '',
@@ -201,7 +197,19 @@ class Settings extends Base {
                         'rhits'   => __('Least Hits', 'advanced-product'),
                         'price'   => __('Minimum Price First', 'advanced-product'),
                         'rprice'   => __('Maximum Price First', 'advanced-product'),
-//                        'order'   => __('Least Hits', 'advanced-product'),
+                    ),
+                ),
+                array (
+                    'key'           => 'field_631aac11e8f22',
+                    'type'          => 'select',
+                    'layout'        => 'horizontal',
+                    'name'          => 'ap_archive_sold_product_order_by',
+                    'label'         => __( 'Sold Product Order', 'advanced-product' ),
+                    'default_value' => '',
+                    'choices'       => array(
+                        ''          => __('- Select Sold Product Order -', 'advanced-product'),
+                        'top'       => __('Top of the list', 'advanced-product'),
+                        'bottom'    => __('Bottom of the list', 'advanced-product'),
                     ),
                 ),
                 array (
