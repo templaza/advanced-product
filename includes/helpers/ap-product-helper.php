@@ -28,14 +28,11 @@ class AP_Product_Helper extends BaseHelper {
             return static::$cache[$store_id];
         }
 
-        $user   = wp_get_current_user();
-
         // First lets set some arguments for the query:
         // Optionally, those could of course go directly into the query,
         // especially, if you have no others but post type.
         $default_args   = array(
             'post_type' => 'ap_product',
-            'author'        =>  $user->ID,
             'posts_per_page' => 5,
             // Several more arguments could go here. Last one without a comma.
         );
