@@ -11,7 +11,6 @@ defined('ADVANCED_PRODUCT') or exit();
 class Group_Field extends Taxonomy {
 
     protected $cache    = array();
-//    protected $allow_custom_options = false;
 
     public function hooks()
     {
@@ -56,9 +55,7 @@ class Group_Field extends Taxonomy {
                 'hierarchical'              => true,
                 'show_admin_column'         => true,
                 'show_in_nav_menus'         => false,
-//                'exclude_from_search' => true,
                 'query_var' => true,
-//                'publicly_queryable'        => false,
             )
         );
     }
@@ -167,7 +164,6 @@ class Group_Field extends Taxonomy {
 
         clean_taxonomy_cache($this -> get_taxonomy_name());
 
-//        $branch_assigned    = \get_field('branch_assigned', $this -> get_taxonomy_name().'_'.$term_id);
         $branch_assigned    = (array) \get_field('branch_assigned', 'term_'.$term_id);
 
         $branch_taxs    = \get_terms(array(
@@ -178,7 +174,7 @@ class Group_Field extends Taxonomy {
         if(!is_wp_error($branch_taxs) && !empty($branch_taxs)){
             $field_key  = 'field_'.md5('ap_branch__group_field');
             foreach($branch_taxs as $branch){
-//                $group_assigned = \get_field('group_field_assigned', 'ap_branch_' . $branch->term_id);
+
                 $group_assigned = \get_field('group_field_assigned', 'term_' . $branch->term_id);
                 $group_assigned = !empty($group_assigned)?$group_assigned:array();
 

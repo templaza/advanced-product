@@ -12,12 +12,9 @@ class Search extends Base {
 
     public function __construct($core = null, $post_type = null) {
         parent::__construct($core, $post_type);
-
-//        register_activation_hook(  ADVANCED_PRODUCT . '/' . ADVANCED_PRODUCT, 'flush_rewrite_rules', 15 );
     }
 
     public function hooks(){
-//        add_shortcode( 'vehicle_searchform', array( $this, 'get_vehicle_searchform' ) );
         add_shortcode( 'advanced-product-form', array( $this, 'get_search_form' ) );
 
         if(!is_admin()) {
@@ -26,8 +23,6 @@ class Search extends Base {
 
             add_action('wp_enqueue_scripts', array($this, 'register_my_scripts'));
         }
-
-//        add_action( 'switch_theme', 'flush_rewrite_rules', 15 );
     }
 
     public function register_my_scripts(){
@@ -52,28 +47,15 @@ class Search extends Base {
 
     public function change_event_posts_per_page( $query ) {
 
-//        if (! $query->is_main_query() || !isset($query->query['post_type']) ||
-//            (! is_post_type_archive('ap_product') &&
-//            ( isset($query->query['post_type']) && 'ap_product' != $query->query['post_type'] ))) {
-//            return $query;
-//        }
-
-//        var_dump(is_post_type_archive('ap_product'));
-
-//        if ( !is_admin() && $query->is_main_query()) {
         if ( !is_admin() && is_post_type_archive('ap_product') && $query->is_main_query()) {
 
-//            $query_var  = \get_query_var('field');
             $query_var  = isset($_GET['field'])?$_GET['field']:array();
             if(empty($query_var)){
                 return $query;
             }
 
-//            $query->set('post_type', array('ap_product'));
-
             $meta_query = $query->get('meta_query');
             $meta_query = !empty($meta_query)?$meta_query:array();
-//            $meta_query = array();
 
             global $wpdb;
             foreach ($query_var as $fname => $query_value){
@@ -94,14 +76,12 @@ class Search extends Base {
                         $submeta_query = array();
                         $submeta_query['relation'] = 'OR';
                         if($type == 'number') {
-//                            $submeta_query['relation'] = 'AND';
 
                             $query_filter    = array_filter($query_value);
                         }
 
                         foreach ($query_value as $i => $qval) {
                             if($type == 'number') {
-//                                if(!empty($qval)){
                                 if($qval !== ''){
                                     if(isset($query_filter) && is_array($query_filter)
                                         && count($query_filter) == 1 && $i % 2 == 0){
@@ -142,9 +122,6 @@ class Search extends Base {
                         }
 
                         $meta_main[] = $submeta_query;
-//                        if($type == 'number'){
-//                            $query -> set('orderby', array($f_name => 'ASC'));
-//                        }
                     }else{
                         if($type == 'number'){
                             $meta_main[$acf_attr['key']] = array(
@@ -153,7 +130,6 @@ class Search extends Base {
                                 'compare' => '=',
                                 'type' => 'DECIMAL(10,3)'
                             );
-//                            $query -> set('orderby', array($f_name => 'ASC'));
                         }else {
                             $meta_main[$acf_attr['key']] = array(
                                 'key' => isset($acf_attr['name']) ? $acf_attr['name'] : '',

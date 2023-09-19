@@ -793,6 +793,41 @@ class Advanced_Product{
             }
             $query -> query_vars['order'] = $order;
             $query -> query_vars['orderby'] = $order_by;
+
+            $sold_order     = get_field('ap_archive_sold_product_order_by', 'options');
+
+            if(!empty($sold_order)) {
+                $query->query_vars['meta_query'] = array(
+                    array(
+                        'relation' => 'OR',
+                        '__ap_product_sold_not_exists' => array(
+                            'key' => 'ap_product_type',
+                            'compare' => 'NOT EXISTS',
+                        ),
+                        '__ap_product_not_sold' => array(
+                            'key' => 'ap_product_type',
+                            'value' => 'sold',
+                            'type' => 'CHAR',
+                            'compare' => 'NOT LIKE',
+                        ),
+                        '__ap_product_sold' => array(
+                            'key' => 'ap_product_type',
+                            'value' => 'sold',
+                            'type' => 'CHAR',
+                            'compare' => 'LIKE',
+                        ),
+                    ),
+                );
+
+                $sold_order_by  = $sold_order == 'top'?'DSC':($sold_order == 'bottom'?'ASC':'');
+
+                if(!empty($sold_order_by)){
+                    $query->query_vars['orderby'] = array(
+                        '__ap_product_sold' => $sold_order_by,
+                        $order_by => $order,
+                    );
+                }
+            }
         }
     }
 }

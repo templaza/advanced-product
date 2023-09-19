@@ -94,15 +94,13 @@ if(!class_exists('Advanced_Product\Post_Type\Custom_Field')){
 
                         // Insert term relationships of taxonomy
                         $sql    = " INSERT IGNORE INTO {$wpdb -> term_relationships}(object_id,term_taxonomy_id)";
-//                        $sql    = "";
+
                         $sql   .= " SELECT p.ID, t.term_taxonomy_id";
                         $sql   .= " FROM {$wpdb -> posts} AS p";
                         $sql   .= " INNER JOIN {$wpdb -> postmeta} AS pm ON pm.post_id = p.ID AND pm.meta_key='{$acf_attribs['name']}'";
                         $sql   .= " INNER JOIN {$wpdb -> terms} AS te ON te.slug = pm.meta_value OR"
                                  ." pm.meta_value REGEXP CONCAT_WS('','.*;s:[0-9]+:\"', te.slug ,'\".*')";
                         $sql   .= " INNER JOIN {$wpdb -> term_taxonomy} AS t ON t.term_id = te.term_id AND t.taxonomy = '{$acf_attribs['taxonomy']}'";
-//                        $sql   .= " INNER JOIN {$wpdb -> term_taxonomy} AS t ON t.taxonomy = '{$acf_attribs['taxonomy']}'";
-//                        $sql   .= " INNER JOIN {$wpdb -> terms} AS te ON te.term_id = t.term_id";
                         $sql   .= " WHERE p.post_type='ap_product'";
                         $sql   .= " AND p.ID NOT IN($subSql)";
 
@@ -127,7 +125,6 @@ if(!class_exists('Advanced_Product\Post_Type\Custom_Field')){
                     $subSql.= "(SELECT COUNT(DISTINCT p.ID)";
                     $subSql.= " FROM {$wpdb -> posts} AS p";
                     $subSql.= " INNER JOIN {$wpdb -> term_relationships} AS ts ON ts.object_id = p.ID";
-//                            $subSql.= " WHERE p.post_type='ap_product'";
                     $subSql.= " WHERE p.post_type='ap_product' AND ts.term_taxonomy_id = tt2.term_taxonomy_id) AS pcount";
                     $subSql.= " FROM {$wpdb -> term_taxonomy} AS tt2";
                     $subSql.= " WHERE tt2.taxonomy='{$acf_attribs['taxonomy']}'";
@@ -176,7 +173,6 @@ if(!class_exists('Advanced_Product\Post_Type\Custom_Field')){
                 'show_in_nav_menus'   => false,
                 'show_in_admin_bar'   => true,
                 'menu_position'       => 20,
-//                'menu_icon'           => AP_Functions::get_my_url() . '/assets/images/icon.svg',
                 'menu_icon'           => 'dashicons-store',
                 'can_export'          => true,
                 'has_archive'         => false,
@@ -184,10 +180,8 @@ if(!class_exists('Advanced_Product\Post_Type\Custom_Field')){
                 'publicly_queryable'  => false,
                 'query_var'           => false,
                 '_builtin' =>  false,
-//                'capability_type'     => 'page',
                 'capability_type'     => 'post',
                 'rewrite' => false,
-//                'rewrite'			  => array( 'slug' => 'ap-custom-field' )
             );
             return $args;
         }

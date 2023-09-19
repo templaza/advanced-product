@@ -40,25 +40,4 @@ class AP_Helper extends BaseHelper {
         return apply_filters('advanced-product/format_price', $price, $original_price);
     }
 
-//    /*
-//     * Format Price
-//     */
-//    public static function __format_price($price = '0', $decimals = 0, $thousand_sep = '.', $decimal_sep = ',')
-//    {
-//        $store_id   = static::_get_store_id($price, $thousand_sep, $decimal_sep);
-//
-//        if(isset(static::$cache[$store_id])){
-//            return static::$cache[$store_id];
-//        }
-//
-//        $original_price = $price;
-//
-//        if ('space' == $thousand_sep) {
-//            $thousands_sep = ' ';
-//        }
-//        $price = number_format($price, $decimals, $decimal_sep, $thousands_sep);
-//
-//        return apply_filters('advanced-product/format_price', $price, $original_price);
-//    }
-
 }
