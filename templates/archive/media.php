@@ -2,7 +2,7 @@
 
 defined('ADVANCED_PRODUCT') or exit();
 
-$thumbnail  = get_the_post_thumbnail(get_the_ID(), 'large');
+$thumbnail  = get_the_post_thumbnail(get_the_ID(), 'large', array('class' => 'uk-width-1-1'));
 if(!empty($thumbnail)){
     ?>
     <div class="uk-card-media-top">

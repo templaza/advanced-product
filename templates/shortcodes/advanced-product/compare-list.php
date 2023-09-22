@@ -9,7 +9,7 @@ extract($args);
 if(isset($products) && !empty($products) && $products -> have_posts()){
     do_action('advanced-product/compare/before_content');
 ?>
-<div class="uk-container uk-container-large uk-width-1-1 uk-padding" data-uk-slider>
+<div class="uk-container uk-container-large uk-width-1-1 uk-padding uk-background-muted" data-uk-slider>
     <div class="ap-product-compare-items uk-slider-items uk-child-width-1-2@m uk-child-width-1-2@l uk-child-width-1-3@xl uk-grid">
         <?php while($products -> have_posts()){ ?>
             <div class="ap-product-compare-item">

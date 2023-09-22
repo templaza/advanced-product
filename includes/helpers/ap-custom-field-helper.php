@@ -250,7 +250,7 @@ class AP_Custom_Field_Helper extends BaseHelper {
         $order      = 'ASC';
         $order_by   = 'date';
 
-        if(is_post_type_archive('ap_product')){
+        if(function_exists('is_post_type_archive') && is_post_type_archive('ap_product')){
             $archive_order  = \get_field('ap_archive_product_order_by_custom_field', 'option');
             switch ($archive_order){
                 default:
@@ -363,7 +363,7 @@ class AP_Custom_Field_Helper extends BaseHelper {
         $order      = 'ASC';
         $order_by   = 'date';
 
-        if(is_post_type_archive('ap_product')){
+        if(function_exists('is_post_type_archive') && is_post_type_archive('ap_product')){
             $archive_order  = \get_field('ap_archive_product_order_by_custom_field', 'option');
             switch ($archive_order){
                 default:

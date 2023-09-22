@@ -10,21 +10,28 @@ extract($args);
 
 if(isset($product) && !empty($product)){
     do_action('advanced-product/quickview/before_content');
+
+    $thumbnail  = get_the_post_thumbnail(null, 'full', array('data-uk-cover' => ''));
+    $thumbnail  = !empty($thumbnail)?trim($thumbnail):$thumbnail;
+    $grid_class = !empty($thumbnail)?' uk-child-width-1-2@s':'';
+
 ?>
-    <div class="uk-grid-collapse uk-width-1-1 uk-child-width-1-2@s" data-uk-grid>
+    <div class="uk-grid-collapse uk-width-1-1<?php echo $grid_class; ?>" data-uk-grid>
             <?php
             $options    = array();
             $autoshowroom_video = get_post_meta(get_the_ID(), 'video',true);
             $autoshowroom_gallery = get_post_meta(get_the_ID(), 'images');
             ?>
+        <?php if(!empty($thumbnail)){ ?>
         <div class="ap-quickview-media uk-cover-container">
             <a href="<?php the_permalink(); ?>">
             <?php the_post_thumbnail('full', array('data-uk-cover' => '')); ?>
             </a>
-            <a href="<?php the_permalink(); ?>" class="product-more-infor uk-position-bottom">
+            <a href="<?php the_permalink(); ?>" class="product-more-infor uk-background-muted uk-text-center uk-position-bottom">
                 <span class="product-more-infor__text"><?php esc_attr_e('More Product Info','advanced-product');?></span><i class="fas fa-info-circle"></i>
             </a>
         </div>
+        <?php } ?>
         <div class="ap-quickview-content">
             <div class="uk-padding">
                 <h2 class="ap-quickview-product_title entry-title"><a href="<?php the_permalink(); ?>"><?php the_title();?></a></h2>

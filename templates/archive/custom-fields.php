@@ -24,6 +24,8 @@ if(!empty($fields)){
             $f_icon_image   = isset($f_attr['icon_image']) && !empty($f_attr['icon_image'])?$f_attr['icon_image']:'';
 
             $show_icon  = get_field('ap_show_archive_custom_field_icon', 'option');
+
+            if($f_value != null){
             ?>
             <div class="uk-grid-small" data-uk-grid>
                 <span class="ap-field-label uk-width-expand" data-uk-leader><?php
@@ -59,6 +61,7 @@ if(!empty($fields)){
                 ?>
             </div>
             <?php
+            }
         } ?>
     </div>
 <?php }?>

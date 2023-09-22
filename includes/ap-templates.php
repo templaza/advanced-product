@@ -35,7 +35,8 @@ class AP_Templates{
             } elseif ( file_exists( get_template_directory() . '/' . $template_name ) ) {
                 $located = get_template_directory() . '/' . $template_name;
                 break;
-            } elseif ( file_exists( $framework_path.'/'.$framework_name ) ) {
+            } elseif ( get_theme_support('templaza-framework')
+                && file_exists( $framework_path.'/'.$framework_name ) ) {
                 $located   = $framework_path.'/'.$framework_name;
                 break;
             } elseif ( file_exists( ADVANCED_PRODUCT_PLUGIN_DIR_PATH.'/'.$template_name ) ) {

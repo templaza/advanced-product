@@ -92,6 +92,7 @@ class Advanced_Product{
         register_activation_hook( ADVANCED_PRODUCT_PATH.'/advanced-product.php', array( $this, 'import_custom_fields' ) );
 
         add_filter('templaza-framework/shortcode/content_area/theme_html', array($this, 'theme_html'), 11);
+        add_filter('template_include', array($this, 'template_include'));
 
         add_action( 'switch_theme', 'flush_rewrite_rules', 15 );
         add_action( 'init', array( $this, 'ap_load_plugin_textdomain' ) );
@@ -545,38 +546,79 @@ class Advanced_Product{
 
     public function template_include($template){
 
-        if ( is_embed() ) {
+        if(get_theme_support('templaza-framework')){
             return $template;
         }
 
-        $post_type  = get_post_type();
+//        if ( is_embed() ) {
+//            return $template;
+//        }
+//
+//        $post_type  = get_post_type();
+//
+//        if($post_type != 'ap_product'){
+//            return $template;
+//        }
+//
+//        $plugin_path    = ADVANCED_PRODUCT_TEMPLATE_PATH;
+//        $theme_path     = ADVANCED_PRODUCT_THEME_TEMPLATE_PATH;
+//        $framework_path = ADVANCED_PRODUCT_TEMPLAZA_FRAMEWORK_TEMPLATE_PATH;
+//
+//        // Is single file
+//        if(is_single() && is_singular($post_type) ){
+//            // File path from theme
+//            $file   = $theme_path.'/'.basename($template);
+//
+//            // File path from templaza-framework
+//            if(!file_exists($file)){
+//                $file   = $framework_path.'/'.basename($template);
+//            }
+//
+//            // File path from my plugin
+//            if(!file_exists($file)){
+//                $file   = $plugin_path.'/'.basename($template);
+//            }
+//
+//            if(file_exists($file)){
+//                $template   = $file;
+//            }
+//        }
 
-        if($post_type != 'ap_product'){
+
+        global $post_type;
+
+        $_post_type = !empty($post_type)?$post_type:get_post_type();
+
+        if((!is_array($_post_type) && $_post_type != 'ap_product')
+            || (is_array($_post_type) && !in_array('ap_product', $_post_type))){
             return $template;
         }
 
         $plugin_path    = ADVANCED_PRODUCT_TEMPLATE_PATH;
         $theme_path     = ADVANCED_PRODUCT_THEME_TEMPLATE_PATH;
-        $framework_path = ADVANCED_PRODUCT_TEMPLAZA_FRAMEWORK_TEMPLATE_PATH;
+
+        $file_name  = '';
 
         // Is single file
         if(is_single() && is_singular($post_type) ){
-            // File path from theme
-            $file   = $theme_path.'/'.basename($template);
-
-            // File path from templaza-framework
-            if(!file_exists($file)){
-                $file   = $framework_path.'/'.basename($template);
+            $file_name  = 'single';
+        }elseif(is_archive()){
+            $file_name  = 'archive';
+            if ( !have_posts()) {
+                $file_name  .= '/no_content';
             }
+        }
 
-            // File path from my plugin
-            if(!file_exists($file)){
-                $file   = $plugin_path.'/'.basename($template);
-            }
+        // File path from theme
+        $file   = $theme_path.'/'.$file_name.'.php';
 
-            if(file_exists($file)){
-                $template   = $file;
-            }
+        // File path from my plugin
+        if(!file_exists($file)){
+            $file   = $plugin_path.'/'.$file_name.'.php';
+        }
+
+        if(!empty($file) && file_exists($file)){
+            $template   = $file;
         }
 
         return $template;
@@ -677,6 +719,14 @@ class Advanced_Product{
                 array(), AP_Functions::get_my_version(), true);
             wp_register_script('advanced-product-serialize-object', AP_Functions::get_my_url().'/assets/js/jquery.serialize-object.min.js',
                 array('advanced-product'), AP_Functions::get_my_version(), true);
+
+            if(!get_theme_support('templaza-framework')) {
+                wp_enqueue_script('advanced-product-js__uikit', AP_Functions::get_my_url() . '/assets/vendor/uikit/js/uikit.min.js', array('jquery'), '', true);
+                wp_enqueue_script( 'advanced-product-js__uikit-icons', AP_Functions::get_my_url().'/assets/vendor/uikit/js/uikit-icons.min.js', array( 'jquery' ),'',true  );
+                wp_enqueue_style('advanced-product-css__uikit', AP_Functions::get_my_url() . '/assets/vendor/uikit/css/uikit.min.css');
+                wp_enqueue_style('advanced-product-css__fontawesome', AP_Functions::get_my_url() . '/assets/vendor/fontawesome/css/all.min.css');
+                wp_enqueue_style('advanced-product-css__fontawesome-v5', AP_Functions::get_my_url() . '/assets/vendor/fontawesome/css/v5-font-face.min.css', array( 'advanced-product-css__fontawesome' ));
+            }
             wp_register_style('advanced-product', AP_Functions::get_my_url().'/assets/css/style.css');
         }
     }

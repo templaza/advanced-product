@@ -7,10 +7,12 @@ use Advanced_Product\AP_Templates;
 use Advanced_Product\Helper\AP_Helper;
 use Advanced_Product\Helper\AP_Custom_Field_Helper;
 
+get_header();
 ?>
 
-<?php
-if ( have_posts()) {
+<?php if ( have_posts()) { ?>
+    <div class="uk-container uk-container-large">
+    <?php
     AP_Templates::load_my_layout('archive.content');
 
     the_posts_pagination( array(
@@ -21,6 +23,8 @@ if ( have_posts()) {
         'screen_reader_text' => '',
     ) );
     ?>
+    </div>
 <?php
 }
+get_footer();
 ?>

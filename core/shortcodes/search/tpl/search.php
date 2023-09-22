@@ -35,7 +35,7 @@ $__ap_settings  = array(
     "instant"   => $instant,
     "update_url"   => $update_url
 );
-$__class    = ' uk-grid-medium';
+$__class    = !get_theme_support('templaza-framework')?' uk-grid-collapse':' uk-grid-medium';
 if(isset($_GET['filter_style']) && $_GET['filter_style'] =='block'){
     $__class .= $_GET['filter_style'];
     $__class .= 'uk-child-width-1-1';
