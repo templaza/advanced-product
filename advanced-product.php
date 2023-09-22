@@ -869,7 +869,7 @@ class Advanced_Product{
                     ),
                 );
 
-                $sold_order_by  = $sold_order == 'top'?'DSC':($sold_order == 'bottom'?'ASC':'');
+                $sold_order_by  = $sold_order == 'top'?'DESC':($sold_order == 'bottom'?'ASC':'');
 
                 if(!empty($sold_order_by)){
                     $query->query_vars['orderby'] = array(
