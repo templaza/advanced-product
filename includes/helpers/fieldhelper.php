@@ -103,27 +103,27 @@ class FieldHelper extends BaseHelper {
 
         $text_domain    = AP_Functions::get_my_text_domain();
         $color_choices = array_unique( array_merge( array (
-            __( 'Silver', $text_domain ),
-            __( 'Black', $text_domain ),
-            __( 'White', $text_domain ),
-            __( 'Red', $text_domain ),
-            __( 'Blue', $text_domain ),
-            __( 'Brown/Beige', $text_domain ),
-            __( 'Yellow', $text_domain ),
-            __( 'Green', $text_domain ),
+            __( 'Silver', 'advanced-product' ),
+            __( 'Black', 'advanced-product' ),
+            __( 'White', 'advanced-product' ),
+            __( 'Red', 'advanced-product' ),
+            __( 'Blue', 'advanced-product' ),
+            __( 'Brown/Beige', 'advanced-product' ),
+            __( 'Yellow', 'advanced-product' ),
+            __( 'Green', 'advanced-product' ),
         ), static::get_meta_values( 'color', 'ap_product' ) ));
         $color_choices = array_combine( $color_choices, $color_choices);
 
         $int_color_choices = array_unique( array_merge( array (
-            'black' => __( 'Black', $text_domain ),
-            'white' => __( 'White', $text_domain ),
-            'brown' => __( 'Brown (Leather)', $text_domain )
+            'black' => __( 'Black', 'advanced-product' ),
+            'white' => __( 'White', 'advanced-product' ),
+            'brown' => __( 'Brown (Leather)', 'advanced-product' )
         ), static::get_meta_values( 'interior', 'ap_product' ) ));
         $int_color_choices = array_combine( $int_color_choices, $int_color_choices);
 
         $core_fields = array(
             'ap_branch' => array (
-                'label' => __( 'Branch', $text_domain ),
+                'label' => __( 'Branch', 'advanced-product' ),
                 'name' => 'ap_branch',
                 'type' => 'taxonomy',
                 'taxonomy' => 'ap_branch',
@@ -132,9 +132,9 @@ class FieldHelper extends BaseHelper {
                 'allow_null' => 0
             ),
             'ap_category' => array (
-                'label' => __( 'Category', $text_domain ),
+                'label' => __( 'Category', 'advanced-product' ),
                 'name' => 'ap_category',
-                'instructions' => __( 'If you do not see Make or can not choose it please edit and save again in make manager', $text_domain ),
+                'instructions' => __( 'If you do not see Make or can not choose it please edit and save again in make manager', 'advanced-product' ),
                 'type' => 'taxonomy',
                 'taxonomy' => 'ap_category',
                 'sort' => 1,
@@ -143,34 +143,34 @@ class FieldHelper extends BaseHelper {
                 'allow_null' => 0
             ),
             'pricetext' => array (
-                'label' => __( 'Text Price', $text_domain ),
+                'label' => __( 'Text Price', 'advanced-product' ),
                 'name' => 'pricetext',
                 'type' => 'text',
-                'instructions' => __( 'Contact get price', $text_domain ),
+                'instructions' => __( 'Contact get price', 'advanced-product' ),
                 'default_value' => '',
-                'placeholder' => __( 'Price Contact', $text_domain ),
+                'placeholder' => __( 'Price Contact', 'advanced-product' ),
                 'sort' => 18,
                 'group'=>'pricing',
             ),
             'pricelink' => array (
-                'label' => __( 'Url Price', $text_domain ),
+                'label' => __( 'Url Price', 'advanced-product' ),
                 'name' => 'pricelink',
                 'type' => 'text',
-                'instructions' => __( 'URL get price', $text_domain ),
+                'instructions' => __( 'URL get price', 'advanced-product' ),
                 'default_value' => '',
-                'placeholder' => __( 'Url Price', $text_domain ),
+                'placeholder' => __( 'Url Price', 'advanced-product' ),
                 'sort' => 19,
                 'group'=>'pricing',
             ),
             'ap_product_status' => array(
 //                'key'   => 'field_6192374baaf91',
-                'label' => __( 'Product sale/rent', $text_domain ),
+                'label' => __( 'Product sale/rent', 'advanced-product' ),
                 'name' => 'ap_product_status',
                 'instructions' => '',
                 'type' => 'radio',
                 'choices' => array(
-                    'sale' => __( 'For Sale', $text_domain ),
-                    'rent' => __( 'For Rent', $text_domain ),
+                    'sale' => __( 'For Sale', 'advanced-product' ),
+                    'rent' => __( 'For Rent', 'advanced-product' ),
                 ),
                 'default_value' => 'sale',
                 'other_choice' => 0,
@@ -178,9 +178,9 @@ class FieldHelper extends BaseHelper {
                 'group' => 'pricing',
             ),
             'price' => array(
-                'label' => __( 'Price', $text_domain ),
+                'label' => __( 'Price', 'advanced-product' ),
                 'name' => 'price',
-                'instructions' => __( "The price that the customer will have to pay.", $text_domain ),
+                'instructions' => __( "The price that the customer will have to pay.", 'advanced-product' ),
                 'type' => 'number',
                 'default_value' => '',
                 'placeholder' => '',
@@ -193,9 +193,9 @@ class FieldHelper extends BaseHelper {
                 'sort' => 15,
             ),
             'msrp' => array(
-                'label' => __( 'MSRP', $text_domain ),
+                'label' => __( 'MSRP', 'advanced-product' ),
                 'name' => 'msrp',
-                'instructions' => __( "Use integers to set the listing price.", $text_domain ),
+                'instructions' => __( "Use integers to set the listing price.", 'advanced-product' ),
                 'type' => 'number',
                 'default_value' => '',
                 'placeholder' => '',
@@ -208,9 +208,9 @@ class FieldHelper extends BaseHelper {
                 'sort' => 10,
             ),
             'pricerental' => array(
-                'label' => __( 'Price Rental', $text_domain ),
+                'label' => __( 'Price Rental', 'advanced-product' ),
                 'name' => 'pricerental',
-                'instructions' => __( "Prices for rent a day or a week", $text_domain ),
+                'instructions' => __( "Prices for rent a day or a week", 'advanced-product' ),
                 'type' => 'number',
                 'default_value' => '',
                 'placeholder' => '',
@@ -233,52 +233,52 @@ class FieldHelper extends BaseHelper {
 //                ),
             ),
             'time_rental' => array (
-                'label' => __( 'Time unit for Rent', $text_domain ),
+                'label' => __( 'Time unit for Rent', 'advanced-product' ),
                 'name' => 'time_rental',
                 'type' => 'text',
                 'default_value' => 'day',
-                'placeholder' => __( 'day', $text_domain ),
+                'placeholder' => __( 'day', 'advanced-product' ),
                 'group' => 'pricing',
                 'sort' => 17,
             ),
             'registration' => array (
-                'label' => __( 'Registration date', $text_domain ),
+                'label' => __( 'Registration date', 'advanced-product' ),
                 'name' => 'registration',
                 'type' => 'number',
-                'instructions' => __( 'The year of first registration', $text_domain ),
-                'placeholder' => __( 'e.g. 2009', $text_domain ),
+                'instructions' => __( 'The year of first registration', 'advanced-product' ),
+                'placeholder' => __( 'e.g. 2009', 'advanced-product' ),
                 'min' => 1950,
                 'max' => date( 'Y' ) + 1,
                 'default_value' => date( 'Y' ),
                 'sort' => 15,
             ),
             'milage' => array(
-                'label' => __( 'Mileage', $text_domain ),
+                'label' => __( 'Mileage', 'advanced-product' ),
                 'name' => 'milage',
                 'type' => 'number',
-                'instructions' => __( 'The number of miles travelled or covered', $text_domain ),
+                'instructions' => __( 'The number of miles travelled or covered', 'advanced-product' ),
                 'default_value' => '',
-                'placeholder' => __( 'e.g. 70000', $text_domain ),
+                'placeholder' => __( 'e.g. 70000', 'advanced-product' ),
                 'prepend' => '',
                 'append' => get_option( 'options_ap_milage_unit', 'mi' ),
                 'sort' => 20
             ),
             'condition' => array(
-                'label' => __( 'Condition', $text_domain ),
+                'label' => __( 'Condition', 'advanced-product' ),
                 'name' => 'condition',
                 'instructions' => '',
                 'type' => 'radio',
                 'choices' => array(
-                    'new' => __( 'New', $text_domain ),
-                    'used' => __( 'Used', $text_domain ),
-                    'preowned' => __( 'Certified Pre-Owned', $text_domain )
+                    'new' => __( 'New', 'advanced-product' ),
+                    'used' => __( 'Used', 'advanced-product' ),
+                    'preowned' => __( 'Certified Pre-Owned', 'advanced-product' )
                 ),
                 'default_value' => 'new',
                 'other_choice' => 0,
                 'sort' => 30
             ),
             'color' => array(
-                'label' => __( 'Exterior Color', $text_domain ),
+                'label' => __( 'Exterior Color', 'advanced-product' ),
                 'name' => 'color',
                 'type' => 'radio',
                 'choices' => $color_choices,
@@ -289,7 +289,7 @@ class FieldHelper extends BaseHelper {
                 'sort' => 40,
             ),
             'interior' => array(
-                'label' => __( 'Interior Color', $text_domain ),
+                'label' => __( 'Interior Color', 'advanced-product' ),
                 'name' => 'interior',
                 'type' => 'radio',
                 'choices' => $int_color_choices,
@@ -300,21 +300,21 @@ class FieldHelper extends BaseHelper {
                 'sort' => 50,
             ),
             'transmission' => array(
-                'label' => __( 'Transmission', $text_domain ),
+                'label' => __( 'Transmission', 'advanced-product' ),
                 'name' => 'transmission',
                 'type' => 'radio',
                 'choices' => array (
-                    'auto' => __( 'Automatic', $text_domain ),
-                    'manual' => __( 'Manual', $text_domain ),
+                    'auto' => __( 'Automatic', 'advanced-product' ),
+                    'manual' => __( 'Manual', 'advanced-product' ),
                 ),
                 'default_value' => '',
                 'layout' => 'horizontal',
                 'sort' => 60,
             ),
             'engine' => array (
-                'label' => __( 'Engine', $text_domain ),
+                'label' => __( 'Engine', 'advanced-product' ),
                 'name' => 'engine',
-                'instructions' => __( 'The displacement the engine gives in Litres', $text_domain ),
+                'instructions' => __( 'The displacement the engine gives in Litres', 'advanced-product' ),
                 'append' => 'L',
                 'placeholder' => '4,1',
                 'sort' => 70,
@@ -323,13 +323,13 @@ class FieldHelper extends BaseHelper {
                 'max' => 10
             ),
             'drivetrain' => array(
-                'label' => __( 'Drivetrain', $text_domain ),
+                'label' => __( 'Drivetrain', 'advanced-product' ),
                 'name' => 'drivetrain',
                 'type' => 'radio',
                 'choices' => array (
-                    'fwd' => __( 'FWD', $text_domain ),
-                    'rwd' => __( 'RWD', $text_domain ),
-                    '4wd' => __( '4WD', $text_domain ),
+                    'fwd' => __( 'FWD', 'advanced-product' ),
+                    'rwd' => __( 'RWD', 'advanced-product' ),
+                    '4wd' => __( '4WD', 'advanced-product' ),
                 ),
                 'default_value' => '',
                 'layout' => 'horizontal',

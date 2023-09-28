@@ -862,23 +862,23 @@ class AP_Custom_Field_Helper extends BaseHelper {
     }
 
     public static function get_meta_query_compares(){
-        return array('=' => __('=', AP_Functions::get_my_text_domain()),
-            '!=' => __('!=', AP_Functions::get_my_text_domain()),
-            '>' => __('>', AP_Functions::get_my_text_domain()),
-            '>=' => __('>=', AP_Functions::get_my_text_domain()),
-            '<' => __('<', AP_Functions::get_my_text_domain()),
-            '<=' => __('<=', AP_Functions::get_my_text_domain()),
-            'LIKE' => __('LIKE', AP_Functions::get_my_text_domain()),
-            'NOT LIKE' => __('NOT LIKE', AP_Functions::get_my_text_domain()),
-            'IN' => __('IN', AP_Functions::get_my_text_domain()),
-            'NOT IN' => __('NOT IN', AP_Functions::get_my_text_domain()),
-            'BETWEEN' => __('BETWEEN', AP_Functions::get_my_text_domain()),
-            'NOT BETWEEN' => __('NOT BETWEEN', AP_Functions::get_my_text_domain()),
-            'EXISTS' => __('EXISTS', AP_Functions::get_my_text_domain()),
-            'NOT EXISTS' => __('NOT EXISTS', AP_Functions::get_my_text_domain()),
-            'REGEXP' => __('REGEXP', AP_Functions::get_my_text_domain()),
-            'NOT REGEXP' => __('NOT REGEXP', AP_Functions::get_my_text_domain()),
-            'RLIKE' => __('NOT REGEXP', AP_Functions::get_my_text_domain())
+        return array('=' => __('=', 'advanced-product'),
+            '!=' => __('!=', 'advanced-product'),
+            '>' => __('>', 'advanced-product'),
+            '>=' => __('>=', 'advanced-product'),
+            '<' => __('<', 'advanced-product'),
+            '<=' => __('<=', 'advanced-product'),
+            'LIKE' => __('LIKE', 'advanced-product'),
+            'NOT LIKE' => __('NOT LIKE', 'advanced-product'),
+            'IN' => __('IN', 'advanced-product'),
+            'NOT IN' => __('NOT IN', 'advanced-product'),
+            'BETWEEN' => __('BETWEEN', 'advanced-product'),
+            'NOT BETWEEN' => __('NOT BETWEEN', 'advanced-product'),
+            'EXISTS' => __('EXISTS', 'advanced-product'),
+            'NOT EXISTS' => __('NOT EXISTS', 'advanced-product'),
+            'REGEXP' => __('REGEXP', 'advanced-product'),
+            'NOT REGEXP' => __('NOT REGEXP', 'advanced-product'),
+            'RLIKE' => __('NOT REGEXP', 'advanced-product')
         );
     }
 
