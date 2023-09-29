@@ -935,7 +935,7 @@ class AP_Custom_Field_Helper extends BaseHelper {
      *
      * @param $field_name String ACF Field name
      * @param $post_id int The post id to check.
-     * @return
+     * @return object
      */
     public static function get_custom_field( $field_name, $options = array()) {
         global $wpdb;
@@ -946,6 +946,28 @@ class AP_Custom_Field_Helper extends BaseHelper {
             return static::$cache[$store_id];
         }
         $ex_post_id = isset($options['exclude_post_id']) && !empty($options['exclude_post_id'])?$options['exclude_post_id']:0;
+
+        // Get field post with post type ap_custom_field
+        $subSql = "SELECT meta_value
+                    FROM $wpdb->postmeta
+                    WHERE meta_key=%s
+                    AND meta_value LIKE %s";
+        $sql    = "SELECT DISTINCT p.* FROM $wpdb->posts AS p
+                    INNER JOIN $wpdb->postmeta AS pm ON pm.post_id = p.ID
+                    INNER JOIN ( $subSql ) AS pmtemp ON pmtemp.meta_value=pm.meta_key
+                    WHERE p.post_type=%s";
+        if(!empty($ex_post_id)){
+            if(is_array($ex_post_id)) {
+                $sql .= " AND ID NOT IN(".implode(','. $ex_post_id).")";
+            }else{
+                $sql    .= " AND ID <> $ex_post_id";
+            }
+        }
+        $sql    = $wpdb -> prepare($sql, '_'.$field_name, 'field_%', 'ap_custom_field');
+
+        if($data = $wpdb -> get_row($sql)){
+            return static::$cache[$store_id] = $data;
+        }
 
         $sql    = "SELECT * FROM $wpdb->posts WHERE post_excerpt=%s AND post_type=%s";
 
