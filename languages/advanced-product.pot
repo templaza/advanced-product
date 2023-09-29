@@ -9,12 +9,12 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-09-11T06:26:40+02:00\n"
+"POT-Creation-Date: 2023-09-29T05:55:17+02:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.4.0\n"
 
 #. Plugin Name of the plugin
-#: advanced-product.php:159
+#: advanced-product.php:160
 msgid "Advanced Product"
 msgstr ""
 
@@ -34,7 +34,7 @@ msgstr ""
 msgid "http://templaza.com"
 msgstr ""
 
-#: advanced-product.php:705
+#: advanced-product.php:755
 msgid "Advanced Product archive slug"
 msgstr ""
 
@@ -3278,22 +3278,27 @@ msgstr ""
 msgid "Import <strong>posts, pages, comments, custom fields, categories, and tags</strong> from a WordPress export file."
 msgstr ""
 
-#: templates/archive/no_content.php:8
+#: templates/archive/no_content.php:14
 msgid "No products were found matching your selection."
 msgstr ""
 
-#: templates/archive/price.php:28
+#: templates/archive/price.php:33
 #: templates/single/price.php:21
 msgid " "
 msgstr ""
 
-#: templates/archive/price.php:31
+#: templates/archive/price.php:36
 #: templates/single/price.php:24
 msgid "MSRP:"
 msgstr ""
 
-#: templates/archive/price.php:36
+#: templates/archive/price.php:41
 msgid "Rental:"
+msgstr ""
+
+#: templates/archive/price.php:54
+#: templates/archive/price.php:60
+msgid "Price:"
 msgstr ""
 
 #: templates/shortcodes/advanced-product/compare-action.php:16
@@ -3312,7 +3317,7 @@ msgstr ""
 msgid "Quick View"
 msgstr ""
 
-#: templates/shortcodes/advanced-product/quickview.php:25
+#: templates/shortcodes/advanced-product/quickview.php:31
 msgid "More Product Info"
 msgstr ""
 
