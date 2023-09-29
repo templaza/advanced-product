@@ -6,24 +6,29 @@ use Advanced_Product\AP_Functions;
 use Advanced_Product\Helper\AP_Helper;
 use Advanced_Product\Helper\AP_Custom_Field_Helper;
 
-?>
-<?php
 $msrp           = get_field('ap_price_msrp', get_the_ID());
 $price          = get_field('ap_price', get_the_ID());
 $rental         = get_field('ap_rental_price', get_the_ID());
 $rental_unit    = get_field('ap_rental_unit', get_the_ID());
 $product_type   = get_field('ap_product_type', get_the_ID());
 
+$price_sold     = get_field('ap_price_sold', get_the_ID());
+$price_contact  = get_field('ap_price_contact', get_the_ID());
+
 $show_price         = AP_Custom_Field_Helper::get_field_display_flag_by_field_name('show_in_listing', 'ap_price');
+$show_price_sold    = AP_Custom_Field_Helper::get_field_display_flag_by_field_name('show_in_listing', 'ap_price_sold');
 $show_price_msrp    = AP_Custom_Field_Helper::get_field_display_flag_by_field_name('show_in_listing', 'ap_price_msrp');
 $show_price_rental  = AP_Custom_Field_Helper::get_field_display_flag_by_field_name('show_in_listing', 'ap_rental_price');
+$show_price_contact = AP_Custom_Field_Helper::get_field_display_flag_by_field_name('show_in_listing', 'ap_price_contact');
 
-if ((!empty($price) && $show_price) || (!empty($rental) && $show_price_rental)) {
+if ((!empty($price) && $show_price) || (!empty($rental) && $show_price_rental)
+    || (!empty($price_contact) && $show_price_contact)
+    || (!empty($price_sold) && $show_price_sold)) {
     ?>
     <div class="uk-card-footer uk-background-primary uk-light">
         <?php
         $html   = '';
-        if((!$product_type || in_array('sale', $product_type))){
+        if((!$product_type || in_array('sale', $product_type)) && !empty($price) && $show_price){
             $html = sprintf('<span class="ap-price"><b> %s</b> %s </span>',
                 esc_html__(' ', 'advanced-product'), AP_Helper::format_price($price));
             if (!empty($msrp) && $show_price_msrp) {
@@ -43,6 +48,17 @@ if ((!empty($price) && $show_price) || (!empty($rental) && $show_price_rental)) 
         ?>
         <?php
         echo balanceTags($html);
-        ?>
+
+        if (!empty($product_type) && in_array('contact', $product_type) && !empty($price_contact) && $show_price_contact) {
+            ?>
+                <span class="ap-field-label"><?php esc_html_e('Price:','advanced-product'); ?></span>
+                <span class="ap-price"><?php echo esc_html($price_contact);?></span>
+        <?php }
+
+        if (!empty($product_type) && in_array('sold', $product_type) && !empty($price_sold) && $show_price_sold) {
+            ?>
+                <span class="ap-field-label"><?php esc_html_e('Price:','advanced-product'); ?></span>
+                <span class="ap-price"><?php echo esc_html($price_sold);?></span>
+        <?php } ?>
     </div>
 <?php } ?>

@@ -14,7 +14,14 @@ $autoshowroom_detail_model = isset($options['autoshowroom_Detail_show_model'])?(
 
 $product_id     = get_the_ID();
 
-if($fields_wgs = AP_Custom_Field_Helper::get_fields_without_group_field()){
+if($fields_wgs = AP_Custom_Field_Helper::get_fields_without_group_field(array(
+    'meta_query' => array(
+        array(
+            'key'  => 'show_in_listing',
+            'value'    => 1
+        )
+    )
+))){
 
     ob_start();
     foreach ($fields_wgs as $field) {
@@ -27,72 +34,56 @@ if($fields_wgs = AP_Custom_Field_Helper::get_fields_without_group_field()){
     ob_end_clean();
 
     $html   = trim($html);
+    if(!empty($html)){
+        ?>
+        <div class="widget <?php echo esc_attr($widget_heading_style);?> ap-box ap-group ap-group-nogroup">
+            <div class="widget-content">
+                <div class="ap-group-content"><?php echo $html;?></div>
+            </div>
+        </div>
+        <?php
+    }
 }
 
 $gfields_assigned   = AP_Custom_Field_Helper::get_group_fields_by_product();
 
-//if($gfields_assigned && count($gfields_assigned)){
-//    foreach ($gfields_assigned as $group) {
-//        if($group->slug != 'pricing'){
+if($gfields_assigned && count($gfields_assigned)){
+    foreach ($gfields_assigned as $group) {
+        if($group->slug != 'pricing'){
+            $fields = AP_Custom_Field_Helper::get_fields_by_group_fields($group, 'posts', array(
+                'meta_query'    => array(
+                    array(
+                        'key'  => 'show_in_listing',
+                        'value'    => 1
+                    )
+                )
+            ));
 //            $fields = AP_Custom_Field_Helper::get_fields_by_group_fields($group);
-//            if($fields && count($fields)) {
-//                ob_start();
-//                foreach ($fields as $field) {
-//                    AP_Templates::load_my_layout('shortcodes.advanced-product.quickview-custom-fields-item', true, false, array(
-//                        'field'         => $field,
-//                        'product_id'    => $product_id
-//                    ));
-//                }
-//                $html = ob_get_contents();
-//                ob_end_clean();
-//
-//                $html = trim($html);
-//            }
-//            if(!empty($html)){
-//            ?>
-<!--            <div class="widget --><?php //echo esc_attr($widget_heading_style);?><!-- ap-box ap-group ap-group---><?php //echo $group -> slug; ?><!--">-->
-<!--                <div class="widget-content">-->
-<!--                    <h3 class="widget-title">-->
-<!--                        <span>--><?php //esc_html_e($group -> name, 'advanced-product'); ?><!--</span>-->
-<!--                    </h3>-->
-<!--                    <div class="ap-group-content">--><?php //echo $html;?><!--</div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            --><?php
-//            }
-//        }
-//    }
-//}
+            if($fields && count($fields)) {
+                ob_start();
+                foreach ($fields as $field) {
+                    AP_Templates::load_my_layout('shortcodes.advanced-product.quickview-custom-fields-item', true, false, array(
+                        'field'         => $field,
+                        'product_id'    => $product_id
+                    ));
+                }
+                $html = ob_get_contents();
+                ob_end_clean();
 
-// Get custom fields
-$fields     = AP_Custom_Field_Helper::get_custom_fields_display_flag_by_product_id('show_in_listing',get_the_ID());
-
-// Get custom fields with no group
-$fields_no_group    = AP_Custom_Field_Helper::get_custom_fields_without_group_display_flag_by_product_id('show_in_listing', get_the_ID());
-
-$fields = !empty($fields)?array_merge($fields_no_group, $fields):$fields_no_group;
-
-if($fields && count($fields)) {
-    ob_start();
-    foreach ($fields as $field) {
-        AP_Templates::load_my_layout('shortcodes.advanced-product.quickview-custom-fields-item', true, false, array(
-            'field'         => $field,
-            'product_id'    => $product_id
-        ));
+                $html = trim($html);
+            }
+            if(!empty($html)){
+            ?>
+            <div class="widget <?php echo esc_attr($widget_heading_style);?> ap-box ap-group ap-group-<?php echo $group -> slug; ?>">
+                <div class="widget-content">
+                    <h3 class="widget-title">
+                        <span><?php esc_html_e($group -> name, 'advanced-product'); ?></span>
+                    </h3>
+                    <div class="ap-group-content"><?php echo $html;?></div>
+                </div>
+            </div>
+            <?php
+            }
+        }
     }
-    $html = ob_get_contents();
-    ob_end_clean();
-
-    $html = trim($html);
 }
-if(!empty($html)){
-?>
-<div class="widget <?php echo esc_attr($widget_heading_style);?> ap-box ap-group ap-group-<?php echo $group -> slug; ?>">
-    <div class="widget-content">
-        <h3 class="widget-title">
-            <span><?php esc_html_e($group -> name, 'advanced-product'); ?></span>
-        </h3>
-        <div class="ap-group-content"><?php echo $html;?></div>
-    </div>
-</div>
-<?php } ?>
