@@ -460,6 +460,24 @@
         UIkit.switcher(this).show(__cindex);
     });
 
+    // Search form submit
+    $(document).on("submit", "form.advanced-product-search-form", function(event){
+        var __form  = $(this),
+            __form_data  = $(this).serializeArray();
+
+        // Preprocess form data
+        if(__form_data.length){
+            $.each(__form_data, function(index, item){
+                if(!item.value.length){
+                    var __name  = "[name=" + item.name.replace(/(\[|\])/gi, "\\$1") + "]";
+                    __form.find(__name).prop("disabled", true);
+                }
+            });
+        }
+
+        return true;
+    });
+
     // Search submit button click
     $(document).on("click", "form.advanced-product-search-form .car-search-submit",function(event){
         event.preventDefault();
@@ -479,7 +497,35 @@
             return;
         }
 
-        $.get(__form.attr("action"), __form.serialize(), function (data) {
+        var __form_data  = __form.serializeArray();
+
+        var __data = [];
+        var __ajax_options = '';
+
+        // Get archive view
+        if($("[data-ap-archive-view]").data("ap-archive-view") !== undefined){
+            __data.push("archive_view=" + $("[data-ap-archive-view]").data("ap-archive-view"));
+        }
+
+        // Get sort order
+        if($(".templaza-ap-archive-sort select").length){
+            __data.push("sort_order=" + $(".templaza-ap-archive-sort select").val());
+        }
+
+        // Preprocess form data
+        if(__form_data.length){
+            $.each(__form_data, function(index, item){
+                if(item.value.length){
+                    __data.push(item.name + "=" + item.value);
+                }
+            });
+        }
+
+        if(__data.length){
+            __ajax_options  = __data.join("&");
+        }
+
+        $.get(__form.attr("action"), __ajax_options, function (data) {
 
             // Replace html filtered
             $(".templaza-ap-archive").replaceWith($(data).find(".templaza-ap-archive"));
