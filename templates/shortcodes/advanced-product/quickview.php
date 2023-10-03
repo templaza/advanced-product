@@ -26,6 +26,7 @@ if(isset($product) && !empty($product)){
         <div class="ap-quickview-media uk-cover-container">
             <a href="<?php the_permalink(); ?>">
             <?php the_post_thumbnail('full', array('data-uk-cover' => '')); ?>
+                <canvas width="600" height="400"></canvas>
             </a>
             <a href="<?php the_permalink(); ?>" class="product-more-infor uk-background-muted uk-text-center uk-position-bottom">
                 <span class="product-more-infor__text"><?php esc_attr_e('More Product Info','advanced-product');?></span><i class="fas fa-info-circle"></i>
