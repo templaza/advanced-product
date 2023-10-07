@@ -177,6 +177,12 @@ class Search extends Base {
             'max_height'        => '',
         );
 
+        $inventory_page_id  = get_field('ap_inventory_page_id', 'option');
+        if(is_archive() || ($inventory_page_id && is_page($inventory_page_id))) {
+            global $wp;
+            $defaults['action'] = home_url($wp->request);
+        }
+
         extract( shortcode_atts( apply_filters( 'advanced-product/search-form/defaults', $defaults ), $shortcode_atts ) );
 
         $show_label     = filter_var($show_label, FILTER_VALIDATE_BOOLEAN);

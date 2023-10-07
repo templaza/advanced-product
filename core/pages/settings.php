@@ -67,6 +67,13 @@ class Settings extends Base {
                     'name' => '',
                     'type' => 'tab',
                 ),
+                array(
+                    'key' => 'field_ap_inventory_page_id',
+                    'label' => __('Inventory page', 'advanced-product'),
+                    'name' => 'ap_inventory_page_id',
+                    'type' => 'post_object',
+                    'post_type'=> array('page')
+                ),
                 array (
                     'key' => 'field_5281609138d88',
                     'label' => __( 'Mileage unit', 'advanced-product' ),

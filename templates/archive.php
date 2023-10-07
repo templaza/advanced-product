@@ -7,7 +7,9 @@ use Advanced_Product\AP_Templates;
 use Advanced_Product\Helper\AP_Helper;
 use Advanced_Product\Helper\AP_Custom_Field_Helper;
 
-get_header();
+if(AP_Helper::get_page_id('inventory') != get_the_ID()) {
+    get_header();
+}
 ?>
 
 <?php if ( have_posts()) { ?>
@@ -26,5 +28,7 @@ get_header();
     </div>
 <?php
 }
-get_footer();
+if(AP_Helper::get_page_id('inventory') != get_the_ID()) {
+    get_footer();
+}
 ?>

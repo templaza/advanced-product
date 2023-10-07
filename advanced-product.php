@@ -89,7 +89,10 @@ class Advanced_Product{
     }
 
     public function hooks(){
-        register_activation_hook( ADVANCED_PRODUCT_PATH.'/advanced-product.php', array( $this, 'import_custom_fields' ) );
+        register_activation_hook( ADVANCED_PRODUCT_PATH.'/advanced-product.php', array( $this, 'install' ) );
+
+        add_filter( 'the_content', array( $this, 'unsupported_theme_inventory_content_filter' ), 10 );
+        add_filter('display_post_states', array($this, 'add_display_post_states'),10, 2);
 
         add_filter('templaza-framework/shortcode/content_area/theme_html', array($this, 'theme_html'), 11);
         add_filter('template_include', array($this, 'template_include'));
@@ -177,41 +180,13 @@ class Advanced_Product{
         return $args;
     }
 
-    public function import_custom_fields(){
-
-        $imported_key   = '_advanced_product_custom_field_protected_imported';
-
-        // Check imported
-        $imported   = get_option($imported_key, 0);
-
-        if($imported){
-            return true;
+    public function install(){
+        if(class_exists('Advanced_Product\Install')) {
+            $install = new Install();
+            if(method_exists($install, 'init')){
+                call_user_func(array($install, 'init'));
+            }
         }
-
-        $importer_file = ADVANCED_PRODUCT_LIBRARY_PATH.'/importer/class-advanced-product-importer.php';
-
-        if ( ! class_exists( 'Advanced_Product_Importer' ) ) {
-            if ( file_exists( $importer_file ) )
-                require_once $importer_file;
-        }
-
-        if(!class_exists('Advanced_Product_Importer')){
-            return false;
-        }
-        $_file  = ADVANCED_PRODUCT_PATH.'/data/custom_fields.xml';
-
-        $importer   = new \Advanced_Product_Importer();
-
-        ob_start();
-        $importer->import($_file);
-        $result = ob_get_contents();
-        ob_end_clean();
-
-        if($result){
-            update_option($imported_key, 1);
-        }
-
-        return true;
     }
 
     public function update_custom_fields(){
@@ -296,6 +271,68 @@ class Advanced_Product{
                 ob_end_clean();
             }
         }
+    }
+
+    public function unsupported_theme_inventory_content_filter($content){
+
+        if (! is_main_query() || ! in_the_loop() ) {
+            return $content;
+        }
+
+        // Remove the filter we're in to avoid nested calls.
+        remove_filter( 'the_content', array( $this, 'unsupported_theme_shop_content_filter' ) );
+
+        $inventory_page_id  = get_field('ap_inventory_page_id', 'option');
+        if($inventory_page_id && is_page($inventory_page_id)){
+            // Get products
+            $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
+            $query_args = array(
+                'post_type' => 'ap_product',
+                'post_status'   => 'publish',
+                'paged'   => $paged
+            );
+            global $wp_query;
+
+            $ap_posts       =   new \WP_Query($query_args);
+
+            $temp = $wp_query;
+            $wp_query = $ap_posts;
+            ob_start();
+
+            if($ap_posts -> have_posts()){
+                AP_Templates::load_my_layout('archive');
+            }
+            $html   = ob_get_contents();
+            ob_end_clean();
+            $content .= $html;
+
+            $wp_query = null;
+            $wp_query = $temp;
+
+            wp_reset_postdata();
+        }
+
+        return $content;
+    }
+
+    /**
+     * Add a post display state for special AP pages in the page list table.
+     *
+     * @param array    $post_states An array of post display states.
+     * @param \WP_Post $post        The current post object.
+     * */
+    public function add_display_post_states($post_states, $post){
+        $invent_page    = get_field('ap_inventory_page_id', 'option');
+        $invent_page_id = 0;
+        if(($invent_page instanceof \WP_Post) && !is_wp_error($invent_page)){
+            $invent_page_id = $invent_page -> ID;
+        }elseif (is_numeric($invent_page)){
+            $invent_page_id = $invent_page;
+        }
+        if(!empty($invent_page_id) && $invent_page_id == $post -> ID ){
+            $post_states['ap_page_for_inventory']   = __('AP Inventory Page', 'advanced-product');
+        }
+        return $post_states;
     }
 
     /**

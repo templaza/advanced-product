@@ -15,6 +15,7 @@ require_once __DIR__ . '/helpers/ap-custom-field-helper.php';
 require_once __DIR__ . '/helpers/taxonomyhelper.php';
 require_once __DIR__ . '/helpers/ap-custom-taxonomy-helper.php';
 require_once __DIR__ . '/classes/class-base.php';
+require_once __DIR__ . '/classes/class-install.php';
 require_once __DIR__ . '/classes/class-field_layout.php';
 require_once __DIR__ . '/classes/class-acf_taxonomy.php';
 require_once __DIR__ . '/classes/class-post_type.php';

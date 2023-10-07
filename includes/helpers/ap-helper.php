@@ -40,4 +40,22 @@ class AP_Helper extends BaseHelper {
         return apply_filters('advanced-product/format_price', $price, $original_price);
     }
 
+    /**
+     * Retrieve page ids - used for inventory. returns -1 if no page is found.
+     *
+     * @param string $page Page slug.
+     * @return int
+     */
+    public static function get_page_id($page){
+        $page_obj   = get_field('ap_'.$page.'_page_id', 'option');
+        $page_id    = -1;
+        if(($page_obj instanceof \WP_Post) && !is_wp_error($page_obj)){
+            $page_id    = $page_obj -> ID;
+        }elseif(is_numeric($page_obj)){
+            $page_id    = $page_obj;
+        }
+        $page_id = apply_filters( 'advanced-product__get_' . $page . '_page_id', $page_id );
+
+        return $page_id ? absint( $page_id ) : -1;
+    }
 }
