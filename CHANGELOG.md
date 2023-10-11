@@ -1,6 +1,50 @@
 
 # Changelogs:
 
+## Version 1.0.8 - October 11, 2023
+
+**Fix bugs:**
+
+- Fix issue session_start
+- Fix issue of wysiwyg editor
+- Fix term id in archive page
+- Fix html tag style in back-end
+- Fix issue text domain of language
+- Fix issue get product of quickview
+- Fix issue undefined term_order column
+- Fix issue wysiwyg field type with ajax
+- Fix issue get custom field by field name
+- Fix duplicate fields when empty group field
+- Fix issue display custom field of quickview
+- Fix issue js of taxonomy custom field associate
+- Fix issue js live is not a function of acf-options-page
+- Fix issue filter custom field empty value in search form
+- Fix issue select option's All of filter form on front-end
+- Fix issue Condition Logic of custom field in product admin form
+
+**Improvement:**
+
+- Update language file
+- Update uikit v3.16.24
+- Update related slider 
+- Update with base theme
+- Update advanced wp-util
+- Update share advanced product
+- Update product sold & contact
+- Update Sold Product Order option
+- Update inventory & import sample data
+- Update disable value of taxonomy when associate to other taxonomy on front-end
+
+**Changed**
+
+- Changed readme description file of acf custom
+
+**Added**
+
+- Add ui slider in single inventory
+- Add Class in body with search max height
+- Add custom url for advanced product detail
+
 ## Version 1.0.7 - April 18, 2023
 
 **Fix bugs:**
