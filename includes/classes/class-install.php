@@ -20,7 +20,7 @@ class Install extends Base{
         $imported_key   = '_advanced_product_custom_field_protected_imported';
 
         // Check imported
-        $imported   = get_option($imported_key, 0) && !empty(get_posts(array(
+        $imported   = get_option($imported_key, 0) || !empty(get_posts(array(
                 'post_type' => 'ap_custom_field'
             )));
 
@@ -59,7 +59,7 @@ class Install extends Base{
         $imported_key   = '_advanced_product__products_imported';
 
         // Check imported
-        $imported   = get_option($imported_key, 0) && !empty(get_posts(array(
+        $imported   = get_option($imported_key, 0) || !empty(get_posts(array(
                 'post_type' => 'ap_product'
             )));
 
