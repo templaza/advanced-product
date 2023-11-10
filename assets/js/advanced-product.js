@@ -679,17 +679,25 @@
                 $(this).parent().toggleClass('closed');
             });
         }
+        if($('.ap_product_quote').length){
+            $('.ap_product_quote span.quote_close').on('click',function(){
+                $(this).parents('.ap_product_quote').toggleClass('closed');
+            })
+            $('.ap_product_quote span.quote_open').on('click',function(){
+                $(this).parent().toggleClass('closed');
+            });
+        }
         if($('.templaza-ap-archive').length){
-            if($('.templaza-column').hasClass('hideonlg')){
+            if($(window).width()<1200){
+                $('.templaza-framework-gutenberg-adv-product-filters').parents('.templaza-column').addClass('hideonlg');
                 $('.templaza-ap-product-filter, .templaza-filter-closed ').removeClass('uk-hidden@m').addClass('uk-hidden@l');
-            }
-
-            if($('.templaza-framework-gutenberg-adv-product-filters').parents('.templaza-column').hasClass('hideonsm') || $('.templaza-framework-gutenberg-adv-product-filters').parents('.templaza-column').hasClass('hideonlg')){
                 $(document.body).on('click', '.ap-filter-btn', function (e) {
                     $('.templaza-framework-gutenberg-adv-product-filters').parents('.templaza-column').toggleClass('sidebar-fixed');
+                    $('.templaza-framework-gutenberg-adv-product-filters').parents('section').addClass('fix-index');
                 });
                 $(document.body).on('click', '.templaza-filter-closed', function (e) {
                     $('.templaza-framework-gutenberg-adv-product-filters').parents('.templaza-column').removeClass('sidebar-fixed');
+                    $('.templaza-framework-gutenberg-adv-product-filters').parents('section').removeClass('fix-index');
                 });
             }
         }
