@@ -160,12 +160,14 @@ class Field_Type extends Meta_box {
 
             $field_data = current($_POST['fields']);
 
+            $fname  = sanitize_text_field($field_data['name']);
+
             // Validate field name
-            $acf_field  = AP_Custom_Field_Helper::get_custom_field($field_data['name'], array('exclude_post_id' => $post_id));
+            $acf_field  = AP_Custom_Field_Helper::get_custom_field($fname, array('exclude_post_id' => $post_id));
             if(!empty($acf_field)) {
                 $app = Application::get_instance();
                 $app->enqueue_message(sprintf(__('The field name %s is already being used by the %s custom field.',
-                    'advanced-product'), $field_data['name'], $acf_field -> post_title), 'error');
+                    'advanced-product'), $fname, $acf_field -> post_title), 'error');
                 return false;
             }
 
@@ -174,6 +176,8 @@ class Field_Type extends Meta_box {
             foreach( $_POST['fields'] as $key => $field )
             {
                 $i++;
+
+                $field['name']  = sanitize_text_field($field['name']);
 
                 // order + key
                 $field['order_no'] = $i;

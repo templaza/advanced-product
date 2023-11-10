@@ -58,7 +58,10 @@ $fake_name = $field['key'];
                             ?>
                         </td>
                     </tr>
-                    <tr class="field_name">
+                    <?php
+                    $is_protected   = AP_Custom_Field_Helper::is_protected_field($post_id);
+                    $custom_class   = $is_protected?' uk-hidden':'';?>
+                    <tr class="field_name<?php echo $custom_class; ?>">
                         <td class="label">
                             <label><?php _e("Field Name",'acf'); ?><span class="required">*</span></label>
                             <p class="description"><?php _e("Single word, no spaces. Underscores and dashes allowed",'acf'); ?></p>
@@ -75,34 +78,20 @@ $fake_name = $field['key'];
                             $field_name = ob_get_contents();
                             ob_end_clean();
 
-                            if(AP_Custom_Field_Helper::is_protected_field($post_id)){
+                            if($is_protected){
                                 $field_name = preg_replace('/(<input.*?)(\/?>)/im', '$1 readonly="readonly" $2', $field_name);
                             }
                             echo $field_name;
                             ?>
                         </td>
                     </tr>
-                    <tr class="field_type">
+                    <tr class="field_type<?php echo $custom_class; ?>">
                         <td class="label">
                             <label><?php _e("Field Type",'acf'); ?><span class="required">*</span></label>
                         </td>
                         <td>
                             <?php
-
-                            if(AP_Custom_Field_Helper::is_protected_field($post_id)){
-//                                $doc = new DOMDocument();
-//                                $doc -> loadHTML($field_type);
-//                                $opts   = $doc -> getElementsByTagName('option');
-//                                for($i=0;$i<$opts->length;$i++){
-//                                    var_dump($opts -> item($i) ->);
-//                                }
-//                                var_dump($field_type);
-//                                var_dump($doc -> getElementsByTagName('option') ->length);
-//                                var_dump($doc -> getElementsByTagName('option') ->item(0) ->attributes['value']);
-//                                die(__FILE__);
-//                                $field_type = preg_replace('/(<option.*? value="'.$field['type']
-/*                                    .'")(\/?>)/im', '$1 readonly="readonly" $2', $field_type);*/
-
+                            if($is_protected){
                                 ob_start();
                                 do_action('acf/create_field', array(
                                     'type'	=>	'text',
@@ -114,17 +103,12 @@ $fake_name = $field['key'];
                                 $field_type = preg_replace('/(<input.*?)(\/?>)/im', '$1 readonly="readonly" $2', $field_type);
                                 echo $field_type;
                             }else {
-
-//                                ob_start();
                                 do_action('acf/create_field', array(
                                     'type'		=>	'select',
                                     'name'		=>	'fields[' .$fake_name . '][type]',
-//                                'name'		=>	'field_options[' .$fake_name . '][type]',
                                     'value'		=>	$field['type'],
                                     'choices' 	=>	$field_types,
                                 ));
-//                                $field_type = ob_get_contents();
-//                                ob_end_clean();
                             }
                             ?>
                         </td>
