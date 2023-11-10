@@ -44,6 +44,41 @@ if(!class_exists('Advanced_Product\Post_Type\Custom_Field')){
             add_action( 'wp_ajax_nopriv_ap_post_type_ap_custom_field_archive_sortable', array($this, 'saveAjaxOrder'));
 
             add_filter( 'acf/load_field_defaults' , array($this, 'load_field_defaults') );
+
+//            add_action('pre_get_posts', function($query){
+//
+//                global $pagenow;
+//                $qv = $query->query_vars;
+//                if ($pagenow=='edit.php' &&
+//                    isset($qv['post_type']) && $qv['post_type']=='ap_custom_field') {
+//
+//                    $filter_group  = isset($_REQUEST['ap_group_field'])?$_REQUEST['ap_group_field']:'';
+//                    if($filter_group && is_numeric($filter_group)) {
+//                        if ($filter_group == -1) {
+//                            $categories = get_terms(array(
+//                                'taxonomy' => 'ap_group_field',
+//                                'orderby' => 'name',
+//                                'fields' => 'ids',
+//                                'hierarchical' => true,
+//                                'depth' => 3,
+//                                'hide_empty' => true, // Don't show businesses w/o listings
+//                            ));
+//                            $tax_query = array(
+//                                'relation'  => 'OR',
+//                                array(
+//                                    'taxonomy' => 'ap_group_field',
+//                                    //                                'field' => 'term_id',
+//                                    'field' => 'id',
+//                                    'terms' => $categories,
+//                                    'operator' => 'NOT IN'
+//                                )
+//                            );
+//                            $query->set('tax_query', $tax_query);
+//                        }
+//                    }
+//                }
+//            });
+
         }
 
         public function load_field_defaults($field){
@@ -248,6 +283,7 @@ if(!class_exists('Advanced_Product\Post_Type\Custom_Field')){
 
         public function admin_enqueue_scripts($hook){
             if($this -> get_post_type() == $this -> get_current_screen_post_type()) {
+                wp_deregister_script( 'autosave' );
                 wp_enqueue_script('advanced-product_admin_sanitize-title-script');
                 wp_enqueue_script('jquery');
                 wp_enqueue_script('jquery-ui-sortable');
@@ -430,9 +466,12 @@ if(!class_exists('Advanced_Product\Post_Type\Custom_Field')){
             if ($typenow=='ap_custom_field') {
                 $taxonomy   = 'ap_group_field';
                 $selected   = isset($_REQUEST['ap_group_field'])?$_REQUEST['ap_group_field']:'';
+                $selected   = filter_var($selected, FILTER_VALIDATE_INT);
                 $business_taxonomy = get_taxonomy($taxonomy);
+
                 wp_dropdown_categories(array(
-                    'show_option_all' =>  __("All {$business_taxonomy->label}"),
+                    'show_option_all' =>  sprintf( __( 'All %s', 'advanced-product' ), $business_taxonomy->label),
+                    'show_option_none' =>  __('- Unassigned Fields -', 'advanced-product'),
                     'taxonomy'        =>  $taxonomy,
                     'name'            =>  'ap_group_field',
                     'orderby'         =>  'name',
@@ -443,41 +482,10 @@ if(!class_exists('Advanced_Product\Post_Type\Custom_Field')){
                     'hide_empty'      =>  true, // Don't show businesses w/o listings
                 ));
 
-//                // Filter by field type
-//                // get name of all fields for use in field type drop down
-//                $ftype_selected   = isset($_REQUEST['field_type'])?(array) $_REQUEST['field_type']:array();
-//
-//                $field_types = array();
-//                $field_types['']    = __('All Field Type', 'advanced-product');
-//                $field_types+= apply_filters('acf/registered_fields', array());
-//
-//                if(!empty($field_types)){
-//                    echo '<select name="field_type">';
-//                    foreach ($field_types as $key => $value){
-//                        if(is_array($value)){
-//
-//                            // this select is grouped with optgroup
-//                            if($key != '') echo '<optgroup label="'.$key.'">';
-//
-//                            if(!empty($value)){
-//                                foreach($value as $id => $label)
-//                                {
-//                                    $selected = in_array($id, $ftype_selected) ? ' selected="selected"' : '';
-//                                    echo '<option value="'.$id.'"'.$selected.'>'.$label.'</option>';
-//                                }
-//                            }
-//
-//                            if($key != '') echo '</optgroup>';
-//                        }else{
-//                            $selected = in_array($key, $ftype_selected) ? ' selected="selected"' : '';
-//                            echo '<option value="'.$key.'"'.$selected.'>'.$value.'</option>';
-//                        }
-//                    }
-//                    echo '</select>';
-//                }
-
                 // Filter by protected status
-                $__protected  = isset($_REQUEST['__protected'])?$_REQUEST['__protected']:'';
+                $__protected    = isset($_REQUEST['__protected'])?$_REQUEST['__protected']:'';
+                $__protected    = filter_var($__protected, FILTER_VALIDATE_INT);
+
                 $poptions   = array(
                     ''  => __('All Status', 'advanced-product'),
                     '1'  => __('Protected', 'advanced-product'),
@@ -485,7 +493,7 @@ if(!class_exists('Advanced_Product\Post_Type\Custom_Field')){
                 );
                 echo '<select name="__protected">';
                 foreach ($poptions as $val => $text) {
-                    $pselected  = $__protected == $val?' selected="selected"':'';
+                    $pselected  = $__protected === $val?' selected="selected"':'';
                     echo '<option value="'.$val.'"'.$pselected.'>' . $text . '</option>';
                 }
                 echo '</select>';
@@ -498,14 +506,37 @@ if(!class_exists('Advanced_Product\Post_Type\Custom_Field')){
             if ($pagenow=='edit.php' &&
                 isset($qv['post_type']) && $qv['post_type']=='ap_custom_field') {
 
-                $filter   = isset($_REQUEST['ap_group_field'])?$_REQUEST['ap_group_field']:'';
-                if($filter && is_numeric($filter)) {
-                    $term = get_term_by('id', $filter, 'ap_group_field');
-                    $qv['ap_group_field'] = $term->slug;
+                $filter_group  = isset($_REQUEST['ap_group_field'])?$_REQUEST['ap_group_field']:'';
+                if($filter_group && is_numeric($filter_group)) {
+                    if($filter_group == -1){
+
+                $categories = get_terms( array(
+                    'taxonomy'  => 'ap_group_field',
+                    'orderby'   => 'name',
+                    'fields'    => 'ids',
+                    'hierarchical'    =>  true,
+                    'depth'           =>  3,
+                    'hide_empty'      =>  true, // Don't show businesses w/o listings
+                ) );
+                        $tax_query    = array(
+                            'relation'  => 'OR',
+                            array(
+                                'taxonomy'  => 'ap_group_field',
+                                'terms' => $categories,
+                                'operator'  => 'NOT IN'
+                            )
+                        );
+                        $query -> set('tax_query', $tax_query);
+                    }else {
+                        $term = get_term_by('id', $filter_group, 'ap_group_field');
+                        $qv['ap_group_field'] = $term->slug;
+                    }
                 }
 
-                $fprotected   = isset($_REQUEST['__protected'])?$_REQUEST['__protected']:'';
-                if($fprotected == 1){
+                $fprotected = isset($_REQUEST['__protected'])?$_REQUEST['__protected']:'';
+                $fprotected = filter_var($fprotected, FILTER_VALIDATE_INT);
+
+                if($fprotected === 1){
                     $qv['meta_query']   = array(
                         array(
                             'key'     => '__protected',
@@ -514,7 +545,7 @@ if(!class_exists('Advanced_Product\Post_Type\Custom_Field')){
                             'type'    => 'numeric',
                         )
                     );
-                }elseif($fprotected == 0){
+                }elseif($fprotected === 0){
                     $qv['meta_query']   = array(
                         array(
                             'key'     => '__protected',
@@ -527,8 +558,6 @@ if(!class_exists('Advanced_Product\Post_Type\Custom_Field')){
                     $qv['order'] = 'ASC';
                     $qv['orderby'] = 'menu_order';
                 }
-
-//                $qv['term'] = $term->slug;
             }
             return $query;
         }
