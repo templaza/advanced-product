@@ -136,7 +136,7 @@ if(!isset($limit_height) || (isset($limit_height) && $limit_height)){
         <?php }  } ?>
         <?php if(!$enable_ajax || ($enable_ajax && !$instant)){ ?>
         <div class="uk-margin ap-search-item ap-search-button">
-            <button class="car-search-submit templaza-btn uk-button uk-margin-top"><?php echo $submit_html; ?></button>
+            <button class="car-search-submit templaza-btn uk-button uk-margin-top"><span><?php echo $submit_html; ?></span></button>
         </div>
         <?php } ?>
         <input type="hidden" name="post_type" value="ap_product">
