@@ -18,6 +18,7 @@ Google+: https://plus.google.com/+Templaza
 namespace Advanced_Product;
 
 use Advanced_Product\Helper\AP_Custom_Field_Helper;
+use Advanced_Product\Helper\AP_Helper;
 use Advanced_Product\Helper\AP_Product_Helper;
 use Advanced_Product\Helper\AP_Custom_Taxonomy_Helper;
 
@@ -96,6 +97,8 @@ class Advanced_Product{
 
         add_filter('templaza-framework/shortcode/content_area/theme_html', array($this, 'theme_html'), 11);
         add_filter('template_include', array($this, 'template_include'));
+
+        add_filter( 'wp_nav_menu_objects', array($this, 'nav_menu_item_classes'), 2 );
 
         add_action( 'switch_theme', 'flush_rewrite_rules', 15 );
         add_action( 'init', array( $this, 'ap_load_plugin_textdomain' ) );
@@ -916,6 +919,35 @@ class Advanced_Product{
                 }
             }
         }
+    }
+
+    /**
+     * Fix active class in nav for inventory page.
+     *
+     * @param array $menu_items Menu items.
+     * @return array
+     */
+    public function nav_menu_item_classes($menu_items){
+
+        $invent_page_id = AP_Helper::get_page_id('inventory');
+
+        if ( ! empty( $menu_items ) && is_array( $menu_items ) ) {
+            foreach ($menu_items as $key => $menu_item) {
+                $classes = (array) $menu_item->classes;
+                $menu_id = (int) $menu_item->object_id;
+
+                if ( AP_Helper::is_inventory() && $invent_page_id === $menu_id && 'page' === $menu_item->object ) {
+
+                    // Set active state if this is the shop page link.
+                    $menu_items[ $key ]->current = true;
+                    $classes[]                   = 'current-menu-item';
+                }
+
+                $menu_items[ $key ]->classes = array_unique( $classes );
+            }
+        }
+
+        return $menu_items;
     }
 }
 

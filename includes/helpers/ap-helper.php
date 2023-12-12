@@ -58,4 +58,13 @@ class AP_Helper extends BaseHelper {
 
         return $page_id ? absint( $page_id ) : -1;
     }
+
+    /**
+     * Is_inventory - Returns true when viewing the product type archive (inventory).
+     *
+     * @return bool
+     */
+    public static function is_inventory(){
+        return ( is_post_type_archive( 'ap_product' ) || is_page( self::get_page_id('inventory') ) );
+    }
 }
