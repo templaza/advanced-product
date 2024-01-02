@@ -25,10 +25,12 @@ class AP_Custom_Field_Helper extends BaseHelper {
         if(!empty($ap_taxonomy_show)){
             foreach ($ap_taxonomy_show as $tax){
                 $tax_val = wp_get_object_terms($product_id,$tax);
-                if($tax_val){
-                    $results = $wpdb->get_row( "SELECT post_title FROM {$wpdb->prefix}posts WHERE post_excerpt = '".$tax_val[0]->taxonomy."'", ARRAY_A );
-                    if($results){
-                        $tax_values[$results['post_title']] = $tax_val[0]->name;
+                if(! empty( $tax_val ) ){
+                    if ( ! is_wp_error( $tax_val ) ) {
+                        $results = $wpdb->get_row( "SELECT post_title FROM {$wpdb->prefix}posts WHERE post_excerpt = '".$tax_val[0]->taxonomy."'", ARRAY_A );
+                        if($results){
+                            $tax_values[$results['post_title']] = $tax_val[0]->name;
+                        }
                     }
                 }
             }
