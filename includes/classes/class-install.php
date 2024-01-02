@@ -15,6 +15,16 @@ class Install extends Base{
         $this -> create_pages();
     }
 
+    public function install(){
+        $result = false;
+
+        $result = $this -> import_custom_fields();
+        $result = $this -> import_products();
+        $this -> create_pages();
+
+        return $result;
+    }
+
     public function import_custom_fields(){
 
         $imported_key   = '_advanced_product_custom_field_protected_imported';

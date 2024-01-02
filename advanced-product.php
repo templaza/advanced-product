@@ -44,10 +44,10 @@ class Advanced_Product{
         register_activation_hook(ADVANCED_PRODUCT . '/' . ADVANCED_PRODUCT, 'FieldHelper::add_term_order_field');
         register_activation_hook(  ADVANCED_PRODUCT . '/' . ADVANCED_PRODUCT, 'flush_rewrite_rules', 15 );
 
+        $this->register_pages();
         $this -> register_post_types();
         $this->register_taxonomies();
         $this->register_custom_taxonomies();
-        $this->register_pages();
 
         $this->register_field_layouts();
         $this->register_meta_boxes();
@@ -90,7 +90,7 @@ class Advanced_Product{
     }
 
     public function hooks(){
-        register_activation_hook( ADVANCED_PRODUCT_PATH.'/advanced-product.php', array( $this, 'install' ) );
+//        register_activation_hook( ADVANCED_PRODUCT_PATH.'/advanced-product.php', array( $this, 'install' ) );
 
         add_filter( 'the_content', array( $this, 'unsupported_theme_inventory_content_filter' ), 10 );
         add_filter('display_post_states', array($this, 'add_display_post_states'),10, 2);
@@ -393,7 +393,11 @@ class Advanced_Product{
                 }
 
                 if(class_exists($class_name)){
-                    $page_obj  = new $class_name($this);
+                    if(method_exists($class_name, 'instance')){
+                        $page_obj  = \call_user_func(array($class_name, 'instance'));
+                    }else {
+                        $page_obj = new $class_name($this);
+                    }
                     $this -> pages[$file_name] = $page_obj;
                 }
             }

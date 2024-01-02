@@ -67,4 +67,22 @@ class AP_Helper extends BaseHelper {
     public static function is_inventory(){
         return ( is_post_type_archive( 'ap_product' ) || is_page( self::get_page_id('inventory') ) );
     }
+
+    /**
+     *
+     * @return bool
+     * */
+    public static function is_installed_sample_data(){
+        $imported_product_key       = '_advanced_product__products_imported';
+        $imported_custom_field_key  = '_advanced_product_custom_field_protected_imported';
+
+        $imported   = false;
+        if(get_option($imported_custom_field_key) && (get_option($imported_product_key, 0) || !empty(get_posts(array(
+                    'post_type' => 'ap_product'
+                ))))){
+            $imported   = true;
+        }
+
+        return $imported;
+    }
 }

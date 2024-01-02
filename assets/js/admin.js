@@ -791,6 +791,43 @@
             });
         }
 
+        if(window.typenow === "ap_product" && window.pagenow === "ap_product_page_ap_help"){
+            $(document).on("click", ".advanced-product__help-page [data-ap-install-sample-data]", function(event){
+
+                var _el = $(this);
+
+                if(_el.data("ap-clicked")){
+                   return;
+                }
+
+                _el.data("ap-clicked", true);
+                _el.find(".ap-loading").removeClass("uk-hidden");
+
+                $.ajax({
+                    type: "POST",
+                    url: window.ajaxurl,
+                    data: {
+                        "action": "advanced-product/page/help/install-sample-data",
+                        "post_type": window.typenow,
+                        "paged": "ap_help",
+                        "archive_sort_nonce": advanced_product.archive_sort_nonce
+                    },
+                    cache: false,
+                    dataType: "json",
+                    success: function (response) {
+                        _el.data("ap-clicked", false);
+                        _el.find(".ap-loading").addClass("uk-hidden");
+                        if(typeof response.reload !== "undefined" && response.reload){
+                            window.location.reload();
+                        }
+                    },
+                    error: function (html) {
+                        _el.data("ap-clicked", false);
+                    }
+                });
+            });
+        }
+
         if( window.typenow === "ap_custom_field" && (window.adminpage === "edit-php"
             || (window.adminpage === "edit-tags-php" && window.pagenow === "edit-ap_group_field"))) {
             $(document).ready(function () {

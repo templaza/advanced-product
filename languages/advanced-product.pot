@@ -1,4 +1,4 @@
-# Copyright (C) 2023 Templaza
+# Copyright (C) 2024 Templaza
 # This file is distributed under the same license as the Advanced Product plugin.
 msgid ""
 msgstr ""
@@ -9,12 +9,13 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-11-10T04:48:23+01:00\n"
+"POT-Creation-Date: 2024-01-02T09:42:47+01:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.4.0\n"
 
 #. Plugin Name of the plugin
-#: advanced-product.php:163
+#: advanced-product.php:166
+#: core/templates/pages/help.php:12
 msgid "Advanced Product"
 msgstr ""
 
@@ -34,11 +35,11 @@ msgstr ""
 msgid "http://templaza.com"
 msgstr ""
 
-#: advanced-product.php:333
+#: advanced-product.php:336
 msgid "AP Inventory Page"
 msgstr ""
 
-#: advanced-product.php:792
+#: advanced-product.php:799
 msgid "Advanced Product archive slug"
 msgstr ""
 
@@ -521,6 +522,19 @@ msgstr ""
 #: includes/library/acf-flexible-content/views/options.php:377
 #: includes/library/acf_custom/core/views/meta_box_fields.php:290
 msgid "these rules are met"
+msgstr ""
+
+#: core/pages/help.php:39
+#: core/templates/pages/help.php:9
+msgid "Help"
+msgstr ""
+
+#: core/pages/help.php:59
+msgid "Installed sample data successfully!"
+msgstr ""
+
+#: core/pages/help.php:64
+msgid "Can not install sample data"
 msgstr ""
 
 #: core/pages/settings.php:34
@@ -1011,16 +1025,88 @@ msgstr ""
 msgid "Branch Assigned"
 msgstr ""
 
+#: core/templates/pages/help.php:14
+msgid "Version %s"
+msgstr ""
+
+#: core/templates/pages/help.php:28
+msgid "Author:"
+msgstr ""
+
+#: core/templates/pages/help.php:31
+msgid "Forum Support:"
+msgstr ""
+
+#: core/templates/pages/help.php:33
+msgid "Plugin URI:"
+msgstr ""
+
+#: core/templates/pages/help.php:38
+msgid "Online Document:"
+msgstr ""
+
+#: core/templates/pages/help.php:40
+msgid "Check Documentation"
+msgstr ""
+
+#: core/templates/pages/help.php:51
+msgid "Install Data Sample"
+msgstr ""
+
+#: core/templates/pages/help.php:52
+msgid "Click to install data sample"
+msgstr ""
+
+#: core/templates/pages/help.php:58
+#: includes/library/acf_custom/core/controllers/addons.php:219
+#: includes/library/acf_custom/core/controllers/addons.php:240
+msgid "Installed"
+msgstr ""
+
+#: core/templates/pages/help.php:60
+msgid "Install"
+msgstr ""
+
+#: core/templates/pages/help.php:73
+msgid "Help & Support"
+msgstr ""
+
+#: core/templates/pages/help.php:74
+msgid "We would love to be of any assistance. Register an account, active your license and create a ticket"
+msgstr ""
+
+#: core/templates/pages/help.php:76
+#: core/templates/pages/help.php:85
+#: core/templates/pages/help.php:95
+msgid "Read more"
+msgstr ""
+
+#: core/templates/pages/help.php:82
+msgid "Documentation"
+msgstr ""
+
+#: core/templates/pages/help.php:83
+msgid "Documentation, help files, and video tutorials for beginners and professionals"
+msgstr ""
+
+#: core/templates/pages/help.php:91
+msgid "System Requirements"
+msgstr ""
+
+#: core/templates/pages/help.php:92
+msgid "Requirements for %s: WordPress Version, Web Server, Database, Browser, etc"
+msgstr ""
+
 #: includes/classes/class-custom_taxonomy.php:155
 msgid "Associated %s"
 msgstr ""
 
-#: includes/classes/class-install.php:119
+#: includes/classes/class-install.php:129
 msgctxt "Page slug"
 msgid "inventory"
 msgstr ""
 
-#: includes/classes/class-install.php:120
+#: includes/classes/class-install.php:130
 msgctxt "Page title"
 msgid "Inventory"
 msgstr ""
@@ -1780,11 +1866,6 @@ msgstr ""
 
 #: includes/library/acf_custom/core/controllers/addons.php:197
 msgid "Each Add-on can be installed as a separate plugin (receives updates) or included in your theme (does not receive updates)."
-msgstr ""
-
-#: includes/library/acf_custom/core/controllers/addons.php:219
-#: includes/library/acf_custom/core/controllers/addons.php:240
-msgid "Installed"
 msgstr ""
 
 #: includes/library/acf_custom/core/controllers/addons.php:221
