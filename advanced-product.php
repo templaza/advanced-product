@@ -765,11 +765,16 @@ class Advanced_Product{
                 array('advanced-product'), AP_Functions::get_my_version(), true);
 
             if(!get_theme_support('templaza-framework')) {
-                wp_enqueue_script('advanced-product-js__uikit', AP_Functions::get_my_url() . '/assets/vendor/uikit/js/uikit.min.js', array('jquery'), '', true);
-                wp_enqueue_script( 'advanced-product-js__uikit-icons', AP_Functions::get_my_url().'/assets/vendor/uikit/js/uikit-icons.min.js', array( 'jquery' ),'',true  );
-                wp_enqueue_style('advanced-product-css__uikit', AP_Functions::get_my_url() . '/assets/vendor/uikit/css/uikit.min.css');
-                wp_enqueue_style('advanced-product-css__fontawesome', AP_Functions::get_my_url() . '/assets/vendor/fontawesome/css/all.min.css');
-                wp_enqueue_style('advanced-product-css__fontawesome-v5', AP_Functions::get_my_url() . '/assets/vendor/fontawesome/css/v5-font-face.min.css', array( 'advanced-product-css__fontawesome' ));
+                wp_enqueue_script('advanced-product-js__uikit', AP_Functions::get_my_url()
+                    . '/assets/vendor/uikit/js/uikit.min.js', array('jquery'), '', true);
+                wp_enqueue_script( 'advanced-product-js__uikit-icons', AP_Functions::get_my_url()
+                    .'/assets/vendor/uikit/js/uikit-icons.min.js', array( 'jquery' ),'',true  );
+                wp_enqueue_style('advanced-product-css__uikit', AP_Functions::get_my_url()
+                    . '/assets/vendor/uikit/css/uikit.min.css');
+                wp_enqueue_style('advanced-product-css__fontawesome', AP_Functions::get_my_url()
+                    . '/assets/vendor/fontawesome/css/all.min.css');
+                wp_enqueue_style('advanced-product-css__fontawesome-v5', AP_Functions::get_my_url()
+                    . '/assets/vendor/fontawesome/css/v5-font-face.min.css', array( 'advanced-product-css__fontawesome' ));
             }
             wp_register_style('advanced-product', AP_Functions::get_my_url().'/assets/css/style.css');
         }
@@ -784,6 +789,17 @@ class Advanced_Product{
 
             wp_register_script('advanced-product__js_uikit', AP_Functions::get_my_url()
                 .'/assets/vendor/uikit/js/uikit.min.js');
+
+            wp_register_script( 'advanced-product__js_uikit-icons', AP_Functions::get_my_url()
+                .'/assets/vendor/uikit/js/uikit-icons.min.js' );
+
+            wp_register_style('advanced-product__css_uikit', AP_Functions::get_my_url()
+                . '/assets/vendor/uikit/css/uikit.min.css');
+            wp_register_style('advanced-product__css_fontawesome', AP_Functions::get_my_url()
+                . '/assets/vendor/fontawesome/css/all.min.css');
+            wp_register_style('advanced-product__css_fontawesome-v5', AP_Functions::get_my_url()
+                . '/assets/vendor/fontawesome/css/v5-font-face.min.css', array( 'advanced-product-css__fontawesome' ));
+
             wp_localize_script('advanced-product', 'advanced_product', array(
                 'archive_sort_nonce' => wp_create_nonce( 'ap_archive_sort_nonce_' . $userdata->ID),
                 'orderby'   => (isset($_REQUEST['orderby'])?$_REQUEST['orderby']:'menu_order')

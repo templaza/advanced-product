@@ -72,8 +72,13 @@ class Help extends Page {
         wp_die();
     }
 
-    public function admin_enqueue_scripts(){
-        wp_enqueue_script('advanced-product-js__uikit', AP_Functions::get_my_url() . '/assets/vendor/uikit/js/uikit.min.js', array('jquery'), '', true);
+    public function admin_enqueue_scripts($hook){
+        if(is_admin() && $hook === 'ap_product_page_'.$this -> get_page_name()) {
+            if(!wp_script_is('templaza-framework_uikit_js')) {
+                wp_enqueue_script('advanced-product__js_uikit');
+                wp_enqueue_script('advanced-product__js_uikit-icons');
+            }
+        }
     }
 
 }

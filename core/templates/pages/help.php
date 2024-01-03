@@ -8,7 +8,7 @@ use Advanced_Product\Helper\AP_Helper;
 <div class="wrap">
     <h1 class="wp-heading-inline"><?php _e('Help', 'advanced-product');?></h1>
     <div class="advanced-product__wrap advanced-product__help-page" style="max-width: 1200px;">
-        <div class="uk-card uk-card-body uk-card-default rounded-3">
+        <div class="uk-card uk-card-body uk-card-default rounded-3 uk-border-rounded uk-margin-small-top">
             <h3 class="uk-h2"><?php _e('Advanced Product', 'advanced-product');?></h3>
             <p class="uk-text-meta uk-margin-remove-top"><?php
                 echo sprintf(__('Version %s', 'advanced-product'), AP_Functions::get_my_version()); ?></p>
@@ -29,7 +29,8 @@ use Advanced_Product\Helper\AP_Helper;
                                             <dd><a class="uk-link-text" href="<?php echo $authorUrl; ?>"><?php echo $plData['Author'];?></a></dd>
                                         <?php } ?>
                                         <dt><?php _e('Forum Support:', 'advanced-product');?></dt>
-                                        <dd><a class="uk-link-text" href="https://www.templaza.com/forums.html">Ask a question.</a></dd>
+                                        <dd><a class="uk-link-text" href="https://www.templaza.com/forums.html"><?php
+                                                _e('Ask a question.', 'advanced-product');?></a></dd>
                                         <dt><?php _e('Plugin URI:', 'advanced-product');?></dt>
                                         <?php if(isset($plData['PluginURI'])){ ?>
                                             <dd><a class="uk-link-text" href="<?php echo $plData['PluginURI']; ?>"><?php
@@ -72,8 +73,8 @@ use Advanced_Product\Helper\AP_Helper;
                     <span data-uk-icon="icon: lifesaver; ratio: 3"></span>
                     <h3><?php _e('Help & Support', 'advanced-product');?></h3>
                     <p><?php _e('We would love to be of any assistance. Register an account, active your license and create a ticket', 'advanced-product');?></p>
-                    <a class="uk-button uk-button-default uk-border-pill uk-margin-top" target="_blank" href="https://document.templaza.com/plugins-requirement/"><?php
-                        _e('Read more', 'advanced-product');?></a>
+                    <a class="uk-button uk-button-default uk-border-pill uk-margin-top" target="_blank" href="https://www.templaza.com/forums.html"><?php
+                        _e('Ask a question', 'advanced-product');?></a>
                 </div>
             </div>
             <div>
@@ -91,7 +92,7 @@ use Advanced_Product\Helper\AP_Helper;
                     <h3><?php _e('System Requirements', 'advanced-product');?></h3>
                     <p><?php echo sprintf(__('Requirements for %s: WordPress Version, Web Server, Database, Browser, etc', 'advanced-product'),
                         $plData['Name']);?></p>
-                    <a class="uk-button uk-button-default uk-border-pill uk-margin-top" target="_blank" href="https://document.templaza.com/system-requirements/"><?php
+                    <a class="uk-button uk-button-default uk-border-pill uk-margin-top" target="_blank" href="https://docs.templaza.com/guides/system-requirements"><?php
                         _e('Read more', 'advanced-product');?></a>
                 </div>
             </div>
