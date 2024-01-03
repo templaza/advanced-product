@@ -106,15 +106,21 @@ if(!class_exists('Advanced_Product\Field\Layout\AP_Icon')) {
             );
 
             if(in_array($post_type, $includes)) {
-                wp_enqueue_style(ADVANCED_PRODUCT . '__css-uikit', AP_Functions::get_my_url()
-                    . '/assets/vendor/uikit/css/uikit.min.css', array(), '3.15.10');
+                wp_enqueue_style(ADVANCED_PRODUCT . '__css_uikit');
+//                wp_enqueue_style(ADVANCED_PRODUCT . '__css-uikit', AP_Functions::get_my_url()
+//                    . '/assets/vendor/uikit/css/uikit.min.css', array(), '3.15.10');
 
                 $ap_icon_options = array('advanced-product');
-                if (defined('TEMPLAZA_FRAMEWORK')) {
+                if (defined('TEMPLAZA_FRAMEWORK') && wp_script_is(TEMPLAZA_FRAMEWORK . '_uikit_js')) {
                     $ap_icon_options[] = TEMPLAZA_FRAMEWORK . '_uikit_js';
                 } else {
                     wp_enqueue_script('advanced-product__js_uikit');
-                    $ap_icon_options[] = 'advanced-product__js-uikit';
+                    wp_enqueue_script('advanced-product__js_uikit-icons');
+                    wp_enqueue_style('advanced-product__css_fontawesome');
+                    wp_enqueue_style('advanced-product__css_fontawesome-v5');
+
+                    $ap_icon_options[] = 'advanced-product__js_uikit';
+                    $ap_icon_options[] = 'advanced-product__js_uikit-icons';
                 }
 
                 wp_enqueue_script(ADVANCED_PRODUCT . '__field-ap_icon', AP_Functions::get_my_url()

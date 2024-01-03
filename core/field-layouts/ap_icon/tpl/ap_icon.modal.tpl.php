@@ -3,7 +3,7 @@
 defined('ADVANCED_PRODUCT') or exit();
 ?>
 <script type="text/template" id="tmpl-ap-template-field__ap-icon-modal">
-    <div id="ap-fields__icon-library" class="uk-modal-container" data-uk-modal style="z-index: 9990;">
+    <div id="ap-fields__icon-library" class="uk-modal-container" data-uk-modal>
         <div class="uk-modal-dialog uk-height-1-1 uk-flex uk-flex-column">
             <button class="uk-modal-close-default" type="button" data-uk-close></button>
             <div class="uk-modal-header">

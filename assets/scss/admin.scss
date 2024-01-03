@@ -71,3 +71,11 @@ table.wp-list-table{
     border: 1px solid #e8ebf1;
   }
 }
+.post-type-ap_custom_field{
+  #ap-fields__icon-library{
+    z-index: 9990;
+  }
+  .uk-tooltip{
+    z-index: 9991;
+  }
+}
