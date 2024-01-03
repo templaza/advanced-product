@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-01-02T09:42:47+01:00\n"
+"POT-Creation-Date: 2024-01-03T10:37:16+01:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.4.0\n"
 
@@ -39,7 +39,7 @@ msgstr ""
 msgid "AP Inventory Page"
 msgstr ""
 
-#: advanced-product.php:799
+#: advanced-product.php:815
 msgid "Advanced Product archive slug"
 msgstr ""
 
@@ -102,28 +102,28 @@ msgstr ""
 msgid "Basic"
 msgstr ""
 
-#: core/field-layouts/ap_icon/ap_icon.php:128
+#: core/field-layouts/ap_icon/ap_icon.php:134
 #: core/field-layouts/ap_icon/tpl/default.php:27
 msgid "No Icon"
 msgstr ""
 
-#: core/field-layouts/ap_icon/ap_icon.php:183
+#: core/field-layouts/ap_icon/ap_icon.php:189
 msgid "All Icons"
 msgstr ""
 
-#: core/field-layouts/ap_icon/ap_icon.php:194
+#: core/field-layouts/ap_icon/ap_icon.php:200
 msgid "UIKit"
 msgstr ""
 
-#: core/field-layouts/ap_icon/ap_icon.php:208
+#: core/field-layouts/ap_icon/ap_icon.php:214
 msgid "Font Awesome - Regular"
 msgstr ""
 
-#: core/field-layouts/ap_icon/ap_icon.php:222
+#: core/field-layouts/ap_icon/ap_icon.php:228
 msgid "Font Awesome - Solid"
 msgstr ""
 
-#: core/field-layouts/ap_icon/ap_icon.php:236
+#: core/field-layouts/ap_icon/ap_icon.php:242
 msgid "Font Awesome - Brands"
 msgstr ""
 
@@ -1038,62 +1038,69 @@ msgid "Forum Support:"
 msgstr ""
 
 #: core/templates/pages/help.php:33
+msgid "Ask a question."
+msgstr ""
+
+#: core/templates/pages/help.php:34
 msgid "Plugin URI:"
 msgstr ""
 
-#: core/templates/pages/help.php:38
+#: core/templates/pages/help.php:39
 msgid "Online Document:"
 msgstr ""
 
-#: core/templates/pages/help.php:40
+#: core/templates/pages/help.php:41
 msgid "Check Documentation"
 msgstr ""
 
-#: core/templates/pages/help.php:51
+#: core/templates/pages/help.php:52
 msgid "Install Data Sample"
 msgstr ""
 
-#: core/templates/pages/help.php:52
+#: core/templates/pages/help.php:53
 msgid "Click to install data sample"
 msgstr ""
 
-#: core/templates/pages/help.php:58
+#: core/templates/pages/help.php:59
 #: includes/library/acf_custom/core/controllers/addons.php:219
 #: includes/library/acf_custom/core/controllers/addons.php:240
 msgid "Installed"
 msgstr ""
 
-#: core/templates/pages/help.php:60
+#: core/templates/pages/help.php:61
 msgid "Install"
 msgstr ""
 
-#: core/templates/pages/help.php:73
+#: core/templates/pages/help.php:74
 msgid "Help & Support"
 msgstr ""
 
-#: core/templates/pages/help.php:74
+#: core/templates/pages/help.php:75
 msgid "We would love to be of any assistance. Register an account, active your license and create a ticket"
 msgstr ""
 
-#: core/templates/pages/help.php:76
-#: core/templates/pages/help.php:85
-#: core/templates/pages/help.php:95
-msgid "Read more"
-msgstr ""
-
-#: core/templates/pages/help.php:82
-msgid "Documentation"
+#: core/templates/pages/help.php:77
+msgid "Ask a question"
 msgstr ""
 
 #: core/templates/pages/help.php:83
+msgid "Documentation"
+msgstr ""
+
+#: core/templates/pages/help.php:84
 msgid "Documentation, help files, and video tutorials for beginners and professionals"
 msgstr ""
 
-#: core/templates/pages/help.php:91
-msgid "System Requirements"
+#: core/templates/pages/help.php:86
+#: core/templates/pages/help.php:96
+msgid "Read more"
 msgstr ""
 
 #: core/templates/pages/help.php:92
+msgid "System Requirements"
+msgstr ""
+
+#: core/templates/pages/help.php:93
 msgid "Requirements for %s: WordPress Version, Web Server, Database, Browser, etc"
 msgstr ""
 
@@ -1120,68 +1127,68 @@ msgstr ""
 msgid "Property"
 msgstr ""
 
-#: includes/helpers/ap-custom-field-helper.php:865
+#: includes/helpers/ap-custom-field-helper.php:867
 msgid "="
 msgstr ""
 
-#: includes/helpers/ap-custom-field-helper.php:866
+#: includes/helpers/ap-custom-field-helper.php:868
 msgid "!="
 msgstr ""
 
-#: includes/helpers/ap-custom-field-helper.php:867
+#: includes/helpers/ap-custom-field-helper.php:869
 msgid ">"
 msgstr ""
 
-#: includes/helpers/ap-custom-field-helper.php:868
+#: includes/helpers/ap-custom-field-helper.php:870
 msgid ">="
 msgstr ""
 
-#: includes/helpers/ap-custom-field-helper.php:869
+#: includes/helpers/ap-custom-field-helper.php:871
 msgid "<"
 msgstr ""
 
-#: includes/helpers/ap-custom-field-helper.php:870
+#: includes/helpers/ap-custom-field-helper.php:872
 msgid "<="
 msgstr ""
 
-#: includes/helpers/ap-custom-field-helper.php:871
+#: includes/helpers/ap-custom-field-helper.php:873
 msgid "LIKE"
 msgstr ""
 
-#: includes/helpers/ap-custom-field-helper.php:872
+#: includes/helpers/ap-custom-field-helper.php:874
 msgid "NOT LIKE"
 msgstr ""
 
-#: includes/helpers/ap-custom-field-helper.php:873
+#: includes/helpers/ap-custom-field-helper.php:875
 msgid "IN"
 msgstr ""
 
-#: includes/helpers/ap-custom-field-helper.php:874
+#: includes/helpers/ap-custom-field-helper.php:876
 msgid "NOT IN"
 msgstr ""
 
-#: includes/helpers/ap-custom-field-helper.php:875
+#: includes/helpers/ap-custom-field-helper.php:877
 msgid "BETWEEN"
 msgstr ""
 
-#: includes/helpers/ap-custom-field-helper.php:876
+#: includes/helpers/ap-custom-field-helper.php:878
 msgid "NOT BETWEEN"
 msgstr ""
 
-#: includes/helpers/ap-custom-field-helper.php:877
+#: includes/helpers/ap-custom-field-helper.php:879
 msgid "EXISTS"
 msgstr ""
 
-#: includes/helpers/ap-custom-field-helper.php:878
+#: includes/helpers/ap-custom-field-helper.php:880
 msgid "NOT EXISTS"
 msgstr ""
 
-#: includes/helpers/ap-custom-field-helper.php:879
+#: includes/helpers/ap-custom-field-helper.php:881
 msgid "REGEXP"
 msgstr ""
 
-#: includes/helpers/ap-custom-field-helper.php:880
-#: includes/helpers/ap-custom-field-helper.php:881
+#: includes/helpers/ap-custom-field-helper.php:882
+#: includes/helpers/ap-custom-field-helper.php:883
 msgid "NOT REGEXP"
 msgstr ""
 
