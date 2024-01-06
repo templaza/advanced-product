@@ -918,11 +918,12 @@ function api_acf_field_group_get_fields( $fields, $post_id )
 		{
 			if( $acf['id'] == $post_id )
 			{
-				foreach( $acf['fields'] as $f )
-				{
-					$fields[] = apply_filters('acf/load_field', $f, $f['key']);
-				}
-				
+			    if(isset($acf['fields']) && !empty($acf['fields'])){
+                    foreach( $acf['fields'] as $f )
+                    {
+                        $fields[] = apply_filters('acf/load_field', $f, $f['key']);
+                    }
+                }
 				break;
 			}
 		}

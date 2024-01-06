@@ -589,46 +589,9 @@ class Advanced_Product{
     }
 
     public function template_include($template){
-
         if(get_theme_support('templaza-framework')){
             return $template;
         }
-
-//        if ( is_embed() ) {
-//            return $template;
-//        }
-//
-//        $post_type  = get_post_type();
-//
-//        if($post_type != 'ap_product'){
-//            return $template;
-//        }
-//
-//        $plugin_path    = ADVANCED_PRODUCT_TEMPLATE_PATH;
-//        $theme_path     = ADVANCED_PRODUCT_THEME_TEMPLATE_PATH;
-//        $framework_path = ADVANCED_PRODUCT_TEMPLAZA_FRAMEWORK_TEMPLATE_PATH;
-//
-//        // Is single file
-//        if(is_single() && is_singular($post_type) ){
-//            // File path from theme
-//            $file   = $theme_path.'/'.basename($template);
-//
-//            // File path from templaza-framework
-//            if(!file_exists($file)){
-//                $file   = $framework_path.'/'.basename($template);
-//            }
-//
-//            // File path from my plugin
-//            if(!file_exists($file)){
-//                $file   = $plugin_path.'/'.basename($template);
-//            }
-//
-//            if(file_exists($file)){
-//                $template   = $file;
-//            }
-//        }
-
-
         global $post_type;
 
         $_post_type = !empty($post_type)?$post_type:get_post_type();
@@ -652,7 +615,6 @@ class Advanced_Product{
                 $file_name  .= '/no_content';
             }
         }
-
         // File path from theme
         $file   = $theme_path.'/'.$file_name.'.php';
 

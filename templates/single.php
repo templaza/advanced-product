@@ -1,18 +1,10 @@
 <?php
-
 defined('ADVANCED_PRODUCT') or exit();
 
 use Advanced_Product\AP_Templates;
 use Advanced_Product\AP_Functions;
 
-get_header();
-$options        = array();
-
-$stock_number = get_post_meta(get_the_ID(),'autoshowroom_stock_number_manually',true);
-$showcompare = isset($options['autoshowroom_Detail_show_compare'])?(bool) $options['autoshowroom_Detail_show_compare']:true;
-$showbrochure = isset($options['autoshowroom_Detail_show_brochure'])?(bool) $options['autoshowroom_Detail_show_brochure']:true;
-
-$showmsrp = isset($options['autoshowroom_Detail_show_msrp'])?(bool) $options['autoshowroom_Detail_show_msrp']:true;
+get_header('advanced-product');
 ?>
 <div class="uk-container uk-container-large">
     <div class="ap-single uk-article">
@@ -51,4 +43,4 @@ $showmsrp = isset($options['autoshowroom_Detail_show_msrp'])?(bool) $options['au
         </div>
     </div>
 </div>
-<?php get_footer(); ?>
+<?php get_footer('advanced-product'); ?>

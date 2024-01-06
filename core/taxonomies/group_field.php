@@ -182,7 +182,6 @@ class Group_Field extends Taxonomy {
                     if(!$group_assigned || (!empty($group_assigned) && !in_array($tax_slug, $group_assigned))){
                         $group_assigned[]   = $tax_slug;
                         if(!empty($group_assigned)){
-                            // Update group_field_assigned (field created from branch taxonomy)
                             update_field($field_key, array_values($group_assigned), 'term_' .$branch -> term_id);
                         }
                     }
@@ -190,7 +189,6 @@ class Group_Field extends Taxonomy {
                     if(!empty($group_assigned)){
                         if(in_array($tax_slug, $group_assigned)) {
                             $group_assigned = array_diff($group_assigned, array($tax_slug));
-                            // Update group_field_assigned (field created from branch taxonomy)
                             update_field($field_key, array_values($group_assigned), 'term_' .$branch -> term_id);
                         }
                     }
