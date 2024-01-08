@@ -78,6 +78,11 @@ class Help extends Page {
                 wp_enqueue_script('advanced-product__js_uikit');
                 wp_enqueue_script('advanced-product__js_uikit-icons');
             }
+            wp_localize_script('advanced-product', 'ap_help_page', array(
+                'i18nStrings' => array(
+                    'sample_data_confirm_question'  => __('Are you sure want to install sample data?', 'templaza-framework')
+                )
+            ));
         }
     }
 

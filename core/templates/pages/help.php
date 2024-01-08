@@ -52,14 +52,10 @@ use Advanced_Product\Helper\AP_Helper;
                                 <h3><?php _e('Install Data Sample', 'advanced-product');?></h3>
                                 <p><?php _e('Click to install data sample', 'advanced-product'); ?></p>
                                 <?php $disabled = AP_Helper::is_installed_sample_data()?' disabled':''; ?>
-                                <button type="button" class="uk-button uk-button-default uk-border-pill"<?php
-                                echo $disabled; ?> data-ap-install-sample-data>
+                                <button type="button" class="uk-button uk-button-default uk-border-pill" data-ap-install-sample-data>
                                     <span data-uk-spinner="ratio: 0.5" class="uk-margin-small-right uk-hidden ap-loading"></span><?php
-                                    if($disabled){
-                                        _e('Installed', 'advanced-product');
-                                    }else {
                                         _e('Install', 'advanced-product');
-                                    } ?>
+                                        ?>
                                 </button>
                             </div>
                         </li>

@@ -794,37 +794,49 @@
         if(window.typenow === "ap_product" && window.pagenow === "ap_product_page_ap_help"){
             $(document).on("click", ".advanced-product__help-page [data-ap-install-sample-data]", function(event){
 
-                var _el = $(this);
+                var _el = $(this),
+                    __i18n  = {
+                        "sample_data_confirm_question": "Are you sure want to install sample datafds?"
+                    };
 
-                if(_el.data("ap-clicked")){
-                   return;
+                if( typeof ap_help_page !== "undefined" &&
+                    typeof ap_help_page["i18nStrings"] !== "undefined"){
+                    __i18n  = Object.assign(__i18n, ap_help_page["i18nStrings"]);
                 }
 
-                _el.data("ap-clicked", true);
-                _el.find(".ap-loading").removeClass("uk-hidden");
+                // if(_el.data("ap-clicked")){
+                //    return;
+                // }
 
-                $.ajax({
-                    type: "POST",
-                    url: window.ajaxurl,
-                    data: {
-                        "action": "advanced-product/page/help/install-sample-data",
-                        "post_type": window.typenow,
-                        "paged": "ap_help",
-                        "archive_sort_nonce": advanced_product.archive_sort_nonce
-                    },
-                    cache: false,
-                    dataType: "json",
-                    success: function (response) {
-                        _el.data("ap-clicked", false);
-                        _el.find(".ap-loading").addClass("uk-hidden");
-                        if(typeof response.reload !== "undefined" && response.reload){
-                            window.location.reload();
+                // _el.data("ap-clicked", true);
+
+                UIkit.modal.confirm(__i18n.sample_data_confirm_question).then(function() {
+                    _el.find(".ap-loading").removeClass("uk-hidden");
+
+                    $.ajax({
+                        type: "POST",
+                        url: window.ajaxurl,
+                        data: {
+                            "action": "advanced-product/page/help/install-sample-data",
+                            "post_type": window.typenow,
+                            "paged": "ap_help",
+                            "archive_sort_nonce": advanced_product.archive_sort_nonce
+                        },
+                        cache: false,
+                        dataType: "json",
+                        success: function (response) {
+                            _el.data("ap-clicked", false);
+                            _el.find(".ap-loading").addClass("uk-hidden");
+                            if(typeof response.reload !== "undefined" && response.reload){
+                                window.location.reload();
+                            }
+                        },
+                        error: function (html) {
+                            _el.data("ap-clicked", false);
                         }
-                    },
-                    error: function (html) {
-                        _el.data("ap-clicked", false);
-                    }
-                });
+                    });
+                }, function () {});
+
             });
         }
 

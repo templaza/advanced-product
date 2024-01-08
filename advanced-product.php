@@ -193,7 +193,9 @@ class Advanced_Product{
     }
 
     public function update_custom_fields(){
-        if(!post_type_exists('ap_custom_field')){
+        if(!post_type_exists('ap_custom_field') || !get_posts(array(
+                'post_type' => 'ap_custom_field'
+            ))){
             return;
         }
 
