@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-01-03T10:37:16+01:00\n"
+"POT-Creation-Date: 2024-01-08T08:46:26+01:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.4.0\n"
 
@@ -35,11 +35,11 @@ msgstr ""
 msgid "http://templaza.com"
 msgstr ""
 
-#: advanced-product.php:336
+#: advanced-product.php:338
 msgid "AP Inventory Page"
 msgstr ""
 
-#: advanced-product.php:815
+#: advanced-product.php:779
 msgid "Advanced Product archive slug"
 msgstr ""
 
@@ -537,6 +537,10 @@ msgstr ""
 msgid "Can not install sample data"
 msgstr ""
 
+#: core/pages/help.php:83
+msgid "Are you sure want to install sample data?"
+msgstr ""
+
 #: core/pages/settings.php:34
 #: core/pages/settings.php:333
 msgid "Settings"
@@ -992,7 +996,7 @@ msgstr ""
 msgid "Group Fields Assignment"
 msgstr ""
 
-#: core/taxonomies/branch.php:172
+#: core/taxonomies/branch.php:148
 msgid "Group Fields Assigned"
 msgstr ""
 
@@ -1061,46 +1065,40 @@ msgstr ""
 msgid "Click to install data sample"
 msgstr ""
 
-#: core/templates/pages/help.php:59
-#: includes/library/acf_custom/core/controllers/addons.php:219
-#: includes/library/acf_custom/core/controllers/addons.php:240
-msgid "Installed"
-msgstr ""
-
-#: core/templates/pages/help.php:61
+#: core/templates/pages/help.php:57
 msgid "Install"
 msgstr ""
 
-#: core/templates/pages/help.php:74
+#: core/templates/pages/help.php:70
 msgid "Help & Support"
 msgstr ""
 
-#: core/templates/pages/help.php:75
+#: core/templates/pages/help.php:71
 msgid "We would love to be of any assistance. Register an account, active your license and create a ticket"
 msgstr ""
 
-#: core/templates/pages/help.php:77
+#: core/templates/pages/help.php:73
 msgid "Ask a question"
 msgstr ""
 
-#: core/templates/pages/help.php:83
+#: core/templates/pages/help.php:79
 msgid "Documentation"
 msgstr ""
 
-#: core/templates/pages/help.php:84
+#: core/templates/pages/help.php:80
 msgid "Documentation, help files, and video tutorials for beginners and professionals"
 msgstr ""
 
-#: core/templates/pages/help.php:86
-#: core/templates/pages/help.php:96
+#: core/templates/pages/help.php:82
+#: core/templates/pages/help.php:92
 msgid "Read more"
 msgstr ""
 
-#: core/templates/pages/help.php:92
+#: core/templates/pages/help.php:88
 msgid "System Requirements"
 msgstr ""
 
-#: core/templates/pages/help.php:93
+#: core/templates/pages/help.php:89
 msgid "Requirements for %s: WordPress Version, Web Server, Database, Browser, etc"
 msgstr ""
 
@@ -1788,11 +1786,11 @@ msgstr ""
 msgid "No ACF groups selected"
 msgstr ""
 
-#: includes/library/acf_custom/core/api.php:1177
+#: includes/library/acf_custom/core/api.php:1178
 msgid "Update"
 msgstr ""
 
-#: includes/library/acf_custom/core/api.php:1178
+#: includes/library/acf_custom/core/api.php:1179
 msgid "Post updated"
 msgstr ""
 
@@ -1873,6 +1871,11 @@ msgstr ""
 
 #: includes/library/acf_custom/core/controllers/addons.php:197
 msgid "Each Add-on can be installed as a separate plugin (receives updates) or included in your theme (does not receive updates)."
+msgstr ""
+
+#: includes/library/acf_custom/core/controllers/addons.php:219
+#: includes/library/acf_custom/core/controllers/addons.php:240
+msgid "Installed"
 msgstr ""
 
 #: includes/library/acf_custom/core/controllers/addons.php:221
