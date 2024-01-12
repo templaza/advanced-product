@@ -1,6 +1,26 @@
 
 # Changelogs:
 
+## Version 1.0.9 - January 12, 2024
+
+**Fix bugs:**
+
+- Fix issue filter by status
+- Fix issue sample data import
+- Fix error when taxonomy not exit
+- Fix issue ap icon field style for custom field
+- Fix issue create custom field with name exists
+- Fix issue active class in nav for inventory page
+
+**Improvement:**
+
+- Update language file
+- Update UIkit v3.17.11
+- Remove comment code
+- Update help page in back-end
+- Update filter in mobile device
+- Auto change Woo filter button in small device
+
 ## Version 1.0.8 - October 11, 2023
 
 **Fix bugs:**
