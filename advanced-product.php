@@ -92,7 +92,7 @@ class Advanced_Product{
     public function hooks(){
 //        register_activation_hook( ADVANCED_PRODUCT_PATH.'/advanced-product.php', array( $this, 'install' ) );
 
-        add_filter( 'the_content', array( $this, 'unsupported_theme_inventory_content_filter' ), 10 );
+//        add_filter( 'the_content', array( $this, 'unsupported_theme_inventory_content_filter' ), 10 );
         add_filter('display_post_states', array($this, 'add_display_post_states'),10, 2);
 
         add_filter('templaza-framework/shortcode/content_area/theme_html', array($this, 'theme_html'), 11);

@@ -9,7 +9,7 @@ use Advanced_Product\AP_Functions;
 use Advanced_Product\Helper\FieldHelper;
 use Advanced_Product\Helper\AP_Product_Helper;
 use Advanced_Product\Helper\AP_Custom_Field_Helper;
-
+use Advanced_Product\Helper\AP_Helper;
 if(!class_exists('Advanced_Product\Post_Type\Product')){
     class Product extends Post_Type {
 
@@ -44,7 +44,12 @@ if(!class_exists('Advanced_Product\Post_Type\Product')){
              */
             $singular  = __( 'Product', 'advanced-product' );
             $plural    = __( 'Products', 'advanced-product' );
-
+            if ( AP_Helper::get_page_id('inventory') ) {
+                $inventory_page_id = AP_Helper::get_page_id('inventory');
+                $has_archive = $inventory_page_id && get_post( $inventory_page_id ) ? urldecode( get_page_uri( $inventory_page_id ) ) : 'inventory';
+            }else{
+                $has_archive = false;
+            }
             $args = array(
                 'description'         => __( 'This is where you can create and manage products.', 'advanced-product' ),
                 'labels' => array(
@@ -76,7 +81,7 @@ if(!class_exists('Advanced_Product\Post_Type\Product')){
 //                'menu_icon'           => AP_Functions::get_my_url() . '/assets/images/icon.svg',
                 'menu_icon'           => 'dashicons-store',
                 'can_export'          => true,
-                'has_archive'         => true,
+                'has_archive'         => $has_archive,
                 'exclude_from_search' => false,
                 'publicly_queryable'  => true,
                 'capability_type'     => 'post',
