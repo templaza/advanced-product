@@ -48,7 +48,12 @@ if(!class_exists('Advanced_Product\Post_Type\Product')){
                 $inventory_page_id = AP_Helper::get_page_id('inventory');
                 $has_archive = $inventory_page_id && get_post( $inventory_page_id ) ? urldecode( get_page_uri( $inventory_page_id ) ) : 'inventory';
             }else{
-                $has_archive = true;
+                $custom_slug    = get_option('ap_archive_permalink');
+                if($custom_slug) {
+                    $has_archive = $custom_slug;
+                }else{
+                    $has_archive = true;
+                }
             }
             $args = array(
                 'description'         => __( 'This is where you can create and manage products.', 'advanced-product' ),
