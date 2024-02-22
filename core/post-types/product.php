@@ -46,7 +46,7 @@ if(!class_exists('Advanced_Product\Post_Type\Product')){
             $plural    = __( 'Products', 'advanced-product' );
             if ( AP_Helper::get_page_id('inventory') ) {
                 $inventory_page_id = AP_Helper::get_page_id('inventory');
-                $has_archive = $inventory_page_id && get_post( $inventory_page_id ) ? urldecode( get_page_uri( $inventory_page_id ) ) : 'inventory';
+                $has_archive = $inventory_page_id && get_post( $inventory_page_id ) ? urldecode( get_page_uri( $inventory_page_id ) ) : get_option('ap_archive_permalink');
             }else{
                 $custom_slug    = get_option('ap_archive_permalink');
                 if($custom_slug) {
