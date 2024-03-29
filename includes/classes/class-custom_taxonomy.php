@@ -199,15 +199,17 @@ if(!class_exists('Advanced_Product\Custom_Taxonomy')) {
             if($column == $associate_to){
 //                $ass_taxs = get_field( $associate_to, $this -> get_taxonomy_name().'_'.$term_id );
                 $ass_taxs = get_field( $associate_to, 'term_'.$term_id );
-                foreach($ass_taxs as $i => $tax){
-                    if(is_numeric($tax)) {
-                        $term = get_term_by('term_id', $tax, $associate_to);
-                    }else{
-                        $term = get_term_by('slug', $tax, $associate_to);
-                    }
-                    $content    .= '<a href="'.get_edit_term_link($term -> term_id, $term -> taxonomy).'">'.$term -> name.'</a>';
-                    if($i < count($ass_taxs) - 1) {
-                        $content .= '<span>, </span>';
+                if(!empty($ass_taxs)){
+                    foreach($ass_taxs as $i => $tax){
+                        if(is_numeric($tax)) {
+                            $term = get_term_by('term_id', $tax, $associate_to);
+                        }else{
+                            $term = get_term_by('slug', $tax, $associate_to);
+                        }
+                        $content    .= '<a href="'.get_edit_term_link($term -> term_id, $term -> taxonomy).'">'.$term -> name.'</a>';
+                        if($i < count($ass_taxs) - 1) {
+                            $content .= '<span>, </span>';
+                        }
                     }
                 }
             }

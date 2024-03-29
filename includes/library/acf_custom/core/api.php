@@ -31,7 +31,10 @@ function get_field_reference( $field_name, $post_id ) {
 	// vars
 	$return = '';
 
-	
+	if(empty($post_id)){
+	    return $return;
+    }
+
 	// get field key
 	if( is_numeric($post_id) )
 	{
@@ -60,7 +63,7 @@ function get_field_reference( $field_name, $post_id ) {
 	
 	// set cache
 	wp_cache_set( 'field_reference/post_id=' .  $post_id . '/name=' .  $field_name, $return, 'acf' );
-		
+
 	
 	// return	
 	return $return;

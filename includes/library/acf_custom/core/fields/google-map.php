@@ -2,6 +2,8 @@
 
 class acf_field_google_map extends acf_field
 {
+    protected $default_values;
+
 	/*
 	*  __construct
 	*

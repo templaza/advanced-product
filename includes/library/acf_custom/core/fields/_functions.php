@@ -64,6 +64,10 @@ class acf_field_functions
 		// set default value
 		$value = false;
 
+        if(empty($post_id)){
+            return $value;
+        }
+
 		// if $post_id is a string, then it is used in the everything fields and can be found in the options table
 		if( is_numeric($post_id) )
 		{

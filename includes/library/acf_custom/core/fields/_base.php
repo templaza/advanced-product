@@ -19,6 +19,7 @@ class acf_field
 	*/
 	
 	var $name,
+		$label,
 		$title,
 		$category,
 		$defaults,

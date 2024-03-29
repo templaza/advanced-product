@@ -18,17 +18,26 @@ Overrode List:
   - global variable $acf to $advanced_product_acf
 * includes/library/acf_custom/core/api.php file:
   - overrode code in function "get_field_reference":
-        + added code from line 45 to 49
+        + added code from lines 45 to 49
+  - Added code from lines 34 to 36
 * includes/library/acf_custom/core/fields/_functions.php:
     - Overrode function "load_value":
-        + added code from line 92 to 104
-        + added code from line 228 to 235
-        + added code from line 313 to 317
+        + added code from line 67 to 69
+        + added code from line 96 to 108
+        + added code from line 232 to 239
+        + added code from line 317 to 321
 * includes/library/acf_custom/core/fields/wysiwyg.php:
     - Added code line 39
     - Added hook "wp_enqueue_scripts" from lines: 54, 58-64.
     - Added code from line 151 to 167
     - Added code from line 264 to 288
+= Fix issue with php8.2:
+* includes/library/acf_custom/core/fields/_base.php:
+    - Added code line 22
+* includes/library/acf_custom/core/fields/google-map.php:
+    - Added code lines 5-6
+* includes/library/acf_custom/core/controllers/everything_fields.php:
+    - Overrode code at line 271
 
 Advanced Custom Fields is the perfect solution for any wordpress website which needs more flexible data like other Content Management Systems. 
 

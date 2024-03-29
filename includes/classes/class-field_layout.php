@@ -10,6 +10,9 @@ if(!class_exists('Advanced_Product\Field_Layout')) {
     class Field_Layout extends Base
     {
 
+        protected $field;
+        protected $group;
+
         public function __construct($field = array(), $group = array())
         {
             parent::__construct(null, null);

@@ -268,8 +268,8 @@ if( !isset($_POST['acf_nonce']) || !wp_verify_nonce($_POST['acf_nonce'], 'input'
 		if( $pagenow == "edit-tags.php" && isset($_GET['taxonomy']) )
 		{
 			// filter
-			$_GET['taxonomy'] = filter_var($_GET['taxonomy'], FILTER_SANITIZE_STRING);
-			
+			$_GET['taxonomy'] =  htmlspecialchars($_GET['taxonomy']);
+
 			
 			$this->data['page_type'] = "taxonomy";
 			$filter['ef_taxonomy'] = $_GET['taxonomy'];
