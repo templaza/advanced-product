@@ -12,6 +12,7 @@ if(!class_exists('Advanced_Product\Field_Layout')) {
 
         protected $field;
         protected $group;
+        protected $label;
 
         public function __construct($field = array(), $group = array())
         {
