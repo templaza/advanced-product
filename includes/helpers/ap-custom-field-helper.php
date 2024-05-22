@@ -15,7 +15,6 @@ class AP_Custom_Field_Helper extends BaseHelper {
             'taxonomy' => $taxonomy,
         ) );
 
-        var_dump($terms);
         die(__METHOD__);
     }
 

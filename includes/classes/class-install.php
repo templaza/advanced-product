@@ -11,8 +11,8 @@ class Install extends Base{
 
     public function init(){
         $this -> import_custom_fields();
-        $this -> import_products();
-        $this -> create_pages();
+//        $this -> import_products();
+//        $this -> create_pages();
     }
 
     public function install(){

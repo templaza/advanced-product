@@ -309,6 +309,18 @@ class Settings extends Base {
                     ),
                 ),
                 array (
+                    'key'           => 'field_634e60321452d',
+                    'type'          => 'radio',
+                    'layout'        => 'horizontal',
+                    'name'          => 'ap_show_rating',
+                    'label'         => __( 'Show Rating', 'advanced-product' ),
+                    'default_value' => 0,
+                    'choices'       => array(
+                        1   => __('Yes', 'advanced-product'),
+                        0   => __('No', 'advanced-product'),
+                    ),
+                ),
+                array (
                     'key'           => 'field_633bfbb3cd73a',
                     'type'          => 'select',
                     'layout'        => 'horizontal',

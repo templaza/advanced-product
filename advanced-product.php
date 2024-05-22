@@ -24,7 +24,7 @@ use Advanced_Product\Helper\AP_Custom_Taxonomy_Helper;
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
-class Advanced_Product{
+class   Advanced_Product{
 
     protected $pages;
     protected $taxonomies;
@@ -71,6 +71,12 @@ class Advanced_Product{
         }
 
         require_once ADVANCED_PRODUCT_PATH . '/includes/classes/class-acf_taxonomy_walker.php';
+        $show_rating          = get_option('options_ap_show_rating');
+        $show_rating          = filter_var($show_rating, FILTER_VALIDATE_BOOLEAN);
+        if($show_rating){
+            require_once ADVANCED_PRODUCT_PATH . '/rate/rating-input.php';
+            require_once ADVANCED_PRODUCT_PATH . '/rate/rating-output.php';
+        }
 
         // include 3rd party
         do_action('advanced-product/after_init');
@@ -90,7 +96,7 @@ class Advanced_Product{
     }
 
     public function hooks(){
-//        register_activation_hook( ADVANCED_PRODUCT_PATH.'/advanced-product.php', array( $this, 'install' ) );
+        register_activation_hook( ADVANCED_PRODUCT_PATH.'/advanced-product.php', array( $this, 'install' ) );
 
 //        add_filter( 'the_content', array( $this, 'unsupported_theme_inventory_content_filter' ), 10 );
         add_filter('display_post_states', array($this, 'add_display_post_states'),10, 2);
