@@ -26,7 +26,7 @@ if(!class_exists('Advanced_Product\Field\Layout\Range_Slider')){
                 . '/core/field-layouts/range_slider/range_slider.css');
             wp_enqueue_script('advanced-product__fields-layout-range-slider', AP_Functions::get_my_url()
                     . '/core/field-layouts/range_slider/range_slider.js',
-                array('jquery', 'jquery-ui-core', 'jquery-ui-slider'));
+                array('jquery', 'jquery-ui-core', 'jquery-ui-slider', 'jquery-touch-punch'));
         }
 
         public function render(){
