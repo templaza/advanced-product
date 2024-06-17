@@ -179,8 +179,7 @@ class Search extends Base {
 
         $inventory_page_id  = get_field('ap_inventory_page_id', 'option');
         if(is_archive() || ($inventory_page_id && is_page($inventory_page_id))) {
-            global $wp;
-            $defaults['action'] = home_url($wp->request);
+            $defaults['action'] = get_post_type_archive_link( 'ap_product' );
         }
 
         extract( shortcode_atts( apply_filters( 'advanced-product/search-form/defaults', $defaults ), $shortcode_atts ) );
