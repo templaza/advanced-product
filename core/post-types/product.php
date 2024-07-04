@@ -31,13 +31,28 @@ if(!class_exists('Advanced_Product\Post_Type\Product')){
 //            add_action( 'advanced-product/after_init', array( $this, 'register_fields' ) );
 //            add_action( 'init', array( $this, 'register_fields' ) );
             add_action( 'admin_init', array( $this, 'register_fields' ) );
+            add_action( 'save_post', array( $this, 'save_post' ) );
 
             add_action( 'wp_ajax_load_custom_fields', array( $this, 'load_custom_fields' ) );
             add_action( 'wp_ajax_nopriv_load_custom_fields', array( $this, 'load_custom_fields' ) );
 
             add_filter('acf/location/match_field_groups', array($this, 'acf_match_field_groups'), 20);
+
         }
 
+        public function save_post($post_id){
+            global $post;
+            if ($post->post_type == 'ap_product'){
+                $product_type = get_field('ap_product_type');
+                if( !in_array('sale',$product_type)){
+                    if(in_array('contact',$product_type) || in_array('rental',$product_type)|| in_array('sold',$product_type) ){
+                        if ( ! add_post_meta( $post_id, 'ap_price', '' ) ) {
+                            update_post_meta ( $post_id, 'ap_price', 0 );
+                        }
+                    }
+                }
+            }
+        }
         public function register(){
             /**
              * Post types
