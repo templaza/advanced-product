@@ -15,6 +15,12 @@ if(!class_exists('Advanced_Product\Field\Layout\Date_Picker')){
             add_action( 'admin_enqueue_scripts', array($this, 'admin_enqueue_script') );
         }
 
+        public function prepare_field($field){
+            $field['default_value'] = isset($field['default_value'])?$field['default_value']:'';
+
+            return parent::prepare_field($field);
+        }
+
         public function admin_enqueue_script($hook_suffix){
             global $post_type;
             if($hook_suffix == 'post.php' && $post_type == 'ap_product') {
