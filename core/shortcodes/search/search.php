@@ -123,19 +123,29 @@ class Search extends Base {
 
                         $meta_main[] = $submeta_query;
                     }else{
-                        if($type == 'number'){
-                            $meta_main[$acf_attr['key']] = array(
-                                'key' => $f_name,
-                                'value' => (float) $query_value,
-                                'compare' => '=',
-                                'type' => 'DECIMAL(10,3)'
-                            );
-                        }else {
-                            $meta_main[$acf_attr['key']] = array(
-                                'key' => isset($acf_attr['name']) ? $acf_attr['name'] : '',
-                                'value' => $query_value,
-                                'compare' => 'LIKE',
-                            );
+                        switch($type){
+                            default:
+                                $meta_main[$acf_attr['key']] = array(
+                                    'key' => isset($acf_attr['name']) ? $acf_attr['name'] : '',
+                                    'value' => $query_value,
+                                    'compare' => 'LIKE',
+                                );
+                                break;
+                            case 'number':
+                                $meta_main[$acf_attr['key']] = array(
+                                    'key' => $f_name,
+                                    'value' => (float) $query_value,
+                                    'compare' => '=',
+                                    'type' => 'DECIMAL(10,3)'
+                                );
+                                break;
+                            case 'date_picker':
+                                $meta_main[$acf_attr['key']]   = array(
+                                    'key' => $f_name,
+                                    'value' => date_i18n('Ymd', strtotime($query_value)),
+                                    'compare' => '=',
+                                );
+                                break;
                         }
                     }
 
