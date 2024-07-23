@@ -140,9 +140,53 @@ class Search extends Base {
                                 );
                                 break;
                             case 'date_picker':
+							
+                                $replace = array(
+                                    'd' => 'dd',
+                                    'D' => 'D',
+                                    'j' => 'd',
+                                    'l' => 'DD',
+                                    'N' => '',
+                                    'S' => '',
+                                    'w' => '',
+                                    'z' => 'o',
+                                    // Week
+                                    'W' => '',
+                                    // Month
+                                    'F' => 'MM',
+                                    'm' => 'mm',
+                                    'M' => 'M',
+                                    'n' => 'm',
+                                    't' => '',
+                                    // Year
+                                    'L' => '',
+                                    'o' => '',
+                                    'Y' => 'yy',
+                                    'y' => 'y',
+                                    // Time
+                                    'a' => '',
+                                    'A' => '',
+                                    'B' => '',
+                                    'g' => '',
+                                    'G' => '',
+                                    'h' => '',
+                                    'H' => '',
+                                    'i' => '',
+                                    's' => '',
+                                    'u' => ''
+                                );
+
+                                if(strpos($acf_attr['date_format'], 'mm') != false){
+                                    unset($replace['n']);
+                                }
+                                if(strpos($acf_attr['date_format'], 'dd') != false){
+                                    unset($replace['j']);
+                                }
+                                $date_format = str_replace(array_values($replace),array_keys($replace) , $acf_attr['date_format']);
+
                                 $meta_main[$acf_attr['key']]   = array(
                                     'key' => $f_name,
-                                    'value' => date_i18n('Ymd', strtotime($query_value)),
+                                    'value' => date_i18n($date_format, strtotime($query_value)),
                                     'compare' => '=',
                                 );
                                 break;
