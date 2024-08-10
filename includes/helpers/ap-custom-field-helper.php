@@ -161,6 +161,46 @@ class AP_Custom_Field_Helper extends BaseHelper {
 
         return static::$cache[$store_id] = $fields;
     }
+    public static function get_acf_fields_by_type($type = array(), $options = array()){
+        $args = array(
+            'post_status' => 'publish',
+            'post_type'   => 'ap_custom_field',
+            'numberposts' => -1,
+        );
+        $store_id   = static::_get_store_id(__METHOD__, $args, $options);
+
+        if(isset(static::$cache[$store_id])){
+            return static::$cache[$store_id];
+        }
+
+        $post_fields = get_posts($args);
+
+        if(!$post_fields){
+            return false;
+        }
+
+        $fields = array();
+        foreach($post_fields as $i => $field){
+            $acf_f = static::get_custom_field_option_by_id($field -> ID, array(
+                'exclude_core_field'    => false
+            ));
+            if(empty($acf_f)){
+                continue;
+            }
+
+            if($acf_f && !empty($acf_f) && $acf_f['type']=='number'){
+                $fields[$acf_f['name']]   = $acf_f['label'];
+            }
+        }
+
+        if(!count($fields)){
+            return false;
+        }
+
+        ksort($fields);
+
+        return static::$cache[$store_id] = $fields;
+    }
 
 //    /**
 //     * Get custom fields in post type ap_custom_field

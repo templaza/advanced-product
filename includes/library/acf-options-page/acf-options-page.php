@@ -13,7 +13,7 @@ Copyright: Elliot Condon
 class acf_options_page_plugin
 {
 	var $settings;
-
+    var $data;
 
 	/*
 	*  Constructor
@@ -653,6 +653,4 @@ if( !function_exists('register_options_page') )
 		acf_add_options_sub_page( $title );
 	}
 }
-
-
 ?>
