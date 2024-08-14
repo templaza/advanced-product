@@ -44,7 +44,7 @@ class acf_field_group
 		// ajax
 		add_action('wp_ajax_acf/field_group/render_options', array($this, 'ajax_render_options'));
 		add_action('wp_ajax_acf/field_group/render_location', array($this, 'ajax_render_location'));
-		
+
 	}
 	
 	
@@ -278,14 +278,13 @@ class acf_field_group
 
 		// vars
 		$return = false;
-		
-		
+
 		// validate page
 		if( in_array( $pagenow, array('post.php', 'post-new.php') ) )
 		{
 		
 			// validate post type
-			if( $typenow == "acf" )
+			if( $typenow == "acf" || $typenow == 'ap_custom_field' )
 			{
 				$return = true;
 			}
@@ -336,7 +335,7 @@ class acf_field_group
 		// actions
 		do_action('acf/field_group/admin_enqueue_scripts');
 		add_action('admin_head', array($this,'admin_head'));
-		
+
 	}
 	
 	

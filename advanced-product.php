@@ -68,6 +68,7 @@ class   Advanced_Product{
         }
         if (!function_exists('acf_register_fields')) {
             include('includes/library/acf-gallery/acf-gallery.php');
+            include('includes/library/acf-repeater/acf-repeater.php');
         }
 
         require_once ADVANCED_PRODUCT_PATH . '/includes/classes/class-acf_taxonomy_walker.php';
