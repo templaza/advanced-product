@@ -42,7 +42,7 @@ if(!class_exists('Advanced_Product\Post_Type\Product')){
 
         public function save_post($post_id){
             global $post;
-            if ($post->post_type == 'ap_product'){
+            if (isset($post->post_type) && $post->post_type == 'ap_product'){
                 $product_type = get_field('ap_product_type');
                 if( !in_array('sale',$product_type)){
                     if(in_array('contact',$product_type) || in_array('rental',$product_type)|| in_array('sold',$product_type) ){
