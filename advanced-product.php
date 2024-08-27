@@ -4,7 +4,7 @@ Plugin Name: Advanced Product
 Plugin URI: https://github.com/templaza/advanced-product
 Description: This plugin help you manage advanced products.
 Author: Templaza
-Version: 1.0.9
+Version: 1.1.0
 Text Domain: advanced-product
 Domain Path:  /languages/
 Author URI: http://templaza.com
@@ -818,7 +818,6 @@ class   Advanced_Product{
             $order_opt  = get_field('ap_archive_product_order_by', 'option');
             $order_opt  = $order_opt?$order_opt:'rdate';
             $order_opt  = isset($_GET['sort_order']) && !empty($_GET['sort_order'])?$_GET['sort_order']:$order_opt;
-
             switch ($order_opt){
                 default:
                 case 'rdate':
@@ -870,6 +869,18 @@ class   Advanced_Product{
                     $order      = 'DESC';
                     $order_by   = 'meta_value_num';
                     $query -> query_vars['meta_key'] = 'ap_price';
+                    break;
+                case 'price_rental':
+                case 'price_rental_low':
+                    $order      = 'ASC';
+                    $order_by   = 'meta_value_num';
+                    $query -> query_vars['meta_key'] = 'ap_rental_price';
+                    break;
+                case 'rprice_rental':
+                case 'price_rental_high':
+                    $order      = 'DESC';
+                    $order_by   = 'meta_value_num';
+                    $query -> query_vars['meta_key'] = 'ap_rental_price';
                     break;
             }
             $query -> query_vars['order'] = $order;

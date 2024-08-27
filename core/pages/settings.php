@@ -319,6 +319,8 @@ class Settings extends Base {
                         'rhits'   => __('Least Hits', 'advanced-product'),
                         'price'   => __('Minimum Price First', 'advanced-product'),
                         'rprice'   => __('Maximum Price First', 'advanced-product'),
+                        'price_rental'   => __('Minimum Rental Price First', 'advanced-product'),
+                        'rprice_rental'   => __('Maximum Rental Price First', 'advanced-product'),
                     ),
                 ),
                 array (
