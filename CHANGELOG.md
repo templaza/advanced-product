@@ -1,6 +1,23 @@
 
 # Changelogs:
 
+## Version 1.1.0 - August 27, 2024
+
+**Fix bugs:**
+
+- Fix issue filter date picker
+- Fix warning post type undefined
+- Fix sort by price
+- Fix filter when use custom structure permalink
+- Fix touch price filter in mobile
+- Fix warning with php 8.2
+
+**Improvement:**
+
+- Update language file
+- Add Rating
+- Add sort by rental price
+
 ## Version 1.0.9 - January 12, 2024
 
 **Fix bugs:**
