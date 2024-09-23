@@ -237,7 +237,6 @@ if(!class_exists('Advanced_Product\Post_Type\Custom_Field')){
             unset($columns['title']);
             $second_columns  = array_splice($columns, 0, array_search('date', array_keys($columns)));
             $new_columns                = array();
-            $new_columns['title']          = $columns['title'];
             $new_columns['in_listing']  = __('In Listing', 'advanced-product');
             $new_columns['in_search']   = __('In Search', 'advanced-product');
             return $first_columns + $second_columns + $new_columns + $columns;

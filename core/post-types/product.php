@@ -44,10 +44,12 @@ if(!class_exists('Advanced_Product\Post_Type\Product')){
             global $post;
             if (isset($post->post_type) && $post->post_type == 'ap_product'){
                 $product_type = get_field('ap_product_type');
-                if( !in_array('sale',$product_type)){
-                    if(in_array('contact',$product_type) || in_array('rental',$product_type)|| in_array('sold',$product_type) ){
-                        if ( ! add_post_meta( $post_id, 'ap_price', '' ) ) {
-                            update_post_meta ( $post_id, 'ap_price', 0 );
+                if(is_array($product_type)){
+                    if( !in_array('sale',$product_type)){
+                        if(in_array('contact',$product_type) || in_array('rental',$product_type)|| in_array('sold',$product_type) ){
+                            if ( ! add_post_meta( $post_id, 'ap_price', '' ) ) {
+                                update_post_meta ( $post_id, 'ap_price', 0 );
+                            }
                         }
                     }
                 }
