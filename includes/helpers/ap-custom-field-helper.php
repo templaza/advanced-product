@@ -291,35 +291,35 @@ class AP_Custom_Field_Helper extends BaseHelper {
         $order      = 'ASC';
         $order_by   = 'date';
 
-        if(function_exists('is_post_type_archive') && is_post_type_archive('ap_product')){
-            $archive_order  = \get_field('ap_archive_product_order_by_custom_field', 'option');
-            switch ($archive_order){
-                default:
-                case 'order':
-                    $order_by   = 'menu_order';
-                    break;
-                case 'rorder':
-                    $order      = 'DESC';
-                    $order_by   = 'menu_order';
-                    break;
-                case 'date':
-                    $order      = 'ASC';
-                    $order_by   = 'date';
-                    break;
-                case 'rdate':
-                    $order      = 'DESC';
-                    $order_by   = 'date';
-                    break;
-                case 'alpha':
-                    $order      = 'ASC';
-                    $order_by   = 'title';
-                    break;
-                case 'ralpha':
-                    $order      = 'DESC';
-                    $order_by   = 'title';
-                    break;
-            }
+
+        $archive_order  = \get_field('ap_archive_product_order_by_custom_field', 'option');
+        switch ($archive_order){
+            default:
+            case 'order':
+                $order_by   = 'menu_order';
+                break;
+            case 'rorder':
+                $order      = 'DESC';
+                $order_by   = 'menu_order';
+                break;
+            case 'date':
+                $order      = 'ASC';
+                $order_by   = 'date';
+                break;
+            case 'rdate':
+                $order      = 'DESC';
+                $order_by   = 'date';
+                break;
+            case 'alpha':
+                $order      = 'ASC';
+                $order_by   = 'title';
+                break;
+            case 'ralpha':
+                $order      = 'DESC';
+                $order_by   = 'title';
+                break;
         }
+
 
         $args = array(
             'post_status' => 'publish',

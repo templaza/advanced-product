@@ -24,6 +24,10 @@ $__class = '';
 if(!isset($limit_height) || (isset($limit_height) && $limit_height)){
     $__class .=' advanced-product-search-limit-height';
 }
+$tax_display = '';
+if(isset($taxonomy_display)){
+    $tax_display = $taxonomy_display;
+}
 ?>
 <form role="search" method="get" action="<?php echo esc_url($action); ?>" class="uk-form-stacked advanced-product-search-form <?php echo esc_attr($__class);?>">
     <?php if(!isset($enable_keyword) || (isset($enable_keyword) && $enable_keyword)){?>
@@ -48,7 +52,9 @@ if(!isset($limit_height) || (isset($limit_height) && $limit_height)){
 
             $s_field_type = isset($field['s_type'])?$field['s_type']:'';
             $s_field_type = (empty($s_field_type) && isset($field['type']))?$field['type']:$s_field_type;
-
+            if($field['type'] =='taxonomy' && isset($taxonomy_display)){
+                $s_field_type = $tax_display;
+            }
             if(isset($field['s_type'])){
                 if(isset($field['field_type'])){
                     $field['field_type'] = $field['s_type'];

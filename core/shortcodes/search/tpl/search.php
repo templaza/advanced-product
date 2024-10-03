@@ -62,6 +62,10 @@ if(isset($_GET['filter_style']) && $_GET['filter_style'] =='block'){
 if(!isset($limit_height) || (isset($limit_height) && $limit_height)){
     $__class .=' advanced-product-search-limit-height';
 }
+$tax_display = '';
+if(isset($taxonomy_display)){
+    $tax_display = $taxonomy_display;
+}
 ?>
 <?php if(!empty($max_height)){ ?>
 <div class="ap-search-max-height" style="height:<?php echo $max_height; ?>;">
@@ -91,22 +95,32 @@ if(!isset($limit_height) || (isset($limit_height) && $limit_height)){
                     $field['value'] = '';
                 }
 
-
-                $s_field_type = isset($field['s_type'])?$field['s_type']:'';
-                $s_field_type = (empty($s_field_type) && isset($field['type']))?$field['type']:$s_field_type;
+                if($field['type'] =='taxonomy' && $taxonomy_display !=''){
+                    $s_field_type = $tax_display;
+                }else{
+                    $s_field_type = isset($field['s_type'])?$field['s_type']:'';
+                    $s_field_type = (empty($s_field_type) && isset($field['type']))?$field['type']:$s_field_type;
+                }
 
                 if(isset($field['s_type'])){
                     if(isset($field['field_type'])){
                         $field['__field_type']  = $field['field_type'];
                         $field['field_type']    = $field['s_type'];
+                        if($field['type'] =='taxonomy' && $taxonomy_display !=''){
+                            $field['field_type'] = $tax_display;
+                            $field['s_type'] = $tax_display;
+                        }
                     }else {
                         $field['__field_type']  = $field['type'];
                         $field['type']          = $field['s_type'];
+                        if($field['type'] =='taxonomy' && $taxonomy_display !=''){
+                            $field['type'] = $tax_display;
+                            $field['s_type'] = $tax_display;
+                        }
                     }
                 }
 
                 $file_path  = ADVANCED_PRODUCT_CORE_PATH.'/field-layouts/'.$s_field_type.'/'.$s_field_type.'.php';
-
                 $html   = '';
                 if(file_exists($file_path)){
                     ob_start();

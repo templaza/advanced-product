@@ -228,6 +228,7 @@ class Search extends Base {
             'column_laptop'     => 1,
             'column_tablet'     => 1,
             'column_mobile'     => 1,
+            'taxonomy_display'  => '',
             'max_height'        => '',
         );
 

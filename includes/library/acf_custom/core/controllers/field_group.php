@@ -284,7 +284,7 @@ class acf_field_group
 		{
 		
 			// validate post type
-			if( $typenow == "acf" || $typenow == 'ap_custom_field' )
+			if( $typenow == "acf" )
 			{
 				$return = true;
 			}
