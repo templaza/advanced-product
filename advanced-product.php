@@ -130,7 +130,7 @@ class   Advanced_Product{
             // Save options from wordpress settings
             add_action( 'admin_init', array($this, 'save_wordpress_settings'));
 
-            add_action('admin_init', array($this, 'update_checker'));
+            add_action('admin_init', array($this, 'advanced_update_checker'));
 
             add_action( 'admin_notices', array($this, 'admin_notices'),999);
         }
@@ -806,6 +806,21 @@ class   Advanced_Product{
         if ($pagenow == 'options-permalink.php' && isset($_POST['ap_archive_permalink'])) {
             update_option('ap_archive_permalink', trim($_POST['ap_archive_permalink']));
         }
+    }
+
+    public function advanced_update_checker(){
+        require_once ADVANCED_PRODUCT_CLASSES_PATH.'/plugin-updates/plugin-update-checker.php';
+        $TemplazaFrameworkUpdateChecker = \Puc_v4_Factory::buildUpdateChecker(
+            'https://github.com/templaza/advanced-product/',
+            ADVANCED_PRODUCT_PATH.'/'.ADVANCED_PRODUCT.'.php', //Full path to the main plugin file or functions.php.
+            'advanced-product'
+        );
+
+        //Set the branch that contains the stable release.
+        $TemplazaFrameworkUpdateChecker->setBranch('master');
+
+        //Optional: If you're using a private repository, specify the access token like this:
+        $TemplazaFrameworkUpdateChecker ->clearCachedTranslationUpdates();
     }
 
     /**
