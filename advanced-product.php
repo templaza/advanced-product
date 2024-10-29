@@ -4,7 +4,7 @@ Plugin Name: Advanced Product
 Plugin URI: https://github.com/templaza/advanced-product
 Description: This plugin help you manage advanced products.
 Author: Templaza
-Version: 1.1.1
+Version: 1.1.0
 Text Domain: advanced-product
 Domain Path:  /languages/
 Author URI: http://templaza.com
@@ -809,7 +809,7 @@ class   Advanced_Product{
     }
 
     public function advanced_update_checker(){
-        require_once ADVANCED_PRODUCT_CLASSES_PATH.'/plugin-updates/plugin-update-checker.php';
+        require_once ADVANCED_PRODUCT_LIBRARY_PATH.'/plugin-updates/plugin-update-checker.php';
         $TemplazaFrameworkUpdateChecker = \Puc_v4_Factory::buildUpdateChecker(
             'https://github.com/templaza/advanced-product/',
             ADVANCED_PRODUCT_PATH.'/'.ADVANCED_PRODUCT.'.php', //Full path to the main plugin file or functions.php.
