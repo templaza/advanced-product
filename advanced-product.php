@@ -130,6 +130,8 @@ class   Advanced_Product{
             // Save options from wordpress settings
             add_action( 'admin_init', array($this, 'save_wordpress_settings'));
 
+            add_action('admin_init', array($this, 'update_checker'));
+
             add_action( 'admin_notices', array($this, 'admin_notices'),999);
         }
 
