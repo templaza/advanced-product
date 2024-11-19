@@ -264,20 +264,8 @@ if(!class_exists('Advanced_Product\Post_Type\Product')){
 
         public function acf_match_field_groups($group){
 
-//            $filter = array(
-//                'post_id'	=> $_REQUEST['post_id'],
-//                'post_type'	=> $this -> get_post_type()
-//            );
-//            $metabox_ids = array();
-//            $metabox_ids = apply_filters( 'acf/location/match_field_groups', $metabox_ids, $filter );
-//            var_dump($GLOBALS['acf_register_field_group']);
-////////            var_dump($metabox_ids);
-//            die(__FILE__);
+
             $group[]    = 'pricing';
-//            $group[]    = 'ap_acf_pricing';
-//            $group[]    = 'product_pricing';
-//            $group[]    = 'acf_product_pricing';
-//            $group[]    = 'ap_acf_specifications';
 
             $group[]    = 'specifications';
             return $group;
