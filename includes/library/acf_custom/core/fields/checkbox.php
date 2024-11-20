@@ -131,6 +131,49 @@ class acf_field_checkbox extends acf_field
 		
 		
 		// implode checkboxes so they work in a textarea
+        $ap_product_type_value = array();
+        if(get_the_excerpt(get_the_ID())=='ap_product_type'){
+            if( is_array($field['choices']) ){
+                $ap_product_type_value = $field['choices'];
+            }
+            $new_value_choice = array();
+            if(isset($field['sale']) && $field['sale'] !=''){
+                $new_value_choice['sale'] = $field['sale'];
+            }else{
+                if(isset($field['sale'])){
+                    $new_value_choice['sale'] = $field['sale'];
+                }else{
+                    $new_value_choice['sale'] = __('Sale','advanced-product');
+                }
+            }
+            if(isset($field['rental']) && $field['rental'] !=''){
+                $new_value_choice['rental'] = $field['rental'];
+            }else{
+                if(isset($field['rental'])){
+                    $new_value_choice['rental'] = $field['rental'];
+                }else{
+                    $new_value_choice['rental'] = __('Rental','advanced-product');
+                }
+            }
+            if(isset($field['contact']) && $field['contact'] !=''){
+                $new_value_choice['contact'] = $field['contact'];
+            }else{
+                if(isset($field['contact'])){
+                    $new_value_choice['contact'] = $field['contact'];
+                }else{
+                    $new_value_choice['contact'] = __('Contact','advanced-product');
+                }
+            }
+            if(isset($field['sold']) && $field['sold'] !=''){
+                $new_value_choice['sold'] = $field['sold'];
+            }else{
+                if(isset($field['sold'])){
+                    $new_value_choice['sold'] = $field['sold'];
+                }else{
+                    $new_value_choice['sold'] = __('Sold','advanced-product');
+                }
+            }
+        }
 		if( is_array($field['choices']) )
 		{		
 			foreach( $field['choices'] as $k => $v )
@@ -141,6 +184,38 @@ class acf_field_checkbox extends acf_field
 		}
 		
 		?>
+        <?php
+
+        if(get_the_excerpt(get_the_ID())=='ap_product_type'){
+        ?>
+            <tr class="field_option field_option_<?php echo $this->name; ?>">
+                <td class="label">
+                    <label for=""><?php _e("Change values",'advanced-product'); ?></label>
+                </td>
+                <td>
+                    <?php
+                    foreach( $new_value_choice as $k => $v )
+                    {
+                        ?>
+                        <div class="uk-flex uk-flex-middle uk-margin-small-bottom">
+                            <span class="uk-width-1-6"><?php echo esc_attr($k)?></span>
+                            <input class="uk-width-5-6" type="text" name="fields[<?php echo $key;?>][<?php echo esc_attr($k)?>]" value="<?php echo esc_attr($v);?>"/>
+                        </div>
+                        <?php
+                    }
+                    do_action('acf/create_field', array(
+                        'type'	=>	'textarea',
+                        'class' => 	'textarea field_option-choices uk-hidden',
+                        'name'	=>	'fields['.$key.'][choices]',
+                        'value'	=>	$field['choices'],
+                    ));
+                    ?>
+                </td>
+            </tr>
+        <?php
+        }else{
+        ?>
+
 <tr class="field_option field_option_<?php echo $this->name; ?>">
 	<td class="label">
 		<label for=""><?php _e("Choices",'acf'); ?></label>
@@ -178,6 +253,10 @@ class acf_field_checkbox extends acf_field
 		?>
 	</td>
 </tr>
+        <?php
+        }
+        ?>
+
 <tr class="field_option field_option_<?php echo $this->name; ?>">
 	<td class="label">
 		<label for=""><?php _e("Layout",'acf'); ?></label>

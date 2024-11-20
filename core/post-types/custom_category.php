@@ -19,11 +19,8 @@ if(!class_exists('Advanced_Product\Post_Type\Custom_Category')){
         {
             parent::hooks();
             add_action( 'init', array( $this, 'register_fields' ) );
-
-//            add_action( 'wp_insert_post_data', array( $this, 'insert_post_data' ), 10, 2 );
-
-            add_action( 'save_post_'.$this -> get_post_type(), array($this, 'save_post'), 10,3 );
-
+            add_action( 'wp_after_insert_post', array( $this, 'create_taxonomy' ), 10, 2 );
+            add_filter('pre_trash_post', array($this, 'pre_trash_post'), 10, 2);
         }
 
         public function register(){
@@ -76,16 +73,23 @@ if(!class_exists('Advanced_Product\Post_Type\Custom_Category')){
             return $args;
         }
 
-//        public function insert_post_data($post, $postarr){
-//            if(isset($post['post_type']) && $post['post_type'] == $this -> get_post_type()){
-//                $fields = isset($_POST['fields'])?$_POST['fields']:array();
-//
-//                if(empty($post['post_title']) && isset($fields['field_618a325158397']) && !empty($fields['field_618a325158397'])){
-//                    $post['post_title']  = $fields['field_618a325158397'];
-//                }
-//            }
-//            return $post;
-//        }
+        /**
+         * Deny trash post is protected
+         * @param bool|null $trash Whether to go forward with trashing.
+         * @param WP_Post   $post  Post object.
+         * @return bool|null
+         * */
+        public function pre_trash_post($trash, $post){
+            if(!empty($post) && $post -> post_type == $this -> get_post_type()){
+
+                $custom_field_id = get_post_meta($post -> ID, 'ap_custom_category_taxonomy', true);
+                if($custom_field_id){
+                    wp_trash_post($custom_field_id);
+                }
+            }
+
+            return $trash;
+        }
 
         public function save_post($post_ID, $post, $update){
             global $wpdb;
@@ -105,6 +109,136 @@ if(!class_exists('Advanced_Product\Post_Type\Custom_Category')){
                 $wpdb -> update($wpdb -> posts, $my_post, array('ID' => $post_ID));
             }
         }
+        public function create_taxonomy($post_ID, $post){
+
+            if ( 'ap_custom_category' === get_post_type( $post ) ) {
+                $tax_slug = get_post_meta($post_ID, 'slug', true);
+                $custom_category_tax = get_post_meta($post_ID,'ap_custom_category_taxonomy',true);
+                if(empty($custom_category_tax) && $post->post_status != 'auto-draft' && $post->post_status != 'trash'){
+                    $new_post_key = uniqid('field_');
+                    $ap_custom_post = array (
+                        'label' => ''.$post -> post_title.'',
+                        'name' => 'ap_'.$tax_slug.'',
+                        'type' => 'taxonomy',
+                        'instructions' => '',
+                        'required' => '0',
+                        'icon' =>
+                            array (
+                                'icon' => '',
+                                'type' => '',
+                            ),
+                        'icon_image' => '',
+                        'wrapper_attribute' =>
+                            array (
+                                'width' => '',
+                            ),
+                        'taxonomy' => ''.$tax_slug.'',
+                        'field_type' => 'checkbox',
+                        'allow_null' => '0',
+                        'load_save_terms' => '1',
+                        'return_format' => 'id',
+                        's_type' => 'select',
+                        'conditional_logic' =>
+                            array (
+                                'status' => '0',
+                                'rules' =>
+                                    array (
+                                        0 =>
+                                            array (
+                                                'field' => 'field_63e370f99bdcb',
+                                                'operator' => '==',
+                                                'value' => 'sale',
+                                            ),
+                                    ),
+                                'allorany' => 'all',
+                            ),
+                        'order_no' => 0,
+                        'key' => ''.$new_post_key.'',
+                    );
+                    $new_post_content = serialize($ap_custom_post);
+                    $new_post = array(
+                        'post_title'    => $post -> post_title,
+                        'post_name'    => $new_post_key,
+                        'post_excerpt'  => $tax_slug,
+                        'post_type'    => 'ap_custom_field',
+                        'post_content'  => $new_post_content,
+                        'post_status'   => 'publish',
+                        'post_author'   => 1,
+                    );
+
+                    $new_post_id = wp_insert_post( $new_post );
+                    if ( ! add_post_meta( $new_post_id, ''.$new_post_key.'', ''.$new_post_content.'', true ) ) {
+                        update_post_meta ( $new_post_id, ''.$new_post_key.'', ''.$new_post_content.'' );
+                    }
+                    if ( ! add_post_meta( $new_post_id, 'ap_taxonomy_custom_category', ''.$post_ID.'', true ) ) {
+                        update_post_meta ( $new_post_id, 'ap_taxonomy_custom_category', ''.$post_ID.'' );
+                    }
+                    if ( ! add_post_meta( $post_ID, 'ap_custom_category_taxonomy', ''.$new_post_id.'', true ) ) {
+                        update_post_meta ( $post_ID, 'ap_custom_category_taxonomy', ''.$new_post_id.'' );
+                    }
+//                    if(get_post_meta($post_ID,'associate_to')){
+//                        update_post_meta ( $post_ID, 'associate_to', ''.$tax_slug.'' );
+//                    }
+                }
+                if($custom_category_tax){
+                    $post_custom_field_tax_id = $custom_category_tax;
+                    $custom_field_tax_category = get_post_meta($post_custom_field_tax_id,'ap_taxonomy_custom_category',true);
+                    if($custom_field_tax_category){
+                        $post_custom_field_tax = get_post( $post_custom_field_tax_id, ARRAY_A );
+                        $custom_field_tax_slug = $post_custom_field_tax['post_name'];
+                        $ap_custom_value_update = array (
+                            'label' => ''.$post -> post_title.'',
+                            'name' => 'ap_'.$tax_slug.'',
+                            'type' => 'taxonomy',
+                            'instructions' => '',
+                            'required' => '0',
+                            'icon' =>
+                                array (
+                                    'icon' => '',
+                                    'type' => '',
+                                ),
+                            'icon_image' => '',
+                            'wrapper_attribute' =>
+                                array (
+                                    'width' => '',
+                                ),
+                            'taxonomy' => ''.$tax_slug.'',
+                            'field_type' => 'checkbox',
+                            'allow_null' => '0',
+                            'load_save_terms' => '1',
+                            'return_format' => 'id',
+                            's_type' => 'select',
+                            'conditional_logic' =>
+                                array (
+                                    'status' => '0',
+                                    'rules' =>
+                                        array (
+                                            0 =>
+                                                array (
+                                                    'field' => 'field_63e370f99bdcb',
+                                                    'operator' => '==',
+                                                    'value' => 'sale',
+                                                ),
+                                        ),
+                                    'allorany' => 'all',
+                                ),
+                            'order_no' => 0,
+                            'key' => ''.$custom_field_tax_slug.'',
+                        );
+                        $new_value_update = serialize($ap_custom_value_update);
+                        $data = array(
+                            'ID' => $post_custom_field_tax_id,
+                            'post_content' => $new_value_update,
+                            'post_title'    => $post -> post_title,
+                            'post_type'    => 'ap_custom_field',
+                            'post_excerpt'  => $tax_slug,
+                        );
+                        wp_update_post( $data);
+                        update_post_meta ( $post_custom_field_tax_id, ''.$custom_field_tax_slug.'', ''.$new_value_update.'' );
+                    }
+                }
+            }
+        }
 
         public function manage_edit_columns($columns){
             $new_columns            = array();
@@ -119,9 +253,11 @@ if(!class_exists('Advanced_Product\Post_Type\Custom_Category')){
         public function manage_custom_column($column, $post_id ){
             if($column == 'associate_to'){
                 $associate_to = get_field( 'associate_to', $post_id );
-                $taxonomy     = get_taxonomy($associate_to);
+                if($associate_to){
+                    $taxonomy     = get_taxonomy($associate_to);
+                    echo '<a href="edit-tags.php?taxonomy='.$associate_to.'&post_type=ap_product">'.$taxonomy -> label.'</a>';
+                }
 
-                echo '<a href="edit-tags.php?taxonomy='.$associate_to.'&post_type=ap_product">'.$taxonomy -> label.'</a>';
             }
 
             return $column;
@@ -201,8 +337,7 @@ if(!class_exists('Advanced_Product\Post_Type\Custom_Category')){
 //                            'type' => 'taxonomy',
 //                            'taxonomy' => 'ap_branch',
                             'field_type' => 'select',
-//                            'field_type' => 'multi_select',
-                            'allow_null' => false,
+                            'allow_null' => true,
                             'load_save_terms' => 0,
                             'choices' => $this -> _categories_associate(),
 //                            'return_format' => 'array',

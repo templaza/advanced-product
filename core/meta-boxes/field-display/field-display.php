@@ -21,71 +21,8 @@ class Field_Display extends Meta_box {
     }
 
     public function register_fields(){
-//        if(function_exists("register_field_group"))
-//            {
-//                register_field_group(array (
-//                    'id' => 'acf_'.$this -> get_meta_box_name().'_property',
-//                    'title' => __( 'Field Display', 'advanced-product' ),
-//                    'fields' => array(
-////                        array(
-////                            'key'   => 'field_61a5e21179a88',
-////                            'name'  => 'show_in_excerpt',
-////                            'type'  => 'radio',
-////                            'label' => __('Show in Excerpt view', 'advanced-product'),
-////                            'layout'	=>	'horizontal',
-////                            'choices'	=>	array(
-////                                1	=>	__("Yes", 'advanced-product'),
-////                                0	=>	__("No", 'advanced-product'),
-////                            ),
-////                        ),
-//                        array(
-//                            'key'   => 'field_61a5e4c9c3c36',
-//                            'name'  => 'show_in_listing',
-//                            'type'  => 'radio',
-//                            'label' => __('Show in listing view', 'advanced-product'),
-//                            'layout'	=>	'horizontal',
-//                            'choices'	=>	array(
-//                                1	=>	__("Yes", 'advanced-product'),
-//                                0	=>	__("No", 'advanced-product'),
-//                            ),
-//                        ),
-//                        array(
-//                            'key'   => 'field_61a5e4d69b4c4',
-//                            'name'  => 'show_in_search',
-//                            'type'  => 'radio',
-//                            'label' => __('Show in search view', 'advanced-product'),
-//                            'layout'	=>	'horizontal',
-//                            'choices'	=>	array(
-//                                1	=>	__("Yes", 'advanced-product'),
-//                                0	=>	__("No", 'advanced-product'),
-//                            ),
-//                        ),
-//                    ),
-//                    'location' => array (
-////                        array (
-////                            array (
-////                                'param' => 'post_type',
-////                                'operator' => '==',
-////                                'value' => $this -> get_post_type(),
-////                                'order_no' => 0,
-////                                'group_no' => 0,
-////                            ),
-////                        ),
-//                    ),
-//                    'options' => array (
-//                        'position' => 'side',
-//                        'style' => 'default',
-////                        'layout' => 'no_box',
-////                        'hide_on_screen' => array (
-////                            /*'the_content',*/ 'custom_fields'
-////                        ),
-//                        'hide_on_screen' => array(),
-//                    ),
-//                    'menu_order' => 0,
-//                ));
-//            }
-
-        return array(
+        global $post;
+        $meta_show_in = array(
             array(
                 'key'   => 'field_61a5e4c9c3c36',
                 'name'  => 'show_in_listing',
@@ -109,6 +46,25 @@ class Field_Display extends Meta_box {
                 ),
             ),
         );
+
+        if($post->post_excerpt =='ap_branch' || $post->post_excerpt =='ap_category' ){
+            $meta_show_in_group = array(
+                array(
+                    'key'   => 'field_61a558491594',
+                    'name'  => 'show_in_group',
+                    'type'  => 'taxonomy',
+                    'label' => __('Show in Group', 'advanced-product'),
+                    'taxonomy'        => 'ap_group_field',
+                    'field_type'      => 'select',
+                    'load_save_terms' => 1,
+                    'multiple'			=> 0,
+                    'return_format'		=> 'id'
+                ),
+            );
+            $meta_show_in = array_merge($meta_show_in,$meta_show_in_group);
+        }
+
+        return $meta_show_in;
     }
 
     public function save_meta_box( $post_id, $post )

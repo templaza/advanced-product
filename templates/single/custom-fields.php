@@ -30,14 +30,14 @@ if($fields_wgs = AP_Custom_Field_Helper::get_fields_without_group_field()){
 
     if(!empty($html)){
         ?>
-<div class="widget <?php echo esc_attr($widget_heading_style);?> ap-box ap-group ap-group-empty">
-    <div class="widget-content">
-        <h3 class="widget-title">
-            <span><?php esc_html_e('Custom Fields', 'advanced-product'); ?></span>
-        </h3>
-        <div class="ap-group-content"><?php echo $html; ?></div>
-    </div>
-</div>
+        <div class="widget <?php echo esc_attr($widget_heading_style);?> ap-box ap-group ap-group-empty">
+            <div class="widget-content">
+                <h3 class="widget-title">
+                    <span><?php esc_html_e('Custom Fields', 'advanced-product'); ?></span>
+                </h3>
+                <div class="ap-group-content"><?php echo $html; ?></div>
+            </div>
+        </div>
         <?php
     }
 }
@@ -62,16 +62,16 @@ if($gfields_assigned && count($gfields_assigned)){
             $html = trim($html);
         }
         if(!empty($html)){
-        ?>
-<div class="widget <?php echo esc_attr($widget_heading_style);?> ap-box ap-group ap-group-<?php echo $group -> slug; ?>">
-    <div class="widget-content">
-        <h3 class="widget-title">
-            <span><?php esc_html_e($group -> name, 'advanced-product'); ?></span>
-        </h3>
-        <div class="ap-group-content"><?php echo $html;?></div>
-    </div>
-</div>
-        <?php
+            ?>
+            <div class="widget <?php echo esc_attr($widget_heading_style);?> ap-box ap-group ap-group-<?php echo $group -> slug; ?>">
+                <div class="widget-content">
+                    <h3 class="widget-title">
+                        <span><?php esc_html_e($group -> name, 'advanced-product'); ?></span>
+                    </h3>
+                    <div class="ap-group-content"><?php echo $html;?></div>
+                </div>
+            </div>
+            <?php
         }
     }
 }

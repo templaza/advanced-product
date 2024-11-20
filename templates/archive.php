@@ -8,8 +8,9 @@ use Advanced_Product\Helper\AP_Helper;
 use Advanced_Product\Helper\AP_Custom_Field_Helper;
 
 if(AP_Helper::get_page_id('inventory') != get_the_ID()) {
-    get_header();
+    get_header('advanced-product');
 }
+do_action( 'advanced_product_before_main_content' );
 ?>
 
 <?php if ( have_posts()) { ?>
@@ -29,6 +30,6 @@ if(AP_Helper::get_page_id('inventory') != get_the_ID()) {
 <?php
 }
 if(AP_Helper::get_page_id('inventory') != get_the_ID()) {
-    get_footer();
+    get_footer('advanced-product');
 }
 ?>

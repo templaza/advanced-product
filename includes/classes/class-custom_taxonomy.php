@@ -150,25 +150,27 @@ if(!class_exists('Advanced_Product\Custom_Taxonomy')) {
 //
 //            $associate_to   = get_field('associate_to', $this -> taxonomy -> ID);
             $associate_to   = get_post_meta($this -> taxonomy -> ID, 'associate_to', true);
-
-            $associate_obj  = get_taxonomy( $associate_to);
-            $label  = sprintf(__('Associated %s'), $associate_obj -> label);
-
-            $fields[]   = array(
+            if(isset($associate_to)){
+                $associate_obj  = get_taxonomy( $associate_to);
+                if(isset($associate_obj) && $associate_obj != false){
+                    $label  = sprintf(__('Associated %s'), $associate_obj -> label);
+                    $fields[]   = array(
 //                'key' => 'field_618b3ce12ae08',
-                'key' => 'field_'.md5('taxonomy_'.$this -> taxonomy -> ID),
-                'label' => $label,
-                'name' => $associate_to,
-                'type' => 'taxonomy',
-                'taxonomy' => $associate_to,
-                'field_type' => 'multi_select',
-                'allow_null' => 0,
-                'load_save_terms' => 0,
-                'return_format' => 'array',
-                'multiple' => 1,
+                        'key' => 'field_'.md5('taxonomy_'.$this -> taxonomy -> ID),
+                        'label' => $label,
+                        'name' => $associate_to,
+                        'type' => 'taxonomy',
+                        'taxonomy' => $associate_to,
+                        'field_type' => 'multi_select',
+                        'allow_null' => 0,
+                        'load_save_terms' => 0,
+                        'return_format' => 'array',
+                        'multiple' => 1,
 //                'instructions' => __('Press and hold the CTRL key and click items in the list to select multiple items. ', 'advanced-product'),
-                'default_value' => ''
-            );
+                        'default_value' => ''
+                    );
+                }
+            }
 
             return $fields;
         }
@@ -197,7 +199,6 @@ if(!class_exists('Advanced_Product\Custom_Taxonomy')) {
             $associate_to   = get_post_meta($this -> taxonomy -> ID, 'associate_to', true);
 
             if($column == $associate_to){
-//                $ass_taxs = get_field( $associate_to, $this -> get_taxonomy_name().'_'.$term_id );
                 $ass_taxs = get_field( $associate_to, 'term_'.$term_id );
                 if(!empty($ass_taxs)){
                     foreach($ass_taxs as $i => $tax){

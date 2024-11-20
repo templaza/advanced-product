@@ -35,6 +35,7 @@ if(!class_exists('Advanced_Product\Post_Type\Custom_Field')){
             add_filter('post_row_actions', array($this, 'post_row_actions'), 10, 2);
 
             add_filter('posts_orderby', array($this, 'posts_orderby'), 100, 2);
+            add_filter('acf/update_field/type=checkbox', array($this,'update_product_type_meta'),10,2);
 
             add_filter( 'manage_edit-'.$this -> get_post_type().'_sortable_columns', array($this,'sortable_columns') );
             add_action('parse_query',array($this, 'parse_query'));
@@ -45,39 +46,7 @@ if(!class_exists('Advanced_Product\Post_Type\Custom_Field')){
 
             add_filter( 'acf/load_field_defaults' , array($this, 'load_field_defaults') );
 
-//            add_action('pre_get_posts', function($query){
-//
-//                global $pagenow;
-//                $qv = $query->query_vars;
-//                if ($pagenow=='edit.php' &&
-//                    isset($qv['post_type']) && $qv['post_type']=='ap_custom_field') {
-//
-//                    $filter_group  = isset($_REQUEST['ap_group_field'])?$_REQUEST['ap_group_field']:'';
-//                    if($filter_group && is_numeric($filter_group)) {
-//                        if ($filter_group == -1) {
-//                            $categories = get_terms(array(
-//                                'taxonomy' => 'ap_group_field',
-//                                'orderby' => 'name',
-//                                'fields' => 'ids',
-//                                'hierarchical' => true,
-//                                'depth' => 3,
-//                                'hide_empty' => true, // Don't show businesses w/o listings
-//                            ));
-//                            $tax_query = array(
-//                                'relation'  => 'OR',
-//                                array(
-//                                    'taxonomy' => 'ap_group_field',
-//                                    //                                'field' => 'term_id',
-//                                    'field' => 'id',
-//                                    'terms' => $categories,
-//                                    'operator' => 'NOT IN'
-//                                )
-//                            );
-//                            $query->set('tax_query', $tax_query);
-//                        }
-//                    }
-//                }
-//            });
+            add_action( 'add_meta_boxes', array( $this, 'customfield_remove_taxonomy_metaboxes' ),10,2 );
 
         }
 
@@ -98,6 +67,86 @@ if(!class_exists('Advanced_Product\Post_Type\Custom_Field')){
         public function disable_autosave() {
             wp_deregister_script( 'autosave' );
         }
+        public function update_product_type_meta($post_ID, $post){
+            $acf_fields     = (!empty($_POST) && isset($_POST['fields']))?$_POST['fields']:array();
+            $key            = !empty($acf_fields)?array_key_first($acf_fields):'';
+
+            if($acf_fields[$key]['type']=='checkbox' && $acf_fields[$key]['name']=='ap_product_type'){
+
+                $new_value_choice = array();
+                if($acf_fields[$key]['sale'] !=''){
+                    $new_value_choice['sale'] = $acf_fields[$key]['sale'];
+                }
+                if($acf_fields[$key]['rental'] !=''){
+                    $new_value_choice['rental'] = $acf_fields[$key]['rental'];
+                }
+                if($acf_fields[$key]['contact'] !=''){
+                    $new_value_choice['contact'] = $acf_fields[$key]['contact'];
+                }
+                if($acf_fields[$key]['sold'] !=''){
+                    $new_value_choice['sold'] = $acf_fields[$key]['sold'];
+                }
+                if( is_array($new_value_choice) )
+                {
+                    $acf_fields[$key]['choices'] = $new_value_choice;
+                }
+
+            }
+            $acf_fields[$key]['order_no'] = 0;
+            $acf_fields[$key]['key'] = $key;
+
+            if( is_array( $acf_fields[$key]['choices'] ))
+            {
+                $acf_attribs    = !empty($acf_fields) && $key?$acf_fields[$key]:array();
+
+                return $acf_attribs;
+            }
+
+            // vars
+            $new_choices = array();
+
+
+            // explode choices from each line
+            if( $acf_fields[$key]['choices'] )
+            {
+                // stripslashes ("")
+                $acf_fields[$key]['choices'] = stripslashes_deep($acf_fields[$key]['choices']);
+
+                if(strpos($acf_fields[$key]['choices'], "\n") !== false)
+                {
+                    // found multiple lines, explode it
+                    $acf_fields[$key]['choices'] = explode("\n", $acf_fields[$key]['choices']);
+                }
+                else
+                {
+                    // no multiple lines!
+                    $acf_fields[$key]['choices'] = array($acf_fields[$key]['choices']);
+                }
+
+
+                // key => value
+                foreach($acf_fields[$key]['choices'] as $choice)
+                {
+                    if(strpos($choice, ' : ') !== false)
+                    {
+                        $choice = explode(' : ', $choice);
+                        $new_choices[ trim($choice[0]) ] = trim($choice[1]);
+                    }
+                    else
+                    {
+                        $new_choices[ trim($choice) ] = trim($choice);
+                    }
+                }
+            }
+
+
+            // update choices
+            $acf_fields[$key]['choices'] = $new_choices;
+            $acf_attribs    = !empty($acf_fields) && $key?$acf_fields[$key]:array();
+
+            return $acf_attribs;
+
+        }
 
         public function save_post($post_ID, $post, $update){
             global $wpdb;
@@ -105,9 +154,36 @@ if(!class_exists('Advanced_Product\Post_Type\Custom_Field')){
             // Get acf field attribute
             $acf_fields     = (!empty($_POST) && isset($_POST['fields']))?$_POST['fields']:array();
             $key            = !empty($acf_fields)?array_key_first($acf_fields):'';
+
+
+            if(isset($key) && isset($acf_fields[$key]['type']) && $acf_fields[$key]['type']=='checkbox' && $acf_fields[$key]['name']=='ap_product_type'){
+
+                $new_value_choice = array();
+                if(isset($acf_fields[$key]['sale']) && $acf_fields[$key]['sale'] !=''){
+                    $new_value_choice['sale'] = $acf_fields[$key]['sale'];
+                }
+                if(isset($acf_fields[$key]['rental']) && $acf_fields[$key]['rental'] !=''){
+                    $new_value_choice['rental'] = $acf_fields[$key]['rental'];
+                }
+                if(isset($acf_fields[$key]['contact']) && $acf_fields[$key]['contact'] !=''){
+                    $new_value_choice['contact'] = $acf_fields[$key]['contact'];
+                }
+                if(isset($acf_fields[$key]['sold']) && $acf_fields[$key]['sold'] !=''){
+                    $new_value_choice['sold'] = $acf_fields[$key]['sold'];
+                }
+                if( is_array($new_value_choice) )
+                {
+                    foreach( $new_value_choice as $k => $v )
+                    {
+                        $field['choices'][ $k ] = $k . ' : ' . $v;
+                    }
+                    $acf_fields[$key]['choices'] = implode("\n", $field['choices']);
+                }
+
+            }
             $acf_attribs    = !empty($acf_fields) && $key?$acf_fields[$key]:array();
 
-            if(!empty($acf_attribs)) {
+            if(!empty($acf_attribs) && is_array($acf_attribs)) {
                 // Update some info to custom field post
                 $my_post = array(
                     'post_name'     => $key,
@@ -301,6 +377,12 @@ if(!class_exists('Advanced_Product\Post_Type\Custom_Field')){
                 if($is_protected){
                     $trash  = false;
                 }
+
+                $tax_id = get_post_meta($post -> ID, 'ap_taxonomy_custom_category', true);
+                if($tax_id){
+                    delete_post_meta( $tax_id, 'ap_custom_category_taxonomy', null );
+                }
+
             }
 
             return $trash;
@@ -561,5 +643,12 @@ if(!class_exists('Advanced_Product\Post_Type\Custom_Field')){
             return $query;
         }
 
+        public function customfield_remove_taxonomy_metaboxes($post_ID, $post){
+            /* Remove meta box is tag */
+            if($post->post_excerpt =='ap_branch' || $post->post_excerpt =='ap_category' || $post->post_excerpt =='ap_gallery' || $post->post_excerpt =='ap_video' ){
+                remove_meta_box( 'tagsdiv-ap_group_field', 'ap_custom_field', 'side' );
+                remove_meta_box( 'ap_group_fielddiv', 'ap_custom_field', 'side' );
+            }
+        }
     }
 }
