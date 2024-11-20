@@ -67,15 +67,12 @@ class Field_Type extends Meta_box {
                 $f_types_choices['range_slider'] = __('Range Slider', 'advanced-product');
                 break;
         }
-
         $search_type_val    = isset($field['s_type']) && !empty($field['s_type']) ? $field['s_type'] : $field['type'];
-        ?>
-        <?php
         if(!empty($f_types_choices)) {
             ?>
-            <tr class="field_search_type field_option field_option_<?php echo $field['type']; ?>">
+            <tr class="field_search_type field_option field_option_<?php echo esc_attr($field['type']); ?>">
                 <td class="label">
-                    <label><?php _e("Search Field Type", 'advanced-product'); ?></label>
+                    <label><?php esc_html_e("Search Field Type", 'advanced-product'); ?></label>
                 </td>
                 <td>
 
@@ -159,60 +156,61 @@ class Field_Type extends Meta_box {
             unset( $_POST['fields']['field_clone'] );
 
             $field_data = current($_POST['fields']);
+            if(is_array($field_data)){
+                $fname  = sanitize_text_field($field_data['name']);
 
-            $fname  = sanitize_text_field($field_data['name']);
-
-            // Validate field name
-            $acf_field  = AP_Custom_Field_Helper::get_custom_field($fname, array('exclude_post_id' => $post_id));
-            if(!empty($acf_field)) {
-                $app = Application::get_instance();
-                $app->enqueue_message(sprintf(__('The field name %s is already being used by the %s custom field.',
-                    'advanced-product'), $fname, $acf_field -> post_title), 'error');
-                return false;
-            }
-
-
-            // loop through and save fields
-            foreach( $_POST['fields'] as $key => $field )
-            {
-                $i++;
-
-                $field['name']  = sanitize_text_field($field['name']);
-
-                // order + key
-                $field['order_no'] = $i;
-                $field['key'] = $key;
-
-                // Set protected field
-                $protected_fields   = AP_Custom_Field_Helper::get_protected_fields_registered();
-                $protected          = AP_Custom_Field_Helper::is_protected_field($post_id);
-
-                if(empty($protected) && $protected_fields && in_array($field['name'], $protected_fields)){
-                    update_post_meta($post_id, '__protected', 1);
+                // Validate field name
+                $acf_field  = AP_Custom_Field_Helper::get_custom_field($fname, array('exclude_post_id' => $post_id));
+                if(!empty($acf_field)) {
+                    /* translators: name, title. */
+                    $mesage_err = printf(esc_html__('The field name %1$s is already being used by the %2$s custom field.',
+                        'advanced-product'), esc_html($fname), esc_html($acf_field -> post_title));
+                    set_transient('advanced_product_error_notice', ''.$mesage_err.'');
+                    return false;
                 }
 
-                // save
-                do_action('acf/update_field', $field, $post_id );
+                // loop through and save fields
+                foreach( $_POST['fields'] as $key => $field )
+                {
+                    $i++;
+
+                    $field['name']  = sanitize_text_field($field['name']);
+
+                    // order + key
+                    $field['order_no'] = $i;
+                    $field['key'] = $key;
+
+                    // Set protected field
+                    $protected_fields   = AP_Custom_Field_Helper::get_protected_fields_registered();
+                    $protected          = AP_Custom_Field_Helper::is_protected_field($post_id);
+
+                    if(empty($protected) && $protected_fields && in_array($field['name'], $protected_fields)){
+                        update_post_meta($post_id, '__protected', 1);
+                    }
+
+                    // save
+                    do_action('acf/update_field', $field, $post_id );
 
 
-                // add to dont delete array
-                $dont_delete[] = $field['key'];
+                    // add to dont delete array
+                    $dont_delete[] = $field['key'];
+                }
             }
         }
         unset( $_POST['fields'] );
 
         // delete all other field
-        $keys = get_post_custom_keys($post_id);
-        if(!empty($keys) && count($keys)){
-            foreach( $keys as $key )
-            {
-                if( strpos($key, 'field_') !== false && !in_array($key, $dont_delete) )
-                {
-                    // this is a field, and it wasn't found in the dont_delete array
-                    do_action('acf/delete_field', $post_id, $key);
-                }
-            }
-        }
+//        $keys = get_post_custom_keys($post_id);
+//        if(!empty($keys) && count($keys)){
+//            foreach( $keys as $key )
+//            {
+//                if( strpos($key, 'field_') !== false && !in_array($key, $dont_delete) )
+//                {
+//                    // this is a field, and it wasn't found in the dont_delete array
+//                    do_action('acf/delete_field', $post_id, $key);
+//                }
+//            }
+//        }
     }
 
     public function admin_enqueue_scripts(){

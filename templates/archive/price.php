@@ -25,19 +25,19 @@ if ((!empty($price) && $show_price) || (!empty($rental) && $show_price_rental)
     || (!empty($price_contact) && $show_price_contact)
     || (!empty($price_sold) && $show_price_sold)) {
     ?>
-    <div class="uk-card-footer uk-background-primary uk-light">
+    <div class="uk-card-footer uk-background-primary uk-light ap-item-footer">
         <?php
         $html   = '';
         if((!$product_type || in_array('sale', $product_type)) && !empty($price) && $show_price){
-            $html = sprintf('<span class="ap-price"><b> %s</b> %s </span>',
-                esc_html__(' ', 'advanced-product'), AP_Helper::format_price($price));
+            $html = sprintf('<span class="ap-price"><span> %s</span> %s </span>',
+                esc_html__('Price:', 'advanced-product'), AP_Helper::format_price($price));
             if (!empty($msrp) && $show_price_msrp) {
                 $html .= sprintf('<span class="ap-price-msrp"> %s  %s </span>',
                     esc_html__('MSRP:', 'advanced-product'), AP_Helper::format_price($msrp));
             }
         }
         if (!empty($product_type) && in_array('rental', $product_type) && !empty($rental) && $show_price_rental) {
-            $html .= sprintf('<span class="ap-price ap-price-rental"> %s %s %s </span>',
+            $html .= sprintf('<span class="ap-price ap-price-rental"> %s <span>%s </span>%s </span>',
                 (!empty($html)?'-':''),esc_html__('Rental:', 'advanced-product'),
                 AP_Helper::format_price($rental));
             if(!empty($rental_unit)){
@@ -57,7 +57,7 @@ if ((!empty($price) && $show_price) || (!empty($rental) && $show_price_rental)
 
         if (!empty($product_type) && in_array('sold', $product_type) && !empty($price_sold) && $show_price_sold) {
             ?>
-                <span class="ap-field-label"><?php esc_html_e('Price:','advanced-product'); ?></span>
+                <span class="ap-field-label"><?php esc_html_e('Status:','advanced-product'); ?></span>
                 <span class="ap-price"><?php echo esc_html($price_sold);?></span>
         <?php } ?>
     </div>

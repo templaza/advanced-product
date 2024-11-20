@@ -12,14 +12,14 @@ $pid            = isset($atts['id'])?$atts['id']:0;
 $has_compare    = (!empty($compare_list) && in_array($pid, $compare_list))?true:false;
 
 ?>
-<a href="javascript:" class="uk-button uk-button-default uk-width-1-1<?php echo $has_compare?' ap-in-compare-list':'';
+<a href="javascript:" class=" uk-margin-small-top uk-display-block uk-width-1-1<?php echo $has_compare?' ap-in-compare-list':'';
 ?>" data-ap-compare-button="id: <?php echo $pid?$pid:'';?>; active_icon: fas fa-clipboard-list">
     <?php if($has_compare){?>
     <i class="fas fa-clipboard-list js-ap-icon"></i>
     <span class=" js-ap-text"><?php
         _e('In compare list', 'advanced-product'); ?></span>
     <?php }else{?>
-    <i class="fas fa-balance-scale js-ap-icon"></i>
+        <i class="fas fa-not-equal"></i>
     <span class=" js-ap-text"><?php
         _e('Add To Compare', 'advanced-product'); ?></span>
     <?php }?>
