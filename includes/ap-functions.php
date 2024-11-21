@@ -177,6 +177,17 @@ if(!class_exists('Advanced_Product\AP_Functions')){
             }
             return (is_string($ext_check) && $file_type['ext'] == $ext_check);
         }
+        /**
+         * Translate group field option
+         * */
+        public static function get_translated_term($term_id, $taxonomy, $language) {
+
+            $translated_term_id = icl_object_id($term_id, $taxonomy, true, $language);
+
+            $translated_term_object = get_term_by('id', $translated_term_id, $taxonomy);
+
+            return $translated_term_object->name;
+        }
 
     }
 }
