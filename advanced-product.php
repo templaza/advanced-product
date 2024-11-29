@@ -31,15 +31,12 @@ class   Advanced_Product{
     protected $post_types;
     protected $meta_boxes;
     protected $shortcodes;
-    protected $text_domain;
     protected $field_layouts;
     protected static $instance;
 
     public function __construct()
     {
         require_once dirname(__FILE__).'/includes/autoloader.php';
-
-        $this -> text_domain    = AP_Functions::get_my_text_domain();
 
         register_activation_hook(ADVANCED_PRODUCT . '/' . ADVANCED_PRODUCT, 'FieldHelper::add_term_order_field');
         register_activation_hook(  ADVANCED_PRODUCT . '/' . ADVANCED_PRODUCT, 'flush_rewrite_rules', 15 );
@@ -107,16 +104,17 @@ class   Advanced_Product{
         add_filter( 'wp_nav_menu_objects', array($this, 'nav_menu_item_classes'), 2 );
 
         add_action( 'switch_theme', 'flush_rewrite_rules', 15 );
-        add_action( 'init', array( $this, 'ap_load_plugin_textdomain' ) );
+
 
         add_action('init', array($this, 'register_scripts'));
         add_action('admin_enqueue_scripts', array($this, 'admin_enqueue_scripts'));
 
         add_action('admin_init', array($this, 'update_custom_fields'));
 
-        // Use a custom walker for the ACF dropdowns
         // Change taxonomy id to slug
         add_filter('acf/fields/taxonomy/wp_list_categories', array($this, 'acf_wp_list_categories'), 10, 2);
+
+        add_action( 'init', array( $this, 'ap_load_plugin_textdomain' ) );
 
         if(is_admin()){
             // Import my info when import data from templaza framework

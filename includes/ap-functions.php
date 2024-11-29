@@ -58,13 +58,6 @@ if(!class_exists('Advanced_Product\AP_Functions')){
             return $plugin['Version'];
         }
 
-        public static function get_my_text_domain(){
-            $plugin = self::get_my_data();
-
-            $text_domain    = ($plugin && isset($plugin['TextDomain']))?$plugin['TextDomain']:'advanced-product';
-            return $text_domain;
-        }
-
         public static function get_my_theme_css_uri(){
             return get_template_directory_uri().'/'.ADVANCED_PRODUCT.'/css';
         }
