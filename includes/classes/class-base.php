@@ -7,9 +7,7 @@ defined('ADVANCED_PRODUCT') or exit();
 abstract class Base{
     protected $core;
     protected $theme;
-//    protected $prefix   = 'ap_';
     protected $post_type;
-    protected $text_domain;
 
     protected $cache    = array();
 
@@ -18,7 +16,6 @@ abstract class Base{
         $this -> core           = $core;
         $this -> theme          = \wp_get_theme();
         $this -> post_type      = $post_type;
-        $this -> text_domain    = AP_Functions::get_my_text_domain();
 
         $this -> hooks();
     }

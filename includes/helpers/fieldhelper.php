@@ -101,7 +101,6 @@ class FieldHelper extends BaseHelper {
             return static::$cache[$store_id];
         }
 
-        $text_domain    = AP_Functions::get_my_text_domain();
         $color_choices = array_unique( array_merge( array (
             __( 'Silver', 'advanced-product' ),
             __( 'Black', 'advanced-product' ),
