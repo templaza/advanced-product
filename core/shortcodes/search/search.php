@@ -53,7 +53,6 @@ class Search extends Base {
             if(empty($query_var)){
                 return $query;
             }
-
             $meta_query = $query->get('meta_query');
             $meta_query = !empty($meta_query)?$meta_query:array();
 
@@ -75,31 +74,15 @@ class Search extends Base {
                     if(is_array($query_value)){
                         $submeta_query = array();
                         $submeta_query['relation'] = 'OR';
-                        if($type == 'number') {
-
-                            $query_filter    = array_filter($query_value);
-                        }
 
                         foreach ($query_value as $i => $qval) {
                             if($type == 'number') {
-                                if($qval !== ''){
-                                    if(isset($query_filter) && is_array($query_filter)
-                                        && count($query_filter) == 1 && $i % 2 == 0){
-                                        $submeta_query[] = array(
-                                            'key' => $acf_attr['name'],
-                                            'value' => $qval,
-                                            'compare' => '>=',
-                                            'type' => 'DECIMAL(10,3)'
-                                        );
-                                    }else {
-                                        $submeta_query[] = array(
-                                            'key' => $acf_attr['name'],
-                                            'value' => $query_value,
-                                            'compare' => 'BETWEEN',
-                                            'type' => 'DECIMAL(10,3)'
-                                        );
-                                    }
-                                }
+                                $submeta_query[] = array(
+                                    'key' => $acf_attr['name'],
+                                    'value' => $query_value,
+                                    'compare' => 'BETWEEN',
+                                    'type' => 'DECIMAL(10,3)'
+                                );
                             }else {
                                 $orgval = $qval;
 
@@ -120,7 +103,6 @@ class Search extends Base {
                                 );
                             }
                         }
-
                         $meta_main[] = $submeta_query;
                     }else{
                         switch($type){
@@ -192,6 +174,7 @@ class Search extends Base {
                                 break;
                         }
                     }
+
 
                     // Hook to prepare our meta query
                     $meta_main  = apply_filters('advanced-product/search-form/meta_query', $meta_main, $acf_attr, $field);

@@ -20,7 +20,6 @@ $autoshowroom_detail_model = isset($options['autoshowroom_Detail_show_model'])?(
         </h3>
         <div class="ap-specs">
         <?php if ($autoshowroom_detail_model || $autoshowroom_detail_make == 'yes') : ?>
-<!--            <div class="ap-specs">-->
                 <?php if ($autoshowroom_detail_make == 'yes') { ?>
                     <div class="uk-grid-small" data-uk-grid>
                         <label class="uk-width-2-5"><?php esc_html_e('Branch', 'advanced-product'); ?></label>
@@ -54,16 +53,12 @@ $autoshowroom_detail_model = isset($options['autoshowroom_Detail_show_model'])?(
                         $slug   = get_field('slug', $custom_category -> ID);
 
                         $term   = get_term(get_field($slug, get_the_ID()), $slug);
-//                        $categories = wp_get_post_terms(get_the_ID(), $slug);
                         if($term && isset($term -> name)) {
                             ?>
                             <div class="uk-grid-small" data-uk-grid>
                                 <label class="uk-width-2-5"><?php echo $custom_category->post_title; ?></label>
                                 <span class="uk-width-expand">
                                 <?php
-                                //                                foreach ($categories as $category) {
-                                //                                    echo esc_attr($category->name);
-                                //                                }
                                 echo $term->name;
                                 ?>
                             </span>
@@ -73,43 +68,28 @@ $autoshowroom_detail_model = isset($options['autoshowroom_Detail_show_model'])?(
                     }
                 }
                 ?>
-<!--            </div>-->
         <?php endif; ?>
         <?php
         // Display custom field in specifications
 
-//        var_dump(get_fields(get_the_ID()));
-
-//        $fields = FieldHelper::get_fields_by_group('specs', array('post_type' => get_post_type()));
         $fields = AP_Custom_Field_Helper::get_custom_fields_without_protected_field();
         if($fields && count($fields)){
         ?>
-<!--        <div class="ap-specs ap-item-des">-->
         <?php
             foreach($fields as $field){
 
                 // get field
 
                 if($acf_f = AP_Custom_Field_Helper::get_custom_field_option_by_id($field -> ID)) {
-////                $f = apply_filters('acf/load_field_defaults', $field);
-//                var_dump(get_field($acf_f['name']));
-//                var_dump($acf_f);
-////                var_dump(get_field_objects($field -> ID));
-//                die(__FILE__);
-////                $value = get_field($field['name'], get_the_ID());
-////                if (!$value) {
-////                    continue;
-////                }
+
                 ?>
                 <div class="uk-grid-small" data-uk-grid>
                     <label class="uk-width-2-5"><?php echo $acf_f['label']; ?></label>
                     <span class="<?php echo $acf_f['name'];?> uk-width-expand"><?php echo the_field($acf_f['name'], get_the_ID()); ?></span>
                 </div>
         <?php } } ?>
-<!--        </div>-->
         <?php
         }
-//        echo balanceTags(tz_autoshowroom_get_vehicle_specs(get_the_ID(), 'all'));
         ?>
         </div>
         <?php

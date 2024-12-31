@@ -49,6 +49,18 @@ if(!class_exists('Advanced_Product\Post_Type\Product')){
                         if(in_array('contact',$product_type) || in_array('rental',$product_type)|| in_array('sold',$product_type) ){
                             if ( ! add_post_meta( $post_id, 'ap_price', '' ) ) {
                                 update_post_meta ( $post_id, 'ap_price', 0 );
+                            }elseif(get_field('ap_price')==''){
+	                            update_post_meta ( $post_id, 'ap_price', 0 );
+                            }
+                        }
+                    }
+                    if( !in_array('rental',$product_type)){
+
+                        if(in_array('contact',$product_type) || in_array('sale',$product_type)|| in_array('sold',$product_type) ){
+                            if ( ! add_post_meta( $post_id, 'ap_rental_price', '' ) ) {
+                                update_post_meta ( $post_id, 'ap_rental_price', 0 );
+                            }elseif(get_field('ap_rental_price')==''){
+	                            update_post_meta ( $post_id, 'ap_rental_price', 0 );
                             }
                         }
                     }
