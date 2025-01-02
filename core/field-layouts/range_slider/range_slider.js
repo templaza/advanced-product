@@ -56,6 +56,8 @@ jQuery( function($) {
                     }
                 },
                 stop: function( event, ui ) {
+                    var el_name = $(this).parents('.ap-search-item-ranger').attr('data-field_name');
+                    $(this).closest("form").attr('data-filter',el_name);
                     var __form = $(this).closest("form");
                     __form.trigger("change");
                 }
