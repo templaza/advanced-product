@@ -7,6 +7,7 @@ use Advanced_Product\Helper\AP_Product_Helper;
 use Advanced_Product\ShortCodeAP;
 use Advanced_Product\AP_Templates;
 
+
 defined('ADVANCED_PRODUCT') or exit();
 
 class Advanced_ProductSCAP extends ShortCodeAP {
@@ -25,6 +26,9 @@ class Advanced_ProductSCAP extends ShortCodeAP {
 
         add_action('wp_ajax_advanced-product/shortcode/advanced-product/quick-view', array($this, 'render_quickview'));
         add_action('wp_ajax_nopriv_advanced-product/shortcode/advanced-product/quick-view', array($this, 'render_quickview'));
+
+	    add_action('wp_ajax_advanced_autocomplete_search', array($this, 'advanced_autocomplete_search'));
+	    add_action('wp_ajax_nopriv_advanced_autocomplete_search', array($this, 'advanced_autocomplete_search'));
     }
 
     public function before_content(){
@@ -110,6 +114,52 @@ class Advanced_ProductSCAP extends ShortCodeAP {
         wp_die();
     }
 
+	public function advanced_autocomplete_search(){
+
+		if ( empty( $_REQUEST['title'] ) ) {
+			wp_die();
+		}
+
+		// WP Query arguments
+
+		// we get the 'term' from the ajax call, clean it and make a search
+		$args = array(
+			's'         => trim( esc_attr( strip_tags( $_REQUEST['title'] ) ) ),
+			'post_type' => 'ap_product',
+			'posts_per_page' => 10
+		);
+
+		// array to keep results
+		$results = array();
+
+		// make a query
+		$query = new \WP_Query( $args );
+
+		// save results
+		// formatted with the title as 'label' for the autocomplete script
+		if ( $query->have_posts() ) {
+			while ( $query->have_posts() ) {
+				$query->the_post();
+
+				$results[] = array(
+					'label'     => esc_html( get_the_title() ),    // title
+					'link'      => get_permalink(),                // link
+					'id'        => get_the_ID(),                   // id
+					// and whatever eles you want to send to the front end
+				);
+
+			}
+		}
+		wp_reset_postdata();
+
+		// echo results
+		echo json_encode($results);
+
+		// kill process
+		// all ajax actions in WP need to die when they are done!
+		wp_die();
+	}
+
     public function get_shortcode_name()
     {
         $name   = parent::get_shortcode_name();
@@ -135,6 +185,7 @@ class Advanced_ProductSCAP extends ShortCodeAP {
     }
 
     public function wp_enqueue_scripts(){
+        wp_enqueue_style('jquery-ui-autocomplete');
         wp_enqueue_script('advanced-product');
         wp_enqueue_script('advanced-product-serialize-object');
         wp_localize_script('advanced-product', 'advanced_product', array(

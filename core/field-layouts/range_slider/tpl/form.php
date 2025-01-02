@@ -27,13 +27,13 @@ if($field) {
         $s_range_from   = isset($f_value[0])?$f_value[0]:$s_range_from;
     }
     ?>
-    <div class="uk-margin ap-search-item">
+    <div class="uk-margin ap-search-item ap-search-item-ranger" data-field_name="<?php echo $field['name'];?>[]">
         <?php if(!isset($field['s_show_label']) || (isset($field['s_show_label']) && $field['s_show_label'])){?>
             <label class="search-label"><?php echo __($field['label'],'advanced-product'); ?></label>
         <?php } ?>
         <div class="uk-form-controls">
             <div class="ap-slider-amount" data-ap-range-slider="<?php echo esc_attr(json_encode($range_options)); ?>">
-                <input type="hidden" name="<?php echo $field['name'];?>[]" data-ap-range-min value="<?php
+                <input type="hidden"  name="<?php echo $field['name'];?>[]" data-ap-range-min value="<?php
                 echo $s_range_from; ?>"/>
                 <input type="hidden" name="<?php echo $field['name'];?>[]" data-ap-range-max value="<?php
                 echo $s_range_to; ?>"/>

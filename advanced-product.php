@@ -730,7 +730,7 @@ class   Advanced_Product{
 
         }else{
             wp_register_script('advanced-product', AP_Functions::get_my_url().'/assets/js/advanced-product.js',
-                array('jquery', 'wp-util'), AP_Functions::get_my_version(), true);
+                array('jquery', 'wp-util','jquery-ui-autocomplete'), AP_Functions::get_my_version(), true);
             wp_register_script('advanced-product-serialize-object', AP_Functions::get_my_url().'/assets/js/jquery.serialize-object.min.js',
                 array('advanced-product'), AP_Functions::get_my_version(), true);
 

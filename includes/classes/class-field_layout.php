@@ -90,7 +90,7 @@ if(!class_exists('Advanced_Product\Field_Layout')) {
         public function prepare_field($field){
 
             $query_var  = \get_query_var('field');
-            $field['default_value']  = isset($field['s_default_value'])?$field['s_default_value']:$field['default_value'];
+            $field['default_value']  = isset($field['s_default_value'])?$field['s_default_value']:'';
             $field['value']  = isset($field['s_default_value'])?$field['s_default_value']:$field['default_value'];
             $field['value']  = apply_filters('acf/load_value/type='.$field['type'] ,
                 ((isset($field['value']))?$field['value']:$field['default_value']),

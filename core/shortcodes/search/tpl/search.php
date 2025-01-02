@@ -70,21 +70,25 @@ if(isset($taxonomy_display)){
 <?php if(!empty($max_height)){ ?>
 <div class="ap-search-max-height" style="height:<?php echo $max_height; ?>;">
 <?php }?>
+
     <div class="uk-position-top-right templaza-filter-closed uk-padding-small uk-hidden@m"><i class="fas fa-times"></i> </div>
     <form role="search" method="get" action="<?php echo esc_url($action);
     ?>" class="uk-form-stacked advanced-product-search-form<?php echo $enable_ajax?' ap-ajax-filter':'';
     echo $__class;
     ?>" data-ap-settings="<?php echo htmlspecialchars(json_encode($__ap_settings));?>"<?php
     echo isset($column)?' data-uk-grid':''; ?>>
-        <?php if(!isset($enable_keyword) || (isset($enable_keyword) && $enable_keyword)){?>
-        <div class="field ap-search-item field-keyword">
-            <?php if($show_label){?>
-            <label class="search-label"><?php _e( 'Keyword:', 'advanced-product' ) ?></label>
-            <?php } ?>
-            <input type="search" class="search-field" placeholder="<?php
-            _e( 'Search ...', 'advanced-product' ) ?>" value="<?php echo get_query_var('s') ?>" name="s" />
-        </div>
-        <?php } ?>
+
+	    <?php if(!isset($enable_keyword) || (isset($enable_keyword) && $enable_keyword)){?>
+            <div class="field ap-search-item field-keyword ui-widget">
+                <?php if($show_label){?>
+                    <label class="search-label"><?php _e( 'Keyword:', 'advanced-product' ) ?></label>
+                <?php } ?>
+                <input id="search-keyword" type="search" class="search-field" placeholder="<?php
+                _e( 'Search ...', 'advanced-product' ) ?>" value="<?php echo get_query_var('s') ?>" name="s" />
+                <div id="advanced-search-results"></div>
+            </div>
+	    <?php } ?>
+
         <?php if(!empty($fields)){
             foreach ($fields as $field){
 
