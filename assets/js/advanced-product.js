@@ -643,30 +643,31 @@
             }
         }
     });
-
-    $( "#search-keyword" ).autocomplete({
-        minLength: 1,
-        source: function(request, response){
-            // well use opts.ajax_url which we enqueued with WP
-            $.get( advanced_product.ajaxurl, {
-                    action: 'advanced_autocomplete_search',  // our action is called search
-                    title: request.term
-                }, function(data) {
-                    // when we get data from ajax, we pass it onto jq-ui autocomplete
-                    response(data);
-                }, 'json'
-            );
-        },
-        appendTo: "#advanced-search-results",
-        focus: function( event, ui ) {
-            $( "#search-keyword" ).val( ui.item.label );
-            return false;
-        }
-    }).autocomplete( "instance" )._renderItem = function( ul, item ) {
-        return $( "<li>" )
-            .append( "<a href="+ item.link +">" + item.label + "<span>" + item.id + "</span></a>" )
-            .appendTo( ul );
-    };
+    if($("form.advanced-product-search-form").length) {
+        $("#search-keyword").autocomplete({
+            minLength: 1,
+            source: function (request, response) {
+                // well use opts.ajax_url which we enqueued with WP
+                $.get(advanced_product.ajaxurl, {
+                        action: 'advanced_autocomplete_search',  // our action is called search
+                        title: request.term
+                    }, function (data) {
+                        // when we get data from ajax, we pass it onto jq-ui autocomplete
+                        response(data);
+                    }, 'json'
+                );
+            },
+            appendTo: "#advanced-search-results",
+            focus: function (event, ui) {
+                $("#search-keyword").val(ui.item.label);
+                return false;
+            }
+        }).autocomplete("instance")._renderItem = function (ul, item) {
+            return $("<li>")
+                .append("<a href=" + item.link + ">" + item.label + "<span>" + item.id + "</span></a>")
+                .appendTo(ul);
+        };
+    }
 
     // Sort order
     $(document).on("change",".templaza-ap-archive-sort select", function(event){
