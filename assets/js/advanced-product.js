@@ -643,7 +643,7 @@
             }
         }
     });
-    if($("form.advanced-product-search-form").length) {
+    if($("form.advanced-product-search-form .field-keyword").length) {
         $("#search-keyword").autocomplete({
             minLength: 1,
             source: function (request, response) {
