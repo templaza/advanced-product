@@ -4,8 +4,9 @@ Advanced Product - Wordpress Plugin
 We’re so pleased to introduce Advanced Products WordPress plugin which plays an important role in creating a fully-fledged content management system. You can use Advanced products plugin to take full control of your products, and showcase your product collection in a modern and elegant manner. 
 
 
+_Demo: https://advanced-product.templaza.net/inventory_
 
-_Documentation: https://docs.templaza.com_
+_Documentation: [Document](https://docs.templaza.com/advanced-products-plugin/general-settings)_
 
 _Forum: https://www.templaza.com/forums.html_
 
