@@ -218,7 +218,7 @@ class acf_field_taxonomy extends acf_field
 	<?php if( $field['field_type'] == 'select' ): ?>
 		
 		<select id="<?php echo $field['id']; ?>" name="<?php echo $field['name']; ?>" <?php if( $field['multiple'] ): ?>multiple="multiple" size="5"<?php endif; ?>>
-			<?php if( $field['allow_null'] ): ?>
+			<?php if( $field['allow_null'] && is_admin()): ?>
 				<option value=""><?php _e("None", 'acf'); ?></option>
 			<?php endif; ?>
 	
