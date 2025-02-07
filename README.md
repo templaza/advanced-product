@@ -6,17 +6,13 @@ We’re so pleased to introduce Advanced Products WordPress plugin which plays a
 
 _Demo: https://advanced-product.templaza.net/inventory_
 
-_Documentation: [Document](https://docs.templaza.com/advanced-products-plugin/general-settings)_
+_Documentation: [Documentation](https://docs.templaza.com/advanced-products-plugin)_
 
 _Forum: https://www.templaza.com/forums.html_
 
 _Ticket: https://www.templaza.com/tz_membership/addticket.html_
 
-_FanPage: https://www.facebook.com/templaza_
 
-_Twitter: https://twitter.com/templazavn_
-
-_Google+: https://plus.google.com/+Templaza_
 
 ## Getting Started
  
