@@ -31,7 +31,8 @@ if(!class_exists('Advanced_Product\Post_Type\Product')){
 //            add_action( 'advanced-product/after_init', array( $this, 'register_fields' ) );
 //            add_action( 'init', array( $this, 'register_fields' ) );
             add_action( 'admin_init', array( $this, 'register_fields' ) );
-            add_action( 'save_post', array( $this, 'save_post' ) );
+            add_action( 'wp_after_insert_post', array( $this, 'save_post' ) );
+//            add_action( 'wp_after_insert_post', array( $this, 'create_taxonomy' ), 10, 2 );
 
             add_action( 'wp_ajax_load_custom_fields', array( $this, 'load_custom_fields' ) );
             add_action( 'wp_ajax_nopriv_load_custom_fields', array( $this, 'load_custom_fields' ) );
@@ -42,8 +43,29 @@ if(!class_exists('Advanced_Product\Post_Type\Product')){
 
         public function save_post($post_id){
             global $post;
+            $args = array(
+                'order'       => 'ASC',
+                'orderby'     => 'ID',
+                'post_status' => 'publish',
+                'post_type'   => 'ap_custom_category'
+            );
+
+            $categories = get_posts( $args );
+
+            if(!empty($categories) && count($categories)){
+                foreach ($categories as $cat){
+                    $cat_slug = get_post_meta($cat -> ID, 'slug', true);
+                    $product_meta_cat = get_post_meta($post_id,$cat_slug,true);
+                    if(is_numeric($product_meta_cat)){
+                        $term = get_term_by('slug', $product_meta_cat, $cat_slug);
+                        $term_id = $term->term_id;
+                        wp_set_post_terms( $post_id, $term_id, $cat_slug );
+                    }
+                }
+            }
             if (isset($post->post_type) && $post->post_type == 'ap_product'){
                 $product_type = get_field('ap_product_type');
+
                 if(is_array($product_type)){
                     if( !in_array('sale',$product_type)){
                         if(in_array('contact',$product_type) || in_array('rental',$product_type)|| in_array('sold',$product_type) ){
@@ -65,6 +87,7 @@ if(!class_exists('Advanced_Product\Post_Type\Product')){
                         }
                     }
                 }
+
             }
         }
         public function register(){
