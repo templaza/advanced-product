@@ -299,6 +299,13 @@
                 $("[data-ap-compare-count]").text(pids.length);
                 $("[data-ap-compare-list-button]").removeClass("ap-compare-has-product").addClass("uk-hidden");
             }
+
+            var _pids   = advanced_product.__getCookie("advanced-product__compare-list");
+            var pids    = _pids.length?_pids.split("|"):[];
+
+            if(pids.length === 0) {
+                UIkit.modal("#ap-product-modal").hide();
+            }
         },function(){});
 
     });
