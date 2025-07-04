@@ -114,7 +114,7 @@ class   Advanced_Product{
         // Change taxonomy id to slug
         add_filter('acf/fields/taxonomy/wp_list_categories', array($this, 'acf_wp_list_categories'), 10, 2);
 
-        add_action( 'init', array( $this, 'ap_load_plugin_textdomain' ) );
+        add_action( 'plugins_loaded', array( $this, 'ap_load_plugin_textdomain' ) );
 
         if(is_admin()){
             // Import my info when import data from templaza framework
@@ -373,8 +373,8 @@ class   Advanced_Product{
      * @return void
      */
     public function ap_load_plugin_textdomain() {
-        load_plugin_textdomain( 'advanced-product', false, ADVANCED_PRODUCT_PATH . '/languages' );
-        load_plugin_textdomain( 'acf', false, ADVANCED_PRODUCT_PATH . '/languages/acf/' );
+        load_plugin_textdomain( 'advanced-product', false, dirname( plugin_basename( __FILE__ ) ) . '/languages');
+//        load_plugin_textdomain( 'acf', false, ADVANCED_PRODUCT_PATH . '/languages/acf/' );
     }
 
     public function register_pages(){

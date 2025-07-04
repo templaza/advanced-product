@@ -48,8 +48,6 @@ require_once dirname( __FILE__ ) . '/parsers/class-wxr-parser-regex.php';
 require_once dirname( __FILE__ ) . '/class-wp-import.php';
 
 function wordpress_importer_init() {
-	load_plugin_textdomain( 'wordpress-importer' );
-
 	/**
 	 * WordPress Importer object for registering the import callback
 	 * @global WP_Import $wp_import
