@@ -181,7 +181,6 @@ class acf_field_taxonomy extends acf_field
 		// vars
 		$single_name = $field['name'];
 			
-			
 		// multi select?
 		if( $field['field_type'] == 'multi_select' )
 		{
@@ -210,7 +209,6 @@ class acf_field_taxonomy extends acf_field
 		);
 		
 		$args = apply_filters('acf/fields/taxonomy/wp_list_categories', $args, $field );
-		
 		?>
 <div class="acf-taxonomy-field" data-load_save="<?php echo $field['load_save_terms']; ?>">
 	<input type="hidden" name="<?php echo $single_name; ?>" value="" />
@@ -218,14 +216,14 @@ class acf_field_taxonomy extends acf_field
 	<?php if( $field['field_type'] == 'select' ): ?>
 		
 		<select id="<?php echo $field['id']; ?>" name="<?php echo $field['name']; ?>" <?php if( $field['multiple'] ): ?>multiple="multiple" size="5"<?php endif; ?>>
-			<?php if( $field['allow_null'] && is_admin()): ?>
+			<?php if( $field['allow_null'] && is_admin()):?>
 				<option value=""><?php _e("None", 'acf'); ?></option>
 			<?php endif; ?>
 	
 	<?php else: ?>
 		<div class="categorychecklist-holder">
 		<ul class="acf-checkbox-list">
-			<?php if( $field['allow_null'] ): ?>
+			<?php if( $field['allow_null'] && is_admin()): ?>
 				<li>
 					<label class="selectit">
 						<input type="<?php echo $field['field_type']; ?>" name="<?php echo $field['name']; ?>" value="" /> <?php _e("None", 'acf'); ?>

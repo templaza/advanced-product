@@ -141,12 +141,23 @@ class Advanced_ProductSCAP extends ShortCodeAP {
 			while ( $query->have_posts() ) {
 				$query->the_post();
 
-				$results[] = array(
-					'label'     => esc_html( get_the_title() ),    // title
-					'link'      => get_permalink(),                // link
-					'id'        => get_the_ID(),                   // id
-					// and whatever eles you want to send to the front end
-				);
+                $terms = get_the_terms( get_the_ID(), 'ap_category' );
+                $category_names = [];
+
+                if ( ! is_wp_error( $terms ) && ! empty( $terms ) ) {
+                    foreach ( $terms as $term ) {
+                        $category_names[] = $term->name;
+                    }
+                }
+
+                $results[] = array(
+                    'label'     => esc_html( get_the_title() ),                      // title
+                    'link'      => get_permalink(),                                  // link
+                    'id'        => get_the_ID(),                                     // id
+                    'image'     => get_the_post_thumbnail_url( get_the_ID(), 'thumbnail' ), // image
+                    'category'  => $category_names                                   // categories
+                );
+
 
 			}
 		}
