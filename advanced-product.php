@@ -4,7 +4,7 @@ Plugin Name: Advanced Product
 Plugin URI: https://github.com/templaza/advanced-product
 Description: This plugin help you manage advanced products.
 Author: Templaza
-Version: 1.1.7
+Version: 1.1.8
 Text Domain: advanced-product
 Domain Path:  /languages/
 Author URI: http://templaza.com
@@ -828,7 +828,7 @@ class   Advanced_Product{
         if ( is_admin() || ! $query->is_main_query() )
             return;
 
-        if (is_archive('ap_product')) {
+        if (is_post_type_archive('ap_product')) {
             $order_opt  = get_field('ap_archive_product_order_by', 'option');
             $order_opt  = $order_opt?$order_opt:'rdate';
             $order_opt  = isset($_GET['sort_order']) && !empty($_GET['sort_order'])?$_GET['sort_order']:$order_opt;

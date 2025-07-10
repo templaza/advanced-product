@@ -652,17 +652,19 @@
     });
     if($("form.advanced-product-search-form .field-keyword").length) {
         $("#search-keyword").autocomplete({
-            minLength: 1,
+            minLength: 2,
             source: function (request, response) {
-                // well use opts.ajax_url which we enqueued with WP
+                // Show loading indicator
+                $("#search-loading").show();
+
                 $.get(advanced_product.ajaxurl, {
-                        action: 'advanced_autocomplete_search',  // our action is called search
-                        title: request.term
-                    }, function (data) {
-                        // when we get data from ajax, we pass it onto jq-ui autocomplete
-                        response(data);
-                    }, 'json'
-                );
+                    action: 'advanced_autocomplete_search',
+                    title: request.term
+                }, function (data) {
+                    // Hide loading indicator after receiving response
+                    $("#search-loading").hide();
+                    response(data);
+                }, 'json');
             },
             appendTo: "#advanced-search-results",
             focus: function (event, ui) {
