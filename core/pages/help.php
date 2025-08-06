@@ -15,11 +15,6 @@ class Help extends Page {
 
     protected $build_in;
 
-//    public function __construct($core = null, $post_type = null)
-//    {
-//        parent::__construct($core, $post_type);
-//
-//    }
 
     public function hooks()
     {
@@ -29,14 +24,13 @@ class Help extends Page {
 
         add_action('wp_ajax_advanced-product/page/help/install-sample-data', array($this, 'install_sample_data'));
         add_action('wp_ajax_nopriv_advanced-product/page/help/install-sample-data', array($this, 'install_sample_data'));
-//        add_action( 'plugins_loaded', array( $this, 'register_admin_fields' ) );
     }
 
     public function register()
     {
         $register   = parent::register();
 
-        $register['menu_title'] = __('Help', 'advanced-product');
+        $register['menu_title'] = 'Help';
         $register['position']   = 15;
 
         return $register;
@@ -56,12 +50,12 @@ class Help extends Page {
         $result = array(
             'reload'    => true,
             'success'   => $success,
-            'message'   => __('Installed sample data successfully!', 'advanced-product'),
+            'message'   => 'Installed sample data successfully!',
         );
 
         if(!$success){
             $mtype              = 'error';
-            $result['message']  = __('Can not install sample data', 'advanced-product');
+            $result['message']  = 'Can not install sample data';
         }
 
         $app    = Application::get_instance();
@@ -80,7 +74,7 @@ class Help extends Page {
             }
             wp_localize_script('advanced-product', 'ap_help_page', array(
                 'i18nStrings' => array(
-                    'sample_data_confirm_question'  => __('Are you sure want to install sample data?', 'templaza-framework')
+                    'sample_data_confirm_question'  => 'Are you sure want to install sample data?'
                 )
             ));
         }

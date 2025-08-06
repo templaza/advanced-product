@@ -21,20 +21,20 @@ if(!class_exists('Advanced_Product\Field\Layout\AP_Icon')) {
         {
 
             $this->name = $this -> get_name();
-            $this->label = __('AP Icon', 'advanced-product');
-            $this->category = __('Content','advanced-product');
+            $this->label = 'AP Icon';
+            $this->category = 'Content';
             $this->defaults = array(
                 'preview_size'	=>	'thumbnail',
                 'library'		=>	'all'
             );
             $this->l10n = array(
-                'select'		=>	__('Add Image to Gallery','acf'),
-                'edit'			=>	__("Edit Image",'acf'),
-                'update'		=>	__("Update Image",'acf'),
-                'uploadedTo'	=>	__("uploaded to this post",'acf'),
-                'count_0'		=>	__("No images selected",'acf'),
-                'count_1'		=>	__("1 image selected",'acf'),
-                'count_2'		=>	__("%d images selected",'acf'),
+                'select'		=>	'Add Image to Gallery',
+                'edit'			=>	"Edit Image",
+                'update'		=>	"Update Image",
+                'uploadedTo'	=>	"uploaded to this post",
+                'count_0'		=>	"No images selected",
+                'count_1'		=>	"1 image selected",
+                'count_2'		=>	"%d images selected",
             );
 
             parent::__construct($field, $group);
