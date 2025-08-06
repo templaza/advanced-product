@@ -1,14 +1,5 @@
 <?php
-/*
-Plugin Name: Advanced Custom Fields: Options Page
-Plugin URI: http://www.advancedcustomfields.com/
-Description: This premium Add-on creates a static menu item for the Advanced Custom Fields plugin
-Version: 1.2.0
-Author: Elliot Condon
-Author URI: http://www.elliotcondon.com/
-License: GPL
-Copyright: Elliot Condon
-*/
+
 
 class acf_options_page_plugin
 {
@@ -27,8 +18,8 @@ class acf_options_page_plugin
 	{
 		// vars
 		$this->settings = array(
-			'title' 		=> __('Options','acf'),
-			'menu'			=> __('Options','acf'),
+			'title' 		=> 'Options',
+			'menu'			=> 'Options',
 			'slug' 			=> 'acf-options',
 			'capability'	=> 'edit_posts',
 			'pages' 		=> array(),
@@ -39,7 +30,7 @@ class acf_options_page_plugin
 		// - removed
 
 
-		// actions
+//		// actions
 		add_action('init', array($this,'init'), 1 );
 		add_action('admin_menu', array($this,'admin_menu'), 11, 0);
 
@@ -197,7 +188,7 @@ class acf_options_page_plugin
 
 	function acf_location_rules_types( $choices )
 	{
-	    $choices[ __("Options Page",'acf') ]['options_page'] = __("Options Page",'acf');
+	    $choices[ "Options Page"]['options_page'] = "Options Page";
 
 	    return $choices;
 	}
@@ -329,7 +320,7 @@ class acf_options_page_plugin
 		{
 			do_action('acf/save_post', 'options');
 
-			$this->data['admin_message'] = __("Options Updated",'acf');
+			$this->data['admin_message'] = "Options Updated";
 		}
 
 
@@ -473,7 +464,7 @@ class acf_options_page_plugin
 			<?php endif; ?>
 
 			<?php if(isset($this->data['no_fields'])): ?>
-			<div id="message" class="updated"><p><?php _e("No Custom Field Group found for the options page",'acf'); ?>. <a href="<?php echo admin_url(); ?>post-new.php?post_type=acf"><?php _e("Create a Custom Field Group",'acf'); ?></a></p></div>
+			<div id="message" class="updated"><p><?php echo "No Custom Field Group found for the options page"; ?>. <a href="<?php echo admin_url(); ?>post-new.php?post_type=acf"><?php echo "Create a Custom Field Group"; ?></a></p></div>
 			<?php else: ?>
 
 			<form id="post" method="post" name="post">
@@ -484,11 +475,11 @@ class acf_options_page_plugin
 
 					<!-- Update -->
 					<div class="postbox">
-						<h3 class="hndle"><span><?php _e("Publish",'acf'); ?></span></h3>
+						<h3 class="hndle"><span><?php echo "Publish"; ?></span></h3>
 						<div class="inside">
 							<input type="hidden" name="HTTP_REFERER" value="<?php echo isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:''; ?>" />
 							<input type="hidden" name="acf_nonce" value="<?php echo wp_create_nonce( 'input' ); ?>" />
-							<input type="submit" class="acf-button" value="<?php _e("Save Options",'acf'); ?>" />
+							<input type="submit" class="acf-button" value="<?php echo "Save Options"; ?>" />
 						</div>
 					</div>
 
@@ -619,7 +610,7 @@ function acf_set_options_page_capability( $capability = 'edit_posts' )
 *							+ {string} capability - not required
 *  @return	N/A
 */
-
+//
 function acf_add_options_sub_page( $page = false )
 {
 	// validate
