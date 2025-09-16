@@ -21,7 +21,6 @@ class Group_Field extends Taxonomy {
         add_action( 'saved_'.$this ->get_taxonomy_name(), array($this,'saved_taxonomy'), 10, 2 );
         add_action( 'wp_ajax_ap_taxonomy_ap_group_field_sortable', array($this, 'saveAjaxOrder'));
         add_action( 'wp_ajax_nopriv_ap_taxonomy_ap_group_field_sortable', array($this, 'saveAjaxOrder'));
-        add_action('advanced-product/taxonomy/'.$this -> get_taxonomy_name().'/registered', array($this, 'registered_taxonomy'));
 
         add_filter('get_terms_orderby', array($this, 'get_terms_orderby'), 100, 2);
         add_filter('posts_orderby', array($this, 'taxonomy_orderby'), 100, 2);
@@ -58,12 +57,6 @@ class Group_Field extends Taxonomy {
                 'query_var' => true,
             )
         );
-    }
-
-    public function registered_taxonomy($taxonomy){
-        if($this -> get_taxonomy_name() == $taxonomy){
-            FieldHelper::add_term_order_field();
-        }
     }
 
     public function admin_menu(){
