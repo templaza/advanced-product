@@ -1244,10 +1244,8 @@ class AP_Custom_Field_Helper extends BaseHelper {
                     'order'     => 'DESC'
                 );
 
-                if(FieldHelper::term_order_exists()){
-                    $group_args['orderby']  = 'term_order';
-                    $group_args['order']    = 'ASC';
-                }
+                $group_args['orderby']  = 'term_order';
+                $group_args['order']    = 'ASC';
 
                 $is_number  = true;
                 foreach ($_groups as $_group){
