@@ -4,7 +4,7 @@ Plugin Name: Advanced Product
 Plugin URI: https://github.com/templaza/advanced-product
 Description: This plugin help you manage advanced products.
 Author: Templaza
-Version: 1.1.9
+Version: 1.2.0
 Text Domain: advanced-product
 Domain Path:  /languages/
 Author URI: http://templaza.com
