@@ -21,7 +21,6 @@ class Group_Field extends Taxonomy {
         add_action( 'saved_'.$this ->get_taxonomy_name(), array($this,'saved_taxonomy'), 10, 2 );
         add_action( 'wp_ajax_ap_taxonomy_ap_group_field_sortable', array($this, 'saveAjaxOrder'));
         add_action( 'wp_ajax_nopriv_ap_taxonomy_ap_group_field_sortable', array($this, 'saveAjaxOrder'));
-        add_action('advanced-product/taxonomy/'.$this -> get_taxonomy_name().'/registered', array($this, 'registered_taxonomy'));
 
         add_filter('get_terms_orderby', array($this, 'get_terms_orderby'), 100, 2);
         add_filter('posts_orderby', array($this, 'taxonomy_orderby'), 100, 2);
@@ -58,12 +57,6 @@ class Group_Field extends Taxonomy {
                 'query_var' => true,
             )
         );
-    }
-
-    public function registered_taxonomy($taxonomy){
-        if($this -> get_taxonomy_name() == $taxonomy){
-            FieldHelper::add_term_order_field();
-        }
     }
 
     public function admin_menu(){
@@ -104,12 +97,8 @@ class Group_Field extends Taxonomy {
         $pos            = array_search('name', array_keys($columns)) + 1;
         $new_columns    = array('branch_assigned' => __('Branch Assigned', 'advanced-product'));
 
-        $order_column   = array();
-
-        if($this -> term_order_exists()) {
-            $order_column               = array_slice($columns, 0, $pos-1);
-            $order_column['term_order'] = __('Order','advanced-product');
-        }
+        $order_column               = array_slice($columns, 0, $pos-1);
+        $order_column['term_order'] = __('Order','advanced-product');
 
         return array_merge(
             $order_column,
@@ -147,9 +136,9 @@ class Group_Field extends Taxonomy {
     }
 
     public function sortable_columns( $columns ) {
-        if($this -> term_order_exists()) {
-            $columns['term_order'] = 'term_order';
-        }
+
+       $columns['term_order'] = 'term_order';
+
         return $columns;
     }
 
@@ -314,34 +303,15 @@ class Group_Field extends Taxonomy {
 
     public function get_terms_orderby($orderby, $args)
     {
-        if($this -> term_order_exists()) {
-            if (apply_filters('advanced-product/get_terms_orderby/ignore', FALSE, $orderby, $args))
-                return $orderby;
 
-            if (isset($args['orderby']) && $args['orderby'] == "term_order" && $orderby != "term_order")
-                $orderby    = "t.term_order";
-        }
+        if (apply_filters('advanced-product/get_terms_orderby/ignore', FALSE, $orderby, $args))
+            return $orderby;
+
+        if (isset($args['orderby']) && $args['orderby'] == "term_order" && $orderby != "term_order")
+            $orderby    = "t.term_order";
+
 
         return $orderby;
     }
 
-    protected function term_order_exists(){
-        global $wpdb;
-
-        $store_id   = md5(__METHOD__);
-
-        if(isset($this -> cache[$store_id])){
-            return $this -> cache[$store_id];
-        }
-
-        $query = "SHOW COLUMNS FROM $wpdb->terms 
-                        LIKE 'term_order'";
-        $result = $wpdb->query($query);
-
-        if($result){
-            $this -> cache[$store_id]   = $result;
-        }
-
-        return $result;
-    }
 }

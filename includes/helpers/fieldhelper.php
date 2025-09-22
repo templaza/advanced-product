@@ -418,43 +418,4 @@ class FieldHelper extends BaseHelper {
 
         return false;
     }
-
-    /**
-     * Add term_order field to table wp_terms
-     * */
-    public static function add_term_order_field()
-    {
-        global $wpdb;
-
-        if (!$result = static::term_order_exists())
-        {
-            $query = "ALTER TABLE $wpdb->terms ADD `term_order` INT( 4 ) NULL DEFAULT '0'";
-            $result = $wpdb->query($query);
-        }
-    }
-
-    /**
-     * Check term order field exists in table wp_terms
-     * It added by this plugin
-     * */
-    public static function term_order_exists(){
-        global $wpdb;
-
-        $store_id   = md5(__METHOD__);
-
-        if(isset(static::$cache[$store_id])){
-            return static::$cache[$store_id];
-        }
-
-        $query = "SHOW COLUMNS FROM $wpdb->terms 
-                        LIKE 'term_order'";
-        $result = $wpdb->query($query);
-
-        if($result){
-            static::$cache[$store_id]   = $result;
-            return $result;
-        }
-
-        return false;
-    }
 }

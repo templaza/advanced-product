@@ -237,6 +237,15 @@ if(!class_exists('Advanced_Product\Taxonomy')) {
                     'wp_type'       => 'taxonomy',
                     'default_value' => '',
                     'group' => $this -> __get_core_field_group_id()
+                ),
+                array(
+                    'key'           => 'field_ap_breadcrumb15872',
+                    'label'         => __('Breadcrumb Image', 'advanced-product'),
+                    'name'          => 'breadcrumb_image',
+                    'type'          => 'image',
+                    'wp_type'       => 'taxonomy',
+                    'default_value' => '',
+                    'group' => $this -> __get_core_field_group_id()
                 )
             );
 

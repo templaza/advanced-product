@@ -4,7 +4,7 @@ Plugin Name: Advanced Product
 Plugin URI: https://github.com/templaza/advanced-product
 Description: This plugin help you manage advanced products.
 Author: Templaza
-Version: 1.1.9
+Version: 1.2.0
 Text Domain: advanced-product
 Domain Path:  /languages/
 Author URI: http://templaza.com
@@ -31,16 +31,11 @@ class   Advanced_Product{
     protected $post_types;
     protected $meta_boxes;
     protected $shortcodes;
-    protected $field_layouts;
     protected static $instance;
 
     public function __construct()
     {
         require_once dirname(__FILE__).'/includes/autoloader.php';
-
-        register_activation_hook(ADVANCED_PRODUCT . '/' . ADVANCED_PRODUCT, 'FieldHelper::add_term_order_field');
-        register_activation_hook(  ADVANCED_PRODUCT . '/' . ADVANCED_PRODUCT, 'flush_rewrite_rules', 15 );
-
         $this->register_pages();
         $this -> register_post_types();
         $this->register_taxonomies();
@@ -190,6 +185,13 @@ class   Advanced_Product{
     }
 
     public function install(){
+        global $wpdb;
+        $col = "SHOW COLUMNS FROM $wpdb->terms 
+                        LIKE 'term_order'";
+        if ( empty( $col ) ) {
+            $query = "ALTER TABLE $wpdb->terms ADD `term_order` INT( 4 ) NULL DEFAULT '0'";
+            $result = $wpdb->query($query);
+        }
         if(class_exists('Advanced_Product\Install')) {
             $install = new Install();
             if(method_exists($install, 'init')){

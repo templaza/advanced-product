@@ -371,17 +371,15 @@ if(!class_exists('Advanced_Product\Post_Type\Product')){
                     $order_by   = 'menu_order';
                     $groups     = $gfields_assigned;
 
-                    if(FieldHelper::term_order_exists()) {
-                        // Get group fields and sort by term order
-                        $_groups = get_terms(array(
-                            'slug'      => $gfields_assigned,
-                            'orderby'   => 'term_order',
-                            'taxonomy'  => 'ap_group_field',
-                        ));
+                    // Get group fields and sort by term order
+                    $_groups = get_terms(array(
+                        'slug'      => $gfields_assigned,
+                        'orderby'   => 'term_order',
+                        'taxonomy'  => 'ap_group_field',
+                    ));
 
-                        if(!empty($_groups) && !is_wp_error($_groups)){
-                            $groups = $_groups;
-                        }
+                    if(!empty($_groups) && !is_wp_error($_groups)){
+                        $groups = $_groups;
                     }
 
                     foreach ($groups as $i => $group){
