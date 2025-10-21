@@ -4,7 +4,7 @@ Plugin Name: Advanced Product
 Plugin URI: https://github.com/templaza/advanced-product
 Description: This plugin help you manage advanced products.
 Author: Templaza
-Version: 1.2.0
+Version: 1.2.1
 Text Domain: advanced-product
 Domain Path:  /languages/
 Author URI: http://templaza.com
@@ -36,6 +36,10 @@ class   Advanced_Product{
     public function __construct()
     {
         require_once dirname(__FILE__).'/includes/autoloader.php';
+
+        register_activation_hook(ADVANCED_PRODUCT . '/' . ADVANCED_PRODUCT, 'FieldHelper::add_term_order_field');
+        register_activation_hook(  ADVANCED_PRODUCT . '/' . ADVANCED_PRODUCT, 'flush_rewrite_rules', 15 );
+
         $this->register_pages();
         $this -> register_post_types();
         $this->register_taxonomies();
