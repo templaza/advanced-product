@@ -13,11 +13,12 @@ if(is_object($value)){
         }else{
             $term   = get_term_by('slug', $val, $field['taxonomy']);
         }
-        ?>
-        <a href="<?php echo get_term_link($term); ?>"><?php echo $term -> name; ?></a><?php
-        if($i < count($value) -1 ){ ?><span class="ap-field-taxonomy-separator"><?php echo esc_html__(',', 'advanced-product')?></span>
-        <?php }?>
-        <?php
+        if(!is_array($value) && !empty($term) && !is_wp_error($term)) {
+            ?>
+            <a href="<?php echo get_term_link($term); ?>"><?php echo $term -> name; ?></a><?php
+            if($i < count($value) -1 ){ ?><span class="ap-field-taxonomy-separator"><?php echo esc_html__(',', 'advanced-product')?></span>
+            <?php }
+        }
     }
 }elseif(is_numeric($value)){
     $term   = get_term_by('term_id', $value, $field['taxonomy']);
@@ -28,5 +29,5 @@ if(is_object($value)){
 if(!is_array($value) && !empty($term) && !is_wp_error($term)) {
     ?>
     <a href="<?php echo get_term_link($term); ?>"><?php echo $term->name;?></a>
-<?php
+    <?php
 }
