@@ -23,4 +23,28 @@
   height: auto;
 }
 
+.active-filters {
+  display: flex;
+  width: 100%;
+  gap: 15px;
+  margin-top: 10px;
+}
+.active-filters .active-filter button {
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+}
+.active-filters button {
+  cursor: pointer;
+}
+.active-filters button:hover {
+  border-color: #555;
+}
+.active-filters #clear-all-filters {
+  border: 1px solid #777;
+  background: #fff;
+  border-radius: 3px;
+  padding: 3px 10px;
+}
+
 /*# sourceMappingURL=style.css.map */

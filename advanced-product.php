@@ -4,7 +4,7 @@ Plugin Name: Advanced Product
 Plugin URI: https://github.com/templaza/advanced-product
 Description: This plugin help you manage advanced products.
 Author: Templaza
-Version: 1.2.2
+Version: 1.2.3
 Text Domain: advanced-product
 Domain Path:  /languages/
 Author URI: http://templaza.com
@@ -12,7 +12,6 @@ Forum: https://www.templaza.com/Forums.html
 Ticket: https://www.templaza.com/tz_membership/addticket.html
 FanPage: https://www.facebook.com/templaza
 Twitter: https://twitter.com/templazavn
-Google+: https://plus.google.com/+Templaza
 */
 
 namespace Advanced_Product;
@@ -736,7 +735,7 @@ class   Advanced_Product{
 
         }else{
             wp_register_script('advanced-product', AP_Functions::get_my_url().'/assets/js/advanced-product.js',
-                array('jquery', 'wp-util','jquery-ui-autocomplete'), AP_Functions::get_my_version(), true);
+                array('jquery', 'wp-util','jquery-ui-autocomplete'), AP_Functions::get_my_version().time(), true);
             wp_register_script('advanced-product-serialize-object', AP_Functions::get_my_url().'/assets/js/jquery.serialize-object.min.js',
                 array('advanced-product'), AP_Functions::get_my_version(), true);
 
