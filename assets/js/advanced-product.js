@@ -416,13 +416,17 @@
                     if(__form.attr('data-filter')== item.name){
                         if (item.value.length && (__form.attr('data-filter')== item.name || __url_data.has(item.name))) {
                             __data.push(item.name + "=" + item.value);
+                            hasFilter = true;
                         }
-                        const label = $(
-                            `<span class="active-filter" data-name="${item.name}">
+                        if(item.value.length!=0){
+                            const label = $(
+                                `<span class="active-filter" data-value="${item.value}"  data-name="${item.name}">
                                 ${item.value} <button type="button" class="remove-filter">×</button>
                               </span>`
-                        );
-                        container.append(label);
+                            );
+                            container.append(label);
+                        }
+
                     }else{
                         if (item.value.length && (__el.attr("name") == item.name || __url_data.has(item.name))) {
                             __data.push(item.name + "=" + item.value);
@@ -674,24 +678,60 @@
         }
     });
     $(".active-filters").on("click", "#clear-all-filters", function () {
-        $("form.advanced-product-search-form")[0].reset();
-        $("form.advanced-product-search-form").trigger("change");
+
+        const $form = $(".advanced-product-search-form");
+
+        $form[0].reset();
+
+        $form.find("input, select, textarea").each(function () {
+            const $el = $(this);
+            if ($el.is(":checkbox") || $el.is(":radio")) {
+                $el.prop("checked", false);
+            } else {
+                $el.val("");
+            }
+        });
+
+        $(".active-filters #clear-all-filters").remove();
+        $form.trigger("change");
     });
     $(".active-filters").on("click", ".remove-filter", function () {
         const filterTag = $(this).closest(".active-filter");
         const name = filterTag.data("name");
         const value = filterTag.data("value");
+        const $form = $(".advanced-product-search-form");
 
-        const field = $(`.advanced-product-search-form [name="${name}"], form.advanced-product-search-form [name="${name}[]"]`);
+        const baseName = name.replace(/\[\]$/, "");
+        const $fields = $form.find(`[name="${name}"], [name^="${baseName}["]`);
 
-        if (field.is(":checkbox")) {
-            $(`.advanced-product-search-form input[name="${name}"][value="${value}"]`).prop("checked", false);
-        } else if (field.is("select")) {
-            field.val("");
-        } else {
-            field.val("");
+        $fields.each(function() {
+            const $f = $(this);
+            if ($f.is(":checkbox") || $f.is(":radio")) {
+                if (value !== undefined && $f.val() == value) {
+                    $f.prop("checked", false);
+                } else if (value === undefined) {
+                    $f.prop("checked", false);
+                }
+            } else {
+                $f.val("");
+            }
+        });
+
+        filterTag.remove();
+
+        const remainingFiltersWithValue = $(".active-filters .active-filter").filter(function() {
+            return $(this).data("value") !== undefined && $(this).data("value") !== "";
+        });
+        if (remainingFiltersWithValue.length === 0) {
+            $("#clear-all-filters").remove();
         }
-        $("form.advanced-product-search-form").trigger("change");
+
+        $form.trigger("change");
+        $('.active-filter').each( function(){
+            if($(this).attr('data-value') ==='') {
+                $(this).remove();
+            }
+        })
     });
     if($("form.advanced-product-search-form .field-keyword").length) {
         $("#search-keyword").autocomplete({
