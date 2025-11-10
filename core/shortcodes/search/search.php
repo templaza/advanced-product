@@ -26,7 +26,7 @@ class Search extends Base {
     }
 
     public function register_my_scripts(){
-        wp_enqueue_style('advanced-product', AP_Functions::get_my_url().'/assets/css/style.css');
+        wp_enqueue_style('advanced-product', AP_Functions::get_my_url().'/assets/css/style.css', array(''),time());
         wp_enqueue_style('advanced-product');
     }
 

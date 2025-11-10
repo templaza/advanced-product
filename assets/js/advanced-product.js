@@ -386,6 +386,9 @@
         }
 
         if(__is_ajax) {
+            const container = $(".active-filters");
+            container.html("");
+            let hasFilter = false;
             $('.templaza-ap-archive').addClass('tz-loading').append('<div class="templaza-posts__loading show"><span class="templaza-loading"></span> </div>');
 
             var __form_data = __form.serializeArray();
@@ -409,16 +412,36 @@
                 var __el    = $(event.target);
 
                 $.each(__form_data, function (index, item) {
+
                     if(__form.attr('data-filter')== item.name){
                         if (item.value.length && (__form.attr('data-filter')== item.name || __url_data.has(item.name))) {
                             __data.push(item.name + "=" + item.value);
                         }
+                        const label = $(
+                            `<span class="active-filter" data-name="${item.name}">
+                                ${item.value} <button type="button" class="remove-filter">×</button>
+                              </span>`
+                        );
+                        container.append(label);
                     }else{
                         if (item.value.length && (__el.attr("name") == item.name || __url_data.has(item.name))) {
                             __data.push(item.name + "=" + item.value);
+
+                            hasFilter = true;
+                            const label = $(
+                                `<span class="active-filter" data-value="${item.value}" data-name="${item.name}">
+                                ${item.value} <button type="button" class="remove-filter">×</button>
+                              </span>`
+                            );
+                            container.append(label);
                         }
                     }
                 });
+                if (hasFilter) {
+                    container.append(
+                        `<button id="clear-all-filters" type="button">Clear All</button>`
+                    );
+                }
             }
 
             if (__data.length) {
@@ -650,6 +673,26 @@
             }
         }
     });
+    $(".active-filters").on("click", "#clear-all-filters", function () {
+        $("form.advanced-product-search-form")[0].reset();
+        $("form.advanced-product-search-form").trigger("change");
+    });
+    $(".active-filters").on("click", ".remove-filter", function () {
+        const filterTag = $(this).closest(".active-filter");
+        const name = filterTag.data("name");
+        const value = filterTag.data("value");
+
+        const field = $(`.advanced-product-search-form [name="${name}"], form.advanced-product-search-form [name="${name}[]"]`);
+
+        if (field.is(":checkbox")) {
+            $(`.advanced-product-search-form input[name="${name}"][value="${value}"]`).prop("checked", false);
+        } else if (field.is("select")) {
+            field.val("");
+        } else {
+            field.val("");
+        }
+        $("form.advanced-product-search-form").trigger("change");
+    });
     if($("form.advanced-product-search-form .field-keyword").length) {
         $("#search-keyword").autocomplete({
             minLength: 2,
@@ -673,10 +716,64 @@
             }
         }).autocomplete("instance")._renderItem = function (ul, item) {
             return $("<li>")
-                .append("<a href=" + item.link + ">" + item.label + "<span>" + item.id + "</span></a>")
+                .append("<a href=" + item.link + ">" + item.label + "</a>")
                 .appendTo(ul);
         };
     }
+
+    $(function () {
+        const delay = 500;
+        let debounceTimer;
+        const $searchKeyword = $("#search-keyword");
+        const $form = $("form.advanced-product-search-form");
+
+        if (!$form.length) return;
+
+        $searchKeyword.on("keyup", () => {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(() => {
+                if (!$searchKeyword.data("ui-autocomplete")?.menu?.element.is(":visible")) {
+                    loadProducts();
+                }
+            }, delay);
+        });
+        $searchKeyword.on("autocompleteclose", () => {
+            loadProducts();
+        });
+        $searchKeyword.on("autocompleteselect", (event, ui) => {
+            $searchKeyword.val(ui.item.label);
+            loadProducts();
+        });
+        // Load Product
+        function loadProducts() {
+            const keyword = $searchKeyword.val().trim();
+
+            if (keyword.length < 2) {
+                history.pushState(null, '', window.location.pathname);
+                return;
+            }
+
+            const formData = $form.serializeArray()
+                .filter(item => item.value?.length)
+                .map(item => `${item.name}=${encodeURIComponent(item.value)}`);
+
+            const baseUrl = $form.attr("action") || window.location.pathname;
+            const newUrl = formData.length ? `${baseUrl}?${formData.join("&")}` : baseUrl;
+
+            advanced_product.__archive_ajax_html(formData, baseUrl);
+
+            $.get(newUrl, data => {
+                const $count = $(data).find(".ap-number-product");
+                if ($count.length) {
+                    $(".ap-number-product").html($count.html());
+                } else {
+                    $(".ap-number-product").text("");
+                }
+            });
+
+            history.pushState({}, "", newUrl);
+        }
+    });
 
     // Sort order
     $(document).on("change",".templaza-ap-archive-sort select", function(event){
