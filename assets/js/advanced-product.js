@@ -479,11 +479,16 @@
                     $("[data-ap-archive-view]").data("ap-archive-view-loaded", true);
                     $("[data-ap-archive-view]").trigger("ap-archive-view-loaded");
                 }
+                var scrollPosition = $('.templaza-content_area').offset().top - 200;
+                $('html, body').animate({
+                    scrollTop: scrollPosition
+                }, 600);
 
                 // Replace current url without redirect
                 if (__form_setting["update_url"]) {
                     window.history.pushState({urlPath: location.href}, "", this.url);
                 }
+
             });
         }
     });
