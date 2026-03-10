@@ -72,4 +72,14 @@ table.wp-list-table .ap-inactive {
   z-index: 9991;
 }
 
+#edittag .field_type-image {
+  display: flex;
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+#edittag .field_type-image .label {
+  width: 220px;
+  font-weight: 600;
+}
+
 /*# sourceMappingURL=admin.css.map */
