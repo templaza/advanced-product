@@ -79,3 +79,14 @@ table.wp-list-table{
     z-index: 9991;
   }
 }
+#edittag{
+  .field_type-image{
+    display:flex;
+    margin-top:20px;
+    margin-bottom:30px;
+    .label{
+      width:220px;
+      font-weight:600;
+    }
+  }
+}
